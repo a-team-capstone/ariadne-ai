@@ -17,3 +17,9 @@ body {
   height: 15px;
   background-color: white;
 }
+
+#dynamicDot {
+  width: 15px;
+  height: 15px;
+  background-color: yellow;
+}
