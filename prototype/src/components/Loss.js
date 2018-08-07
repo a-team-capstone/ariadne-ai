@@ -37,23 +37,22 @@ export default class Loss extends Component {
   }
 
   render () {
-    const staticStyle = {
-      position: 'absolute',
-      left: this.state.staticDot.x,
-      top: this.state.staticDot.y
-    },
-    dynamicStyle = {
-      position: 'absolute',
-      left: this.state.dynamicDot.x,
-      top: this.state.dynamicDot.y
-    }
+    const dynamicX = this.state.dynamicDot.x,
+    dynamicY = this.state.dynamicDot.y,
+    staticX = this.state.staticDot.x,
+    staticY = this.state.staticDot.y,
+    lineDisplay = (staticX < 0) ? "none" : "block"
+
+
 
     return (
-      <div id="field" onClick={this.handleClick}>
-        <div id="staticDot" style={staticStyle}></div>
-        <div id="dynamicDot" style={dynamicStyle}></div>
-        <div id="totalLoss">Total loss: {this.state.loss}</div>
-      </div>
+      <svg height="500" width="500" id="field" onClick={this.handleClick}>
+        <rect height="500" width="500" fill="green" />
+        <circle cx={dynamicX} cy={dynamicY} r="10" fill="white" />
+        <circle cx={staticX} cy={staticY} r="10" fill="white" />
+        <line display={lineDisplay} id="lossLine" x1={staticX} y1={staticY} x2={dynamicX} y2={dynamicY} stroke="white" strokeWidth="2" />
+        <text x="350" y="450" fill="white">Total Loss: {this.state.loss}</text>
+      </svg>
     )
   }
 }

@@ -5,9 +5,9 @@ body {
 }
 
 #field {
-  background-color: green;
-  width: 80%;
-  height: 60vh;
+  /* background-color: green; */
+  /* width: 80%;
+  height: 60vh; */
   position: absolute;
 }
 
@@ -28,6 +28,10 @@ body {
   position: relative;
   left: 60%;
   top: 80%;
-  height: 30px;
-  width: 100px;
+  height: 40px;
+  width: 80px;
 }
+/* 
+#lossLine {
+  display: none;
+} */
