@@ -11,24 +11,32 @@ export default class Loss extends Component {
       dynamicDot: {
         x: -15,
         y: -15
-      }
+      },
+      loss: ''
     }
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick (evt) {
     evt.preventDefault()
-    // set dynamicDot x & y based on evt target location
+    const dynamicX = evt.nativeEvent.clientX,
+    dynamicY = evt.nativeEvent.clientY,
+    staticX = this.state.staticDot.x,
+    staticY = this.state.staticDot.y
+
+    let a = dynamicX - staticX,
+    b = dynamicY - staticY
+
     this.setState({
       dynamicDot: {
-        x: evt.nativeEvent.clientX,
-        y: evt.nativeEvent.clientY
-      }
+        x: dynamicX,
+        y: dynamicY
+      },
+      loss: Math.floor(Math.sqrt( a*a + b*b ))
     })
   }
 
   render () {
-    console.log('state after', this.state.dynamicDot)
     const staticStyle = {
       position: 'absolute',
       left: this.state.staticDot.x,
@@ -44,6 +52,7 @@ export default class Loss extends Component {
       <div id="field" onClick={this.handleClick}>
         <div id="staticDot" style={staticStyle}></div>
         <div id="dynamicDot" style={dynamicStyle}></div>
+        <div id="totalLoss">Total loss: {this.state.loss}</div>
       </div>
     )
   }

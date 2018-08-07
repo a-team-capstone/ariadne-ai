@@ -8,8 +8,7 @@ body {
   background-color: green;
   width: 80%;
   height: 60vh;
-  /* position: relative; */
-  /* margin: 100px auto; */
+  position: absolute;
 }
 
 #staticDot {
@@ -22,4 +21,13 @@ body {
   width: 15px;
   height: 15px;
   background-color: yellow;
+}
+
+#totalLoss {
+  background-color: white;
+  position: relative;
+  left: 60%;
+  top: 80%;
+  height: 30px;
+  width: 100px;
 }
