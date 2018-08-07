@@ -43,6 +43,8 @@ export default class Loss extends Component {
     staticY = this.state.staticDot.y,
     lineDisplay = (staticX < 0) ? "none" : "block"
 
+    // lineDisplay isn't working
+
 
 
     return (
