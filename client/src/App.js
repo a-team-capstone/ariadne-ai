@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import Loss from './components/Loss'
-import './App.css';
 import axios from 'axios';
 
 class App extends Component {
