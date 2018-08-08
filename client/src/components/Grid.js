@@ -5,8 +5,8 @@ import _ from 'lodash';
 
 // var SIZE_TO_PACKED_WIDTH = 1.7320508075688772;
 // var SIZE_TO_PACKED_HEIGHT = 1.5;
-var SIZE_TO_PACKED_WIDTH = 2;
-var SIZE_TO_PACKED_HEIGHT = 2;
+var SIZE_TO_PACKED_WIDTH = 1;
+var SIZE_TO_PACKED_HEIGHT = 1;
 
 function getOptimalSize(
   widthPixels,
@@ -67,28 +67,28 @@ function setupHexPositionsRadial(
 
   // var centreX = Math.floor(widthPixels / 2);
   // var centreY = Math.floor(heightPixels / 2);
-  var gridRadiusVertical = (countVertical - 1) / 2;
+  // var gridRadiusVertical = (countVertical - 1) / 2;
   var centreVector = {
     x: Math.floor(widthPixels / 2),
     y: Math.floor(heightPixels / 2),
   };
   console.log('center vector here', centreVector);
   var hexSize = parseFloat(size, 10);
-  var widthOffset = (countHorizontal - countVertical) / 2;
+  // var widthOffset = (countHorizontal - countVertical) / 2;
 
   var rows = [];
   _.times(countVertical, function(indexVertical) {
-    var axialYCoord = indexVertical - gridRadiusVertical;
-    var distanceFromCentreVertical = Math.abs(axialYCoord);
-    var adjustedCountHorizontal = countHorizontal - distanceFromCentreVertical;
+    // var axialYCoord = indexVertical - gridRadiusVertical;
+    var axialYCoord = indexVertical;
+    console.log('axialYCoord', axialYCoord);
+    // var distanceFromCentreVertical = Math.abs(axialYCoord);
+    // var distanceFromCentreVertical = axialYCoord;
+    var adjustedCountHorizontal = countHorizontal;
 
     var row = [];
 
     _.times(adjustedCountHorizontal, function(indexHorizontal) {
-      var axialXCoord =
-        indexHorizontal -
-        Math.min(indexVertical, gridRadiusVertical) -
-        widthOffset;
+      var axialXCoord = indexHorizontal;
       // var cubeXCoord = 0;
       // var cubeYCoord = 0;
 
@@ -100,10 +100,12 @@ function setupHexPositionsRadial(
         },
         cubeCoordinates: {
           x: axialXCoord,
-          y: -axialXCoord - axialYCoord,
+          y: axialYCoord,
+          // y: -axialXCoord - axialYCoord,
           z: axialYCoord,
         },
-        size: hexSize - 0.4,
+        // size: hexSize - 0.4,
+        size: hexSize,
         pixelCoordinates: calculatePixelCoordinates(
           centreVector,
           hexSize,

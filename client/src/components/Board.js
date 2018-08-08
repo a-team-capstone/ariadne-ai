@@ -42,7 +42,7 @@ class Board extends PureComponent {
             width={width}
             height={height}
             hexCountHorizontal="25"
-            hexCountVertical="13"
+            hexCountVertical="25"
           />
         </Surface>
       </div>
