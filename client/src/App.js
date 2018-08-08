@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import Loss from './components/Loss'
+// import logo from './logo.svg';
+// import Loss from './components/Loss';
 import axios from 'axios';
+import Board from './components/Board';
 
 class App extends Component {
   async componentDidMount() {
@@ -11,7 +12,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Loss />
+        {/* <Loss /> */}
+        <Board />
       </div>
     );
   }

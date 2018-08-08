@@ -25,6 +25,9 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "concurrently": "^3.6.1"
+    "concurrently": "^3.6.1",
+    "lodash": "^4.17.10",
+    "react-art": "^16.4.2",
+    "react-surface": "^0.3.1"
   }
 }
