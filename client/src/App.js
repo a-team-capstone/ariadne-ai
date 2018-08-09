@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import Loss from './components/Loss'
+// import logo from './logo.svg';
+import Loss from './components/Loss';
 import axios from 'axios';
 
 class App extends Component {
@@ -10,8 +10,10 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <Loss />
+      <div className="container-fluid">
+        <div className="row">
+          <Loss />
+        </div>
       </div>
     );
   }
