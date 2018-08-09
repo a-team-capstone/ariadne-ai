@@ -6,14 +6,16 @@ import Board from './components/Board';
 
 class App extends Component {
   async componentDidMount() {
-    const response = await axios.get('/api/test');
+    const response = await axios.get('api/test');
     console.log('Response', response);
   }
   render() {
     return (
-      <div className="App">
-        {/* <Loss /> */}
-        <Board />
+      <div className="container-fluid">
+        <div className="row">
+          {/* <Loss /> */}
+          <Board />
+        </div>
       </div>
     );
   }
