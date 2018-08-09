@@ -2,147 +2,95 @@ import React, { PureComponent } from 'react';
 import { Group } from 'react-art';
 import Tile from './Tile';
 import _ from 'lodash';
+import floodFill from '../utilities/floodFill'
+import dummyGrid from '../utilities/dummyGrid'
 
 // var SIZE_TO_PACKED_WIDTH = 1.7320508075688772;
 // var SIZE_TO_PACKED_HEIGHT = 1.5;
-var SIZE_TO_PACKED_WIDTH = 1;
-var SIZE_TO_PACKED_HEIGHT = 1;
+var SIZE_TO_PACKED_WIDTH = 2;
+var SIZE_TO_PACKED_HEIGHT = 2;
 
-function getOptimalSize(
-  widthPixels,
-  heightPixels,
-  countHorizontal,
-  countVertical
-) {
-  // add extra amounts for offset rows and bottom points of hexes on last row
-  // var packedhexWidth = widthPixels / (parseInt(countHorizontal, 10) + 0.5);
-  // var adjustedGridHeight =
-  //   (heightPixels * SIZE_TO_PACKED_HEIGHT) /
-  //   (parseInt(countVertical, 10) + 0.5);
-  var packedhexWidth = widthPixels / parseInt(countHorizontal, 10);
-  var adjustedGridHeight =
-    (heightPixels * SIZE_TO_PACKED_HEIGHT) / parseInt(countVertical, 10);
-  var packedHexHeight = adjustedGridHeight / SIZE_TO_PACKED_HEIGHT;
+// function optimalSize(widthPixels, heightPixels, countHorizontal, countVertical) {
+//   var packedhexWidth = widthPixels / parseInt(countHorizontal, 10);
+//   var adjustedGridHeight = (heightPixels * SIZE_TO_PACKED_HEIGHT) / parseInt(countVertical, 10);
+//   var packedHexHeight = adjustedGridHeight / SIZE_TO_PACKED_HEIGHT;
 
-  var size = null;
+//   let size;
 
-  if (
-    packedhexWidth / SIZE_TO_PACKED_WIDTH <
-    packedHexHeight / SIZE_TO_PACKED_HEIGHT
-  ) {
-    size = packedhexWidth / SIZE_TO_PACKED_WIDTH;
-  } else {
-    size = packedHexHeight / SIZE_TO_PACKED_HEIGHT;
-  }
+//   if (packedhexWidth / SIZE_TO_PACKED_WIDTH < packedHexHeight / SIZE_TO_PACKED_HEIGHT) {
+//     size = packedhexWidth / SIZE_TO_PACKED_WIDTH;
+//   } else {
+//     size = packedHexHeight / SIZE_TO_PACKED_HEIGHT;
+//   }
 
-  return size.toFixed(8);
-}
+//   return size.toFixed(5);
+// }
 
-function calculatePixelCoordinates(
-  baseVector,
-  hexSize,
-  axialXCoord,
-  axialYCoord
-) {
-  return {
-    // x: baseVector.x + hexSize * Math.sqrt(3) * (axialXCoord + axialYCoord / 2),
-    // y: baseVector.y + ((hexSize * 3) / 2) * axialYCoord,
-    x: baseVector.x + ((hexSize * 3) / 2) * axialXCoord,
-    y: baseVector.y + ((hexSize * 3) / 2) * axialYCoord,
-  };
-}
 
-function setupHexPositionsRadial(
-  widthPixels,
-  heightPixels,
-  countHorizontal,
-  countVertical
-) {
-  var size = getOptimalSize(
-    widthPixels,
-    heightPixels,
-    countHorizontal,
-    countVertical
-  );
 
-  // var centreX = Math.floor(widthPixels / 2);
-  // var centreY = Math.floor(heightPixels / 2);
-  // var gridRadiusVertical = (countVertical - 1) / 2;
-  var centreVector = {
-    x: Math.floor(widthPixels / 2),
-    y: Math.floor(heightPixels / 2),
-  };
-  console.log('center vector here', centreVector);
-  var hexSize = parseFloat(size, 10);
-  // var widthOffset = (countHorizontal - countVertical) / 2;
+// function calculatePixelCoordinates(baseVector, hexSize, axialXCoord, axialYCoord) {
+//   console.log('base', baseVector, 'size', hexSize, 'axialX', axialXCoord, 'axialY', axialYCoord)
+//   return {
+//     x: ((50 * 3) / 2) * axialXCoord,
+//     y: ((50 * 3) / 2) * axialYCoord,
+//   };
+// }
 
-  var rows = [];
-  _.times(countVertical, function(indexVertical) {
-    // var axialYCoord = indexVertical - gridRadiusVertical;
-    var axialYCoord = indexVertical;
-    console.log('axialYCoord', axialYCoord);
-    // var distanceFromCentreVertical = Math.abs(axialYCoord);
-    // var distanceFromCentreVertical = axialYCoord;
-    var adjustedCountHorizontal = countHorizontal;
+// function setuppositionsRadial(widthPixels, heightPixels, countHorizontal, countVertical) {
+//   let size = 15;
+//   console.log(widthPixels, heightPixels)
+//   var centreVector = {
+//     x: Math.floor(widthPixels / 2),
+//     y: Math.floor(heightPixels / 2),
+//   };
+//   console.log('center vector here', centreVector);
 
-    var row = [];
+//   var rows = [];
+//   _.times(countVertical, function(axialYCoord) {
+//     // var axialYCoord = indexVertical - gridRadiusVertical;
+//     var row = [];
 
-    _.times(adjustedCountHorizontal, function(indexHorizontal) {
-      var axialXCoord = indexHorizontal;
-      // var cubeXCoord = 0;
-      // var cubeYCoord = 0;
+//     _.times(countHorizontal, function(axialXCoord) {
 
-      row.push({
-        keyName: 'tile_' + axialXCoord + '_' + axialYCoord,
-        axialCoordinates: {
-          x: axialXCoord,
-          y: axialYCoord,
-        },
-        cubeCoordinates: {
-          x: axialXCoord,
-          y: axialYCoord,
-          // y: -axialXCoord - axialYCoord,
-          z: axialYCoord,
-        },
-        // size: hexSize - 0.4,
-        size: hexSize,
-        pixelCoordinates: calculatePixelCoordinates(
-          centreVector,
-          hexSize,
-          axialXCoord,
-          axialYCoord
-        ),
-      });
-    });
+//       row.push({
+//         keyName: 'cell_' + axialXCoord + '_' + axialYCoord,
+//         axialCoordinates: {
+//           x: axialXCoord,
+//           y: axialYCoord,
+//         },
+//         pixelCoordinates: calculatePixelCoordinates(
+//           centreVector,
+//           size,
+//           axialXCoord,
+//           axialYCoord
+//         ),
+//       });
+//     });
 
-    rows.push(row);
-  });
+//     rows.push(row);
+//   });
 
-  return rows;
-}
+//   return rows;
+// }
 
 class Grid extends PureComponent {
   render() {
-    var widthPixels = this.props.width;
-    var heightPixels = this.props.height;
-    var hexCountHorizontal = this.props.hexCountHorizontal;
-    var hexCountVertical = this.props.hexCountVertical;
 
-    var hexPositions = setupHexPositionsRadial(
-      widthPixels,
-      heightPixels,
-      hexCountHorizontal,
-      hexCountVertical
-    );
+    var positions = dummyGrid(5, 5, 50); // positions = array (25) of arrays (25), or our board matrix
+    // console.log('positions', positions)
 
-    var hexGrid = _.map(hexPositions, function(hexRow, index) {
+    var hexGrid = _.map(positions, function(hexRow, index) {
       var rowElements = _.map(hexRow, function(hexData) {
         var hexKey = hexData.keyName;
+        console.log('center', hexData.pixelCoordinates)
+        console.log('isReachable', hexData.isReachable)
         return (
           <Tile
             key={hexKey}
-            size={hexData.size}
+            size={25}
             centre={hexData.pixelCoordinates}
+            isReachable={hexData.isReachable}
+            isSelected={hexData.isSelected}
           />
         );
       });

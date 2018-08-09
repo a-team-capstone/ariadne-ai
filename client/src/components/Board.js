@@ -31,8 +31,10 @@ class Board extends PureComponent {
   }
 
   render() {
-    const width = this.state.displayDimensions.width;
-    const height = this.state.displayDimensions.height;
+    // const width = this.state.displayDimensions.width;
+    // const height = this.state.displayDimensions.height;
+    const width = 500,
+    height = 500
 
     return (
       <div>
@@ -41,8 +43,8 @@ class Board extends PureComponent {
           <Grid
             width={width}
             height={height}
-            hexCountHorizontal="25"
-            hexCountVertical="25"
+            countHorizontal="5"
+            countVertical="5"
           />
         </Surface>
       </div>
