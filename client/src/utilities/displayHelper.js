@@ -23,5 +23,4 @@ const displayHelper = (_, eventEmitter) => {
   };
 };
 
-// displayHelper.$inject = ['_', 'eventEmitter']
 export default displayHelper;
