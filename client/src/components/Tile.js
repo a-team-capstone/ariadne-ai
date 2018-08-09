@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Path, Shape } from 'react-art';
 
-function makeHexPath(size, centre) {
+function makeCell(size, centre) {
   var path = new Path();
   var point = 0;
   var angle = null;
@@ -9,13 +9,9 @@ function makeHexPath(size, centre) {
   var y = null;
 
   while (point < 4) {
-    // angle = ((2 * Math.PI) / 4) * (point + 0.5);
-    // x = centre.x + size * Math.cos(angle);
-    // y = centre.y + size * Math.sin(angle);
-
     angle = ((2 * Math.PI) / 4) * (point + 0.5);
-    x = centre.x + size * Math.cos(angle);
-    y = centre.y + size * Math.sin(angle);
+    x = centre.x + size + 35 * Math.cos(angle);
+    y = centre.y + size + 35 * Math.sin(angle);
 
     if (point === 0) {
       path.moveTo(x, y);
@@ -30,10 +26,12 @@ function makeHexPath(size, centre) {
 }
 
 class Tile extends PureComponent {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       isSelected: false,
+      isReachable: this.props.isReachable,
+      size: 35
     };
     this.handleClick = this.handleClick.bind(this);
   }
@@ -45,11 +43,11 @@ class Tile extends PureComponent {
   }
 
   render() {
-    let color = this.state.isSelected ? '#888' : '#111';
+    let color = this.props.isSelected ? '#5b5b5b' : ( this.props.isReachable ? '#aff3ff' : '#eaf1f2');
     // TODO - this could be optimised, don't need to calculate coords for every hex, just one and then offset.
-    const path = makeHexPath(this.props.size, this.props.centre);
+    const path = makeCell(this.state.size, this.props.centre);
     return (
-      <Shape d={path} fill={color} opacity="0.5" onClick={this.handleClick} />
+      <Shape d={path} fill={color} onClick={this.handleClick} opacity='0.5' />
     );
   }
 }
