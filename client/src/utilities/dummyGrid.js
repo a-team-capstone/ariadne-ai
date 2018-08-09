@@ -12,8 +12,7 @@ const tileMaker = (pixelX, pixelY) => {
     isReachable: false
   }
 }
-
-// default is 0, blocked is -1, reachable is 1
+// NEW: default is 0, reachable is -1, blocked is 1
 
 const dummyGrid = (width, height, tileSize) => {
   let grid = []
@@ -24,22 +23,30 @@ const dummyGrid = (width, height, tileSize) => {
     }
     grid.push(row)
   }
-  grid[0][0].isReachable = true
-  grid[1][0].isSelected = true
-  grid[1][1].isSelected = true
-  grid[1][2].isSelected = true
-  // grid[1][3].isSelected = true
-  grid[1][4].isSelected = true
-  return floodGrid(grid)
+
+  const blockedArr = [
+    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
+    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 1, 1, 0, 1, 1, 1, 1, 0, 0],
+    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
+    [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0]
+  ]
+  grid = updateSelected(blockedArr, grid)
+  const floodGridObj = floodGrid(grid, 0, 0, grid.length-1, grid[0].length-1)
+  console.log('solveable?', floodGridObj.solveable)
+  return floodGridObj.updatedGrid
 }
 
 const simplifyGrid = grid => {
   return grid.map(row => {
-    return row.map(elem => elem.isSelected ? -1 : 0)
+    return row.map(elem => elem.isSelected ? 1 : 0)
   })
 }
-
-// passed into floodFill, returns a simplified, flooded grid (first Arg)
 
 const updateGrid = (flooded, grid) => {
   return grid.map((row, i) => {
@@ -53,15 +60,25 @@ const updateGrid = (flooded, grid) => {
   })
 }
 
-const floodGrid = grid => {
+const updateSelected = (selected, grid) => {
+  return grid.map((row, i) => {
+    return row.map((elem, j) => {
+      return ({
+        ...elem,
+        isSelected: selected[i][j] ? true : false
+      })
+    })
+  })
+}
+
+const floodGrid = (grid, startRow, startCol, endRow, endCol) => {
   const simplified = simplifyGrid(grid)
-  console.log('simplified', simplified)
-  console.log('finished calling simplified')
-  const flooded = floodFill(0, 0, simplified, 1, -1)
-  console.log('flooded', flooded)
+  const flooded = floodFill(startRow, startCol, simplified, 1, 1)
   const updated = updateGrid(flooded, grid)
-  console.log('updated grid', updated)
-  return updated
+  return {
+    updatedGrid: updated,
+    solveable: flooded[endRow][endCol] === 1
+  }
 }
 
 export default dummyGrid

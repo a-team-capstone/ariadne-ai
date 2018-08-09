@@ -10,8 +10,8 @@ function makeCell(size, centre) {
 
   while (point < 4) {
     angle = ((2 * Math.PI) / 4) * (point + 0.5);
-    x = centre.x + size * Math.cos(angle);
-    y = centre.y + size * Math.sin(angle);
+    x = centre.x + size + 35 * Math.cos(angle);
+    y = centre.y + size + 35 * Math.sin(angle);
 
     if (point === 0) {
       path.moveTo(x, y);
@@ -24,15 +24,6 @@ function makeCell(size, centre) {
 
   return path;
 }
-
-// const createRect (height, width) {
-//   var path = new Path()
-//   var point = 0
-
-//   while (point < 4) {
-
-//   }
-// }
 
 class Tile extends PureComponent {
   constructor(props) {
@@ -52,11 +43,11 @@ class Tile extends PureComponent {
   }
 
   render() {
-    let color = this.props.isSelected ? '#000000' : ( this.props.isReachable ? 'blue' : '#a2a6ad');
+    let color = this.props.isSelected ? '#5b5b5b' : ( this.props.isReachable ? '#aff3ff' : '#eaf1f2');
     // TODO - this could be optimised, don't need to calculate coords for every hex, just one and then offset.
     const path = makeCell(this.state.size, this.props.centre);
     return (
-      <Shape d={path} fill={color} opacity="0.5" onClick={this.handleClick} />
+      <Shape d={path} fill={color} onClick={this.handleClick} opacity='0.5' />
     );
   }
 }

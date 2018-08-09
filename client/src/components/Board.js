@@ -33,20 +33,26 @@ class Board extends PureComponent {
   render() {
     // const width = this.state.displayDimensions.width;
     // const height = this.state.displayDimensions.height;
-    const width = 500,
-    height = 500
+    const width = 600,
+    height = 600
+
+    const style = {
+      position: 'fixed',
+      top: '0',
+      left: '0',
+      zIndex: '-1'
+    }
 
     return (
       <div>
-        <h1>Grid</h1>
+        <h3>Your Maze</h3>
         <Surface width={width} height={height}>
           <Grid
             width={width}
             height={height}
-            countHorizontal="5"
-            countVertical="5"
           />
         </Surface>
+        <img src="oneLine.jpg" alt="one line" style={style}/>
       </div>
     );
   }
