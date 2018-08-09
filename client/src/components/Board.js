@@ -31,8 +31,6 @@ class Board extends PureComponent {
   }
 
   render() {
-    // const width = this.state.displayDimensions.width;
-    // const height = this.state.displayDimensions.height;
     const width = 600,
     height = 600
 
