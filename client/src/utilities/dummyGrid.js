@@ -1,11 +1,12 @@
 import floodFill from './floodFill'
+import * as MAZES from '../mazeGrids/10px_tiles'
 
 const tileMaker = (pixelX, pixelY) => {
   return {
     keyName: 'cell_' + pixelX + '_' + pixelY,
     axialCoordinates: {
-      x: 10,
-      y: 10
+      x: 0,
+      y: 0
     },
     pixelCoordinates: {x: pixelX, y: pixelY},
     isSelected: false,
@@ -14,7 +15,7 @@ const tileMaker = (pixelX, pixelY) => {
 }
 // NEW: default is 0, reachable is -1, blocked is 1
 
-const dummyGrid = (width, height, tileSize) => {
+const createGrid = (width, height, tileSize, mazeData) => {
   let grid = []
   for(let i = 0; i < height; i++) {
     let row = []
@@ -24,19 +25,8 @@ const dummyGrid = (width, height, tileSize) => {
     grid.push(row)
   }
 
-  const blockedArr = [
-    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
-    [0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
-    [0, 1, 1, 0, 1, 1, 1, 1, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-    [0, 1, 1, 0, 0, 0, 0, 1, 0, 0]
-  ]
-  grid = updateSelected(blockedArr, grid)
+
+  grid = updateSelected(mazeData, grid)
   const floodGridObj = floodGrid(grid, 0, 0, grid.length-1, grid[0].length-1)
   console.log('solveable?', floodGridObj.solveable)
   return floodGridObj.updatedGrid
@@ -81,4 +71,4 @@ const floodGrid = (grid, startRow, startCol, endRow, endCol) => {
   }
 }
 
-export default dummyGrid
+export default createGrid

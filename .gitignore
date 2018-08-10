@@ -1,4 +1,6 @@
-node_modeuls
+
+node_modules
+
 secrets.js
 .DS_Store
 npm-debug.log
