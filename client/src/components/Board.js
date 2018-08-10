@@ -48,8 +48,8 @@ class Board extends PureComponent {
 
     const style = {
       position: 'absolute',
-      top: '20px',
-      left: '20px',
+      top: '30px',
+      left: '30px',
       zIndex: '-1'
     }
 
@@ -61,7 +61,7 @@ class Board extends PureComponent {
             height={height}
           />
         </Surface>
-        <img id="mazeImage" ref="mazeImage" src="doodleMazeUnsolveable.png" alt="simpleMaze" style={style}/>
+        <img id="mazeImage" ref="mazeImage" src="shelbyMaze.jpg" alt="simpleMaze" style={style}/>
         <canvas id="mazeImageCanvas" ref="mazeImageCanvas" width="500" height="500" style={{border:"1px solid #000000"}} ></canvas>
 
         <h1>{this.refs.mazeImageCanvas}</h1>
