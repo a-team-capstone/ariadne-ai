@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { imageUpload } from '../store/image';
 
 class UploadImage extends Component {
   constructor() {
@@ -15,24 +17,7 @@ class UploadImage extends Component {
     event.preventDefault();
     let formData = new FormData();
     formData.append('file', this.state.file[0]);
-    console.log('Form data', this.state.file[0]);
-    console.log('Form data', formData);
-    axios
-      .post('api/uploads/image-upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .then(response => {
-        // handle your response;
-        console.log('Response', response.data);
-        const { data } = response;
-        console.log('Data location ', data.Location);
-      })
-      .catch(error => {
-        // handle your error
-        console.log('error', error);
-      });
+    this.props.imageUpload(formData);
   };
 
   handleFileUpload = event => {
@@ -52,4 +37,18 @@ class UploadImage extends Component {
     );
   }
 }
-export default UploadImage;
+const mapState = state => {
+  return {
+    image: state.image,
+  };
+};
+
+const mapDispatch = dispatch => {
+  return {
+    imageUpload: file => dispatch(imageUpload(file)),
+  };
+};
+export default connect(
+  mapState,
+  mapDispatch
+)(UploadImage);
