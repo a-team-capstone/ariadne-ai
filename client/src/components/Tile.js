@@ -10,8 +10,8 @@ function makeCell(size, centre) {
 
   while (point < 4) {
     angle = ((2 * Math.PI) / 4) * (point + 0.5);
-    x = centre.x + size + 35 * Math.cos(angle);
-    y = centre.y + size + 35 * Math.sin(angle);
+    x = centre.x + size + 19 * Math.cos(angle);
+    y = centre.y + size + 19 * Math.sin(angle);
 
     if (point === 0) {
       path.moveTo(x, y);
