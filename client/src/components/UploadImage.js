@@ -18,7 +18,7 @@ class UploadImage extends Component {
     console.log('Form data', this.state.file[0]);
     console.log('Form data', formData);
     axios
-      .post('/api/test/image', formData, {
+      .post('api/uploads/image-upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
