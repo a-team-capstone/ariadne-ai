@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import logo from './logo.svg';
 // import Loss from './components/Loss';
-import axios from 'axios';
+// import axios from 'axios';
 import Board from './components/Board';
 import UploadImage from './components/UploadImage';
 
