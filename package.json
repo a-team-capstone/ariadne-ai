@@ -40,6 +40,12 @@
     "concurrently": "^3.6.1",
     "lodash": "^4.17.10",
     "react-art": "^16.4.2",
-    "react-surface": "^0.3.1"
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-surface": "^0.3.1",
+    "redux": "^4.0.0",
+    "redux-devtools-extension": "^2.13.5",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   }
 }
