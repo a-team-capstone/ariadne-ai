@@ -61,7 +61,7 @@ class Board extends PureComponent {
             mazeData={this.state.mazeData}
           /> 
         </Surface>
-        <img id="mazeImage" ref="mazeImage" src="sketchMaze.jpg" alt="simpleMaze" style={style}/>
+        <img id="mazeImage" ref="mazeImage" src="danMaze.jpg" alt="simpleMaze" style={style}/>
         <canvas id="mazeImageCanvas" ref="mazeImageCanvas" width="500" height="500" style={{border:"1px solid #000000"}} ></canvas>
 
 
