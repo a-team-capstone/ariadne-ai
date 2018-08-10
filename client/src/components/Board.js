@@ -4,6 +4,7 @@ import displayHelper from '../utilities/displayHelper';
 import _ from 'lodash';
 import Events from 'events';
 import Grid from './Grid';
+import {scrapeImageData} from '../utilities/imageAnalysis'
 
 const event = new Events.EventEmitter();
 
@@ -24,6 +25,17 @@ class Board extends PureComponent {
 
   componentDidMount() {
     displayHelper(_, event).subscribeResize(this.setDisplayDimensions);
+
+    // testing image analysis
+    const canvas = this.refs.mazeImageCanvas
+    const image = this.refs.mazeImage
+    console.log('type of image', typeof image)
+    const ctx = canvas.getContext("2d");
+    ctx.drawImage(image, 0, 0)
+
+    const scrapedImage = scrapeImageData(canvas, image)
+    console.log(scrapedImage.data)
+
   }
 
   componentWillUnmount() {
@@ -35,22 +47,27 @@ class Board extends PureComponent {
     height = 600
 
     const style = {
-      position: 'fixed',
-      top: '0',
-      left: '0',
+      position: 'absolute',
+      top: '30px',
+      left: '30px',
       zIndex: '-1'
     }
 
     return (
       <div>
-        <h3>Your Maze</h3>
         <Surface width={width} height={height}>
           <Grid
             width={width}
             height={height}
           />
         </Surface>
-        <img src="oneLine.jpg" alt="one line" style={style}/>
+        <img id="mazeImage" ref="mazeImage" src="shelbyMaze.jpg" alt="simpleMaze" style={style}/>
+        <canvas id="mazeImageCanvas" ref="mazeImageCanvas" width="500" height="500" style={{border:"1px solid #000000"}} ></canvas>
+
+        <h1>{this.refs.mazeImageCanvas}</h1>
+
+
+
       </div>
     );
   }
