@@ -15,7 +15,7 @@ const tileMaker = (pixelX, pixelY) => {
 }
 // NEW: default is 0, reachable is -1, blocked is 1
 
-const dummyGrid = (width, height, tileSize) => {
+const createGrid = (width, height, tileSize, mazeData) => {
   let grid = []
   for(let i = 0; i < height; i++) {
     let row = []
@@ -26,7 +26,7 @@ const dummyGrid = (width, height, tileSize) => {
   }
 
 
-  grid = updateSelected(MAZES.shelbyMaze, grid)
+  grid = updateSelected(mazeData, grid)
   const floodGridObj = floodGrid(grid, 0, 0, grid.length-1, grid[0].length-1)
   console.log('solveable?', floodGridObj.solveable)
   return floodGridObj.updatedGrid
@@ -71,4 +71,4 @@ const floodGrid = (grid, startRow, startCol, endRow, endCol) => {
   }
 }
 
-export default dummyGrid
+export default createGrid

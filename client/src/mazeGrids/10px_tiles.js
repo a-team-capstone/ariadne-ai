@@ -2501,7 +2501,7 @@ export const shelbyMaze = [ [ 0,
 
 
 export const sketchMaze_10px =
-[ [ 0,
+[ [ 1,
     0,
     0,
     0,
