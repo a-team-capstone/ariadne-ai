@@ -6,7 +6,7 @@ import dummyGrid from '../utilities/dummyGrid'
 
 class Grid extends PureComponent {
   render() {
-    var positions = dummyGrid(10, 10, 50)
+    var positions = dummyGrid(50, 50, 10)
 
     var hexGrid = _.map(positions, function(hexRow, index) {
       var rowElements = _.map(hexRow, function(hexData) {
