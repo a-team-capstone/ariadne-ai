@@ -4,12 +4,8 @@
 export const scrapeImageData = (canvas, image) => {
 
     let ctx = canvas.getContext("2d");
-    console.log('ctx',ctx)
-    console.log('image',image)
-
     ctx.drawImage(image, 0, 0)
     const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
     return imgData
     }
 
@@ -70,14 +66,11 @@ export const tileImageData = (organizedImageData, tileSize) => {
 
 //------------------------------------------------
 // calls all of the above functions on an image
-export const getMazeFromImage = document => {
-      const canvas = document.getElementById("mazeImageCanvas")
-      const image = document.getElementById("mazeImage")
+export const getMazeFromImage = (canvas, image) => {
       const ctx = canvas.getContext("2d");
-
       const scraped = scrapeImageData(canvas, image)
       const tidyGrid = organizeImageData(scraped, image.naturalHeight, image.naturalWidth)
-      const tileColors = tileImageData(tidyGrid, 25)
+      const tileColors = tileImageData(tidyGrid, 10)
 
-      console.log(tileColors)
+      return tileColors
 }

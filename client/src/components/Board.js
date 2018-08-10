@@ -4,7 +4,8 @@ import displayHelper from '../utilities/displayHelper';
 import _ from 'lodash';
 import Events from 'events';
 import Grid from './Grid';
-import {scrapeImageData} from '../utilities/imageAnalysis'
+import {scrapeImageData, getMazeFromImage} from '../utilities/imageAnalysis'
+import { sketchMaze_10px } from '../mazeGrids/10px_tiles'
 
 const event = new Events.EventEmitter();
 
@@ -13,6 +14,7 @@ class Board extends PureComponent {
     super();
     this.state = {
       displayDimensions: displayHelper(_, event).getDimensions(),
+      mazeData: sketchMaze_10px
     };
     this.setDisplayDimensions = this.setDisplayDimensions.bind(this);
   }
@@ -29,12 +31,9 @@ class Board extends PureComponent {
     // testing image analysis
     const canvas = this.refs.mazeImageCanvas
     const image = this.refs.mazeImage
-    console.log('type of image', typeof image)
-    const ctx = canvas.getContext("2d");
-    ctx.drawImage(image, 0, 0)
-
-    const scrapedImage = scrapeImageData(canvas, image)
-    console.log(scrapedImage.data)
+     image.onload = () => {
+      this.setState({mazeData: getMazeFromImage(canvas, image)})
+    }
 
   }
 
@@ -59,13 +58,11 @@ class Board extends PureComponent {
           <Grid
             width={width}
             height={height}
-          />
+            mazeData={this.state.mazeData}
+          /> 
         </Surface>
-        <img id="mazeImage" ref="mazeImage" src="shelbyMaze.jpg" alt="simpleMaze" style={style}/>
+        <img id="mazeImage" ref="mazeImage" src="sketchMaze.jpg" alt="simpleMaze" style={style}/>
         <canvas id="mazeImageCanvas" ref="mazeImageCanvas" width="500" height="500" style={{border:"1px solid #000000"}} ></canvas>
-
-        <h1>{this.refs.mazeImageCanvas}</h1>
-
 
 
       </div>
