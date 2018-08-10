@@ -24,7 +24,7 @@ export const organizeImageData = (imageData, height, width) => {
         let zeroOrOne = 0
         // for each of the pixel colors, check if any is under 200 (aka does it have any vividness of color)
         for (let pixel = 0; pixel < 3; pixel++) {
-          if (imageData.data[i+pixel] < 150) zeroOrOne = 1
+          if (imageData.data[i+pixel] < 100) zeroOrOne = 1
         }
 
          pixelRow.push(zeroOrOne)

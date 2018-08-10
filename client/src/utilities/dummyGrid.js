@@ -65,9 +65,11 @@ const floodGrid = (grid, startRow, startCol, endRow, endCol) => {
   const simplified = simplifyGrid(grid)
   const flooded = floodFill(startRow, startCol, simplified, 1, 1)
   const updated = updateGrid(flooded, grid)
+  console.log('flooded end point', flooded[endRow][endCol])
+  console.log('flooded', flooded)
   return {
     updatedGrid: updated,
-    solveable: flooded[endRow][endCol] === 1
+    solveable: flooded[endRow][endCol] === -1
   }
 }
 
