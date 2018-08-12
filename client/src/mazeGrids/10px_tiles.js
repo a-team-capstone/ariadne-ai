@@ -1,4 +1,4 @@
-export const shelbyMaze = [ [ 0,
+const shelbyMaze = [ [ 0,
   0,
   0,
   0,
@@ -2499,8 +2499,7 @@ export const shelbyMaze = [ [ 0,
   0,
   0 ] ]
 
-
-export const sketchMaze_10px =
+const sketchMaze_10px =
 [ [ 1,
     0,
     0,
@@ -5002,3 +5001,4 @@ export const sketchMaze_10px =
     0,
     0 ] ]
 
+module.exports = { shelbyMaze, sketchMaze_10px }

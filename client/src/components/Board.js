@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Events from 'events';
 import Grid from './Grid';
 import {scrapeImageData, getMazeFromImage} from '../utilities/imageAnalysis'
-import { sketchMaze_10px } from '../mazeGrids/10px_tiles'
+const { sketchMaze_10px } = require('../mazeGrids/10px_tiles')
 
 const event = new Events.EventEmitter();
 
