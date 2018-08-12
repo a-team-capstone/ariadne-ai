@@ -8,6 +8,9 @@ const Maze = db.define('maze', {
 	},
 	solveable: {
 		type: Sequelize.BOOLEAN
+	},
+	data: {
+		type: Sequelize.TEXT
 	}
 })
 
