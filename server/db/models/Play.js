@@ -10,6 +10,4 @@ const Play = db.define('play', {
 	}
 })
 
-
-
 module.exports = Play
