@@ -2,10 +2,12 @@ import React, { Component } from 'react'
 // import logo from './logo.svg';
 // import Loss from './components/Loss';
 // import axios from 'axios';
+import Routes from './routes'
+
+
 // import Board from './components/Board'
 // import UploadImage from './components/UploadImage'
 
-import Routes from './routes'
 
 class App extends Component {
 	render() {
@@ -21,6 +23,7 @@ class App extends Component {
 			</div>
 		)
 	}
+
 }
 
 export default App
