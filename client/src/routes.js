@@ -1,22 +1,7 @@
 import React, { Component } from 'react'
-<<<<<<< HEAD
-import { Route, Switch } from 'react-router-dom'
+
 import PixiGame from './components/PixiGame'
 
-
-class Routes extends Component {
-  render() {
-    return (
-      <div className="main">
-        <Switch>
-          <Route path="/sign-up" />
-          <Route path="/main-view"  />
-          <Route exact path="/pixi" component={PixiGame} />
-        </Switch>
-      </div>
-    );
-  }
-=======
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -39,6 +24,7 @@ class Routes extends Component {
 					<Route path="/sign-up" component={Signup} />
 					<Route path="/game" component={Game} />
 					<Route exact path="/" component={Home} />
+          <Route exact path="/pixi" component={PixiGame} />
 					{isLoggedIn && (
 						<Switch>
 							<Route path="/my-account" component={MyAccount} />
@@ -55,7 +41,7 @@ const mapState = state => {
 		isLoggedIn: !!state.user.id,
 		isAdmin: state.user.isAdmin
 	}
->>>>>>> master
+
 }
 
 const mapDispatch = dispatch => {

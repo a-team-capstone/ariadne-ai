@@ -66,9 +66,7 @@ export const tileImageData = (organizedImageData, tileSize) => {
 // calls all of the above functions on an image
 export const getMazeFromImage = (canvas, image) => {
 	// const ctx = canvas.getContext("2d");
-	const newImage = new Image()
-	newImage.src = image
-	const scraped = scrapeImageData(canvas, newImage)
+	const scraped = scrapeImageData(canvas, image)
 	const tidyGrid = organizeImageData(
 		scraped,
 		image.naturalHeight,
