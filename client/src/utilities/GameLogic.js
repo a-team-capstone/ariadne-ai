@@ -1,6 +1,13 @@
 import * as PIXI from 'pixi.js'
-var app = new PIXI.Application(800, 600, { antialias: true })
 
+const createBoard = (img) => {
+var app = new PIXI.Application(800, 600, { antialias: true, backgroundColor: 0x001099bb })
+
+var background = PIXI.Sprite.fromImage(img)
+background.anchor.x = 0
+background.anchor.y = 0
+background.position.x = 0
+background.position.y = 0
 
 var mazeGrid = [
   [0,0,0,0,0],
@@ -14,24 +21,26 @@ var clearColor = 0xf7f8f9
 var blockedColor = 0x494845
 var tileSize = 100 // in pixels
 
-var graphics = new PIXI.Graphics();
+var board = new PIXI.Graphics()
+board.alpha = 0.5
+board.addChild(background)
 
 // set a fill and line style
 
-graphics.lineStyle(5, 0xffd900, 1);
+board.lineStyle(5, 0xffd900, 1);
 
 
 for (var row = 0; row < 5; row++){
   for (var col = 0; col < 5; col++){
 	// draw a rectangle
-    graphics.beginFill(mazeGrid[col][row] ? blockedColor : clearColor);
-	graphics.drawRect(row*tileSize, col*tileSize, tileSize, tileSize);
+    board.beginFill(mazeGrid[col][row] ? blockedColor : clearColor);
+	board.drawRect(row*tileSize, col*tileSize, tileSize, tileSize);
   }
 }
 
-graphics.x = 200
-graphics.y = 50
-app.stage.addChild(graphics);
+board.x = 200
+board.y = 50
+app.stage.addChild(board);
 
 // navigation buttons
 var nav = new PIXI.Container();
@@ -108,7 +117,7 @@ bunny.y = 0;
 bunny.scale.x = 0.2
 bunny.scale.y = 0.2
 
-graphics.addChild(bunny);
+board.addChild(bunny);
 
 // function to check if a move is blocked
 function moveBlocked(x,y){
@@ -160,5 +169,7 @@ app.ticker.add(function() {
 
 
 })
+return app
+}
 
-export default app
+export default createBoard
