@@ -60,20 +60,26 @@ const createApp = () => {
 	app.use(express.static(path.join(__dirname, '..', 'public')))
 
 	// any remaining requests with an extension (.js, .css, etc.) send 404
-	app.use((req, res, next) => {
-		if (path.extname(req.path).length) {
-			const err = new Error('Not found')
-			err.status = 404
-			next(err)
-		} else {
-			res.header('Access-Control-Allow-Origin', '*')
-			res.header(
-				'Access-Control-Allow-Headers',
-				'Origin, X-Requested-With, Content-Type, Accept'
-			)
-			next()
-		}
-	})
+	// app.use((req, res, next) => {
+	// 	if (path.extname(req.path).length) {
+	// 		const err = new Error('Not found')
+	// 		err.status = 404
+	// 		next(err)
+	// 	} else {
+	// 		res.header('Access-Control-Allow-Origin', '*')
+	// 		res.header(
+	// 			'Access-Control-Allow-Headers',
+	// 			'Origin, X-Requested-With, Content-Type, Accept'
+	// 		)
+	// 		next()
+	// 	}
+	// })
+	const cors = require('cors');
+
+	app.use(cors({
+	 origin: 'http://localhost:3000',
+	 credentials: true
+	}));
 
 	// sends index.html
 	app.use('*', (req, res) => {
