@@ -1,37 +1,50 @@
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+	margin: 0;
+	padding: 0;
+	font-family: sans-serif;
+}
+
+.home {
+	position: absolute;
+	width: 300px;
+	height: 300px;
+	z-index: 15;
+	top: 50%;
+	left: 50%;
+	text-align: center;
+	margin: -100px 0 0 -150px;
+}
+
+.home button {
+	width: 100%;
+	margin-bottom: 2.5em;
 }
 
 #field {
-  /* background-color: green; */
-  /* width: 80%;
-  height: 60vh; */
-  position: absolute;
+	position: absolute;
 }
 
 #staticDot {
-  width: 15px;
-  height: 15px;
-  background-color: white;
+	width: 15px;
+	height: 15px;
+	background-color: white;
 }
 
 #dynamicDot {
-  width: 15px;
-  height: 15px;
-  background-color: yellow;
+	width: 15px;
+	height: 15px;
+	background-color: yellow;
 }
 
 #totalLoss {
-  background-color: white;
-  position: relative;
-  left: 60%;
-  top: 80%;
-  height: 40px;
-  width: 80px;
+	background-color: white;
+	position: relative;
+	left: 60%;
+	top: 80%;
+	height: 40px;
+	width: 80px;
 }
-/* 
-#lossLine {
-  display: none;
-} */
+
+.main {
+	background: #333;
+}
