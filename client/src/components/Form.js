@@ -27,10 +27,10 @@ const Form = props => {
 				</div>
 				{error && error.response && <div> {error.response.data} </div>}
 			</form>
-			<a href="auth/google">
-				<button type="button" className="btn btn-primary">
-					{displayName} with Google
-				</button>
+			<a href="/auth/google">
+				{/* <button type="button" className="btn btn-primary"> */}
+				{displayName} with Google
+				{/* </button> */}
 			</a>
 		</div>
 	)

@@ -6,6 +6,7 @@ import { me } from './store/user'
 import { Signup, Login } from './components/Form'
 import Home from './components/Home'
 import MyAccount from './components/MyAccount'
+import Game from './components/Game'
 
 class Routes extends Component {
 	componentDidMount() {
@@ -18,6 +19,7 @@ class Routes extends Component {
 				<Switch>
 					<Route path="/login" component={Login} />
 					<Route path="/sign-up" component={Signup} />
+					<Route path="/game" component={Game} />
 					<Route exact path="/" component={Home} />
 					{isLoggedIn && (
 						<Switch>

@@ -6,11 +6,18 @@ import { Link } from 'react-router-dom'
 
 class MyAccount extends Component {
 	render() {
-		const { user, isLoggedIn, handleClick } = this.props
+		const { user, isLoggedIn, handleClick, image } = this.props
 		return (
 			<div>
 				<h1>Welcome, {user.userName}</h1>
-				<UploadImage />
+				{Object.keys(image).length ? (
+					<Link to="/game">
+						<button>Play</button>
+					</Link>
+				) : (
+					<UploadImage />
+				)}
+
 				{isLoggedIn && (
 					<Link to="/" onClick={handleClick}>
 						Logout
@@ -24,7 +31,8 @@ class MyAccount extends Component {
 const mapState = state => {
 	return {
 		user: state.user,
-		isLoggedIn: !!state.user.id
+		isLoggedIn: !!state.user.id,
+		image: state.image
 	}
 }
 

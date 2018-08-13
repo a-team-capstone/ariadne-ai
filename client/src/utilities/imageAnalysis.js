@@ -2,6 +2,7 @@
 // takes an image file name and calls the getImageData ctx method on it to get the ugly array,
 // returns that array
 export const scrapeImageData = (canvas, image) => {
+	console.log('Image', image)
 	let ctx = canvas.getContext('2d')
 	ctx.drawImage(image, 0, 0)
 	const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
@@ -65,7 +66,9 @@ export const tileImageData = (organizedImageData, tileSize) => {
 // calls all of the above functions on an image
 export const getMazeFromImage = (canvas, image) => {
 	// const ctx = canvas.getContext("2d");
-	const scraped = scrapeImageData(canvas, image)
+	const newImage = new Image()
+	newImage.src = image
+	const scraped = scrapeImageData(canvas, newImage)
 	const tidyGrid = organizeImageData(
 		scraped,
 		image.naturalHeight,
