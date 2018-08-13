@@ -17,13 +17,13 @@ module.exports = router
 
 router.use('/:id', (req, res, next) => {
 	try {
-		if (req.user.id === req.params.id) {
-			next()
+		if (req.user.id === +req.params.id) {
+			return next()
 		}
 		else {
 			const error = new Error("Not Authorized")
 			error.status = 403
-			next(error)
+			return next(error)
 		}
 	} catch (err) {
 		next(err)
@@ -54,17 +54,53 @@ router.put('/:id', async (req, res, next) => {
 	}
 })
 
+
 router.get('/:id/friends', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id, {
 			include: [{
-				model: User
+				model: User,
+				as: "friend"
 			}]
 		})
+		res.json(user)
 	} catch (err) {
 		next(err)
 	}
 })
 
+// router.get('/:id/friends', async (req, res, next) => {
+// 	try {
+// 		const user = await User.findById(req.params.id)
+// 		const friends = await user.getFriends()
+// 		res.json(friends)
+// 	} catch (err) {
+// 		next(err)
+// 	}
+// })
+
+router.delete('/:id/:friendId', async (req, res, next) => {
+	try {
+		const user = await User.findById(req.params.id)
+		const friend = await User.findById(req.params.friendId)
+		await user.removeFriend(friend)
+		res.sendStatus(204)
+	} catch (err) {
+		next(err)
+	}
+})
+
+router.get('/:id/mazes', async (req, res, next) => {
+	try {
+		const mazes = Maze.findAll({
+			where: {
+				userId: req.params.id
+			}
+		})
+		res.json(mazes)
+	} catch (err) {
+		next(err)
+	}
+})
 
 
