@@ -6,7 +6,7 @@ import { getMazeFromImage } from '../utilities/imageAnalysis'
 
 class PixiGame extends Component {
 	componentDidMount() {
-		const tileSize = 25
+		const tileSize = 100
 		const image = this.refs.mazeImage
 
 		image.crossOrigin = 'Anonymous'
@@ -28,8 +28,8 @@ class PixiGame extends Component {
 				<canvas
 					id="mazeImageCanvas"
 					ref="mazeImageCanvas"
-					width= "2500" //"4032" //"600" //update with image width
-					height= "1875" // "3024" //"800" //update with image height
+					width= "4032" //"2500" //"4032" //"600" //update with image width
+					height= "3024" //"1875" // "3024" //"800" //update with image height
 					style={{ border: '1px solid #000000' }}
 				/>
 			</div>

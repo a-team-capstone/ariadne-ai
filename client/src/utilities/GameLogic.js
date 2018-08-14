@@ -88,10 +88,11 @@ const createBoard = (img, maze, tileSize) => {
 	var tiles = new PIXI.Graphics()
 	tiles.alpha = 0
 
-
-	for (var row = 0; row < 50; row++){
-		for (var col = 0; col < 50; col++){
+	console.log(maze.length, maze[0].length)
+	for (var row = 0; row < maze[0].length; row++){
+		for (var col = 0; col < maze.length; col++){
 		// draw a rectangle
+			console.log(row, col)
 			tiles.beginFill(mazeGrid[col][row] ? blockedColor : clearColor);
 		tiles.drawRect(row*tileSize, col*tileSize, tileSize, tileSize);
 		}

@@ -55,11 +55,11 @@ export const tileImageData = (organizedImageData, tileSize) => {
 	const originalWidth = organizedImageData[0].length
 
 	const {trimHeight, trimWidth, targetHeight, targetWidth} = trimAmounts(originalHeight, originalWidth, tileSize)
-	console.log(targetHeight, targetWidth, trimHeight, trimWidth)
+	console.log('trim data:', targetHeight, targetWidth, trimHeight, trimWidth)
 
-	for (let row = 0; row < organizedImageData.length; row += tileSize) {
+	for (let row = 0; row < targetHeight; row += tileSize) {
 		let tileColorsRow = []
-		for (let col = 0; col < organizedImageData[0].length; col += tileSize) {
+		for (let col = 0; col < targetWidth   ; col += tileSize) {
 			let isBlocked = 0
 			for (let pixelRow = 0; pixelRow < tileSize; pixelRow++) {
 				// console.log(row + pixelRow)
@@ -95,9 +95,9 @@ export const getMazeFromImage = (canvas, image, tileSize) => {
 }
 
 export const trimAmounts = (height, width, tileSize) => {
-		const trimHeight = height%tileSize + 25
+		const trimHeight = height%tileSize
 		const targetHeight = height - trimHeight
-		const trimWidth = width%tileSize + 25
+		const trimWidth = width%tileSize
 		const targetWidth = width - trimWidth
 
 		return {
