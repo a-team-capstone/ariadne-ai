@@ -30,6 +30,8 @@ app.ticker.add(function() {
 function setup() {
 	bunny.x=0
 	bunny.y=0
+	bot.x=0
+	bot.y=0
 	board.visible = true;
   basicText.visible = true;
   nav.visible = true;
@@ -106,27 +108,26 @@ let leftKey = keyboardTracker(37),
 		downKey = keyboardTracker(40)
 
 app.ticker.add(()=>{
-	if (leftKey.isDown) moveLeft()
-	if (rightKey.isDown) moveRight()
-	if (upKey.isDown) moveUp()
-	if (downKey.isDown) moveDown()
+	if (leftKey.isDown) moveLeft(bunny)
+	if (rightKey.isDown) moveRight(bunny)
+	if (upKey.isDown) moveUp(bunny)
+	if (downKey.isDown) moveDown(bunny)
 })
 
 leftKey.press = () => {
-	console.log('down?', leftKey.isUp)
-	moveLeft()
+	moveLeft(bunny)
 }
 
 rightKey.press = () => {
-	moveRight()
+	moveRight(bunny)
 }
 
 upKey.press = () => {
-	moveUp()
+	moveUp(bunny)
 }
 
 downKey.press = () => {
-	moveDown()
+	moveDown(bunny)
 }
 
 
@@ -142,7 +143,7 @@ right.drawRect(100,20,50,50);
 // Opt-in to interactivity, show hand curser normalize touch and mouse
 right.interactive = true;
 right.buttonMode = true;
-right.on('pointerdown', moveRight);
+right.on('pointerdown', (bunny) => moveRight(bunny));
 // add button to nav container
 nav.addChild(right)
 
@@ -222,25 +223,25 @@ function moveBlocked(x,y){
 var desiredX = bunny.x
 var desiredY = bunny.y
 
-function moveRight() {
-  desiredX = bunny.x+tileSize
-  desiredY = bunny.y
-  if (!moveBlocked(desiredX, desiredY)) bunny.x+=tileSize
+function moveRight(sprite) {
+  desiredX = sprite.x+tileSize
+  desiredY = sprite.y
+  if (!moveBlocked(desiredX, desiredY)) sprite.x+=tileSize
 }
-function moveLeft() {
-   desiredX = bunny.x-tileSize
-  desiredY = bunny.y
-  if (!moveBlocked(desiredX, desiredY)) bunny.x-=tileSize
+function moveLeft(sprite) {
+   desiredX = sprite.x-tileSize
+  desiredY = sprite.y
+  if (!moveBlocked(desiredX, desiredY)) sprite.x-=tileSize
 }
-function moveUp() {
-  desiredX = bunny.x
-  desiredY = bunny.y-tileSize
-  if (!moveBlocked(desiredX, desiredY)) bunny.y-=tileSize
+function moveUp(sprite) {
+  desiredX = sprite.x
+  desiredY = sprite.y-tileSize
+  if (!moveBlocked(desiredX, desiredY)) sprite.y-=tileSize
 }
-function moveDown() {
-  desiredX = bunny.x
-  desiredY = bunny.y+tileSize
-  if (!moveBlocked(desiredX, desiredY)) bunny.y+=tileSize
+function moveDown(sprite) {
+  desiredX = sprite.x
+  desiredY = sprite.y+tileSize
+  if (!moveBlocked(desiredX, desiredY)) sprite.y+=tileSize
 }
 
 // record bunny.x and bunny.y
@@ -269,7 +270,28 @@ function reachedTarget(sprite, target){
   return reached
 }
 
+// create a new Sprite from an image path
+var bot = PIXI.Sprite.fromImage('shield.png')
+
+// center the sprite's anchor point
+bot.anchor.set(0.5);
+
+// move the sprite to the start of the maE
+bot.x = 0;
+bot.y = 0;
+
+// make bunny bigger
+bot.scale.x = 0.08
+bot.scale.y = 0.08
+
+board.addChild(bot);
+
+app.ticker.add(()=>moveRight(bot))
+
+
+
 return app
 }
+
 
 export default createBoard
