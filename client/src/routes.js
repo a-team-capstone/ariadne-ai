@@ -10,6 +10,7 @@ import MyAccount from './components/MyAccount'
 import Game from './components/Game'
 import CreateMaze from './components/CreateMaze'
 import WithNavBar from './components/WithNavBar'
+import Friends from './components/Friends'
 
 class Routes extends Component {
 	componentDidMount() {
@@ -22,14 +23,16 @@ class Routes extends Component {
 				<Switch>
 					<Route path="/login" component={Login} />
 					<Route path="/sign-up" component={Signup} />
+					<Route path="/pixi" component={PixiGame} />
 					<Route exact path="/" component={Home} />
 					{isLoggedIn && (
 						<Switch>
 							<WithNavBar>
 								<Route path="/my-account" component={MyAccount} />
 								<Route path="/create-maze" component={CreateMaze} />
+								<Route path="/friends" component={Friends} />
 							</WithNavBar>
-							<Route path="/pixi" component={PixiGame} />
+
 							<Route path="/game" component={Game} />
 						</Switch>
 					)}

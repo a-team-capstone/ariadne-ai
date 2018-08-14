@@ -42,10 +42,12 @@ class Navbar extends Component {
 					Create Maze
 				</Link>
 				<button onClick={this.handlerCloseSideBar}>Featured</button>
-				<Link to="/my-account">
-					<button onClick={this.handlerCloseSideBar}>Profile</button>
+				<Link to="/my-account" onClick={this.handlerCloseSideBar}>
+					Profile
 				</Link>
-				<button onClick={this.handlerCloseSideBar}>Friends</button>
+				<Link to="/friends" onClick={this.handlerCloseSideBar}>
+					Friends
+				</Link>
 				{isLoggedIn && (
 					<Link to="/" onClick={handleClick}>
 						Logout
