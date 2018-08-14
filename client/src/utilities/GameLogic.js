@@ -233,21 +233,28 @@ const createBoard = (img, maze, tileSize) => {
 		desiredX = sprite.x+tileSize
 		desiredY = sprite.y
 		if (!moveBlocked(desiredX, desiredY)) sprite.x+=tileSize
+		return !moveBlocked(desiredX, desiredY)
 	}
 	function moveLeft(sprite) {
 		desiredX = sprite.x-tileSize
 		desiredY = sprite.y
 		if (!moveBlocked(desiredX, desiredY)) sprite.x-=tileSize
+		return !moveBlocked(desiredX, desiredY)
+
 	}
 	function moveUp(sprite) {
 		desiredX = sprite.x
 		desiredY = sprite.y-tileSize
 		if (!moveBlocked(desiredX, desiredY)) sprite.y-=tileSize
+		return !moveBlocked(desiredX, desiredY)
+
 	}
 	function moveDown(sprite) {
 		desiredX = sprite.x
 		desiredY = sprite.y+tileSize
 		if (!moveBlocked(desiredX, desiredY)) sprite.y+=tileSize
+		return !moveBlocked(desiredX, desiredY)
+
 	}
 
 	// record bunny.x and bunny.y
@@ -292,7 +299,28 @@ const createBoard = (img, maze, tileSize) => {
 
 	board.addChild(bot);
 
-	app.ticker.add(()=>moveRight(bot))
+	// let currentBotDirection = () => moveRight(bot)
+	// app.ticker.add((currentBotDirection)=>{
+	// 	console.log('currentBotDirection type', typeof currentBotDirection)
+	// 	console.log('currentBotDirection', currentBotDirection)
+	// 	if (currentBotDirection(bot)) currentBotDirection()
+	// 	else if (moveRight(bot)) {
+	// 		moveRight(bot)
+	// 		currentBotDirection = () => moveRight(bot)
+	// 	}
+	// 	else if (moveDown(bot)) {
+	// 		moveDown(bot)
+	// 		currentBotDirection = () => moveDown(bot)
+	// 	}
+	// 	else if (moveLeft(bot)){
+	// 		moveLeft(bot)
+	// 		currentBotDirection = () => moveLeft(bot)
+	// 	}
+	// 	else if (moveUp(bot)){
+	// 		moveUp(bot)
+	// 		currentBotDirection = () => moveUp(bot)
+	// 	}
+	// })
 
 
 
