@@ -11,7 +11,7 @@ class MyAccount extends Component {
 			<div>
 				<h1>Welcome, {user.userName}</h1>
 				{Object.keys(image).length ? (
-					<Link to="/game">
+					<Link to="/pixi">
 						<button>Play</button>
 					</Link>
 				) : (
