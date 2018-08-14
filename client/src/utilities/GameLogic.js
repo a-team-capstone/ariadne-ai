@@ -12,13 +12,6 @@ background.anchor.y = 0
 background.position.x = 0
 background.position.y = 0
 
-// var mazeGrid = [
-//   [0,0,0,0,0],
-//   [1,1,1,1,0],
-//   [0,0,0,0,0],
-//   [0,1,1,1,1],
-//   [0,0,0,0,0],
-//   ]
 var mazeGrid = maze
 
 var clearColor = 0xf7f8f9
@@ -28,7 +21,65 @@ var tileSize = 10 // in pixels
 var board = new PIXI.Graphics()
 board.addChild(background)
 
+// set state and track which state to run
+var state = setup
+app.ticker.add(function() {
+    state()
+});
 
+function setup() {
+	bunny.x=0
+	bunny.y=0
+	board.visible = true;
+  basicText.visible = true;
+  nav.visible = true;
+	winScreen.visible = false;
+	state=play
+}
+
+function play() {
+	board.visible = true;
+  basicText.visible = true;
+  nav.visible = true;
+  winScreen.visible = false;
+}
+
+function end() {
+  board.visible = false;
+  basicText.visible = false;
+  nav.visible = false;
+  winScreen.visible = true;
+}
+
+// completion screen
+var winScreen = new PIXI.Graphics();
+winScreen.lineStyle(5, 0xf7a409, 1);
+winScreen.beginFill(0xf7a409);
+winScreen.drawRect(0,0, 800, 600);
+var basicText = new PIXI.Text(
+  "You've completed the maze!\nClick below to replay.",
+  {fill:0xf9f9f7, fontSize: '50px'}
+);
+basicText.x = 85;
+basicText.y = 250;
+winScreen.addChild(basicText)
+var replayButton = new PIXI.Graphics();
+replayButton.beginFill(0x494845)
+replayButton.drawRect(350, 400, 100, 50);
+replayButton.interactive = true;
+replayButton.buttonMode = true;
+replayButton.on('pointerdown', ()=>{
+	state=setup
+	console.log(state)
+})
+winScreen.addChild(replayButton)
+
+
+
+app.stage.addChild(winScreen)
+
+
+// Add board tiles. Currently set to transparent
 var tiles = new PIXI.Graphics()
 tiles.alpha = 0
 
@@ -194,7 +245,7 @@ function moveDown() {
 
 // record bunny.x and bunny.y
 var basicText = new PIXI.Text(
-  'bunny X: '+bunny.x+'\nbunny Y: '+bunny.y,
+  'X: '+bunny.x+'\nY: '+bunny.y,
   {fill:0xf9f9f7}
 );
 basicText.x = 30;
@@ -202,8 +253,8 @@ basicText.y = 150;
 app.stage.addChild(basicText);
 
 app.ticker.add(function() {
-	basicText.text = 'bunny X: '+bunny.x+'\nbunny Y: '+bunny.y
-  targetText.text = 'Completed:\n'+ reachedTarget(bunny, mazeTarget)
+	basicText.text = 'X: '+bunny.x+'\nY: '+bunny.y
+  reachedTarget(bunny, mazeTarget)
 
 })
 
@@ -212,18 +263,11 @@ var mazeTarget = {row: 50, col: 50}
 
 function reachedTarget(sprite, target){
   const targetY = target.row * tileSize - tileSize
-  const targetX = target.col * tileSize - tileSize
-  return sprite.x === targetX && sprite.y === targetY
+	const targetX = target.col * tileSize - tileSize
+	const reached = sprite.x === targetX && sprite.y === targetY
+	if (reached) state = end
+  return reached
 }
-
-// text to say whether bunny has reached target
-var targetText = new PIXI.Text(
-  'Completed:\n'+ reachedTarget(bunny, mazeTarget),
-  {fill:0xf9f9f7}
-);
-targetText.x = 30
-targetText.y = 400
-app.stage.addChild(targetText)
 
 return app
 }
