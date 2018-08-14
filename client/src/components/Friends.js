@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadFriends } from '../store/user'
+import SearchFriends from './SearchFriends'
 
 class Friends extends Component {
 	componentDidMount() {
@@ -13,6 +14,7 @@ class Friends extends Component {
 				<h3>Friends</h3>
 				{user.friends &&
 					user.friends.map(friend => <p key={friend.id}>{friend.userName}</p>)}
+				<SearchFriends />
 			</div>
 		)
 	}
