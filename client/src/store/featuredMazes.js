@@ -34,7 +34,7 @@ import axios from 'axios'
  * REDUCER
  */
 
- export default featuredReducer = (state = {}, action) => {
+ const featuredReducer = (state = [], action) => {
    switch (action.type) {
      case GET_FEATURED:
       return action.mazes
@@ -42,3 +42,5 @@ import axios from 'axios'
       return state
    }
  }
+
+ export default featuredReducer
