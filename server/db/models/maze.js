@@ -3,6 +3,10 @@ const db = require('../db')
 const makeMatrix = require('../../utilities/makeMatrix')
 
 const Maze = db.define('maze', {
+  name: {
+    type: Sequelize.STRING,
+    unique: true
+  },
 	image: {
 		type: Sequelize.STRING,
 		unique: true

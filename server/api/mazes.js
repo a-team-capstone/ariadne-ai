@@ -35,14 +35,14 @@ router.get('/:id', async (req, res, next) => {
 // 	}
 // })
 
-// router.get('/featured', async (req, res, next) => {
-// 	try {
-
-// 	} catch (err) {
-// 		next(err)
-// 	}
-// })
-// 
+router.get('/featured', async (req, res, next) => {
+	try {
+    const mazes = await Maze.findAll()
+    res.json(mazes)
+	} catch (err) {
+		next(err)
+	}
+})
 
 router.delete('/:id', async (req, res, next) => {
 	try {
@@ -57,7 +57,6 @@ router.delete('/:id', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 	try {
 		const maze = await Maze.create(req.body)
-		//TODO: write beforeCreate hook to coerce maze data to binary string!!!! TODO!!!!!
 		res.json(maze)
 	} catch (err) {
 		next(err)

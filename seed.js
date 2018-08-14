@@ -34,18 +34,22 @@ async function seed() {
 
   const mazes = await Promise.all([
     Maze.create({
+      name: 'Infinite Loop',
       image: 'shelbyMaze.jpg',
       solveable: true
     }),
     Maze.create({
+      name: 'Ursa Major',
       image: 'shelbyMazeUnsolveable.jpg',
       solveable: false
     }),
     Maze.create({
+      name: 'The Claw',
       image: 'danMaze2.jpg',
       solveable: true
     }),
     Maze.create({
+      name: 'Bludgeon',
       image: 'danMaze.jpg',
       solveable: true
     })
