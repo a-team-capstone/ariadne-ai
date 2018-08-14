@@ -50,6 +50,13 @@ export const organizeImageData = (imageData, height, width) => {
 
 export const tileImageData = (organizedImageData, tileSize) => {
 	let tileColorsGrid = []
+
+	const originalHeight = organizedImageData.length
+	const originalWidth = organizedImageData[0].length
+
+	const {trimHeight, trimWidth, targetHeight, targetWidth} = trimAmounts(originalHeight, originalWidth, tileSize)
+	console.log(targetHeight, targetWidth, trimHeight, trimWidth)
+
 	for (let row = 0; row < organizedImageData.length; row += tileSize) {
 		let tileColorsRow = []
 		for (let col = 0; col < organizedImageData[0].length; col += tileSize) {
@@ -85,4 +92,19 @@ export const getMazeFromImage = (canvas, image, tileSize) => {
 	const tileColors = tileImageData(tidyGrid, tileSize)
 
 	return tileColors
+}
+
+export const trimAmounts = (height, width, tileSize) => {
+		const trimHeight = height%tileSize + 25
+		const targetHeight = height - trimHeight
+		const trimWidth = width%tileSize + 25
+		const targetWidth = width - trimWidth
+
+		return {
+			trimHeight,
+			trimWidth,
+			targetHeight,
+			targetWidth
+		}
+
 }

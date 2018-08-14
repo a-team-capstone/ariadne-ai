@@ -218,7 +218,6 @@ const createBoard = (img, maze, tileSize) => {
 			x > (mazeGrid[0].length*tileSize)-1 || y > (mazeGrid.length*tileSize)-1
 		)
 		if (!underZero && !overGridLength){
-			console.log((y/tileSize),(x/tileSize))
 			var isBlocked = mazeGrid[(y/tileSize)][(x/tileSize)]
 		}
 		return underZero || overGridLength || isBlocked
@@ -299,28 +298,22 @@ const createBoard = (img, maze, tileSize) => {
 
 	board.addChild(bot);
 
-	// let currentBotDirection = () => moveRight(bot)
-	// app.ticker.add((currentBotDirection)=>{
-	// 	console.log('currentBotDirection type', typeof currentBotDirection)
-	// 	console.log('currentBotDirection', currentBotDirection)
-	// 	if (currentBotDirection(bot)) currentBotDirection()
-	// 	else if (moveRight(bot)) {
-	// 		moveRight(bot)
-	// 		currentBotDirection = () => moveRight(bot)
-	// 	}
-	// 	else if (moveDown(bot)) {
-	// 		moveDown(bot)
-	// 		currentBotDirection = () => moveDown(bot)
-	// 	}
-	// 	else if (moveLeft(bot)){
-	// 		moveLeft(bot)
-	// 		currentBotDirection = () => moveLeft(bot)
-	// 	}
-	// 	else if (moveUp(bot)){
-	// 		moveUp(bot)
-	// 		currentBotDirection = () => moveUp(bot)
-	// 	}
-	// })
+	let possibleDirections = {
+		0:moveRight,
+		1:moveDown,
+		2:moveLeft,
+		3:moveDown,
+		4:moveRight,
+		5:moveUp
+	}
+
+	let currentBotDirection = 0
+	app.ticker.add(()=>{
+		if (possibleDirections[currentBotDirection](bot)) possibleDirections[currentBotDirection](bot)
+		else {
+			currentBotDirection = (currentBotDirection+1)%6
+		}
+	})
 
 
 
