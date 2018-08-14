@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
-import makeMatrix from '.../utilities/makeMatrix'
+const makeMatrix = require('../../utilities/makeMatrix')
 
 const Maze = db.define('maze', {
 	image: {

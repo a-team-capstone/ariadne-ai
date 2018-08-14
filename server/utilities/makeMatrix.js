@@ -8,4 +8,4 @@ const makeMatrix = (binStr, matrix = []) => {
   }
 }
 
-export default makeMatrix
+module.exports = makeMatrix
