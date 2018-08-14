@@ -71,7 +71,7 @@ export const tileImageData = (organizedImageData, tileSize) => {
 
 //------------------------------------------------
 // calls all of the above functions on an image
-export const getMazeFromImage = (canvas, image) => {
+export const getMazeFromImage = (canvas, image, tileSize) => {
 	// const ctx = canvas.getContext("2d");
 	const scraped = scrapeImageData(canvas, image)
 	const height = image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
@@ -82,7 +82,7 @@ export const getMazeFromImage = (canvas, image) => {
 		width
 	)
 	console.log('tidyGrid:', tidyGrid)
-	const tileColors = tileImageData(tidyGrid, 25)
+	const tileColors = tileImageData(tidyGrid, tileSize)
 
 	return tileColors
 }

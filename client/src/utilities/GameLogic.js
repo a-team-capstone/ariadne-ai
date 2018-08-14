@@ -1,10 +1,10 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
 
-const createBoard = (img, maze) => {
+const createBoard = (img, maze, tileSize) => {
 
 	console.log('running game logic')
-	var tileSize = 25 // in pixels
+	console.log('tileSize', tileSize)
 
 	var gameHeight = maze.length*tileSize+500
 	var gameWidth = maze[0].length*tileSize+100
@@ -217,7 +217,10 @@ const createBoard = (img, maze) => {
 		var overGridLength = (
 			x > (mazeGrid[0].length*tileSize)-1 || y > (mazeGrid.length*tileSize)-1
 		)
-		if (!underZero && !overGridLength) var isBlocked = mazeGrid[(y/tileSize)][(x/tileSize)]
+		if (!underZero && !overGridLength){
+			console.log((y/tileSize),(x/tileSize))
+			var isBlocked = mazeGrid[(y/tileSize)][(x/tileSize)]
+		}
 		return underZero || overGridLength || isBlocked
 
 	}
