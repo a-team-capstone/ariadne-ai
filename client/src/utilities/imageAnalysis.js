@@ -5,8 +5,7 @@ export const scrapeImageData = (canvas, image) => {
 	console.log('Image', image)
 
 	let ctx = canvas.getContext('2d')
-	// ctx.rotate(100*Math.PI/180);
-
+  image.crossOrigin = "Anonymous"
 	ctx.drawImage(image, 0, 0)
 	const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	console.log('imgData', imgData)

@@ -46,7 +46,7 @@ export const auth = (email, password, method) => async dispatch => {
 	}
 	try {
 		dispatch(getUser(res.data))
-		history.push('/my-account')
+		history.push('/create-maze')
 	} catch (dispatchOrHistoryErr) {
 		console.error(dispatchOrHistoryErr)
 	}

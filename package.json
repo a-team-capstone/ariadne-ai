@@ -44,6 +44,7 @@
     "pixi.js": "^4.8.1",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
+    "react-burger-menu": "^2.5.2",
     "sequelize": "^4.38.0"
   },
   "devDependencies": {
