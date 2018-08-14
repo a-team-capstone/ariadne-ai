@@ -7,9 +7,12 @@ import { getMazeFromImage } from '../utilities/imageAnalysis'
 class PixiGame extends Component {
 	componentDidMount() {
 		const image = this.refs.mazeImage
+
 		image.crossOrigin = 'Anonymous'
 		image.onload = () => {
+			console.log('image in PixiGame, naturalHeight & naturalWidth', image.naturalHeight, image.naturalWidth)
 			const mazeGrid = getMazeFromImage(this.refs.mazeImageCanvas, image)
+			console.log('mazeGrid dimensions (height, width)', mazeGrid.length, mazeGrid[0].length)
 			console.log('mazeGrid:', mazeGrid)
 			this.refs.board.appendChild(PixiApp(image.src, mazeGrid).view)
 		}
@@ -24,8 +27,8 @@ class PixiGame extends Component {
 				<canvas
 					id="mazeImageCanvas"
 					ref="mazeImageCanvas"
-					width="600"
-					height="800"
+					width="2500"//"4032" //"600" //update with image width
+					height="1875"//"3024" //"800" //update with image height
 					style={{ border: '1px solid #000000' }}
 				/>
 			</div>

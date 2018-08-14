@@ -3,9 +3,13 @@
 // returns that array
 export const scrapeImageData = (canvas, image) => {
 	console.log('Image', image)
+
 	let ctx = canvas.getContext('2d')
+	// ctx.rotate(100*Math.PI/180);
+
 	ctx.drawImage(image, 0, 0)
 	const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+	console.log('imgData', imgData)
 	return imgData
 }
 
@@ -16,6 +20,7 @@ export const scrapeImageData = (canvas, image) => {
 // 0 if the average of r, g, and b is under 20 (or something) and otherwise 1
 // return the nice array of arrays of 1's and 0's
 export const organizeImageData = (imageData, height, width) => {
+	console.log('height and width parameters', height, width)
 	let pixelGrid = []
 	let pixelRow = []
 
@@ -33,7 +38,8 @@ export const organizeImageData = (imageData, height, width) => {
 			pixelRow = []
 		}
 	}
-
+	console.log('pixelGrid', pixelGrid)
+	console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
 	return pixelGrid
 }
 
@@ -44,12 +50,12 @@ export const organizeImageData = (imageData, height, width) => {
 
 export const tileImageData = (organizedImageData, tileSize) => {
 	let tileColorsGrid = []
-
 	for (let row = 0; row < organizedImageData.length; row += tileSize) {
 		let tileColorsRow = []
 		for (let col = 0; col < organizedImageData[0].length; col += tileSize) {
 			let isBlocked = 0
 			for (let pixelRow = 0; pixelRow < tileSize; pixelRow++) {
+				// console.log(row + pixelRow)
 				for (let pixelCol = 0; pixelCol < tileSize; pixelCol++) {
 					if (organizedImageData[row + pixelRow][col + pixelCol] === 1)
 						isBlocked = 1
@@ -59,6 +65,7 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		}
 		tileColorsGrid.push(tileColorsRow)
 	}
+	console.log('maze height, width', tileColorsGrid.length, tileColorsGrid[0].length)
 	return tileColorsGrid
 }
 
@@ -67,13 +74,15 @@ export const tileImageData = (organizedImageData, tileSize) => {
 export const getMazeFromImage = (canvas, image) => {
 	// const ctx = canvas.getContext("2d");
 	const scraped = scrapeImageData(canvas, image)
+	const height = image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
+	const width = image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
 	const tidyGrid = organizeImageData(
 		scraped,
-		image.naturalHeight,
-		image.naturalWidth
+		height,
+		width
 	)
 	console.log('tidyGrid:', tidyGrid)
-	const tileColors = tileImageData(tidyGrid, 10)
+	const tileColors = tileImageData(tidyGrid, 25)
 
 	return tileColors
 }
