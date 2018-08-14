@@ -72,6 +72,7 @@ export const getMazeFromImage = (canvas, image) => {
 		image.naturalHeight,
 		image.naturalWidth
 	)
+	console.log('tidyGrid:', tidyGrid)
 	const tileColors = tileImageData(tidyGrid, 10)
 
 	return tileColors

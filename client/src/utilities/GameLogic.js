@@ -3,8 +3,10 @@ import keyboardTracker from './keyboardTracker'
 
 
 const createBoard = (img, maze) => {
-console.log('maze', maze)
-var app = new PIXI.Application(800, 600, { antialias: true, backgroundColor: 0x001099bb })
+console.log('maze', maze, maze.length, maze[0].length)
+var gameHeight = maze.length*10+500
+var gameWidth = maze[0].length*10+100
+var app = new PIXI.Application(gameWidth, gameHeight, { antialias: true, backgroundColor: 0x001099bb })
 
 var background = PIXI.Sprite.fromImage(img)
 background.anchor.x = 0
@@ -57,13 +59,13 @@ function end() {
 var winScreen = new PIXI.Graphics();
 winScreen.lineStyle(5, 0xf7a409, 1);
 winScreen.beginFill(0xf7a409);
-winScreen.drawRect(0,0, 800, 600);
+winScreen.drawRect(0,0, gameWidth, gameHeight);
 var basicText = new PIXI.Text(
   "You've completed the maze!\nClick below to replay.",
   {fill:0xf9f9f7, fontSize: '50px'}
 );
 basicText.x = 85;
-basicText.y = 250;
+basicText.y = 150;
 winScreen.addChild(basicText)
 var replayButton = new PIXI.Graphics();
 replayButton.beginFill(0x494845)
@@ -95,8 +97,8 @@ for (var row = 0; row < 50; row++){
 }
 board.addChild(tiles)
 
-board.x = 200
-board.y = 50
+board.x = 50
+board.y = 200
 app.stage.addChild(board);
 
 // Keyboard navigation
@@ -212,7 +214,7 @@ board.addChild(bunny);
 function moveBlocked(x,y){
   var underZero = x < 0 || y < 0
   var overGridLength = (
-    x > (mazeGrid.length*tileSize)-1 || y > (mazeGrid[0].length*tileSize)-1
+    x > (mazeGrid[0].length*tileSize)-1 || y > (mazeGrid.length*tileSize)-1
   )
   if (!underZero && !overGridLength) var isBlocked = mazeGrid[(y/tileSize)][(x/tileSize)]
   return underZero || overGridLength || isBlocked
@@ -249,8 +251,8 @@ var basicText = new PIXI.Text(
   'X: '+bunny.x+'\nY: '+bunny.y,
   {fill:0xf9f9f7}
 );
-basicText.x = 30;
-basicText.y = 150;
+basicText.x = 170;
+basicText.y = 120;
 app.stage.addChild(basicText);
 
 app.ticker.add(function() {
@@ -260,11 +262,13 @@ app.ticker.add(function() {
 })
 
 // check if bunny has reached the target
-var mazeTarget = {row: 50, col: 50}
+var mazeTarget = {row: maze.length, col: maze[0].length}
+console.log('maze.target', mazeTarget)
 
 function reachedTarget(sprite, target){
   const targetY = target.row * tileSize - tileSize
 	const targetX = target.col * tileSize - tileSize
+	console.log('targetX, targetY', targetX, targetY)
 	const reached = sprite.x === targetX && sprite.y === targetY
 	if (reached) state = end
   return reached

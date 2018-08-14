@@ -10,6 +10,7 @@ class PixiGame extends Component {
 		image.crossOrigin = 'Anonymous'
 		image.onload = () => {
 			const mazeGrid = getMazeFromImage(this.refs.mazeImageCanvas, image)
+			console.log('mazeGrid:', mazeGrid)
 			this.refs.board.appendChild(PixiApp(image.src, mazeGrid).view)
 		}
 	}
@@ -23,8 +24,8 @@ class PixiGame extends Component {
 				<canvas
 					id="mazeImageCanvas"
 					ref="mazeImageCanvas"
-					width="500"
-					height="500"
+					width="600"
+					height="800"
 					style={{ border: '1px solid #000000' }}
 				/>
 			</div>
