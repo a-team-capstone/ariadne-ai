@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import keyboardTracker from './keyboardTracker'
 
 
 const createBoard = (img, maze) => {
@@ -11,15 +12,8 @@ background.anchor.y = 0
 background.position.x = 0
 background.position.y = 0
 
-// var mazeGrid = [
-//   [0,0,0,0,0],
-//   [1,1,1,1,0],
-//   [0,0,0,0,0],
-//   [0,1,1,1,1],
-//   [0,0,0,0,0],
-//   ]
 var mazeGrid = maze
-  
+
 var clearColor = 0xf7f8f9
 var blockedColor = 0x494845
 var tileSize = 10 // in pixels
@@ -27,9 +21,67 @@ var tileSize = 10 // in pixels
 var board = new PIXI.Graphics()
 board.addChild(background)
 
-// set a fill and line style
+// set state and track which state to run
+var state = setup
+app.ticker.add(function() {
+    state()
+});
+
+function setup() {
+	bunny.x=0
+	bunny.y=0
+	bot.x=0
+	bot.y=0
+	board.visible = true;
+  basicText.visible = true;
+  nav.visible = true;
+	winScreen.visible = false;
+	state=play
+}
+
+function play() {
+	board.visible = true;
+  basicText.visible = true;
+  nav.visible = true;
+  winScreen.visible = false;
+}
+
+function end() {
+  board.visible = false;
+  basicText.visible = false;
+  nav.visible = false;
+  winScreen.visible = true;
+}
+
+// completion screen
+var winScreen = new PIXI.Graphics();
+winScreen.lineStyle(5, 0xf7a409, 1);
+winScreen.beginFill(0xf7a409);
+winScreen.drawRect(0,0, 800, 600);
+var basicText = new PIXI.Text(
+  "You've completed the maze!\nClick below to replay.",
+  {fill:0xf9f9f7, fontSize: '50px'}
+);
+basicText.x = 85;
+basicText.y = 250;
+winScreen.addChild(basicText)
+var replayButton = new PIXI.Graphics();
+replayButton.beginFill(0x494845)
+replayButton.drawRect(350, 400, 100, 50);
+replayButton.interactive = true;
+replayButton.buttonMode = true;
+replayButton.on('pointerdown', ()=>{
+	state=setup
+	console.log(state)
+})
+winScreen.addChild(replayButton)
 
 
+
+app.stage.addChild(winScreen)
+
+
+// Add board tiles. Currently set to transparent
 var tiles = new PIXI.Graphics()
 tiles.alpha = 0
 
@@ -47,6 +99,38 @@ board.x = 200
 board.y = 50
 app.stage.addChild(board);
 
+// Keyboard navigation
+
+//Capture the keyboard arrow keys
+let leftKey = keyboardTracker(37),
+		upKey = keyboardTracker(38),
+		rightKey = keyboardTracker(39),
+		downKey = keyboardTracker(40)
+
+app.ticker.add(()=>{
+	if (leftKey.isDown) moveLeft(bunny)
+	if (rightKey.isDown) moveRight(bunny)
+	if (upKey.isDown) moveUp(bunny)
+	if (downKey.isDown) moveDown(bunny)
+})
+
+leftKey.press = () => {
+	moveLeft(bunny)
+}
+
+rightKey.press = () => {
+	moveRight(bunny)
+}
+
+upKey.press = () => {
+	moveUp(bunny)
+}
+
+downKey.press = () => {
+	moveDown(bunny)
+}
+
+
 // navigation buttons
 var nav = new PIXI.Container();
 
@@ -59,7 +143,7 @@ right.drawRect(100,20,50,50);
 // Opt-in to interactivity, show hand curser normalize touch and mouse
 right.interactive = true;
 right.buttonMode = true;
-right.on('pointerdown', moveRight);
+right.on('pointerdown', (bunny) => moveRight(bunny));
 // add button to nav container
 nav.addChild(right)
 
@@ -131,7 +215,7 @@ function moveBlocked(x,y){
     x > (mazeGrid.length*tileSize)-1 || y > (mazeGrid[0].length*tileSize)-1
   )
   if (!underZero && !overGridLength) var isBlocked = mazeGrid[(y/tileSize)][(x/tileSize)]
-  return underZero || overGridLength || isBlocked 
+  return underZero || overGridLength || isBlocked
 
 }
 
@@ -139,30 +223,30 @@ function moveBlocked(x,y){
 var desiredX = bunny.x
 var desiredY = bunny.y
 
-function moveRight() {
-  desiredX = bunny.x+tileSize
-  desiredY = bunny.y
-  if (!moveBlocked(desiredX, desiredY)) bunny.x+=tileSize
+function moveRight(sprite) {
+  desiredX = sprite.x+tileSize
+  desiredY = sprite.y
+  if (!moveBlocked(desiredX, desiredY)) sprite.x+=tileSize
 }
-function moveLeft() {
-   desiredX = bunny.x-tileSize
-  desiredY = bunny.y
-  if (!moveBlocked(desiredX, desiredY)) bunny.x-=tileSize
+function moveLeft(sprite) {
+   desiredX = sprite.x-tileSize
+  desiredY = sprite.y
+  if (!moveBlocked(desiredX, desiredY)) sprite.x-=tileSize
 }
-function moveUp() {
-  desiredX = bunny.x
-  desiredY = bunny.y-tileSize
-  if (!moveBlocked(desiredX, desiredY)) bunny.y-=tileSize
+function moveUp(sprite) {
+  desiredX = sprite.x
+  desiredY = sprite.y-tileSize
+  if (!moveBlocked(desiredX, desiredY)) sprite.y-=tileSize
 }
-function moveDown() {
-  desiredX = bunny.x
-  desiredY = bunny.y+tileSize
-  if (!moveBlocked(desiredX, desiredY)) bunny.y+=tileSize
+function moveDown(sprite) {
+  desiredX = sprite.x
+  desiredY = sprite.y+tileSize
+  if (!moveBlocked(desiredX, desiredY)) sprite.y+=tileSize
 }
 
 // record bunny.x and bunny.y
 var basicText = new PIXI.Text(
-  'bunny X: '+bunny.x+'\nbunny Y: '+bunny.y,
+  'X: '+bunny.x+'\nY: '+bunny.y,
   {fill:0xf9f9f7}
 );
 basicText.x = 30;
@@ -170,8 +254,8 @@ basicText.y = 150;
 app.stage.addChild(basicText);
 
 app.ticker.add(function() {
-	basicText.text = 'bunny X: '+bunny.x+'\nbunny Y: '+bunny.y
-  targetText.text = 'Completed:\n'+ reachedTarget(bunny, mazeTarget)
+	basicText.text = 'X: '+bunny.x+'\nY: '+bunny.y
+  reachedTarget(bunny, mazeTarget)
 
 })
 
@@ -180,20 +264,34 @@ var mazeTarget = {row: 50, col: 50}
 
 function reachedTarget(sprite, target){
   const targetY = target.row * tileSize - tileSize
-  const targetX = target.col * tileSize - tileSize
-  return sprite.x === targetX && sprite.y === targetY
+	const targetX = target.col * tileSize - tileSize
+	const reached = sprite.x === targetX && sprite.y === targetY
+	if (reached) state = end
+  return reached
 }
 
-// text to say whether bunny has reached target
-var targetText = new PIXI.Text(
-  'Completed:\n'+ reachedTarget(bunny, mazeTarget),
-  {fill:0xf9f9f7}
-);
-targetText.x = 30
-targetText.y = 400
-app.stage.addChild(targetText)
+// create a new Sprite from an image path
+var bot = PIXI.Sprite.fromImage('shield.png')
+
+// center the sprite's anchor point
+bot.anchor.set(0.5);
+
+// move the sprite to the start of the maE
+bot.x = 0;
+bot.y = 0;
+
+// make bunny bigger
+bot.scale.x = 0.08
+bot.scale.y = 0.08
+
+board.addChild(bot);
+
+app.ticker.add(()=>moveRight(bot))
+
+
 
 return app
 }
+
 
 export default createBoard

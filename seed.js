@@ -35,11 +35,7 @@ async function seed() {
   const mazes = await Promise.all([
     Maze.create({
       image: 'shelbyMaze.jpg',
-      solveable: true,
-      data: shelbyMaze.reduce((acc, curr) => {
-        acc = acc.concat(curr)
-        return acc
-      }, []).join('')
+      solveable: true
     }),
     Maze.create({
       image: 'shelbyMazeUnsolveable.jpg',
