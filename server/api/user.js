@@ -3,8 +3,6 @@ const { User, Maze } = require('../db/models')
 
 module.exports = router
 
-
-
 //write a middleware first that checks if req.user matches req.params.userId
 //get personal account information
 //get friends
@@ -14,14 +12,12 @@ module.exports = router
 //get your highest scores
 //get your badges
 
-
 router.use('/:id', (req, res, next) => {
 	try {
 		if (req.user.id === +req.params.id) {
 			return next()
-		}
-		else {
-			const error = new Error("Not Authorized")
+		} else {
+			const error = new Error('Not Authorized')
 			error.status = 403
 			return next(error)
 		}
@@ -34,7 +30,7 @@ router.get('/:id', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id)
 		if (!user) {
-			const error = new Error("No User Found")
+			const error = new Error('No User Found')
 			error.status = 404
 			return next(error)
 		}
@@ -54,14 +50,15 @@ router.put('/:id', async (req, res, next) => {
 	}
 })
 
-
 router.get('/:id/friends', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id, {
-			include: [{
-				model: User,
-				as: "friend"
-			}]
+			include: [
+				{
+					model: User,
+					as: 'friend'
+				}
+			]
 		})
 		res.json(user)
 	} catch (err) {
@@ -102,5 +99,3 @@ router.get('/:id/mazes', async (req, res, next) => {
 		next(err)
 	}
 })
-
-

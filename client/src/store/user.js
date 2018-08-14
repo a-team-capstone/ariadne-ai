@@ -6,6 +6,7 @@ import history from '../history'
  */
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
+const GET_FRIENDS = 'GET_FRIENDS'
 
 /**
  * ACTION CREATORS
@@ -16,6 +17,11 @@ const getUser = user => ({
 })
 const removeUser = () => ({
 	type: REMOVE_USER
+})
+
+const getFriends = friends => ({
+	type: GET_FRIENDS,
+	friends
 })
 
 /**
@@ -56,6 +62,18 @@ export const logout = () => async dispatch => {
 	}
 }
 
+export const loadFriends = id => {
+	return async dispatch => {
+		try {
+			const { data } = await axios.get(`api/user/${id}/friends`)
+			console.log('Data friends', data.friend)
+			dispatch(getFriends(data.friend))
+		} catch (err) {
+			console.log('No friends...', err)
+		}
+	}
+}
+
 /**
  * REDUCER
  */
@@ -65,6 +83,8 @@ const userReducer = (state = {}, action) => {
 			return action.user
 		case REMOVE_USER:
 			return {}
+		case GET_FRIENDS:
+			return { ...state, friends: action.friends }
 		default:
 			return state
 	}
