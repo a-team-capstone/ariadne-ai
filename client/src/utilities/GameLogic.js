@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import keyboardTracker from './keyboardTracker'
 
 
 const createBoard = (img, maze) => {
@@ -19,15 +20,13 @@ background.position.y = 0
 //   [0,0,0,0,0],
 //   ]
 var mazeGrid = maze
-  
+
 var clearColor = 0xf7f8f9
 var blockedColor = 0x494845
 var tileSize = 10 // in pixels
 
 var board = new PIXI.Graphics()
 board.addChild(background)
-
-// set a fill and line style
 
 
 var tiles = new PIXI.Graphics()
@@ -46,6 +45,39 @@ board.addChild(tiles)
 board.x = 200
 board.y = 50
 app.stage.addChild(board);
+
+// Keyboard navigation
+
+//Capture the keyboard arrow keys
+let leftKey = keyboardTracker(37),
+		upKey = keyboardTracker(38),
+		rightKey = keyboardTracker(39),
+		downKey = keyboardTracker(40)
+
+app.ticker.add(()=>{
+	if (leftKey.isDown) moveLeft()
+	if (rightKey.isDown) moveRight()
+	if (upKey.isDown) moveUp()
+	if (downKey.isDown) moveDown()
+})
+
+leftKey.press = () => {
+	console.log('down?', leftKey.isUp)
+	moveLeft()
+}
+
+rightKey.press = () => {
+	moveRight()
+}
+
+upKey.press = () => {
+	moveUp()
+}
+
+downKey.press = () => {
+	moveDown()
+}
+
 
 // navigation buttons
 var nav = new PIXI.Container();
@@ -131,7 +163,7 @@ function moveBlocked(x,y){
     x > (mazeGrid.length*tileSize)-1 || y > (mazeGrid[0].length*tileSize)-1
   )
   if (!underZero && !overGridLength) var isBlocked = mazeGrid[(y/tileSize)][(x/tileSize)]
-  return underZero || overGridLength || isBlocked 
+  return underZero || overGridLength || isBlocked
 
 }
 
