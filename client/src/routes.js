@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-
 import PixiGame from './components/PixiGame'
-
 import { connect } from 'react-redux'
 import { withRouter, Route, Switch } from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -10,6 +8,8 @@ import { Signup, Login } from './components/Form'
 import Home from './components/Home'
 import MyAccount from './components/MyAccount'
 import Game from './components/Game'
+import CreateMaze from './components/CreateMaze'
+import WithNavBar from './components/WithNavBar'
 
 class Routes extends Component {
 	componentDidMount() {
@@ -22,12 +22,15 @@ class Routes extends Component {
 				<Switch>
 					<Route path="/login" component={Login} />
 					<Route path="/sign-up" component={Signup} />
-					<Route path="/game" component={Game} />
 					<Route exact path="/" component={Home} />
-          <Route exact path="/pixi" component={PixiGame} />
 					{isLoggedIn && (
 						<Switch>
-							<Route path="/my-account" component={MyAccount} />
+							<WithNavBar>
+								<Route path="/my-account" component={MyAccount} />
+								<Route path="/create-maze" component={CreateMaze} />
+							</WithNavBar>
+							<Route path="/pixi" component={PixiGame} />
+							<Route path="/game" component={Game} />
 						</Switch>
 					)}
 				</Switch>
@@ -41,7 +44,6 @@ const mapState = state => {
 		isLoggedIn: !!state.user.id,
 		isAdmin: state.user.isAdmin
 	}
-
 }
 
 const mapDispatch = dispatch => {
