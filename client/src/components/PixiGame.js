@@ -6,14 +6,10 @@ import { getMazeFromImage } from '../utilities/imageAnalysis'
 class PixiGame extends Component {
 	componentDidMount(){
 		const image = this.refs.mazeImage
-		var img = new Image 
-		img.crossOrigin = "Anonymous"
-		img.src = "https://capstone-1806.s3.amazonaws.com/bucketFolder/1534195654812-lg.jpg"
-		
-		img.onload = () => {
-      		const mazeGrid = getMazeFromImage(this.refs.mazeImageCanvas, img)
-      		console.log('mazeGrid', mazeGrid)
-      		this.refs.board.appendChild(PixiApp(img.src, mazeGrid).view)
+		image.crossOrigin = "Anonymous"
+		image.onload = () => {
+      		const mazeGrid = getMazeFromImage(this.refs.mazeImageCanvas, image)
+      		this.refs.board.appendChild(PixiApp(image.src, mazeGrid).view)
     	}
 		
 	}
