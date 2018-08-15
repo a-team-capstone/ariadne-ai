@@ -59,10 +59,10 @@ class FloodFill extends Component {
 		const invisibleImage = {display: "none"}
 		const invisibleCanvas = {opacity: 0}
 		return (
-			<div>
+			<div id="floodFillView" className="floodFill">
 				<h3>Is it solvable? {this.state.solvable? 'YES' : 'NO'}</h3>
 				<h5>Blue areas of the maze are accessible from the starting point.</h5>
-				<div ref="board" />
+				<div ref="board" id="board"/>
 				<img
 					id="mazeImage"
 					ref="mazeImage"
@@ -83,6 +83,7 @@ class FloodFill extends Component {
 					//style={{ border: '1px solid #000000' }}
 				/>
 				{/* If solvable show save button to save it to db  */}
+				<div id="floodFillButtons">
 				<Link to="/play">
 					<button type="button" className="btn btn-primary">
 						Save
@@ -94,6 +95,8 @@ class FloodFill extends Component {
 						Try Again
 					</button>
 				</Link>
+				</div>
+
 			</div>
 		)
 	}
