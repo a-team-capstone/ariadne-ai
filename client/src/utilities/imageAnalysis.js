@@ -18,7 +18,7 @@ export const scrapeImageData = (canvas, image) => {
 // 0 if the average of r, g, and b is under 20 (or something) and otherwise 1
 // return the nice array of arrays of 1's and 0's
 export const organizeImageData = (imageData, height, width) => {
-	console.log('height and width parameters', height, width)
+	// console.log('height and width parameters', height, width)
 	let pixelGrid = []
 	let pixelRow = []
 
@@ -36,8 +36,8 @@ export const organizeImageData = (imageData, height, width) => {
 			pixelRow = []
 		}
 	}
-	console.log('pixelGrid', pixelGrid)
-	console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
+	// console.log('pixelGrid', pixelGrid)
+	// console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
 	return pixelGrid
 }
 
@@ -57,7 +57,7 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		originalWidth,
 		tileSize
 	)
-	console.log('trim data:', targetHeight, targetWidth, trimHeight, trimWidth)
+	// console.log('trim data:', targetHeight, targetWidth, trimHeight, trimWidth)
 
 	for (let row = 0; row < targetHeight; row += tileSize) {
 		let tileColorsRow = []
@@ -74,7 +74,7 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		}
 		tileColorsGrid.push(tileColorsRow)
 	}
-	console.log('Tilegridcolors', tileColorsGrid)
+	// console.log('Tilegridcolors', tileColorsGrid)
 	// console.log(
 	// 	'maze height, width',
 	// 	tileColorsGrid.length,
@@ -91,7 +91,7 @@ export const getMazeFromImage = (canvas, image, tileSize) => {
 	const height = canvas.height // image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
 	const width = canvas.width // image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
 	const tidyGrid = organizeImageData(scraped, height, width)
-	console.log('tidyGrid:', tidyGrid)
+	// console.log('tidyGrid:', tidyGrid)
 	const tileColors = tileImageData(tidyGrid, tileSize)
 
 	return tileColors
@@ -103,13 +103,13 @@ export const trimAmounts = (height, width, tileSize) => {
 	const targetHeight = height - trimHeight
 	const trimWidth = width % tileSize
 	const targetWidth = width - trimWidth
-	console.log(
-		'trimHeight,	trimWidth,targetHeight, targetWidth',
-		trimHeight,
-		trimWidth,
-		targetHeight,
-		targetWidth
-	)
+	// console.log(
+	// 	'trimHeight,	trimWidth,targetHeight, targetWidth',
+	// 	trimHeight,
+	// 	trimWidth,
+	// 	targetHeight,
+	// 	targetWidth
+	// )
 	return {
 		trimHeight,
 		trimWidth,

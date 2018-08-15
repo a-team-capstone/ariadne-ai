@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import showFloodFill from '../utilities/FloodFillView'
 import { getMazeFromImage } from '../utilities/imageAnalysis'
 import floodFill from '../utilities/floodFill'
+import { uploadMaze } from '../store/maze'
 
 class FloodFill extends Component {
 	constructor() {
@@ -13,7 +14,8 @@ class FloodFill extends Component {
 			imageWidth: 0,
 			desiredWidth: 600,
 			desiredHeight: 800,
-			solvable: 'loading'
+			solvable: 'loading',
+			maze: []
 		}
 	}
 
@@ -22,32 +24,31 @@ class FloodFill extends Component {
 
 		image.crossOrigin = 'Anonymous'
 		image.onload = () => {
-			console.log(
-				'image in PixiGame, naturalHeight & naturalWidth',
-				image.naturalHeight,
-				image.naturalWidth
-			)
+			// console.log(
+			// 	'image in PixiGame, naturalHeight & naturalWidth',
+			// 	image.naturalHeight,
+			// 	image.naturalWidth
+			// )
 
 			this.setState({
 				imageHeight: image.naturalHeight,
 				imageWidth: image.naturalWidth
 			})
 
-			const tileSize = Math.floor(this.state.desiredWidth / 40)
+			const tileSize = Math.floor(this.state.desiredWidth / 50)
 			const mazeGrid = getMazeFromImage(
 				this.refs.mazeImageCanvas,
 				image,
 				tileSize
 			)
-
-			// row, col, array, numPixels, blockedVal
-			const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
-			console.log('floodedMaze', floodedMaze)
-
 			const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1} //hardcoded for now
+
+			const maze = mazeGrid.map(row => row.slice())
+			this.setState({ maze: maze })
+			// console.log('mazeGrid', maze)
+			const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
 			const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1)
 			this.setState({solvable})
-
 
 			this.refs.board.appendChild(
 				showFloodFill(image.src, floodedMaze, tileSize).view
@@ -55,9 +56,10 @@ class FloodFill extends Component {
 		}
 	}
 	render() {
-		const { image } = this.props
 		const invisibleImage = {display: "none"}
 		const invisibleCanvas = {opacity: 0}
+		const { image, handleClick, user } = this.props
+
 		return (
 			<div id="floodFillView" className="floodFill">
 				<h3>Is it solvable? {this.state.solvable? 'YES' : 'NO'}</h3>
@@ -82,21 +84,30 @@ class FloodFill extends Component {
 					// height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
 					//style={{ border: '1px solid #000000' }}
 				/>
-				{/* If solvable show save button to save it to db  */}
-				<div id="floodFillButtons">
-				<Link to="/play">
-					<button type="button" className="btn btn-primary">
-						Save
+				<div className="row" id="floodFillButtons">
+					{/* <Link to="/pixi"> */}
+					<button
+						type="button"
+						className="btn btn-primary"
+						onClick={() => handleClick(this.state.maze, image, user.id)}
+					>
+						Play
 					</button>
-				</Link>
-				{/* If not solvable show try again sends back to create maze */}
-				<Link to="/create-maze">
-					<button type="button" className="btn btn-danger">
-						Try Again
-					</button>
-				</Link>
+					{/* </Link> */}
+					{/* If not solvable show try again sends back to create maze */}
+					<Link to="/create-maze">
+						<button type="button" className="btn btn-primary">
+							Send to a friend
+						</button>
+					</Link>
 				</div>
-
+				<div className="row">
+					<Link to="/create-maze">
+						<button type="button" className="btn btn-primary">
+							Create new maze
+						</button>
+					</Link>
+				</div>
 			</div>
 		)
 	}
@@ -104,12 +115,19 @@ class FloodFill extends Component {
 
 const mapState = state => {
 	return {
+		user: state.user,
 		image: state.image
 	}
 }
 
 const mapDispatch = dispatch => {
-	return {}
+	return {
+		handleClick(maze, image, userId) {
+			dispatch(
+				uploadMaze({ image: image, solveable: true, data: maze, userId })
+			)
+		}
+	}
 }
 
 export default connect(
