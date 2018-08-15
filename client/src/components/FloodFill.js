@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 
@@ -6,7 +6,7 @@ const FloodFill = ({ image }) => {
 	return (
 		<div>
 			<h3>Is it solvable?</h3>
-			<img src={image} />
+			<img alt="" src={image} />
 			{/* If solvable show save button to save it to db  */}
 			<Link to="/play">
 				<button type="button" className="btn btn-primary">

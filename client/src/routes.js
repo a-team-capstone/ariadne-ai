@@ -12,7 +12,6 @@ import CreateMaze from './components/CreateMaze'
 import WithNavBar from './components/WithNavBar'
 import Friends from './components/Friends'
 import FloodFill from './components/FloodFill'
-import Play from './components/PlayOrSave'
 import PlayOrSave from './components/PlayOrSave'
 
 class Routes extends Component {
