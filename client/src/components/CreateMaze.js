@@ -9,9 +9,9 @@ const CreateMaze = ({ image }) => {
 			<h3>Get Creative</h3>
 			<div>
 				{Object.keys(image).length ? (
-					<Link to="/pixi">
+					<Link to="/flood-fill">
 						<button type="button" className="btn btn-info">
-							Play
+							Check if it is solvable
 						</button>
 					</Link>
 				) : (

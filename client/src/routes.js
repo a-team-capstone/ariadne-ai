@@ -11,6 +11,9 @@ import Game from './components/Game'
 import CreateMaze from './components/CreateMaze'
 import WithNavBar from './components/WithNavBar'
 import Friends from './components/Friends'
+import FloodFill from './components/FloodFill'
+import Play from './components/PlayOrSave'
+import PlayOrSave from './components/PlayOrSave'
 
 class Routes extends Component {
 	componentDidMount() {
@@ -31,6 +34,8 @@ class Routes extends Component {
 								<Route path="/my-account" component={MyAccount} />
 								<Route path="/create-maze" component={CreateMaze} />
 								<Route path="/friends" component={Friends} />
+								<Route path="/flood-fill" component={FloodFill} />
+								<Route path="/play" component={PlayOrSave} />
 							</WithNavBar>
 
 							<Route path="/game" component={Game} />
