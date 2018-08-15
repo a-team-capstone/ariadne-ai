@@ -1,4 +1,4 @@
-import * as PIXI from 'pixi.js'
+// import * as PIXI from 'pixi.js'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PixiApp from '../utilities/GameLogic'

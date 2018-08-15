@@ -1,4 +1,4 @@
-# mAIz
+# ariadne.ai
 
 ## Team Members
 
@@ -24,3 +24,9 @@ Backend End: Express/Node, Sequelize/PostgreSQL
 React Art
 ML Library (possibly Google Quick Draw?)
 AWS (Amazon Web Services) for storing images
+
+### to start
+
+```javascript
+npm start
+```
