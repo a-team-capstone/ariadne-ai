@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js'
 
 const showFloodFill = (img, maze, tileSize) => {
-	console.log('running game logic')
-	console.log('tileSize', tileSize)
+	// console.log('running game logic')
+	// console.log('tileSize', tileSize)
 
 	// var gameHeight = maze.length * tileSize + 500
 	// var gameWidth = maze[0].length * tileSize + 100
@@ -34,7 +34,7 @@ const showFloodFill = (img, maze, tileSize) => {
 	var tiles = new PIXI.Graphics()
 	tiles.alpha = 0.5
 
-	console.log(maze.length, maze[0].length)
+	// console.log(maze.length, maze[0].length)
 	for (var row = 0; row < maze[0].length; row++) {
 		for (var col = 0; col < maze.length; col++) {
 			// draw a rectangle
@@ -42,7 +42,7 @@ const showFloodFill = (img, maze, tileSize) => {
 			if (mazeGrid[col][row] === 1) {
 				fillColor = blockedColor
 			} else if (mazeGrid[col][row] === -1) {
-				console.log('Col, row', mazeGrid[col][row])
+				// console.log('Col, row', mazeGrid[col][row])
 				fillColor = floodColor
 			}
 			tiles.beginFill(fillColor)
