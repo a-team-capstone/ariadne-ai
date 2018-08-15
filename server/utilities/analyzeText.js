@@ -1,8 +1,10 @@
 const axios = require('axios')
 
-const getPoly = (text, data, label) => {
-  let vertices = data.responses[0].textAnnotations.filter(entry => entry.description.toUpperCase()===label)
+const getPoly = (text, data, label, index) => {
+  const annts = data.responses[0].textAnnotations.slice(1)
+  let vertices = index < 7 ? annts.filter(entry => entry.description.toUpperCase().includes(label)) : annts.filter(entry => entry.description.search(label) >= 0)
   if (!vertices.length) return null
+  if (index === 7) return vertices[0].description
   vertices = vertices[0].boundingPoly.vertices
       vertices = vertices.reduce( (acc, curr, index) => {
         switch (index) {
@@ -22,7 +24,8 @@ const getPoly = (text, data, label) => {
 
 async function analyzeText(imageUri) {
     const text = {}
-    const labels = ['ST', 'END', 'XT', 'BM', 'NL', 'FZ', 'TEL', 'PRT']
+    const time = /[0-9]+/
+    const labels = ['ST', 'END', 'XT', 'BM', 'FZ', 'TEL', 'PRT', time]
     const request = {
     "requests":[
       {
@@ -36,13 +39,16 @@ async function analyzeText(imageUri) {
             "type": "TEXT_DETECTION",
             "maxResults":10
           }
-        ]
+        ],
+        "imageContext": {
+          "languageHints": ["en-t-i0-handwrit"]
+        }
       }]}
       const { data } =  await axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${process.env.GOOGLE_API_KEY}`, request)
-      labels.forEach(label => {
-        const poly = getPoly(text, data, label)
+      labels.forEach( (label, index) => {
+        const poly = getPoly(text, data, label, index)
         if (poly !== null) {
-          text[label] = poly
+          index === 7 ? text.time = +poly : text[label] = poly
         }
       })
       return text
