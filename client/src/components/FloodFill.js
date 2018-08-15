@@ -10,7 +10,10 @@ class FloodFill extends Component {
 		super()
 		this.state = {
 			imageHeight: 0,
-			imageWidth: 0
+			imageWidth: 0,
+			desiredWidth: 600,
+			desiredHeight: 800,
+			solvable: 'loading'
 		}
 	}
 
@@ -30,22 +33,22 @@ class FloodFill extends Component {
 				imageWidth: image.naturalWidth
 			})
 
-			const tileSize = Math.floor(100 / 25)
+			const tileSize = Math.floor(this.state.desiredWidth / 40)
 			const mazeGrid = getMazeFromImage(
 				this.refs.mazeImageCanvas,
 				image,
 				tileSize
 			)
+
 			// row, col, array, numPixels, blockedVal
 			const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
 			console.log('floodedMaze', floodedMaze)
-			// console.log(
-			// 	'mazeGrid dimensions (height, width)',
-			// 	mazeGrid.length,
-			// 	mazeGrid[0].length
-			// )
-			// console.log('mazeGrid:', mazeGrid)
-			// console.log('Image.src', image.src)
+
+			const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1} //hardcoded for now
+			const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1)
+			this.setState({solvable})
+
+
 			this.refs.board.appendChild(
 				showFloodFill(image.src, floodedMaze, tileSize).view
 			)
@@ -53,11 +56,12 @@ class FloodFill extends Component {
 	}
 	render() {
 		const { image } = this.props
-		const invisibleImage = {}
-		const invisibleCanvas = {}
+		const invisibleImage = {display: "none"}
+		const invisibleCanvas = {opacity: 0}
 		return (
 			<div>
-				<h3>Is it solvable?</h3>
+				<h3>Is it solvable? {this.state.solvable? 'YES' : 'NO'}</h3>
+				<h5>Blue areas of the maze are accessible from the starting point.</h5>
 				<div ref="board" />
 				<img
 					id="mazeImage"
@@ -65,16 +69,16 @@ class FloodFill extends Component {
 					src={image}
 					alt="simpleMaze"
 					style={invisibleImage}
-					width="100"
-					height="100"
+					width={this.state.desiredWidth}
+					height={this.state.desiredHeight}
 				/>
 				<canvas
 					id="mazeImageCanvas"
 					ref="mazeImageCanvas"
 					style={invisibleCanvas}
 					// width={this.state.imageWidth} // "4032" //{imageWidth} //"4032" //"2500" //"4032" //"600" //update with image width
-					width="100"
-					height="100"
+					width={this.state.desiredWidth}
+					height={this.state.desiredHeight}
 					// height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
 					//style={{ border: '1px solid #000000' }}
 				/>

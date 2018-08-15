@@ -25,7 +25,7 @@ class PixiGame extends Component {
 				imageWidth: image.naturalWidth
 			})
 
-			const tileSize = Math.floor(image.naturalWidth/100)
+			const tileSize = Math.floor(image.naturalWidth/50)
 			const mazeGrid = getMazeFromImage(this.refs.mazeImageCanvas, image, tileSize)
 			console.log('mazeGrid dimensions (height, width)', mazeGrid.length, mazeGrid[0].length)
 			console.log('mazeGrid:', mazeGrid)
