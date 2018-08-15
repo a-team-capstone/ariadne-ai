@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import 'cropperjs/dist/cropper.css'
+import { imageUpload } from '../store/image'
 
 import Cropper from 'react-cropper'
 
@@ -35,6 +37,7 @@ class Upload extends Component {
       this.setState({ src: reader.result })
     };
     reader.readAsDataURL(files[0])
+    console.log('reader result', reader.result)
   }
 
   cropImage() {
@@ -50,14 +53,29 @@ class Upload extends Component {
   saveToBucket () {
     console.log('saving to AWS bucket')
     // post route for uploading image to AWS
+    this.cropper.getCroppedCanvas({
+      fillColor: '#fff'
+    }).toBlob((blob) => {
+      const formData = new FormData()
+      formData.append('croppedImage', blob)
+      console.log('the blob', blob)
+      console.log('form data', formData)
+      this.props.imageUpload(formData)
+    })
   }
 
   rotateLeft () {
     this.cropper.rotate(-90)
+    this.setState({
+      cropResult: this.cropper.getCroppedCanvas().toDataURL('image/jpeg')
+    })
   }
 
   rotateRight () {
     this.cropper.rotate(90)
+    this.setState({
+      cropResult: this.cropper.getCroppedCanvas().toDataURL('image/jpeg')
+    })
   }
 
   render() {
@@ -84,37 +102,8 @@ class Upload extends Component {
   }
 }
 
-// class Upload extends Component {
-//   constructor () {
-//     super()
-//     this.state = {
-//       src: ''
-//     }
-//     this.handleChange = this.handleChange.bind(this)
-//     this.handleClear = this.handleClear.bind(this)
-//   }
+const mapDispatch = dispatch => ({
+  imageUpload: file => dispatch(imageUpload(file))
+})
 
-//   handleChange (evt) {
-//     this.setState({
-//       src: URL.createObjectURL(evt.target.files[0])
-//     })
-//   }
-
-//   handleClear (evt) {
-//     this.setState({
-//       src: ''
-//     })
-//   }
-
-//   render () {
-//     return (
-//       <Fragment>
-//         <input type="file" onChange={this.handleChange} capture="environment"/>
-//         <button onClick={this.handleClear}>Clear</button>
-//         <img src={this.state.src} />
-//       </Fragment>
-//     )
-//   }
-// }
-
-export default Upload
+export default connect(null, mapDispatch)(Upload)
