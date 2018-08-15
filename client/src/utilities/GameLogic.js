@@ -92,7 +92,6 @@ const createBoard = (img, maze, tileSize) => {
 	for (var row = 0; row < maze[0].length; row++){
 		for (var col = 0; col < maze.length; col++){
 		// draw a rectangle
-			console.log(row, col)
 			tiles.beginFill(mazeGrid[col][row] ? blockedColor : clearColor);
 		tiles.drawRect(row*tileSize, col*tileSize, tileSize, tileSize);
 		}
