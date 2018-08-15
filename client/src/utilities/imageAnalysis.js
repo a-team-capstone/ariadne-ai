@@ -6,7 +6,7 @@ export const scrapeImageData = (canvas, image) => {
 
 	let ctx = canvas.getContext('2d')
 	// image.crossOrigin = 'Anonymous'
-	ctx.drawImage(image, 0, 0)
+	ctx.drawImage(image, 0, 0, 100, 100)
 	let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
 }
@@ -74,11 +74,12 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		}
 		tileColorsGrid.push(tileColorsRow)
 	}
-	console.log(
-		'maze height, width',
-		tileColorsGrid.length,
-		tileColorsGrid[0].length
-	)
+	console.log('Tilegridcolors', tileColorsGrid)
+	// console.log(
+	// 	'maze height, width',
+	// 	tileColorsGrid.length,
+	// 	tileColorsGrid[0].length
+	// )
 	return tileColorsGrid
 }
 
@@ -87,8 +88,8 @@ export const tileImageData = (organizedImageData, tileSize) => {
 export const getMazeFromImage = (canvas, image, tileSize) => {
 	// const ctx = canvas.getContext("2d");
 	const scraped = scrapeImageData(canvas, image)
-	const height = image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
-	const width = image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
+	const height = 100 // image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
+	const width = 100 // image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
 	const tidyGrid = organizeImageData(scraped, height, width)
 	console.log('tidyGrid:', tidyGrid)
 	const tileColors = tileImageData(tidyGrid, tileSize)
@@ -97,11 +98,18 @@ export const getMazeFromImage = (canvas, image, tileSize) => {
 }
 
 export const trimAmounts = (height, width, tileSize) => {
+	console.log('height, width, tileSize', height, width, tileSize)
 	const trimHeight = height % tileSize
 	const targetHeight = height - trimHeight
 	const trimWidth = width % tileSize
 	const targetWidth = width - trimWidth
-
+	console.log(
+		'trimHeight,	trimWidth,targetHeight, targetWidth',
+		trimHeight,
+		trimWidth,
+		targetHeight,
+		targetWidth
+	)
 	return {
 		trimHeight,
 		trimWidth,

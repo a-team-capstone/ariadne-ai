@@ -30,7 +30,7 @@ class FloodFill extends Component {
 				imageWidth: image.naturalWidth
 			})
 
-			const tileSize = Math.floor(image.naturalWidth / 25)
+			const tileSize = Math.floor(100 / 25)
 			const mazeGrid = getMazeFromImage(
 				this.refs.mazeImageCanvas,
 				image,
@@ -65,13 +65,17 @@ class FloodFill extends Component {
 					src={image}
 					alt="simpleMaze"
 					style={invisibleImage}
+					width="100"
+					height="100"
 				/>
 				<canvas
 					id="mazeImageCanvas"
 					ref="mazeImageCanvas"
 					style={invisibleCanvas}
-					width={this.state.imageWidth} // "4032" //{imageWidth} //"4032" //"2500" //"4032" //"600" //update with image width
-					height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
+					// width={this.state.imageWidth} // "4032" //{imageWidth} //"4032" //"2500" //"4032" //"600" //update with image width
+					width="100"
+					height="100"
+					// height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
 					//style={{ border: '1px solid #000000' }}
 				/>
 				{/* If solvable show save button to save it to db  */}

@@ -4,8 +4,10 @@ const showFloodFill = (img, maze, tileSize) => {
 	console.log('running game logic')
 	console.log('tileSize', tileSize)
 
-	var gameHeight = maze.length * tileSize + 500
-	var gameWidth = maze[0].length * tileSize + 100
+	// var gameHeight = maze.length * tileSize + 500
+	// var gameWidth = maze[0].length * tileSize + 100
+	var gameHeight = 100
+	var gameWidth = 100
 	var app = new PIXI.Application(gameWidth, gameHeight, {
 		antialias: true,
 		backgroundColor: 0x001099bb
@@ -16,6 +18,8 @@ const showFloodFill = (img, maze, tileSize) => {
 	background.anchor.y = 0
 	background.position.x = 0
 	background.position.y = 0
+	background.height = 100
+	background.width = 100
 
 	var mazeGrid = maze
 
