@@ -10,6 +10,7 @@ import MyAccount from './components/MyAccount'
 import Game from './components/Game'
 import CreateMaze from './components/CreateMaze'
 import WithNavBar from './components/WithNavBar'
+import FeaturedMazes from './components/Featured'
 
 class Routes extends Component {
 	componentDidMount() {
@@ -28,6 +29,7 @@ class Routes extends Component {
 							<WithNavBar>
 								<Route path="/my-account" component={MyAccount} />
 								<Route path="/create-maze" component={CreateMaze} />
+                <Route path="/featured" component={FeaturedMazes} />
 							</WithNavBar>
 							<Route path="/pixi" component={PixiGame} />
 							<Route path="/game" component={Game} />
