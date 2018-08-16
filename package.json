@@ -7,8 +7,7 @@
 		"start": "concurrently \"npm run server\" \"cd client && npm start\"",
 		"server": "node server/index.js",
 		"test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register",
-		"seed": "node seed.js",
-		"heroku-postbuild": "cd client && npm install && npm run build"
+		"seed": "node script/seed.js"
 	},
 	"repository": {
 		"type": "git",
