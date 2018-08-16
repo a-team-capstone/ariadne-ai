@@ -2,6 +2,7 @@ const db = require('../server/db')
 const { User, Maze, Play } = require('../server/db/models')
 // const {shelbyMaze} = require('../client/src/mazeGrids/10px_tiles')
 
+
 async function seed() {
 	await db.sync({ force: true })
 	console.log('Database synced!')
