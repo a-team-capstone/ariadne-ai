@@ -1,106 +1,49 @@
-const db = require('../server/db')
-const { User, Maze, Play } = require('../server/db/models')
-// const {shelbyMaze} = require('../client/src/mazeGrids/10px_tiles')
+'use strict'
 
+const db = require('../server/db')
+const { User } = require('../server/db/models')
 
 async function seed() {
 	await db.sync({ force: true })
-	console.log('Database synced!')
+	console.log('db synced!')
 
 	const users = await Promise.all([
 		User.create({
-			userName: 'CodyTheCuti3',
+			userName: 'Cody',
 			email: 'cody@email.com',
 			password: '123',
-			admin: false
-		}),
-		User.create({
-			userName: 'devinTheDev',
-			email: 'devin@email.com',
-			password: '456',
-			admin: false
-		}),
-		User.create({
-			userName: 'KehindeWiley',
-			email: 'artist@email.com',
-			password: 'art',
 			admin: true
 		}),
 		User.create({
-			email: 'goober@email.com',
-			password: 'goob',
-			admin: false
+			userName: 'Murph',
+			email: 'murphy@email.com',
+			password: '123'
+		}),
+		User.create({
+			email: 'cody2@email.com',
+			password: '123',
+			admin: true
 		})
 	])
 
-	const mazes = await Promise.all([
-		Maze.create({
-			image: 'shelbyMaze.jpg',
-			solveable: true
-		}),
-		Maze.create({
-			image: 'shelbyMazeUnsolveable.jpg',
-			solveable: false
-		}),
-		Maze.create({
-			image: 'danMaze2.jpg',
-			solveable: true
-		}),
-		Maze.create({
-			image: 'danMaze.jpg',
-			solveable: true
-		})
-	])
+	// await Promise.all(products.map(product => Product.create(product)))
+	// await Promise.all(reviews.map(review => Review.create(review)))
+	// await Promise.all(photos.map(photo => Photo.create(photo)))
+	// await Promise.all(orders.map(order => Order.create(order)))
+	// await Promise.all(
+	// 	orderProducts.map(orderProduct => OrderProducts.create(orderProduct))
+	// )
 
-	await Promise.all([
-		Play.bulkCreate([
-			{
-				seconds: 25,
-				attempted: true,
-				playerId: 1,
-				mazeId: 3
-			},
-			{
-				seconds: 20,
-				attempted: true,
-				playerId: 4,
-				mazeId: 4
-			},
-			{
-				attempted: false,
-				playerId: 2,
-				mazeId: 1
-			},
-			{
-				seconds: 15,
-				attempted: true,
-				playerId: 3,
-				mazeId: 4
-			}
-		])
-	])
-
-	await Promise.all([
-		mazes[0].setUser(users[0]),
-		mazes[1].setUser(users[0]),
-		mazes[2].setUser(users[2]),
-		mazes[3].setUser(users[3])
-	])
-
-	await Promise.all([
-		users[0].addFriend(users[3]),
-		users[0].addFriend(users[2]),
-		users[2].addFriend(users[1]),
-		users[1].addFriend(users[3])
-	])
+	console.log(`seeded ${users.length} users`)
+	console.log(`seeded successfully`)
 }
 
-const runSeed = async () => {
-	console.log('seeding..')
+async function runSeed() {
+	console.log('seeding...')
 	try {
 		await seed()
 	} catch (err) {
-		console.log(err.message)
+		console.error(err)
 		process.exitCode = 1
 	} finally {
 		console.log('closing db connection')
