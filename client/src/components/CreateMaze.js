@@ -1,12 +1,12 @@
 import React from 'react'
-import UploadImage from './UploadImage'
+import Upload from './Upload'
 
 const CreateMaze = () => {
 	return (
 		<div>
 			<h3>Get Creative</h3>
 			<div>
-				<UploadImage />
+				<Upload />
 			</div>
 		</div>
 	)

@@ -23,10 +23,10 @@ const getMaze = maze => ({
  * THUNK CREATORS
  */
 export const uploadMaze = maze => {
-	// console.log('maze in thunk', maze)
+	console.log('maze in thunk', maze)
 	return async dispatch => {
 		try {
-			const { data } = await axios.post(`api/mazes`, maze)
+			const { data } = await axios.post(`api/mazes/`, maze)
 			// console.log('Maze data', data)
 			dispatch(saveMaze(data.id))
 			history.push('/pixi')

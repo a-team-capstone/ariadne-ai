@@ -15,7 +15,8 @@ class FloodFill extends Component {
 			desiredWidth: 600,
 			desiredHeight: 800,
 			solvable: 'loading',
-			maze: []
+			maze: [],
+			obstacles: {}
 		}
 	}
 
@@ -23,7 +24,7 @@ class FloodFill extends Component {
 		const image = this.refs.mazeImage
 
 		image.crossOrigin = 'Anonymous'
-		image.onload = () => {
+		image.onload = async() => {
 			// console.log(
 			// 	'image in PixiGame, naturalHeight & naturalWidth',
 			// 	image.naturalHeight,
@@ -34,18 +35,16 @@ class FloodFill extends Component {
 				imageHeight: image.naturalHeight,
 				imageWidth: image.naturalWidth
 			})
-
-			const tileSize = Math.floor(this.state.desiredWidth / 50)
-			const mazeGrid = getMazeFromImage(
+			const tileSize = Math.floor(this.state.desiredWidth / 25)
+			const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
 				this.refs.mazeImageCanvas,
 				image,
 				tileSize
 			)
-			const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1} //hardcoded for now
-
+			const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1}
 			const maze = mazeGrid.map(row => row.slice())
-			this.setState({ maze: maze })
-			// console.log('mazeGrid', maze)
+			this.setState({ maze: maze, obstacles: obstacleAvgs })
+
 			const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
 			const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1)
 			this.setState({solvable})
@@ -74,16 +73,17 @@ class FloodFill extends Component {
 					width={this.state.desiredWidth}
 					height={this.state.desiredHeight}
 				/>
-				<canvas
-					id="mazeImageCanvas"
-					ref="mazeImageCanvas"
-					style={invisibleCanvas}
-					// width={this.state.imageWidth} // "4032" //{imageWidth} //"4032" //"2500" //"4032" //"600" //update with image width
-					width={this.state.desiredWidth}
-					height={this.state.desiredHeight}
-					// height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
-					//style={{ border: '1px solid #000000' }}
-				/>
+				<div id="floodFillCanvasAndButtons">
+					<canvas
+						id="mazeImageCanvas"
+						ref="mazeImageCanvas"
+						style={invisibleCanvas}
+						// width={this.state.imageWidth} // "4032" //{imageWidth} //"4032" //"2500" //"4032" //"600" //update with image width
+						width={this.state.desiredWidth}
+						height={this.state.desiredHeight}
+						// height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
+						//style={{ border: '1px solid #000000' }}
+					/>
 				<div className="row" id="floodFillButtons">
 					{/* <Link to="/pixi"> */}
 					<button
@@ -100,7 +100,6 @@ class FloodFill extends Component {
 							Send to a friend
 						</button>
 					</Link>
-				</div>
 				<div className="row">
 					<Link to="/create-maze">
 						<button type="button" className="btn btn-primary">
@@ -108,6 +107,8 @@ class FloodFill extends Component {
 						</button>
 					</Link>
 				</div>
+				</div>
+				</ div>
 			</div>
 		)
 	}

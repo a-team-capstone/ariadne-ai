@@ -89,7 +89,7 @@ router.delete('/:id/:friendId', async (req, res, next) => {
 
 router.get('/:id/mazes', async (req, res, next) => {
 	try {
-		const mazes = Maze.findAll({
+		const mazes = await Maze.findAll({
 			where: {
 				userId: req.params.id
 			}

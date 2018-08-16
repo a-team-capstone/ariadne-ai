@@ -1,6 +1,8 @@
 // scrapeImageData(imageFile):
 // takes an image file name and calls the getImageData ctx method on it to get the ugly array,
 // returns that array
+import axios from 'axios'
+
 export const scrapeImageData = (canvas, image) => {
 	console.log('Image', image)
 
@@ -10,6 +12,42 @@ export const scrapeImageData = (canvas, image) => {
 	let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
 }
+
+//finds min and max x and y for the bounding poly
+//checks if given pixel coordinate (point) is within the bounding poly
+const isWithin = (point, box, height, width) => {
+  const minY = Math.min(box.TL[0], box.BL[0])/(width/100)
+  const maxY = Math.max(box.TR[0], box.BR[0])/(width/100)
+  const minX = Math.min(box.BL[1], box.BR[1])/(height/100)
+  const maxX = Math.max(box.TL[1], box.TR[1])/(height/100)
+  if (point[0] >= minX && point[0] <= maxX && point[1] <= maxY && point[1] >= minY) {
+    return true
+  }
+  return false
+}
+
+//iterate through all the bounding polys and call isWithin on each one with the given pixel coordinate
+const checkBoxes = (textData, point, height, width) => {
+  const texts = Object.keys(textData).filter(key => key!=='time')
+  return texts.map(text => isWithin(point, textData[text], height, width))
+}
+
+//iterate through pixelGrid (matrix of 0s and 1s)
+//call checkBoxes on each pixel coordinate
+//if any return true (point is within one of the bounding poly's) change value to 0 (not a boundary)
+const clearObstacles = (pixelGrid, textData, height, width) => {
+  for (let i = 0; i < pixelGrid.length; i++) {
+    let currentRow = pixelGrid[i]
+    for (let j = 0; j < currentRow.length; j++) {
+      let currentPoint = [i, j]
+      if (checkBoxes(textData, currentPoint, height, width).some(el => el === true)) {
+        pixelGrid[i][j] = 0
+      }
+    }
+  }
+  return pixelGrid
+}
+
 
 // organizeImageData(imageData)
 // takse an ugly imageData array
@@ -36,8 +74,8 @@ export const organizeImageData = (imageData, height, width) => {
 			pixelRow = []
 		}
 	}
-	// console.log('pixelGrid', pixelGrid)
-	// console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
+
+	console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
 	return pixelGrid
 }
 
@@ -83,18 +121,38 @@ export const tileImageData = (organizedImageData, tileSize) => {
 	return tileColorsGrid
 }
 
+const getObstacleAvgs = (textData, height, width) => {
+  const labels = Object.keys(textData)
+  return labels.reduce((avgs, curr) => {
+    if (curr !== "time") {
+      const x = Math.round(((textData[curr].TL[1] + textData[curr].BL[1] + textData[curr].BR[1] + textData[curr].TR[1])/4)/(height/100))
+      const y = Math.round(((textData[curr].TL[0] + textData[curr].BL[0] + textData[curr].BR[0] + textData[curr].TR[0])/4)/(width/100))
+      avgs[curr] = [x, y]
+    }
+    else avgs[curr] = textData[curr]
+    return avgs
+  }, {})
+}
+
 //------------------------------------------------
 // calls all of the above functions on an image
-export const getMazeFromImage = (canvas, image, tileSize) => {
+export const getMazeFromImage = async (canvas, image, tileSize) => {
 	// const ctx = canvas.getContext("2d");
+  const { data } = await axios.post('api/mazes/analyze', {"image": image.src})
 	const scraped = scrapeImageData(canvas, image)
+
 	const height = canvas.height // image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
 	const width = canvas.width // image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
-	const tidyGrid = organizeImageData(scraped, height, width)
-	// console.log('tidyGrid:', tidyGrid)
-	const tileColors = tileImageData(tidyGrid, tileSize)
 
-	return tileColors
+	const tidyGrid = organizeImageData(scraped, height, width)
+  const clearedGrid = clearObstacles(tidyGrid, data, image.naturalHeight, image.naturalWidth)
+  //console.log('cleared grid', clearedGrid)
+  const obstacleAvgs = getObstacleAvgs(data, image.naturalHeight, image.naturalWidth)
+  console.log('obstacleAvgs', obstacleAvgs)
+	// console.log('tidyGrid:', tidyGrid)
+	const mazeGrid = tileImageData(clearedGrid, tileSize)
+
+	return { mazeGrid, obstacleAvgs }
 }
 
 export const trimAmounts = (height, width, tileSize) => {
@@ -103,13 +161,6 @@ export const trimAmounts = (height, width, tileSize) => {
 	const targetHeight = height - trimHeight
 	const trimWidth = width % tileSize
 	const targetWidth = width - trimWidth
-	// console.log(
-	// 	'trimHeight,	trimWidth,targetHeight, targetWidth',
-	// 	trimHeight,
-	// 	trimWidth,
-	// 	targetHeight,
-	// 	targetWidth
-	// )
 	return {
 		trimHeight,
 		trimWidth,
