@@ -58,22 +58,25 @@ const createApp = () => {
 
 	// static file-serving middleware
 	app.use(express.static(path.join(__dirname, '..', 'public')))
+	if (process.env.NODE_ENV === 'production') {
+		app.use(express.static('client/build'))
+	}
 
 	// any remaining requests with an extension (.js, .css, etc.) send 404
-	// app.use((req, res, next) => {
-	// 	if (path.extname(req.path).length) {
-	// 		const err = new Error('Not found')
-	// 		err.status = 404
-	// 		next(err)
-	// 	} else {
-	// 		res.header('Access-Control-Allow-Origin', '*')
-	// 		res.header(
-	// 			'Access-Control-Allow-Headers',
-	// 			'Origin, X-Requested-With, Content-Type, Accept'
-	// 		)
-	// 		next()
-	// 	}
-	// })
+	app.use((req, res, next) => {
+		if (path.extname(req.path).length) {
+			const err = new Error('Not found')
+			err.status = 404
+			next(err)
+		} else {
+			res.header('Access-Control-Allow-Origin', '*')
+			res.header(
+				'Access-Control-Allow-Headers',
+				'Origin, X-Requested-With, Content-Type, Accept'
+			)
+			next()
+		}
+	})
 	const cors = require('cors')
 
 	app.use(
@@ -111,10 +114,7 @@ async function bootApp() {
 	await createApp()
 	await startListening()
 }
-// This evaluates as true when this file is run directly from the command line,
-// i.e. when we say 'node server/index.js' (or 'nodemon server/index.js', or 'nodemon server', etc)
-// It will evaluate false when this module is required by another module - for example,
-// if we wanted to require our app in a test spec
+
 if (require.main === module) {
 	bootApp()
 } else {
