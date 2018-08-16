@@ -55,9 +55,11 @@ router.delete('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
 	try {
-		const { solveable, image, data } = req.body
-		const maze = await Maze.create({ image, solveable })
-		maze.setData(data)
+		// console.log('Req.body', req.body)
+		// const { solveable, image, data } = req.body
+		// const maze = await Maze.create({ image, solveable })
+		const maze = await Maze.create(req.body)
+		// maze.setData(data)
 		res.json(maze)
 	} catch (err) {
 		next(err)
