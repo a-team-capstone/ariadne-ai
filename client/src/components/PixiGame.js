@@ -2,17 +2,17 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PixiApp from '../utilities/GameLogic'
-import { getMazeFromImage } from '../utilities/imageAnalysis'
+// import { getMazeFromImage } from '../utilities/imageAnalysis'
 import { loadMaze } from '../store/maze'
 
 class PixiGame extends Component {
-	constructor() {
-		super()
-		this.state = {
-			imageHeight: 0,
-			imageWidth: 0
-		}
-	}
+	// constructor() {
+	// 	super()
+	// 	this.state = {
+	// 		imageHeight: 0,
+	// 		imageWidth: 0
+	// 	}
+	// }
 
 	componentDidMount() {
 		this.props.loadMaze(this.props.maze.id)
@@ -30,7 +30,7 @@ class PixiGame extends Component {
 		// 		imageHeight: image.naturalHeight,
 		// 		imageWidth: image.naturalWidth
 		// 	})
-		const tileSize = 50
+		// const tileSize = 50
 		// const tileSize = Math.floor(image.naturalWidth / 100)
 		// const mazeGrid = getMazeFromImage(
 		// 	this.refs.mazeImageCanvas,
