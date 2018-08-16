@@ -41,7 +41,9 @@ class Navbar extends Component {
 				<Link to="/create-maze" onClick={this.handlerCloseSideBar}>
 					Create Maze
 				</Link>
-				<button onClick={this.handlerCloseSideBar}>Featured</button>
+        <Link to="/featured" onClick={this.handlerCloseSideBar}>
+          Featured
+        </Link>
 				<Link to="/my-account" onClick={this.handlerCloseSideBar}>
 					Profile
 				</Link>
