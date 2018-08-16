@@ -74,12 +74,14 @@ const createApp = () => {
 	// 		next()
 	// 	}
 	// })
-	const cors = require('cors');
+	const cors = require('cors')
 
-	app.use(cors({
-	 origin: 'http://localhost:3000',
-	 credentials: true
-	}));
+	app.use(
+		cors({
+			origin: 'http://localhost:3000',
+			credentials: true
+		})
+	)
 
 	// sends index.html
 	app.use('*', (req, res) => {
@@ -96,7 +98,7 @@ const createApp = () => {
 
 const startListening = () => {
 	// start listening (and create a 'server' object representing our server)
-	const server = app.listen(PORT, () =>
+	const server = app.listen(PORT, '0.0.0.0', () =>
 		console.log(`Mixing it up on port ${PORT}`)
 	)
 }
