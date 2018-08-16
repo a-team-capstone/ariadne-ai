@@ -37,20 +37,20 @@ const uploadFile = (buffer, name, type) => {
 // Define POST route
 // POST /api/uploads/image-upload
 router.post('/image-upload', (request, response) => {
-  console.log("I'm here");
-  const form = new multiparty.Form();
+  console.log("I'm here")
+  const form = new multiparty.Form()
   form.parse(request, async (error, fields, files) => {
-    if (error) throw new Error(error);
+    if (error) throw new Error('Erroring out here', error.message)
     try {
-      const path = files.file[0].path;
-      const buffer = fs.readFileSync(path);
-      const type = fileType(buffer);
-      const timestamp = Date.now().toString();
-      const fileName = `bucketFolder/${timestamp}-lg`;
-      const data = await uploadFile(buffer, fileName, type);
-      return response.status(200).send(data);
+      const path = files.file[0].path
+      const buffer = fs.readFileSync(path)
+      const type = fileType(buffer)
+      const timestamp = Date.now().toString()
+      const fileName = `bucketFolder/${timestamp}-lg`
+      const data = await uploadFile(buffer, fileName, type)
+      return response.status(200).send(data)
     } catch (err) {
-      return response.status(400).send(err);
+      return response.status(400).send(err)
     }
   });
 });

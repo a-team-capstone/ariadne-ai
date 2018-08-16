@@ -32,49 +32,51 @@ class Upload extends Component {
     } else if (e.target) {
       files = e.target.files
     }
+    console.log('waaaaahhh', files)
     const reader = new FileReader()
     reader.onload = () => {
       this.setState({ src: reader.result })
     };
     reader.readAsDataURL(files[0])
-    console.log('reader result', reader.result)
+    // console.log('reader result', reader.result)
+    // console.log('src', this.state.src)
   }
 
   cropImage() {
-    if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
+    if (typeof this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }) === 'undefined') {
       return
     }
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas().toDataURL('image/jpeg'),
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.9)
       // CHANGED DATA URL TYPE IN PERENS
     })
   }
 
   saveToBucket () {
     console.log('saving to AWS bucket')
-    // post route for uploading image to AWS
+    // this.props.imageUpload(this.state.cropResult)
     this.cropper.getCroppedCanvas({
       fillColor: '#fff'
     }).toBlob((blob) => {
       const formData = new FormData()
       formData.append('croppedImage', blob)
-      console.log('the blob', blob)
-      console.log('form data', formData)
       this.props.imageUpload(formData)
-    })
+    }, 'image/jpeg', 0.9)
   }
 
   rotateLeft () {
     this.cropper.rotate(-90)
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas().toDataURL('image/jpeg')
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.9)
     })
+    console.log('croppy', this.state.cropResult)
+    console.log('src', this.state.src)
   }
 
   rotateRight () {
     this.cropper.rotate(90)
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas().toDataURL('image/jpeg')
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.9)
     })
   }
 
@@ -97,6 +99,7 @@ class Upload extends Component {
             ref={cropper => { this.cropper = cropper; }}
           />
         </div>
+        <img style={{ width: '50%', position: 'absolute', left: '25%', top: '85%' }} src={this.state.cropResult} alt="cropped image" />
       </div>
     );
   }

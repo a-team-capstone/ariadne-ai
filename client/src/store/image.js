@@ -22,7 +22,7 @@ export const imageUpload = formData => {
     try {
       const { data } = await axios.post(`api/uploads/image-upload`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          'Content-Type': 'multipart/form-data;',
         },
       });
       console.log('Data', data);
