@@ -34,14 +34,14 @@ router.get('/:id', async (req, res, next) => {
 // 	}
 // })
 
-// router.get('/featured', async (req, res, next) => {
-// 	try {
-
-// 	} catch (err) {
-// 		next(err)
-// 	}
-// })
-//
+router.get('/featured', async (req, res, next) => {
+	try {
+    const mazes = await Maze.findAll()
+    res.json(mazes)
+	} catch (err) {
+		next(err)
+	}
+})
 
 router.delete('/:id', async (req, res, next) => {
 	try {
@@ -55,11 +55,7 @@ router.delete('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
 	try {
-		// console.log('Req.body', req.body)
-		// const { solveable, image, data } = req.body
-		// const maze = await Maze.create({ image, solveable })
 		const maze = await Maze.create(req.body)
-		// maze.setData(data)
 		res.json(maze)
 	} catch (err) {
 		next(err)

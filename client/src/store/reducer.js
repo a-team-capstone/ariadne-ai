@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux'
 import imageReducer from './image'
 import userReducer from './user'
-import usersReducer from './users'
+import featuredReducer from './featuredMazes'
 import mazeReducer from './maze'
+import usersReducer from './users'
 
 const rootReducer = combineReducers({
 	user: userReducer,
 	image: imageReducer,
 	users: usersReducer,
-	maze: mazeReducer
+  maze: mazeReducer,
+  featured: featuredReducer
 })
 
 export default rootReducer

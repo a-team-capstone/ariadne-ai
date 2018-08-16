@@ -32,15 +32,17 @@ class FloodFill extends Component {
 				imageWidth: image.naturalWidth
 			})
 
-			const tileSize = Math.floor(100 / 50)
+      // We changed tile size to 100 / 25 because call stack size was being exceeded
+			const tileSize = Math.floor(100 / 25)
 			const mazeGrid = getMazeFromImage(
 				this.refs.mazeImageCanvas,
 				image,
 				tileSize
-			)
+      )
+      
 			const maze = mazeGrid.map(row => row.slice())
 			this.setState({ maze: maze })
-			// console.log('mazeGrid', maze)
+			
 			const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
 			// console.log('floodedMaze', floodedMaze)
 
