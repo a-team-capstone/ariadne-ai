@@ -16,7 +16,7 @@ class FeaturedMazes extends Component {
         featured.map(maze => {
           return (
             <Fragment>
-              <h6>{maze.name}</h6>
+              <h6>Maze Name</h6>
               <p>Leader: Shelby</p>
               <p>Time: 35 seconds</p>
               <button>Play</button>

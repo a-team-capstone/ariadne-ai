@@ -44,10 +44,12 @@ class Navbar extends Component {
         <Link to="/featured" onClick={this.handlerCloseSideBar}>
           Featured
         </Link>
-				<Link to="/my-account">
-					<button onClick={this.handlerCloseSideBar}>Profile</button>
+				<Link to="/my-account" onClick={this.handlerCloseSideBar}>
+					Profile
 				</Link>
-				<button onClick={this.handlerCloseSideBar}>Friends</button>
+				<Link to="/friends" onClick={this.handlerCloseSideBar}>
+					Friends
+				</Link>
 				{isLoggedIn && (
 					<Link to="/" onClick={handleClick}>
 						Logout

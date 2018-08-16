@@ -10,12 +10,11 @@ module.exports = router
 //post a maze
 //get all (or highest/lowest) plays for specific maze
 
-
 router.get('/:id', async (req, res, next) => {
 	try {
 		const maze = await Maze.findById(req.params.id)
 		if (!maze) {
-			const error = new Error("Maze not found!")
+			const error = new Error('Maze not found!')
 			error.status = 404
 			return next(error)
 		}

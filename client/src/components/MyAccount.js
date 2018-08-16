@@ -8,7 +8,7 @@ class MyAccount extends Component {
 	render() {
 		const { user } = this.props
 		return (
-			<div className="my-account">
+			<div>
 				<div className="circle" />
 				<h4>Welcome, {user.userName}</h4>
 			</div>

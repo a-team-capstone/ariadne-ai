@@ -9,6 +9,7 @@ const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
 const sessionStore = new SequelizeStore({ db })
+const bodyParser = require('body-parser')
 
 module.exports = app
 
@@ -34,7 +35,9 @@ const createApp = () => {
 	// logging middleware
 	app.use(morgan('dev'))
 
-	// body parsing middleware
+  // body parsing middleware
+  
+  app.use(bodyParser({limit: '5mb'}))
 	app.use(express.json())
 	app.use(express.urlencoded({ extended: true }))
 
@@ -58,28 +61,33 @@ const createApp = () => {
 
 	// static file-serving middleware
 	app.use(express.static(path.join(__dirname, '..', 'public')))
+	if (process.env.NODE_ENV === 'production') {
+		app.use(express.static('client/build'))
+	}
 
 	// any remaining requests with an extension (.js, .css, etc.) send 404
-	// app.use((req, res, next) => {
-	// 	if (path.extname(req.path).length) {
-	// 		const err = new Error('Not found')
-	// 		err.status = 404
-	// 		next(err)
-	// 	} else {
-	// 		res.header('Access-Control-Allow-Origin', '*')
-	// 		res.header(
-	// 			'Access-Control-Allow-Headers',
-	// 			'Origin, X-Requested-With, Content-Type, Accept'
-	// 		)
-	// 		next()
-	// 	}
-	// })
-	const cors = require('cors');
+	app.use((req, res, next) => {
+		if (path.extname(req.path).length) {
+			const err = new Error('Not found')
+			err.status = 404
+			next(err)
+		} else {
+			res.header('Access-Control-Allow-Origin', '*')
+			res.header(
+				'Access-Control-Allow-Headers',
+				'Origin, X-Requested-With, Content-Type, Accept'
+			)
+			next()
+		}
+	})
+	// const cors = require('cors')
 
-	app.use(cors({
-	 origin: 'http://localhost:3000',
-	 credentials: true
-	}));
+	// app.use(
+	// 	cors({
+	// 		origin: 'http://localhost:3000',
+	// 		credentials: true
+	// 	})
+	// )
 
 	// sends index.html
 	app.use('*', (req, res) => {
@@ -96,7 +104,7 @@ const createApp = () => {
 
 const startListening = () => {
 	// start listening (and create a 'server' object representing our server)
-	const server = app.listen(PORT, () =>
+	const server = app.listen(PORT, '0.0.0.0', () =>
 		console.log(`Mixing it up on port ${PORT}`)
 	)
 }

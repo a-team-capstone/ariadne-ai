@@ -89,3 +89,7 @@ body {
 	text-align: center;
 	margin: -100px 0 0 -150px;
 }
+
+ul {
+	list-style: none;
+}

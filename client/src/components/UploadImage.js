@@ -31,7 +31,7 @@ class UploadImage extends Component {
 					type="file"
 					onChange={this.handleFileUpload}
 				/>
-				<button type="submit">Send</button>
+				<button type="submit">Upload</button>
 			</form>
 		)
 	}
