@@ -20,11 +20,12 @@ const uploadImage = image => ({
 export const imageUpload = formData => {
   return async dispatch => {
     try {
-      const { data } = await axios.post(`api/uploads/image-upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data;',
-        },
-      });
+      const { data } = await axios.post(`api/uploads/image-upload`, formData)
+      // , {
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data;',
+      //   },
+      // });
       console.log('Data', data);
       dispatch(uploadImage(data.Location));
     } catch (err) {

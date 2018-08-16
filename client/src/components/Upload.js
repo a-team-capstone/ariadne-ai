@@ -7,8 +7,6 @@ import Cropper from 'react-cropper'
 
 /* global FileReader */
 
-// const src = 'img/child.jpg'
-
 class Upload extends Component {
 
   constructor(props) {
@@ -17,7 +15,7 @@ class Upload extends Component {
       src: '',
       cropResult: null,
     };
-    this.cropImage = this.cropImage.bind(this)
+    // this.cropImage = this.cropImage.bind(this)
     this.onChange = this.onChange.bind(this)
     this.saveToBucket = this.saveToBucket.bind(this)
     this.rotateLeft = this.rotateLeft.bind(this)
@@ -42,32 +40,32 @@ class Upload extends Component {
     // console.log('src', this.state.src)
   }
 
-  cropImage() {
-    if (typeof this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }) === 'undefined') {
-      return
-    }
-    this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.9)
-      // CHANGED DATA URL TYPE IN PERENS
-    })
-  }
+  // cropImage() {
+  //   if (typeof this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }) === 'undefined') {
+  //     return
+  //   }
+  //   this.setState({
+  //     cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.9)
+  //     // CHANGED DATA URL TYPE IN PERENS
+  //   })
+  // }
 
   saveToBucket () {
     console.log('saving to AWS bucket')
     // this.props.imageUpload(this.state.cropResult)
-    this.cropper.getCroppedCanvas({
-      fillColor: '#fff'
-    }).toBlob((blob) => {
-      const formData = new FormData()
-      formData.append('croppedImage', blob)
-      this.props.imageUpload(formData)
-    }, 'image/jpeg', 0.9)
+    // this.cropper.getCroppedCanvas({
+    //   fillColor: '#fff'
+    // }).toBlob((blob) => {
+    //   const formData = new FormData()
+    //   formData.append('croppedImage', blob)
+    //   this.props.imageUpload(formData)
+    // }, 'image/jpeg', 0.9)
   }
 
   rotateLeft () {
     this.cropper.rotate(-90)
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.9)
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.7)
     })
     console.log('croppy', this.state.cropResult)
     console.log('src', this.state.src)
@@ -76,8 +74,10 @@ class Upload extends Component {
   rotateRight () {
     this.cropper.rotate(90)
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.9)
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.7)
     })
+    console.log('croppy', this.state.cropResult)
+    console.log('src', this.state.src)
   }
 
   render() {
