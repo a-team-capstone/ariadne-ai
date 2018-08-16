@@ -30,7 +30,6 @@ class Upload extends Component {
     } else if (e.target) {
       files = e.target.files
     }
-    console.log('waaaaahhh', files)
     const reader = new FileReader()
     reader.onload = () => {
       this.setState({ src: reader.result })
@@ -50,16 +49,11 @@ class Upload extends Component {
   //   })
   // }
 
-  saveToBucket () {
-    console.log('saving to AWS bucket')
-    // this.props.imageUpload(this.state.cropResult)
-    // this.cropper.getCroppedCanvas({
-    //   fillColor: '#fff'
-    // }).toBlob((blob) => {
-    //   const formData = new FormData()
-    //   formData.append('croppedImage', blob)
-    //   this.props.imageUpload(formData)
-    // }, 'image/jpeg', 0.9)
+  async saveToBucket () {
+    await this.setState({
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.75)
+    })
+
     let request = {
       imageBinary: this.state.cropResult
     }
@@ -69,7 +63,7 @@ class Upload extends Component {
   rotateLeft () {
     this.cropper.rotate(-90)
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg')
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.75)
     })
     console.log('croppy', typeof this.state.cropResult)
     console.log('src', this.state.src)
@@ -78,7 +72,7 @@ class Upload extends Component {
   rotateRight () {
     this.cropper.rotate(90)
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg')
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.75)
     })
     console.log('croppy', this.state.cropResult)
     console.log('src', this.state.src)

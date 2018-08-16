@@ -9,6 +9,7 @@ const passport = require('passport')
 const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
 const sessionStore = new SequelizeStore({ db })
+const bodyParser = require('body-parser')
 
 module.exports = app
 
@@ -34,7 +35,9 @@ const createApp = () => {
 	// logging middleware
 	app.use(morgan('dev'))
 
-	// body parsing middleware
+  // body parsing middleware
+  
+  app.use(bodyParser({limit: '5mb'}))
 	app.use(express.json())
 	app.use(express.urlencoded({ extended: true }))
 
