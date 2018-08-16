@@ -10,12 +10,11 @@ module.exports = router
 //post a maze
 //get all (or highest/lowest) plays for specific maze
 
-
 router.get('/:id', async (req, res, next) => {
 	try {
 		const maze = await Maze.findById(req.params.id)
 		if (!maze) {
-			const error = new Error("Maze not found!")
+			const error = new Error('Maze not found!')
 			error.status = 404
 			return next(error)
 		}
@@ -42,7 +41,7 @@ router.get('/:id', async (req, res, next) => {
 // 		next(err)
 // 	}
 // })
-// 
+//
 
 router.delete('/:id', async (req, res, next) => {
 	try {
@@ -56,8 +55,11 @@ router.delete('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
 	try {
+		// console.log('Req.body', req.body)
+		// const { solveable, image, data } = req.body
+		// const maze = await Maze.create({ image, solveable })
 		const maze = await Maze.create(req.body)
-		//TODO: write beforeCreate hook to coerce maze data to binary string!!!! TODO!!!!!
+		// maze.setData(data)
 		res.json(maze)
 	} catch (err) {
 		next(err)

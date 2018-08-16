@@ -5,10 +5,9 @@ export const scrapeImageData = (canvas, image) => {
 	console.log('Image', image)
 
 	let ctx = canvas.getContext('2d')
-	image.crossOrigin = "Anonymous"
-	ctx.drawImage(image, 0, 0)
-	const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-	console.log('imgData', imgData)
+	// image.crossOrigin = 'Anonymous'
+	ctx.drawImage(image, 0, 0, 100, 100)
+	let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
 }
 
@@ -19,7 +18,7 @@ export const scrapeImageData = (canvas, image) => {
 // 0 if the average of r, g, and b is under 20 (or something) and otherwise 1
 // return the nice array of arrays of 1's and 0's
 export const organizeImageData = (imageData, height, width) => {
-	console.log('height and width parameters', height, width)
+	// console.log('height and width parameters', height, width)
 	let pixelGrid = []
 	let pixelRow = []
 
@@ -37,8 +36,8 @@ export const organizeImageData = (imageData, height, width) => {
 			pixelRow = []
 		}
 	}
-	console.log('pixelGrid', pixelGrid)
-	console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
+	// console.log('pixelGrid', pixelGrid)
+	// console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
 	return pixelGrid
 }
 
@@ -53,12 +52,16 @@ export const tileImageData = (organizedImageData, tileSize) => {
 	const originalHeight = organizedImageData.length
 	const originalWidth = organizedImageData[0].length
 
-	const {trimHeight, trimWidth, targetHeight, targetWidth} = trimAmounts(originalHeight, originalWidth, tileSize)
-	console.log('trim data:', targetHeight, targetWidth, trimHeight, trimWidth)
+	const { trimHeight, trimWidth, targetHeight, targetWidth } = trimAmounts(
+		originalHeight,
+		originalWidth,
+		tileSize
+	)
+	// console.log('trim data:', targetHeight, targetWidth, trimHeight, trimWidth)
 
 	for (let row = 0; row < targetHeight; row += tileSize) {
 		let tileColorsRow = []
-		for (let col = 0; col < targetWidth   ; col += tileSize) {
+		for (let col = 0; col < targetWidth; col += tileSize) {
 			let isBlocked = 0
 			for (let pixelRow = 0; pixelRow < tileSize; pixelRow++) {
 				// console.log(row + pixelRow)
@@ -71,7 +74,12 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		}
 		tileColorsGrid.push(tileColorsRow)
 	}
-	console.log('maze height, width', tileColorsGrid.length, tileColorsGrid[0].length)
+	// console.log('Tilegridcolors', tileColorsGrid)
+	// console.log(
+	// 	'maze height, width',
+	// 	tileColorsGrid.length,
+	// 	tileColorsGrid[0].length
+	// )
 	return tileColorsGrid
 }
 
@@ -80,30 +88,32 @@ export const tileImageData = (organizedImageData, tileSize) => {
 export const getMazeFromImage = (canvas, image, tileSize) => {
 	// const ctx = canvas.getContext("2d");
 	const scraped = scrapeImageData(canvas, image)
-	const height = image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
-	const width = image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
-	const tidyGrid = organizeImageData(
-		scraped,
-		height,
-		width
-	)
-	console.log('tidyGrid:', tidyGrid)
+	const height = 100 // image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
+	const width = 100 // image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
+	const tidyGrid = organizeImageData(scraped, height, width)
+	// console.log('tidyGrid:', tidyGrid)
 	const tileColors = tileImageData(tidyGrid, tileSize)
 
 	return tileColors
 }
 
 export const trimAmounts = (height, width, tileSize) => {
-		const trimHeight = height%tileSize
-		const targetHeight = height - trimHeight
-		const trimWidth = width%tileSize
-		const targetWidth = width - trimWidth
-
-		return {
-			trimHeight,
-			trimWidth,
-			targetHeight,
-			targetWidth
-		}
-
+	console.log('height, width, tileSize', height, width, tileSize)
+	const trimHeight = height % tileSize
+	const targetHeight = height - trimHeight
+	const trimWidth = width % tileSize
+	const targetWidth = width - trimWidth
+	// console.log(
+	// 	'trimHeight,	trimWidth,targetHeight, targetWidth',
+	// 	trimHeight,
+	// 	trimWidth,
+	// 	targetHeight,
+	// 	targetWidth
+	// )
+	return {
+		trimHeight,
+		trimWidth,
+		targetHeight,
+		targetWidth
+	}
 }
