@@ -12,7 +12,8 @@ class FloodFill extends Component {
 		this.state = {
 			imageHeight: 0,
 			imageWidth: 0,
-			maze: []
+			maze: [],
+			obstacles: {}
 		}
 	}
 
@@ -20,7 +21,7 @@ class FloodFill extends Component {
 		const image = this.refs.mazeImage
 
 		image.crossOrigin = 'Anonymous'
-		image.onload = () => {
+		image.onload = async() => {
 			// console.log(
 			// 	'image in PixiGame, naturalHeight & naturalWidth',
 			// 	image.naturalHeight,
@@ -33,14 +34,14 @@ class FloodFill extends Component {
 			})
 
 			const tileSize = Math.floor(100 / 50)
-			const mazeGrid = getMazeFromImage(
+			const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
 				this.refs.mazeImageCanvas,
 				image,
 				tileSize
 			)
 			const maze = mazeGrid.map(row => row.slice())
-			this.setState({ maze: maze })
-			// console.log('mazeGrid', maze)
+			this.setState({ maze: maze, obstacles: obstacleAvgs })
+			console.log('mazeGrid', mazeGrid)
 			const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
 			// console.log('floodedMaze', floodedMaze)
 

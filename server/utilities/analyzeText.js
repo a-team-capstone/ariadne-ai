@@ -1,6 +1,7 @@
 const axios = require('axios')
 
 const getPoly = (text, data, label, index) => {
+  if(!data.responses[0].textAnnotations) return null
   const annts = data.responses[0].textAnnotations.slice(1)
   let vertices = index < 7 ? annts.filter(entry => entry.description.toUpperCase().includes(label)) : annts.filter(entry => entry.description.search(label) >= 0)
   if (!vertices.length) return null
@@ -23,6 +24,7 @@ const getPoly = (text, data, label, index) => {
 }
 
 async function analyzeText(imageUri) {
+    console.log('imageuri', imageUri)
     const text = {}
     const time = /[0-9]+/
     const labels = ['ST', 'END', 'XT', 'BM', 'FZ', 'TEL', 'PRT', time]

@@ -25,8 +25,9 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
-router.post('/test', async (req, res, next) => {
+router.post('/analyze', async (req, res, next) => {
 	try {
+		console.log('req body', req.body)
 		const response = await analyzeText(req.body.image)
 		res.send(response)
 	} catch(err) {
