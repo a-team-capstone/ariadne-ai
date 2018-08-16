@@ -58,6 +58,9 @@ const createApp = () => {
 
 	// static file-serving middleware
 	app.use(express.static(path.join(__dirname, '..', 'public')))
+	if (process.env.NODE_ENV === 'production') {
+		app.use(express.static('client/build'))
+	}
 
 	// any remaining requests with an extension (.js, .css, etc.) send 404
 	app.use((req, res, next) => {
@@ -74,35 +77,14 @@ const createApp = () => {
 			next()
 		}
 	})
-	const cors = require('cors')
+	// const cors = require('cors')
 
-	app.use(
-		cors({
-			origin: 'http://localhost:3000',
-			credentials: true
-		})
-	)
-
-	// sends index.html
-	app.use('*', (req, res) => {
-		res.sendFile(path.join(__dirname, '..', 'public/index.html'))
-	})
-
-	// any remaining requests with an extension (.js, .css, etc.) send 404
-	// app.use((req, res, next) => {
-	// 	if (path.extname(req.path).length) {
-	// 		const err = new Error('Not found')
-	// 		err.status = 404
-	// 		next(err)
-	// 	} else {
-	// 		res.header('Access-Control-Allow-Origin', '*')
-	// 		res.header(
-	// 			'Access-Control-Allow-Headers',
-	// 			'Origin, X-Requested-With, Content-Type, Accept'
-	// 		)
-	// 		next()
-	// 	}
-	// })
+	// app.use(
+	// 	cors({
+	// 		origin: 'http://localhost:3000',
+	// 		credentials: true
+	// 	})
+	// )
 
 	// sends index.html
 	app.use('*', (req, res) => {
