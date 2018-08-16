@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import 'cropperjs/dist/cropper.css'
 import { imageUpload } from '../store/image'
-
 import Cropper from 'react-cropper'
-
-/* global FileReader */
+import 'cropperjs/dist/cropper.css'
 
 class Upload extends Component {
 
@@ -15,7 +12,6 @@ class Upload extends Component {
       src: '',
       cropResult: null,
     };
-    // this.cropImage = this.cropImage.bind(this)
     this.onChange = this.onChange.bind(this)
     this.saveToBucket = this.saveToBucket.bind(this)
     this.rotateLeft = this.rotateLeft.bind(this)
@@ -35,19 +31,7 @@ class Upload extends Component {
       this.setState({ src: reader.result })
     };
     reader.readAsDataURL(files[0])
-    // console.log('reader result', reader.result)
-    // console.log('src', this.state.src)
   }
-
-  // cropImage() {
-  //   if (typeof this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }) === 'undefined') {
-  //     return
-  //   }
-  //   this.setState({
-  //     cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.9)
-  //     // CHANGED DATA URL TYPE IN PERENS
-  //   })
-  // }
 
   async saveToBucket () {
     await this.setState({
@@ -62,20 +46,10 @@ class Upload extends Component {
 
   rotateLeft () {
     this.cropper.rotate(-90)
-    this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.75)
-    })
-    console.log('croppy', typeof this.state.cropResult)
-    console.log('src', this.state.src)
   }
 
   rotateRight () {
     this.cropper.rotate(90)
-    this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.75)
-    })
-    console.log('croppy', this.state.cropResult)
-    console.log('src', this.state.src)
   }
 
   render() {
@@ -97,7 +71,6 @@ class Upload extends Component {
             ref={cropper => { this.cropper = cropper; }}
           />
         </div>
-        <img style={{ width: '50%', position: 'absolute', left: '25%', top: '85%' }} src={this.state.cropResult} alt="cropped image" />
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react'
-import UploadImage from './UploadImage'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Upload from './Upload'
 
 const CreateMaze = ({ image }) => {
 	return (
@@ -15,7 +15,7 @@ const CreateMaze = ({ image }) => {
 						</button>
 					</Link>
 				) : (
-					<UploadImage />
+					<Upload/>
 				)}
 			</div>
 		</div>

@@ -51,18 +51,14 @@ const uploadCrop = (body, fileName) => {
 // Define POST route
 // POST /api/uploads/image-upload
 router.post('/image-upload', (request, response) => {
-  console.log("I'm here")
-  console.log('body', request.body)
   try {
     const form = new multiparty.Form()
     form.parse(request, async (fields, files) => {
-      // if (error) throw new Error('Erroring out here', error)
       try {
         let data;
           const timestamp = Date.now().toString()
           const fileName = `bucketFolder/${timestamp}-lg`
         if (request.body.imageBinary) {
-          console.log('Are we entering this imageBinary portion?')
           data = await uploadCrop(request.body, fileName)
         } else {
           const path = files.file[0].path
@@ -78,5 +74,4 @@ router.post('/image-upload', (request, response) => {
   } catch (err) {
     console.log(err)
   }
-  // console.log('this is what I am sending', request)
 });
