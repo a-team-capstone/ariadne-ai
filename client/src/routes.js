@@ -7,7 +7,6 @@ import { me } from './store/user'
 import { Signup, Login } from './components/Form'
 import Home from './components/Home'
 import MyAccount from './components/MyAccount'
-import Game from './components/Game'
 import CreateMaze from './components/CreateMaze'
 import WithNavBar from './components/WithNavBar'
 import Friends from './components/Friends'
@@ -33,7 +32,6 @@ class Routes extends Component {
 								<Route path="/friends" component={Friends} />
 							</WithNavBar>
 
-							<Route path="/game" component={Game} />
 						</Switch>
 					)}
 				</Switch>
