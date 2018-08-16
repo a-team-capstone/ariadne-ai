@@ -60,21 +60,25 @@ class Upload extends Component {
     //   formData.append('croppedImage', blob)
     //   this.props.imageUpload(formData)
     // }, 'image/jpeg', 0.9)
+    let request = {
+      imageBinary: this.state.cropResult
+    }
+    this.props.imageUpload(request)
   }
 
   rotateLeft () {
     this.cropper.rotate(-90)
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.7)
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg')
     })
-    console.log('croppy', this.state.cropResult)
+    console.log('croppy', typeof this.state.cropResult)
     console.log('src', this.state.src)
   }
 
   rotateRight () {
     this.cropper.rotate(90)
     this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.7)
+      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg')
     })
     console.log('croppy', this.state.cropResult)
     console.log('src', this.state.src)

@@ -10,6 +10,7 @@ router.get('/', (req, res, next) => {
   console.log('here');
   res.send(200);
 });
+
 // configure the keys for accessing AWS
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -34,23 +35,48 @@ const uploadFile = (buffer, name, type) => {
   return s3.upload(params).promise();
 };
 
+const uploadCrop = (body, fileName) => {
+  let buf = Buffer.from(body.imageBinary.replace(/^data:image\/\w+;base64,/, ''), 'base64')
+  var data = {
+    ACL: 'public-read',
+    Bucket: process.env.IMAGE_S3_BUCKET,
+    Body: buf,
+    ContentEncoding: 'base64',
+    ContentType: 'image/jpeg',
+    Key: `${fileName}.jpg`
+  }
+  return s3.upload(data).promise()
+}
+
 // Define POST route
 // POST /api/uploads/image-upload
 router.post('/image-upload', (request, response) => {
   console.log("I'm here")
-  const form = new multiparty.Form()
-  form.parse(request, async (error, fields, files) => {
-    if (error) throw new Error('Erroring out here', error.message)
-    try {
-      const path = files.file[0].path
-      const buffer = fs.readFileSync(path)
-      const type = fileType(buffer)
-      const timestamp = Date.now().toString()
-      const fileName = `bucketFolder/${timestamp}-lg`
-      const data = await uploadFile(buffer, fileName, type)
-      return response.status(200).send(data)
-    } catch (err) {
-      return response.status(400).send(err)
-    }
-  });
+  console.log('body', request.body)
+  try {
+    const form = new multiparty.Form()
+    form.parse(request, async (fields, files) => {
+      // if (error) throw new Error('Erroring out here', error)
+      try {
+        let data;
+          const timestamp = Date.now().toString()
+          const fileName = `bucketFolder/${timestamp}-lg`
+        if (request.body.imageBinary) {
+          console.log('Are we entering this imageBinary portion?')
+          data = await uploadCrop(request.body, fileName)
+        } else {
+          const path = files.file[0].path
+          const buffer = fs.readFileSync(path)
+          const type = fileType(buffer)
+          data = await uploadFile(buffer, fileName, type)
+        }
+        return response.status(200).send(data)
+      } catch (err) {
+        return response.status(400).send(err)
+      }
+    });
+  } catch (err) {
+    console.log(err)
+  }
+  // console.log('this is what I am sending', request)
 });
