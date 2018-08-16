@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const { User, Maze, Play } = require('../db/models')
+const analyzeText = require('../utilities/analyzeText')
 
 module.exports = router
 
@@ -20,6 +21,16 @@ router.get('/:id', async (req, res, next) => {
 		}
 		res.json(maze)
 	} catch (err) {
+		next(err)
+	}
+})
+
+router.post('/analyze', async (req, res, next) => {
+	try {
+		console.log('req body', req.body)
+		const response = await analyzeText(req.body.image)
+		res.send(response)
+	} catch(err) {
 		next(err)
 	}
 })
