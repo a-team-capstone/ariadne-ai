@@ -70,7 +70,7 @@ const createBoard = (img, maze, tileSize) => {
 		{fill:0xf9f9f7, fontSize: '50px'}
 	);
 	basicText.x = 10;
-	basicText.y = 810;
+	basicText.y = 150;
 	winScreen.addChild(basicText)
 	var replayButton = new PIXI.Graphics();
 	replayButton.beginFill(0x494845)
@@ -266,8 +266,8 @@ const createBoard = (img, maze, tileSize) => {
 		'X: '+bunny.x+'\nY: '+bunny.y,
 		{fill:0xf9f9f7}
 	);
-	basicText.x = 170;
-	basicText.y = 120;
+	basicText.x = 10;
+	basicText.y = 810;
 	app.stage.addChild(basicText);
 
 	app.ticker.add(function() {
