@@ -1,11 +1,7 @@
 import * as PIXI from 'pixi.js'
 
 const showFloodFill = (img, maze, tileSize) => {
-	// console.log('running game logic')
-	// console.log('tileSize', tileSize)
 
-	// var gameHeight = maze.length * tileSize + 500
-	// var gameWidth = maze[0].length * tileSize + 100
 	var gameHeight = maze.length * tileSize
 	var gameWidth = maze[0].length * tileSize
 	console.log('gameHeight, gameWidth', gameHeight, gameWidth)

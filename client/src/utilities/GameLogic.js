@@ -6,8 +6,10 @@ const createBoard = (img, maze, tileSize) => {
 	console.log('running game logic')
 	console.log('tileSize', tileSize)
 
-	var gameHeight = maze.length*tileSize+500
-	var gameWidth = maze[0].length*tileSize+100
+	var gameHeight = maze.length * tileSize + 200
+	var gameWidth = maze[0].length * tileSize
+
+	console.log('game height and width', gameHeight, gameWidth)
 	var app = new PIXI.Application(gameWidth, gameHeight, { antialias: true, backgroundColor: 0x001099bb })
 
 	var background = PIXI.Sprite.fromImage(img)
@@ -15,6 +17,8 @@ const createBoard = (img, maze, tileSize) => {
 	background.anchor.y = 0
 	background.position.x = 0
 	background.position.y = 0
+	background.height = maze.length*tileSize
+	background.width = maze[0].length*tileSize
 
 	var mazeGrid = maze
 
@@ -98,8 +102,8 @@ const createBoard = (img, maze, tileSize) => {
 	}
 	board.addChild(tiles)
 
-	board.x = 50
-	board.y = 200
+	board.x = 0
+	board.y = 0
 	app.stage.addChild(board);
 
 	// Keyboard navigation
@@ -146,7 +150,7 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true;
 	right.buttonMode = true;
-	right.on('pointerdown', (bunny) => moveRight(bunny));
+	right.on('pointerdown', () => moveRight(bunny));
 	// add button to nav container
 	nav.addChild(right)
 
@@ -159,7 +163,7 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true;
 	left.buttonMode = true;
-	left.on('pointerdown', moveLeft);
+	left.on('pointerdown', () => moveLeft(bunny));
 	// add button to nav container
 	nav.addChild(left)
 
@@ -173,7 +177,7 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true;
 	up.buttonMode = true;
-	up.on('pointerdown', moveUp);
+	up.on('pointerdown', () => moveUp(bunny));
 	// add button to nav container
 	nav.addChild(up)
 
@@ -185,13 +189,13 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true;
 	down.buttonMode = true;
-	down.on('pointerdown', moveDown);
+	down.on('pointerdown', () => moveDown(bunny));
 	// add button to nav container
 	nav.addChild(down)
 
 
-	nav.x = 5
-	nav.y = 5
+	nav.x = 200
+	nav.y = 810
 	app.stage.addChild(nav);
 
 
@@ -212,7 +216,8 @@ const createBoard = (img, maze, tileSize) => {
 	board.addChild(bunny);
 
 	// function to check if a move is blocked
-	function moveBlocked(x,y){
+	function moveBlocked(x,y, sprite){
+
 		var underZero = x < 0 || y < 0
 		var overGridLength = (
 			x > (mazeGrid[0].length*tileSize)-1 || y > (mazeGrid.length*tileSize)-1
@@ -231,28 +236,28 @@ const createBoard = (img, maze, tileSize) => {
 	function moveRight(sprite) {
 		desiredX = sprite.x+tileSize
 		desiredY = sprite.y
-		if (!moveBlocked(desiredX, desiredY)) sprite.x+=tileSize
-		return !moveBlocked(desiredX, desiredY)
+		if (!moveBlocked(desiredX, desiredY, sprite)) sprite.x+=tileSize
+		return !moveBlocked(desiredX, desiredY, sprite)
 	}
 	function moveLeft(sprite) {
 		desiredX = sprite.x-tileSize
 		desiredY = sprite.y
-		if (!moveBlocked(desiredX, desiredY)) sprite.x-=tileSize
-		return !moveBlocked(desiredX, desiredY)
+		if (!moveBlocked(desiredX, desiredY, sprite)) sprite.x-=tileSize
+		return !moveBlocked(desiredX, desiredY, sprite)
 
 	}
 	function moveUp(sprite) {
 		desiredX = sprite.x
 		desiredY = sprite.y-tileSize
-		if (!moveBlocked(desiredX, desiredY)) sprite.y-=tileSize
-		return !moveBlocked(desiredX, desiredY)
+		if (!moveBlocked(desiredX, desiredY, sprite)) sprite.y-=tileSize
+		return !moveBlocked(desiredX, desiredY, sprite)
 
 	}
 	function moveDown(sprite) {
 		desiredX = sprite.x
 		desiredY = sprite.y+tileSize
-		if (!moveBlocked(desiredX, desiredY)) sprite.y+=tileSize
-		return !moveBlocked(desiredX, desiredY)
+		if (!moveBlocked(desiredX, desiredY, sprite)) sprite.y+=tileSize
+		return !moveBlocked(desiredX, desiredY, sprite)
 
 	}
 
