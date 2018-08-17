@@ -41,13 +41,22 @@ class FloodFill extends Component {
 				const maze = mazeGrid.map(row => row.slice())
 				this.setState({ maze: maze, obstacles: obstacleAvgs })
 
-				const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
-				const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1) ? 'YES' : 'NO'
+				const startPoint = [25, 100]
+				const endPoint = [25, 500]
+
+				var startCol = Math.round(startPoint[0]/tileSize)
+				var startRow = Math.round(startPoint[1]/tileSize)
+				var endCol = Math.round(endPoint[0]/tileSize)
+				var endRow = Math.round(endPoint[1]/tileSize)
+
+				console.log('calling floodFill, starting at (row, col)', startRow, startCol)
+				const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
+				const solvable = (floodedMaze[endRow][endCol] === -1) ? 'YES' : 'NO'
 				const explainerText = 'Blue dots = accessible from starting point.'
 				this.setState({solvable, explainerText})
 
 				this.refs.board.appendChild(
-					showFloodFill(image.src, floodedMaze, tileSize).view)
+					showFloodFill(image.src, floodedMaze, tileSize, startPoint, endPoint).view)
 			}
 		}
 
@@ -62,7 +71,7 @@ class FloodFill extends Component {
 				<h3>Is it solvable? </h3>
 				<h2>{this.state.solvable}</h2>
 				<h5>{this.state.explainerText}</h5>
-				<div ref="board" id="board"/>
+				<div ref="board" id="floodFillCanvas"/>
 				<img
 					id="mazeImage"
 					ref="mazeImage"

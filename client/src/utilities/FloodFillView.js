@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 
-const showFloodFill = (img, maze, tileSize) => {
+const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var gameHeight = maze.length * tileSize
 	var gameWidth = maze[0].length * tileSize
@@ -9,6 +9,13 @@ const showFloodFill = (img, maze, tileSize) => {
 		antialias: true,
 		backgroundColor: 0x001099bb,
 	})
+
+	var startX = startPoint[0] - (startPoint[0]%tileSize)
+	var startY = startPoint[1] - (startPoint[1]%tileSize)
+	var endX = endPoint[0] - (endPoint[0]%tileSize)
+	var endY = endPoint[1] - (endPoint[1]%tileSize)
+	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
+
 
 	var background = PIXI.Sprite.fromImage(img)
 	background.anchor.x = 0
@@ -27,6 +34,16 @@ const showFloodFill = (img, maze, tileSize) => {
 	var board = new PIXI.Graphics()
 	board.addChild(background)
 
+	var startCircle = new PIXI.Graphics()
+	startCircle.beginFill(0x00ff00)
+	startCircle.drawCircle(startX, startY, tileSize*1.25)
+	board.addChild(startCircle)
+
+	var endCircle = new PIXI.Graphics()
+	endCircle.beginFill(0xed9b0e)
+	endCircle.drawCircle(endX, endY, tileSize*1.25)
+	board.addChild(endCircle)
+
 	// Add board tiles. Currently set to transparent
 	var tiles = new PIXI.Graphics()
 	tiles.alpha = .7
@@ -40,7 +57,7 @@ const showFloodFill = (img, maze, tileSize) => {
 			// }
 			if (mazeGrid[col][row] === -1) {
 				tiles.beginFill(floodColor)
-				tiles.drawCircle(row * tileSize, col * tileSize, tileSize/3)
+				tiles.drawCircle(row * tileSize + .5 * tileSize, col * tileSize + .5 * tileSize, tileSize/3)
 
 			}
 		}
