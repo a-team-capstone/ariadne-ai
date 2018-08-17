@@ -1,5 +1,7 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
+import {greedyBot} from './BotLogic'
+import * as move from './MoveLogic'
 
 const createBoard = (img, maze, tileSize) => {
 
@@ -27,6 +29,7 @@ const createBoard = (img, maze, tileSize) => {
 
 	var board = new PIXI.Graphics()
 	board.addChild(background)
+	var bot = greedyBot(app, board, mazeGrid, tileSize)
 
 	// set state and track which state to run
 	var state = setup
@@ -37,8 +40,8 @@ const createBoard = (img, maze, tileSize) => {
 	function setup() {
 		bunny.x=0
 		bunny.y=0
-		bot.x=0
-		bot.y=0
+		// bot.x=0
+		// bot.y=0
 		board.visible = true;
 		basicText.visible = true;
 		nav.visible = true;
@@ -92,7 +95,6 @@ const createBoard = (img, maze, tileSize) => {
 	var tiles = new PIXI.Graphics()
 	tiles.alpha = 0
 
-	console.log(maze.length, maze[0].length)
 	for (var row = 0; row < maze[0].length; row++){
 		for (var col = 0; col < maze.length; col++){
 		// draw a rectangle
@@ -115,26 +117,26 @@ const createBoard = (img, maze, tileSize) => {
 			downKey = keyboardTracker(40)
 
 	app.ticker.add(()=>{
-		if (leftKey.isDown) moveLeft(bunny)
-		if (rightKey.isDown) moveRight(bunny)
-		if (upKey.isDown) moveUp(bunny)
-		if (downKey.isDown) moveDown(bunny)
+		if (leftKey.isDown) move.left(bunny, mazeGrid, tileSize)
+		if (rightKey.isDown) move.right(bunny, mazeGrid, tileSize)
+		if (upKey.isDown) move.up(bunny,mazeGrid, tileSize)
+		if (downKey.isDown) move.down(bunny, mazeGrid, tileSize)
 	})
 
 	leftKey.press = () => {
-		moveLeft(bunny)
+		move.left(bunny, mazeGrid, tileSize)
 	}
 
 	rightKey.press = () => {
-		moveRight(bunny)
+		move.right(bunny, mazeGrid, tileSize)
 	}
 
 	upKey.press = () => {
-		moveUp(bunny)
+		move.up(bunny, mazeGrid, tileSize)
 	}
 
 	downKey.press = () => {
-		moveDown(bunny)
+		move.down(bunny, mazeGrid, tileSize)
 	}
 
 
@@ -150,7 +152,7 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true;
 	right.buttonMode = true;
-	right.on('pointerdown', () => currentBunnyDirection = moveRight);
+	right.on('pointerdown', () => currentBunnyDirection = move.right);
 	right.on('pointerup', () => currentBunnyDirection = null);
 	// add button to nav container
 	nav.addChild(right)
@@ -164,7 +166,7 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true;
 	left.buttonMode = true;
-	left.on('pointerdown', () => currentBunnyDirection = moveLeft);
+	left.on('pointerdown', () => currentBunnyDirection = move.left);
 	left.on('pointerup', () => currentBunnyDirection = null);	// add button to nav container
 	nav.addChild(left)
 
@@ -178,7 +180,7 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true;
 	up.buttonMode = true;
-	up.on('pointerdown', () => currentBunnyDirection = moveUp);
+	up.on('pointerdown', () => currentBunnyDirection = move.up);
 	up.on('pointerup', () => currentBunnyDirection = null);	// add button to nav container
 	nav.addChild(up)
 
@@ -190,7 +192,7 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true;
 	down.buttonMode = true;
-	down.on('pointerdown', () => currentBunnyDirection = moveDown);
+	down.on('pointerdown', () => currentBunnyDirection = move.down);
 	down.on('pointerup', () => currentBunnyDirection = null);
 	// add button to nav container
 	nav.addChild(down)
@@ -219,54 +221,8 @@ const createBoard = (img, maze, tileSize) => {
 
 	let currentBunnyDirection = 0
 	app.ticker.add(()=>{
-		if (currentBunnyDirection) currentBunnyDirection(bunny)
+		if (currentBunnyDirection) currentBunnyDirection(bunny, mazeGrid, tileSize)
 	})
-
-	// function to check if a move is blocked
-	function moveBlocked(x,y, sprite){
-
-		var underZero = x < 0 || y < 0
-		var overGridLength = (
-			x > (mazeGrid[0].length*tileSize)-1 || y > (mazeGrid.length*tileSize)-1
-		)
-		if (!underZero && !overGridLength){
-			var isBlocked = mazeGrid[(y/tileSize)][(x/tileSize)]
-		}
-		return underZero || overGridLength || isBlocked
-
-	}
-
-	// create movement functions activated by click
-	var desiredX = bunny.x
-	var desiredY = bunny.y
-
-	function moveRight(sprite) {
-		desiredX = sprite.x+tileSize
-		desiredY = sprite.y
-		if (!moveBlocked(desiredX, desiredY, sprite)) sprite.x+=tileSize
-		return !moveBlocked(desiredX, desiredY, sprite)
-	}
-	function moveLeft(sprite) {
-		desiredX = sprite.x-tileSize
-		desiredY = sprite.y
-		if (!moveBlocked(desiredX, desiredY, sprite)) sprite.x-=tileSize
-		return !moveBlocked(desiredX, desiredY, sprite)
-
-	}
-	function moveUp(sprite) {
-		desiredX = sprite.x
-		desiredY = sprite.y-tileSize
-		if (!moveBlocked(desiredX, desiredY, sprite)) sprite.y-=tileSize
-		return !moveBlocked(desiredX, desiredY, sprite)
-
-	}
-	function moveDown(sprite) {
-		desiredX = sprite.x
-		desiredY = sprite.y+tileSize
-		if (!moveBlocked(desiredX, desiredY, sprite)) sprite.y+=tileSize
-		return !moveBlocked(desiredX, desiredY, sprite)
-
-	}
 
 	// record bunny.x and bunny.y
 	var basicText = new PIXI.Text(
@@ -293,39 +249,6 @@ const createBoard = (img, maze, tileSize) => {
 		if (reached) state = end
 		return reached
 	}
-
-	// create a new Sprite from an image path
-	var bot = PIXI.Sprite.fromImage('shield.png')
-
-	// center the sprite's anchor point
-	bot.anchor.set(0.5);
-
-	// move the sprite to the start of the maE
-	bot.x = 0;
-	bot.y = 0;
-
-	// make bunny bigger
-	bot.scale.x = 0.15
-	bot.scale.y = 0.15
-
-	board.addChild(bot);
-
-	let possibleDirections = {
-		0:moveRight,
-		1:moveDown,
-		2:moveLeft,
-		3:moveDown,
-		4:moveRight,
-		5:moveUp
-	}
-
-	let currentBotDirection = 0
-	app.ticker.add(()=>{
-		if (possibleDirections[currentBotDirection](bot)) possibleDirections[currentBotDirection](bot)
-		else {
-			currentBotDirection = (currentBotDirection+1)%6
-		}
-	})
 
 	return app
 }
