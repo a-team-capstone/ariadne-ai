@@ -36,6 +36,7 @@ class PixiGame extends Component {
 		)
 	}
 }
+}
 
 const mapState = state => {
 	return {
