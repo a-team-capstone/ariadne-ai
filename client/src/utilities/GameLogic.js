@@ -62,9 +62,9 @@ const createBoard = (img, maze, tileSize) => {
 
 	// completion screen
 	var winScreen = new PIXI.Graphics();
-	winScreen.lineStyle(5, 0xf7a409, 1);
+	winScreen.lineStyle(2, 0xf0ead6, 1);
 	winScreen.beginFill(0xf7a409);
-	winScreen.drawRect(0,0, gameWidth, gameHeight);
+	winScreen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
 	var basicText = new PIXI.Text(
 		"You've completed the maze!\nClick below to replay.",
 		{fill:0xf9f9f7, fontSize: '50px'}
@@ -74,7 +74,7 @@ const createBoard = (img, maze, tileSize) => {
 	winScreen.addChild(basicText)
 	var replayButton = new PIXI.Graphics();
 	replayButton.beginFill(0x494845)
-	replayButton.drawRect(350, 400, 100, 50);
+	replayButton.drawRoundedRect(350, 400, 100, 50, 10);
 	replayButton.interactive = true;
 	replayButton.buttonMode = true;
 	replayButton.on('pointerdown', ()=>{
@@ -97,7 +97,7 @@ const createBoard = (img, maze, tileSize) => {
 		for (var col = 0; col < maze.length; col++){
 		// draw a rectangle
 			tiles.beginFill(mazeGrid[col][row] ? blockedColor : clearColor);
-		tiles.drawRect(row*tileSize, col*tileSize, tileSize, tileSize);
+		tiles.drawRoundedRect(row*tileSize, col*tileSize, tileSize, tileSize, 10);
 		}
 	}
 	board.addChild(tiles)
@@ -144,9 +144,9 @@ const createBoard = (img, maze, tileSize) => {
 
 	// draw a rectangle for right button
 	var right = new PIXI.Graphics();
-	right.lineStyle(5, 0x494845, 1);
-	right.beginFill(0xffd900);
-	right.drawRect(100,20,50,50);
+	right.lineStyle(2, 0xf0ead6, 1);
+	right.beginFill(0x494845);
+	right.drawRoundedRect(180,45,90,90,10);
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true;
 	right.buttonMode = true;
@@ -158,9 +158,9 @@ const createBoard = (img, maze, tileSize) => {
 
 	// draw a rectangle for left button
 	var left = new PIXI.Graphics();
-	left.lineStyle(5, 0x494845, 1);
-	left.beginFill(0xffd900);
-	left.drawRect(0,20,50,50);
+	left.lineStyle(2, 0xf0ead6, 1);
+	left.beginFill(0x494845);
+	left.drawRoundedRect(0,45,90,90, 10);
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true;
 	left.buttonMode = true;
@@ -171,9 +171,9 @@ const createBoard = (img, maze, tileSize) => {
 
 	// draw a rectangle for up button
 	var up = new PIXI.Graphics();
-	up.lineStyle(5, 0x494845, 1);
-	up.beginFill(0xffd900);
-	up.drawRect(50,0,50,50);
+	up.lineStyle(2, 0xf0ead6, 1);
+	up.beginFill(0x494845);
+	up.drawRoundedRect(90,0,90,90, 10);
 
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true;
@@ -184,9 +184,9 @@ const createBoard = (img, maze, tileSize) => {
 
 	// draw a rectangle for down button
 	var down = new PIXI.Graphics();
-	down.beginFill(0xffd900);
-	down.lineStyle(5, 0x494845, 1);
-	down.drawRect(50,50,50,50);
+	down.beginFill(0x494845);
+	down.lineStyle(2, 0xf0ead6, 1);
+	down.drawRoundedRect(90,90,90,90,10);
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true;
 	down.buttonMode = true;
@@ -196,8 +196,8 @@ const createBoard = (img, maze, tileSize) => {
 	nav.addChild(down)
 
 
-	nav.x = 210
-	nav.y = 810
+	nav.x = 150
+	nav.y = 805
 	app.stage.addChild(nav);
 
 

@@ -14,7 +14,8 @@ class FloodFill extends Component {
 			imageWidth: 0,
 			desiredWidth: 600,
 			desiredHeight: 800,
-			solvable: '...loading...',
+			solvable: '...analyzing...',
+			explainerText: 'Detecting accessible maze regions using flood fill algorithm',
 			maze: [],
 			obstacles: {}
 		}
@@ -42,7 +43,8 @@ class FloodFill extends Component {
 
 				const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
 				const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1) ? 'YES' : 'NO'
-				this.setState({solvable})
+				const explainerText = 'Blue dots = accessible from starting point.'
+				this.setState({solvable, explainerText})
 
 				this.refs.board.appendChild(
 					showFloodFill(image.src, floodedMaze, tileSize).view)
@@ -58,7 +60,7 @@ class FloodFill extends Component {
 			<div id="floodFillView" className="floodFill">
 				<h3>Is it solvable? </h3>
 				<h2>{this.state.solvable}</h2>
-				<h5>Blue areas of the maze are accessible from the starting point.</h5>
+				<h5>{this.state.explainerText}</h5>
 				<div ref="board" id="board"/>
 				<img
 					id="mazeImage"
