@@ -69,8 +69,8 @@ const createBoard = (img, maze, tileSize) => {
 		"You've completed the maze!\nClick below to replay.",
 		{fill:0xf9f9f7, fontSize: '50px'}
 	);
-	basicText.x = 85;
-	basicText.y = 150;
+	basicText.x = 10;
+	basicText.y = 810;
 	winScreen.addChild(basicText)
 	var replayButton = new PIXI.Graphics();
 	replayButton.beginFill(0x494845)
@@ -194,7 +194,7 @@ const createBoard = (img, maze, tileSize) => {
 	nav.addChild(down)
 
 
-	nav.x = 200
+	nav.x = 210
 	nav.y = 810
 	app.stage.addChild(nav);
 
