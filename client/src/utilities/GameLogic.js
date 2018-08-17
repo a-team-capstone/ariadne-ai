@@ -8,10 +8,10 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	console.log('running game logic')
 	console.log('tileSize', tileSize)
 
-	var startX = startPoint[0] - (startPoint[0]%tileSize)
-	var startY = startPoint[1] - (startPoint[1]%tileSize)
-	var endX = endPoint[0] - (endPoint[0]%tileSize)
-	var endY = endPoint[1] - (endPoint[1]%tileSize)
+	var startY = startPoint[0] - (startPoint[0]%tileSize)
+	var startX = startPoint[1] - (startPoint[1]%tileSize)
+	var endY = endPoint[0] - (endPoint[0]%tileSize)
+	var endX = endPoint[1] - (endPoint[1]%tileSize)
 	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
 	var gameHeight = maze.length * tileSize + 200
 	var gameWidth = maze[0].length * tileSize
@@ -37,6 +37,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var board = new PIXI.Graphics()
 	board.addChild(background)
+
 	var bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY)
 
 	var startCircle = new PIXI.Graphics()
