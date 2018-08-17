@@ -50,10 +50,8 @@ export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY) 
 	let botMoveCount = 0
 	app.ticker.add(()=>{
 		botMoveCount++
-
-		if (botMoveCount%4 === 0) {
-			console.log('currentBotDirection', currentBotDirection)
-			console.log('alwaysTry', possibleDirections[currentBotDirection].alwaysTry)
+		if (!bot.visible) currentBotDirection = 'down'
+		else if (botMoveCount%4 === 0) {
 
 			// if blocked, switch to ifBlocked direction
 			if (!possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)) {
