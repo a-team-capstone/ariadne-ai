@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
-import {greedyBot} from './BotLogic'
+import {wallFollowerBot} from './BotLogic'
 import * as move from './MoveLogic'
 
 const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
@@ -36,7 +36,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var board = new PIXI.Graphics()
 	board.addChild(background)
-	var bot = greedyBot(app, board, mazeGrid, tileSize, startX, startY)
+	var bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY)
 
 	var startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)

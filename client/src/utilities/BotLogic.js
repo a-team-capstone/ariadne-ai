@@ -1,5 +1,5 @@
 import * as PIXI from 'pixi.js'
-import * as move from './MoveLogic'
+import {down, up, left, right} from './MoveLogic'
 
 export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY) => {
 
@@ -19,20 +19,60 @@ export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY) 
 
 	board.addChild(bot);
 
+	//moving down, try to go left, do not ever go up
+	//moving left, try to go up, do not ever go right
+	//moving up, try to go right, do not ever go down
+	//moving right, try to go down, do not ever go right
 	let possibleDirections = {
-		0:move.right,
-		1:move.down,
-		2:move.left,
-		3:move.down,
-		4:move.right,
-		5:move.up
+		'down':{
+			move: down,
+			alwaysTry: 'left',
+			ifBlocked: 'right'
+		},
+		'left':{
+			move: left,
+			alwaysTry: 'up',
+			ifBlocked: 'down'
+		},
+		'up':{
+			move: up,
+			alwaysTry: 'right',
+			ifBlocked: 'left'
+		},
+		'right': {
+			move: right,
+			alwaysTry: 'down',
+			ifBlocked: 'up'
+		},
 	}
 
-	let currentBotDirection = 0
+	let currentBotDirection = 'down'
+	let botMoveCount = 0
 	app.ticker.add(()=>{
-		if (possibleDirections[currentBotDirection](bot, mazeGrid, moveSize)) possibleDirections[currentBotDirection](bot, mazeGrid, moveSize)
-		else {
-			currentBotDirection = (currentBotDirection+1)%6
+		botMoveCount++
+
+		if (botMoveCount%4 === 0) {
+			console.log('currentBotDirection', currentBotDirection)
+			console.log('alwaysTry', possibleDirections[currentBotDirection].alwaysTry)
+
+			// if blocked, switch to ifBlocked direction
+			if (!possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)) {
+				const ifBlocked = possibleDirections[currentBotDirection].ifBlocked
+				currentBotDirection = ifBlocked
+				// move
+				possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
+			} else {
+				// try the alwaysTry direction
+				const alwaysTry = possibleDirections[currentBotDirection].alwaysTry
+				if (possibleDirections[alwaysTry].move(bot, mazeGrid, moveSize)) {
+					currentBotDirection = alwaysTry
+					// move
+					possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
+				}
+			}
+
+
+
 		}
 	})
 
@@ -59,12 +99,12 @@ export const greedyBot = (app, board, mazeGrid, moveSize, startX, startY) => {
 	board.addChild(bot);
 
 	let possibleDirections = {
-		0:move.right,
-		1:move.down,
-		2:move.left,
-		3:move.down,
-		4:move.right,
-		5:move.up
+		0:right,
+		1:down,
+		2:left,
+		3:down,
+		4:right,
+		5:up
 	}
 
 	let currentBotDirection = 0
