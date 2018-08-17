@@ -33,16 +33,14 @@ const showFloodFill = (img, maze, tileSize) => {
 
 	for (var row = 0; row < maze[0].length; row++) {
 		for (var col = 0; col < maze.length; col++) {
-			// console.log('row, col', row, col)
-			// draw a rectangle
-			// var fillColor = clearColor
-			if (mazeGrid[col][row] === 1) {
-				tiles.beginFill(blockedColor)
-				tiles.drawRect(row * tileSize, col * tileSize, tileSize, tileSize)
-			}
+
+			// if (mazeGrid[col][row] === 1) {
+			// 	tiles.beginFill(blockedColor)
+			// 	tiles.drawCircle(row * tileSize, col * tileSize, tileSize/3)
+			// }
 			if (mazeGrid[col][row] === -1) {
 				tiles.beginFill(floodColor)
-				tiles.drawRect(row * tileSize, col * tileSize, tileSize, tileSize)
+				tiles.drawCircle(row * tileSize, col * tileSize, tileSize/3)
 
 			}
 		}
