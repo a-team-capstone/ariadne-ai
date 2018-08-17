@@ -55,6 +55,7 @@ class FloodFill extends Component {
 				const explainerText = 'Blue dots = accessible from starting point.'
 				this.setState({solvable, explainerText})
 
+				console.log('this.refs.board', this.refs.board)
 				this.refs.board.appendChild(
 					showFloodFill(image.src, floodedMaze, tileSize, startPoint, endPoint).view)
 			}

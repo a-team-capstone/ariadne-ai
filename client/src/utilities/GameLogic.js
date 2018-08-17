@@ -14,7 +14,6 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var endY = endPoint[1] - (endPoint[1]%tileSize)
 	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
 
-	console.log("ending at", mazeTarget)
 	var gameHeight = maze.length * tileSize + 200
 	var gameWidth = maze[0].length * tileSize
 
@@ -37,7 +36,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var board = new PIXI.Graphics()
 	board.addChild(background)
-	var bot = greedyBot(app, board, mazeGrid, tileSize)
+	var bot = greedyBot(app, board, mazeGrid, tileSize, startX, startY)
 
 	var startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)
@@ -100,7 +99,6 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	replayButton.buttonMode = true;
 	replayButton.on('pointerdown', ()=>{
 		state=setup
-		console.log(state)
 	})
 	winScreen.addChild(replayButton)
 
