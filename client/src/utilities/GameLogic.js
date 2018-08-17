@@ -3,13 +3,21 @@ import keyboardTracker from './keyboardTracker'
 import {greedyBot} from './BotLogic'
 import * as move from './MoveLogic'
 
-const createBoard = (img, maze, tileSize) => {
+const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	console.log('running game logic')
 	console.log('tileSize', tileSize)
 
+	var startX = startPoint[0] - (startPoint[0]%tileSize)
+	var startY = startPoint[1] - (startPoint[1]%tileSize)
+	var endX = endPoint[0] - (endPoint[0]%tileSize)
+	var endY = endPoint[1] - (endPoint[1]%tileSize)
+	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
+
+	console.log("ending at", mazeTarget)
 	var gameHeight = maze.length * tileSize + 200
 	var gameWidth = maze[0].length * tileSize
+
 
 	console.log('game height and width', gameHeight, gameWidth)
 	var app = new PIXI.Application(gameWidth, gameHeight, { antialias: true, backgroundColor: 0x001099bb })
@@ -31,6 +39,16 @@ const createBoard = (img, maze, tileSize) => {
 	board.addChild(background)
 	var bot = greedyBot(app, board, mazeGrid, tileSize)
 
+	var startCircle = new PIXI.Graphics()
+	startCircle.beginFill(0x00ff00)
+	startCircle.drawCircle(startX, startY, tileSize*1.25)
+	board.addChild(startCircle)
+
+	var endCircle = new PIXI.Graphics()
+	endCircle.beginFill(0xed9b0e)
+	endCircle.drawCircle(endX, endY, tileSize*1.25)
+	board.addChild(endCircle)
+
 	// set state and track which state to run
 	var state = setup
 	app.ticker.add(function() {
@@ -38,8 +56,8 @@ const createBoard = (img, maze, tileSize) => {
 	});
 
 	function setup() {
-		bunny.x=0
-		bunny.y=0
+		bunny.x=startX
+		bunny.y=startY
 		// bot.x=0
 		// bot.y=0
 		board.visible = true;
@@ -210,8 +228,8 @@ const createBoard = (img, maze, tileSize) => {
 	bunny.anchor.set(0.5);
 
 	// move the sprite to the start of the maE
-	bunny.x = 0;
-	bunny.y = 0;
+	bunny.x = startX;
+	bunny.y = startY;
 
 	// make bunny bigger
 	bunny.scale.x = 0.2
@@ -239,12 +257,11 @@ const createBoard = (img, maze, tileSize) => {
 
 	})
 
-	// check if bunny has reached the target
-	var mazeTarget = {row: maze.length, col: maze[0].length}
 
+	// check if bunny has reached the target
 	function reachedTarget(sprite, target){
-		const targetY = target.row * tileSize - tileSize
-		const targetX = target.col * tileSize - tileSize
+		const targetY = target.row * tileSize// - tileSize
+		const targetX = target.col * tileSize// - tileSize
 		const reached = sprite.x === targetX && sprite.y === targetY
 		if (reached) state = end
 		return reached
@@ -252,6 +269,5 @@ const createBoard = (img, maze, tileSize) => {
 
 	return app
 }
-
 
 export default createBoard

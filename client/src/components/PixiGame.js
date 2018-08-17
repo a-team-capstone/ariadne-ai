@@ -21,8 +21,12 @@ class PixiGame extends Component {
 		const { maze, image } = this.props
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 		if (maze.data) {
+
+			const startPoint = [25, 100]
+			const endPoint = [25, 500]
+
 			console.log('Maze in Pixi', this.props.maze.data)
-			this.refs.board.appendChild(PixiApp(image, maze.data, tileSize).view)
+			this.refs.board.appendChild(PixiApp(image, maze.data, tileSize, startPoint, endPoint).view)
 		}
 		return (
 			<div>
