@@ -23,7 +23,7 @@ class FloodFill extends Component {
 
 	componentDidMount() {
 		const image = this.refs.mazeImage
-		image.crossOrigin = 'Anonymous'
+		image.crossOrigin = '*'
 
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 

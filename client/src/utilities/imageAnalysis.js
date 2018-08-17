@@ -16,10 +16,10 @@ export const scrapeImageData = (canvas, image) => {
 //finds min and max x and y for the bounding poly
 //checks if given pixel coordinate (point) is within the bounding poly
 const isWithin = (point, box, height, width) => {
-  const minY = Math.min(box.TL[0], box.BL[0])/(width/100)
-  const maxY = Math.max(box.TR[0], box.BR[0])/(width/100)
-  const minX = Math.min(box.BL[1], box.BR[1])/(height/100)
-  const maxX = Math.max(box.TL[1], box.TR[1])/(height/100)
+  const minY = Math.min(box.TL[0], box.BL[0])/(width/600)
+  const maxY = Math.max(box.TR[0], box.BR[0])/(width/600)
+  const minX = Math.min(box.BL[1], box.BR[1])/(height/800)
+  const maxX = Math.max(box.TL[1], box.TR[1])/(height/800)
   if (point[0] >= minX && point[0] <= maxX && point[1] <= maxY && point[1] >= minY) {
     return true
   }
@@ -45,6 +45,7 @@ const clearObstacles = (pixelGrid, textData, height, width) => {
       }
     }
   }
+  console.log('clearedGrid', pixelGrid)
   return pixelGrid
 }
 
@@ -125,8 +126,8 @@ const getObstacleAvgs = (textData, height, width) => {
   const labels = Object.keys(textData)
   return labels.reduce((avgs, curr) => {
     if (curr !== "time") {
-      const x = Math.round(((textData[curr].TL[1] + textData[curr].BL[1] + textData[curr].BR[1] + textData[curr].TR[1])/4)/(height/100))
-      const y = Math.round(((textData[curr].TL[0] + textData[curr].BL[0] + textData[curr].BR[0] + textData[curr].TR[0])/4)/(width/100))
+      const x = Math.round(((textData[curr].TL[1] + textData[curr].BL[1] + textData[curr].BR[1] + textData[curr].TR[1])/4)/(height/800))
+      const y = Math.round(((textData[curr].TL[0] + textData[curr].BL[0] + textData[curr].BR[0] + textData[curr].TR[0])/4)/(width/600))
       avgs[curr] = [x, y]
     }
     else avgs[curr] = textData[curr]
@@ -146,7 +147,7 @@ export const getMazeFromImage = async (canvas, image, tileSize) => {
 
 	const tidyGrid = organizeImageData(scraped, height, width)
   const clearedGrid = clearObstacles(tidyGrid, data, image.naturalHeight, image.naturalWidth)
-  //console.log('cleared grid', clearedGrid)
+  // console.log('cleared grid', clearedGrid)
   const obstacleAvgs = getObstacleAvgs(data, image.naturalHeight, image.naturalWidth)
   console.log('obstacleAvgs', obstacleAvgs)
 	// console.log('tidyGrid:', tidyGrid)
