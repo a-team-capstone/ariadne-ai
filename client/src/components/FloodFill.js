@@ -14,7 +14,7 @@ class FloodFill extends Component {
 			imageWidth: 0,
 			desiredWidth: 600,
 			desiredHeight: 800,
-			solvable: 'loading',
+			solvable: '...loading...',
 			maze: [],
 			obstacles: {}
 		}
@@ -41,7 +41,7 @@ class FloodFill extends Component {
 				this.setState({ maze: maze, obstacles: obstacleAvgs })
 
 				const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
-				const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1)
+				const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1) ? 'YES' : 'NO'
 				this.setState({solvable})
 
 				this.refs.board.appendChild(
@@ -56,7 +56,8 @@ class FloodFill extends Component {
 
 		return (
 			<div id="floodFillView" className="floodFill">
-				<h3>Is it solvable? {this.state.solvable? 'YES' : 'NO'}</h3>
+				<h3>Is it solvable? </h3>
+				<h2>{this.state.solvable}</h2>
 				<h5>Blue areas of the maze are accessible from the starting point.</h5>
 				<div ref="board" id="board"/>
 				<img

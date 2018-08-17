@@ -150,7 +150,8 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true;
 	right.buttonMode = true;
-	right.on('pointerdown', () => moveRight(bunny));
+	right.on('pointerdown', () => currentBunnyDirection = moveRight);
+	right.on('pointerup', () => currentBunnyDirection = null);
 	// add button to nav container
 	nav.addChild(right)
 
@@ -163,8 +164,8 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true;
 	left.buttonMode = true;
-	left.on('pointerdown', () => moveLeft(bunny));
-	// add button to nav container
+	left.on('pointerdown', () => currentBunnyDirection = moveLeft);
+	left.on('pointerup', () => currentBunnyDirection = null);	// add button to nav container
 	nav.addChild(left)
 
 
@@ -177,8 +178,8 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true;
 	up.buttonMode = true;
-	up.on('pointerdown', () => moveUp(bunny));
-	// add button to nav container
+	up.on('pointerdown', () => currentBunnyDirection = moveUp);
+	up.on('pointerup', () => currentBunnyDirection = null);	// add button to nav container
 	nav.addChild(up)
 
 	// draw a rectangle for down button
@@ -189,7 +190,8 @@ const createBoard = (img, maze, tileSize) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true;
 	down.buttonMode = true;
-	down.on('pointerdown', () => moveDown(bunny));
+	down.on('pointerdown', () => currentBunnyDirection = moveDown);
+	down.on('pointerup', () => currentBunnyDirection = null);
 	// add button to nav container
 	nav.addChild(down)
 
@@ -214,6 +216,11 @@ const createBoard = (img, maze, tileSize) => {
 	bunny.scale.y = 0.2
 
 	board.addChild(bunny);
+
+	let currentBunnyDirection = 0
+	app.ticker.add(()=>{
+		if (currentBunnyDirection) currentBunnyDirection(bunny)
+	})
 
 	// function to check if a move is blocked
 	function moveBlocked(x,y, sprite){
@@ -298,8 +305,8 @@ const createBoard = (img, maze, tileSize) => {
 	bot.y = 0;
 
 	// make bunny bigger
-	bot.scale.x = 0.08
-	bot.scale.y = 0.08
+	bot.scale.x = 0.15
+	bot.scale.y = 0.15
 
 	board.addChild(bot);
 
@@ -319,8 +326,6 @@ const createBoard = (img, maze, tileSize) => {
 			currentBotDirection = (currentBotDirection+1)%6
 		}
 	})
-
-
 
 	return app
 }
