@@ -147,7 +147,7 @@ export const getMazeFromImage = async (canvas, image, tileSize) => {
 
 	const tidyGrid = organizeImageData(scraped, height, width)
   const clearedGrid = clearObstacles(tidyGrid, data, image.naturalHeight, image.naturalWidth)
-  //console.log('cleared grid', clearedGrid)
+  // console.log('cleared grid', clearedGrid)
   const obstacleAvgs = getObstacleAvgs(data, image.naturalHeight, image.naturalWidth)
   console.log('obstacleAvgs', obstacleAvgs)
 	// console.log('tidyGrid:', tidyGrid)
