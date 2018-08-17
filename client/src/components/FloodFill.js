@@ -55,6 +55,7 @@ class FloodFill extends Component {
 		const invisibleImage = {display: "none"}
 		const invisibleCanvas = {opacity: 0}
 		const { image, handleClick, user } = this.props
+		const solveable = this.state.solvable
 
 		return (
 			<div id="floodFillView" className="floodFill">
@@ -87,7 +88,7 @@ class FloodFill extends Component {
 					<button
 						type="button"
 						className="btn btn-primary"
-						onClick={() => handleClick(this.state.maze, image, user.id)}
+						onClick={() => handleClick(this.state.maze, image, user.id, solveable)}
 					>
 						Play
 					</button>
@@ -121,9 +122,9 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
 	return {
-		handleClick(maze, image, userId) {
+		handleClick(maze, image, userId, solveable) {
 			dispatch(
-				uploadMaze({ image: image, solveable: true, data: maze, userId })
+				uploadMaze({ image: image, solveable: solveable, data: maze, userId })
 			)
 		}
 	}
