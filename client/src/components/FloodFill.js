@@ -72,7 +72,10 @@ class FloodFill extends Component {
 					width={this.state.desiredWidth}
 					height={this.state.desiredHeight}
 				/>
-				<div id="floodFillCanvasAndButtons">
+				<div
+					id="floodFillCanvasAndButtons"
+					// style = {canvasStyle}
+				>
 					<canvas
 						id="mazeImageCanvas"
 						ref="mazeImageCanvas"
@@ -84,22 +87,22 @@ class FloodFill extends Component {
 						//style={{ border: '1px solid #000000' }}
 					/>
 				<div className="row" id="floodFillButtons">
-					{/* <Link to="/pixi"> */}
-					<button
-						type="button"
-						className="btn btn-primary"
-						onClick={() => handleClick(this.state.maze, image, user.id, solveable)}
-					>
-						Play
-					</button>
 					{/* </Link> */}
 					{/* If not solvable show try again sends back to create maze */}
 					<Link to="/create-maze">
 						<button type="button" className="btn btn-primary">
 							Send to a friend
 						</button>
+					{/* <Link to="/pixi"> */}
+					<button
+						type="button"
+						id="playButton"
+						className="btn btn-primary"
+						onClick={() => handleClick(this.state.maze, image, user.id, solveable)}
+					>
+						Play
+					</button>
 					</Link>
-				<div className="row">
 					<Link to="/create-maze">
 						<button type="button" className="btn btn-primary">
 							Create new maze
@@ -107,7 +110,6 @@ class FloodFill extends Component {
 					</Link>
 				</div>
 				</div>
-				</ div>
 			</div>
 		)
 	}

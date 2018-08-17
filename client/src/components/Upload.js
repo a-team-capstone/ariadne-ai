@@ -34,21 +34,25 @@ class Upload extends Component {
   }
 
   async saveToBucket () {
-    await this.setState({
-      cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.75)
-    })
+		if (this.state.src) {
+			await this.setState({
+				cropResult: this.cropper.getCroppedCanvas({ maxWidth: 800, maxHeight: 800 }).toDataURL('image/jpeg', 0.75)
+			})
 
-    let request = {
-      imageBinary: this.state.cropResult
-    }
-    this.props.imageUpload(request)
+			let request = {
+				imageBinary: this.state.cropResult
+			}
+			this.props.imageUpload(request)
+		}
   }
 
   rotateLeft () {
+		if (this.state.src)
     this.cropper.rotate(-90)
   }
 
   rotateRight () {
+		if (this.state.src)
     this.cropper.rotate(90)
   }
 
@@ -58,11 +62,24 @@ class Upload extends Component {
         {/* We can style crop-container in media queries to set the width of the cropper!! */}
         <div id="crop-container" style={{ width: '80%', position: 'absolute', left: '10%' }}>
           <input type="file" onChange={this.onChange} />
-          <button onClick={this.saveToBucket}>Use Crop</button>
-          <button onClick={this.rotateLeft}>RL</button>
-          <button onClick={this.rotateRight}>RR</button>
-          <br />
-          <br />
+					<div id="cropperButtons">
+						<button
+							type="button"
+							className="btn btn-primary"
+							onClick={this.rotateLeft}
+						>
+							Rotate Left
+						</button>
+
+						<button
+							type="button"
+							className="btn btn-primary"
+							onClick={this.rotateRight}
+						>
+							Rotate Right
+						</button>
+					</ div>
+
           <Cropper
             style={{ height: 500, width: '100%' }}
             aspectRatio={3 / 4}
@@ -70,6 +87,14 @@ class Upload extends Component {
             src={this.state.src}
             ref={cropper => { this.cropper = cropper; }}
           />
+
+						<button
+							type="button"
+							className="btn btn-primary"
+							onClick={this.saveToBucket}
+						>
+							 Use Selection
+						</button>
         </div>
       </div>
     );

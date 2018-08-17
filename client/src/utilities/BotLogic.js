@@ -1,7 +1,6 @@
 import * as PIXI from 'pixi.js'
 import * as move from './MoveLogic'
 
-
 export const greedyBot = (app, board, mazeGrid, moveSize) => {
 
 	// create a new Sprite from an image path
