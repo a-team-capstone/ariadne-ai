@@ -22,38 +22,33 @@ class FloodFill extends Component {
 
 	componentDidMount() {
 		const image = this.refs.mazeImage
-
 		image.crossOrigin = 'Anonymous'
-		image.onload = async() => {
-			// console.log(
-			// 	'image in PixiGame, naturalHeight & naturalWidth',
-			// 	image.naturalHeight,
-			// 	image.naturalWidth
-			// )
 
+		const tileSize = Math.floor(this.state.desiredWidth / 25)
+
+		image.onload = async() => {
 			this.setState({
 				imageHeight: image.naturalHeight,
 				imageWidth: image.naturalWidth
 			})
-			const tileSize = Math.floor(this.state.desiredWidth / 25)
-			const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
-				this.refs.mazeImageCanvas,
-				image,
-				tileSize
-			)
-			const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1}
-			const maze = mazeGrid.map(row => row.slice())
-			this.setState({ maze: maze, obstacles: obstacleAvgs })
+				const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
+					this.refs.mazeImageCanvas,
+					image,
+					tileSize
+				)
+				const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1}
+				const maze = mazeGrid.map(row => row.slice())
+				this.setState({ maze: maze, obstacles: obstacleAvgs })
 
-			const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
-			const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1)
-			this.setState({solvable})
+				const floodedMaze = floodFill(0, 0, mazeGrid, tileSize, 1)
+				const solvable = (floodedMaze[mazeGoal.row][mazeGoal.col] === -1)
+				this.setState({solvable})
 
-			this.refs.board.appendChild(
-				showFloodFill(image.src, floodedMaze, tileSize).view
-			)
+				this.refs.board.appendChild(
+					showFloodFill(image.src, floodedMaze, tileSize).view)
+			}
 		}
-	}
+
 	render() {
 		const invisibleImage = {display: "none"}
 		const invisibleCanvas = {opacity: 0}

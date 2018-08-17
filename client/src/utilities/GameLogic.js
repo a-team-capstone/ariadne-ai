@@ -210,8 +210,8 @@ const createBoard = (img, maze, tileSize) => {
 	bunny.y = 0;
 
 	// make bunny bigger
-	bunny.scale.x = 0.1
-	bunny.scale.y = 0.1
+	bunny.scale.x = 0.2
+	bunny.scale.y = 0.2
 
 	board.addChild(bunny);
 
