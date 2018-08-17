@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
-import {greedyBot} from './BotLogic'
+import {wallFollowerBot} from './BotLogic'
 import * as move from './MoveLogic'
 
 const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
@@ -13,10 +13,10 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var endY = endPoint[0] - (endPoint[0]%tileSize)
 	var endX = endPoint[1] - (endPoint[1]%tileSize)
 	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
-
-	console.log("ending at", mazeTarget)
 	var gameHeight = maze.length * tileSize + 200
 	var gameWidth = maze[0].length * tileSize
+	var timeAllowed = 5 // hard coded for now
+	var timeRemaining = timeAllowed
 
 
 	console.log('game height and width', gameHeight, gameWidth)
@@ -37,7 +37,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var board = new PIXI.Graphics()
 	board.addChild(background)
-	//var bot = greedyBot(app, board, mazeGrid, tileSize)
+
+	var bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY)
 
 	var startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)
@@ -56,12 +57,13 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	});
 
 	function setup() {
+		timeRemaining = timeAllowed
 		bunny.x=startX
 		bunny.y=startY
-		// bot.x=0
-		// bot.y=0
+		bot.x=startX
+		bot.y=startY
 		board.visible = true;
-		basicText.visible = true;
+		coordsText.visible = true;
 		nav.visible = true;
 		winScreen.visible = false;
 		state=play
@@ -69,44 +71,85 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	function play() {
 		board.visible = true;
-		basicText.visible = true;
+		bot.visible = true;
+		bunny.visible = true;
+		coordsText.visible = true;
 		nav.visible = true;
 		winScreen.visible = false;
 	}
 
 	function end() {
 		board.visible = false;
-		basicText.visible = false;
+		bot.visible = false;
+		bunny.visible = false;
+		coordsText.visible = false;
 		nav.visible = false;
 		winScreen.visible = true;
+		timeText.visible = false;
 	}
+
+	function outOfTime() {
+		board.visible = false;
+		bot.visible = false;
+		bunny.visible = false;
+		nav.visible = false;
+		outOfTimeScreen.visible = true;
+		timeText.visible = false;
+	}
+
+
 
 	// completion screen
 	var winScreen = new PIXI.Graphics();
 	winScreen.lineStyle(2, 0xf0ead6, 1);
 	winScreen.beginFill(0xf7a409);
 	winScreen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
-	var basicText = new PIXI.Text(
-		"You've completed the maze!\nClick below to replay.",
-		{fill:0xf9f9f7, fontSize: '50px'}
+	var winText = new PIXI.Text(
+		"Maze complete!\nClick below to replay.",
+		{fill:0xf9f9f7, fontSize: '40px'}
 	);
-	basicText.x = 10;
-	basicText.y = 150;
-	winScreen.addChild(basicText)
+	winText.x = 10;
+	winText.y = 150;
+	winScreen.addChild(winText)
 	var replayButton = new PIXI.Graphics();
 	replayButton.beginFill(0x494845)
-	replayButton.drawRoundedRect(350, 400, 100, 50, 10);
+	replayButton.drawRoundedRect(100, 400, 100, 50, 10);
 	replayButton.interactive = true;
 	replayButton.buttonMode = true;
 	replayButton.on('pointerdown', ()=>{
 		state=setup
-		console.log(state)
 	})
 	winScreen.addChild(replayButton)
 
+	// out of time screen
+	var outOfTimeScreen = new PIXI.Graphics();
+	outOfTimeScreen.lineStyle(2, 0xf0ead6, 1);
+	outOfTimeScreen.beginFill(0x808080);
+	outOfTimeScreen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
+	var outOfTimeText = new PIXI.Text(
+		"Out of time!\nClick below to replay.",
+		{fill:0xf9f9f7, fontSize: '40px'}
+	);
+	outOfTimeText.x = 10;
+	outOfTimeText.y = 150;
+	outOfTimeScreen.addChild(outOfTimeText)
+	outOfTimeScreen.addChild(replayButton)
 
+
+
+	app.ticker.add(()=>{
+		if (timeRemaining > 0) {
+		timeRemaining -= 1/60
+		timeText.text = 'Time Remaining: '+Math.round(timeRemaining)
+		console.log(Math.round(timeRemaining))
+		}
+		else {
+			state = outOfTime
+		}
+	})
 
 	app.stage.addChild(winScreen)
+	app.stage.addChild(outOfTimeScreen)
 
 
 	// Add board tiles. Currently set to transparent
@@ -243,16 +286,25 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	})
 
 	// record bunny.x and bunny.y
-	var basicText = new PIXI.Text(
+	var coordsText = new PIXI.Text(
 		'X: '+bunny.x+'\nY: '+bunny.y,
 		{fill:0xf9f9f7}
 	);
-	basicText.x = 10;
-	basicText.y = 810;
-	app.stage.addChild(basicText);
+	coordsText.x = 10;
+	coordsText.y = 810;
+	app.stage.addChild(coordsText);
+
+	// record time remaining
+		var timeText = new PIXI.Text(
+			'Time remaining: '+Math.round(timeRemaining),
+			{fill:0x000000}
+		);
+		timeText.x = 350;
+		timeText.y = 20;
+		app.stage.addChild(timeText);
 
 	app.ticker.add(function() {
-		basicText.text = 'X: '+bunny.x+'\nY: '+bunny.y
+		coordsText.text = 'X: '+bunny.x+'\nY: '+bunny.y
 		reachedTarget(bunny, mazeTarget)
 
 	})
