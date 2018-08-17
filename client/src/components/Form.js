@@ -2,13 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { auth } from '../store/user'
+import { WiredButton, WiredInput } from 'wired-elements'
 
 /**
  * COMPONENT
  */
 const Form = props => {
 	const { name, displayName, handleSubmit, error } = props
-	console.log('In form')
+	// console.log('In form')
 	return (
 		<div className="login">
 			<form onSubmit={handleSubmit} name={name}>
@@ -21,9 +22,10 @@ const Form = props => {
 					<input name="password" type="password" className="form-control" />
 				</div>
 				<div>
-					<button type="submit" className="btn btn-primary">
-						{displayName}
+					<button type="submit" className="btn">
+						<wired-button id="form-btn">{displayName}</wired-button>
 					</button>
+					{/* <wired-button id="login-btn">{displayName}</wired-button> */}
 				</div>
 				{error && error.response && <div> {error.response.data} </div>}
 			</form>
