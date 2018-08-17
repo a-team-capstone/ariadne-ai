@@ -8,13 +8,13 @@ export const scrapeImageData = (canvas, image) => {
 
 	let ctx = canvas.getContext('2d')
 	// image.crossOrigin = 'Anonymous'
-	ctx.drawImage(image, 0, 0, 100, 100)
+	ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
 	let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
 }
 
 //finds min and max x and y for the bounding poly
-//checks if given pixel coordinate (point) is within the bounding poly 
+//checks if given pixel coordinate (point) is within the bounding poly
 const isWithin = (point, box, height, width) => {
   const minY = Math.min(box.TL[0], box.BL[0])/(width/100)
   const maxY = Math.max(box.TR[0], box.BR[0])/(width/100)
@@ -74,7 +74,7 @@ export const organizeImageData = (imageData, height, width) => {
 			pixelRow = []
 		}
 	}
-	 
+
 	console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
 	return pixelGrid
 }
@@ -140,8 +140,10 @@ export const getMazeFromImage = async (canvas, image, tileSize) => {
 	// const ctx = canvas.getContext("2d");
   const { data } = await axios.post('api/mazes/analyze', {"image": image.src})
 	const scraped = scrapeImageData(canvas, image)
-	const height = 100 //image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
-	const width = 100 // image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
+
+	const height = canvas.height // image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
+	const width = canvas.width // image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
+
 	const tidyGrid = organizeImageData(scraped, height, width)
   const clearedGrid = clearObstacles(tidyGrid, data, image.naturalHeight, image.naturalWidth)
   //console.log('cleared grid', clearedGrid)

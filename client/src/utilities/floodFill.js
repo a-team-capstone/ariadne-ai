@@ -16,7 +16,7 @@ const floodFill = function(row, col, array, numPixels, blockedVal) {
 			neighborCol < array[neighborRow].length
 		) {
 			const neighborStatus = array[neighborRow][neighborCol]
-			// console.log('neighbor', neighborStatus)
+
 			if (neighborStatus === 0) {
 				//is the neighbor clear
 				array[neighborRow][neighborCol] = -1
