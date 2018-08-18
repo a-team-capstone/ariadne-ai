@@ -88,6 +88,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		coordsText.visible = false;
 		nav.visible = false;
 		winScreen.visible = true;
+		outOfTimeScreen.visible = false;
 		timeText.visible = false;
 	}
 
@@ -136,7 +137,15 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	outOfTimeText.x = 10;
 	outOfTimeText.y = 150;
 	outOfTimeScreen.addChild(outOfTimeText)
-	outOfTimeScreen.addChild(replayButton)
+	var tryAgainButton = new PIXI.Graphics();
+	tryAgainButton.beginFill(0x494845)
+	tryAgainButton.drawRoundedRect(100, 400, 100, 50, 10);
+	tryAgainButton.interactive = true;
+	tryAgainButton.buttonMode = true;
+	tryAgainButton.on('pointerdown', ()=>{
+		state=setup
+	})
+	outOfTimeScreen.addChild(tryAgainButton)
 
 
 
@@ -144,7 +153,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		if (timeRemaining > 0) {
 		timeRemaining -= 1/60
 		timeText.text = 'Time Remaining: '+Math.round(timeRemaining)
-		//console.log(Math.round(timeRemaining))
+		console.log(Math.round(timeRemaining))
 		}
 		else {
 			state = outOfTime
@@ -328,11 +337,14 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		const proximityY = Math.abs(sprite.y - targetY)
 		const proximityRequirement = tileSize * 2
 
-		console.log('proximity X and Y', proximityX, proximityY)
+		// console.log('proximity X and Y', proximityX, proximityY)
 
 		const reached = (proximityX <= proximityRequirement) && (proximityY <= proximityRequirement)
 
-		if (reached) state = end
+		if (reached) {
+			state = end
+			console.log('end state:', state)
+		}
 		return reached
 	}
 

@@ -51,7 +51,7 @@ export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY) 
 	app.ticker.add(()=>{
 		botMoveCount++
 		if (!bot.visible) currentBotDirection = 'down'
-		else if (botMoveCount%4 === 0) {
+		else if (botMoveCount%6 === 0) {
 
 			// if blocked, switch to ifBlocked direction
 			if (!possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)) {
@@ -88,8 +88,8 @@ export const greedyBot = (app, board, mazeGrid, moveSize, startX, startY) => {
 	bot.y = startY;
 
 	// make bot bigger
-	bot.scale.x = 0.05
-	bot.scale.y = 0.05
+	bot.scale.x = 0.03
+	bot.scale.y = 0.03
 
 	// set the sprite's anchor point
 	bot.anchor.set(0.5);
