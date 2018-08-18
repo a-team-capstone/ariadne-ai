@@ -1,6 +1,7 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
 import {wallFollowerBot} from './BotLogic'
+import {extraTimePowerUp} from './PowerUpsLogic'
 import * as move from './MoveLogic'
 
 const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
@@ -37,6 +38,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var board = new PIXI.Graphics()
 	board.addChild(background)
+
+	var extraTime = extraTimePowerUp(board)
 
 	var bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY)
 
