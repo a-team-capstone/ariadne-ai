@@ -144,7 +144,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		if (timeRemaining > 0) {
 		timeRemaining -= 1/60
 		timeText.text = 'Time Remaining: '+Math.round(timeRemaining)
-		console.log(Math.round(timeRemaining))
+		//console.log(Math.round(timeRemaining))
 		}
 		else {
 			state = outOfTime
@@ -180,12 +180,21 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 			rightKey = keyboardTracker(39),
 			downKey = keyboardTracker(40)
 
+	// arrow key movement
+	let frames = 0
 	app.ticker.add(()=>{
-		if (leftKey.isDown) move.left(bunny, mazeGrid, tileSize)
-		if (rightKey.isDown) move.right(bunny, mazeGrid, tileSize)
-		if (upKey.isDown) move.up(bunny,mazeGrid, tileSize)
-		if (downKey.isDown) move.down(bunny, mazeGrid, tileSize)
+		frames++
+		if (frames%4 ===0){
+			if (leftKey.isDown) move.left(bunny, mazeGrid, tileSize)
+			if (rightKey.isDown) move.right(bunny, mazeGrid, tileSize)
+			if (upKey.isDown) move.up(bunny,mazeGrid, tileSize)
+			if (downKey.isDown) move.down(bunny, mazeGrid, tileSize)
+		}
 	})
+		// nav button movement
+		app.ticker.add(()=>{
+			if (currentBunnyDirection && (frames%4 === 0)) currentBunnyDirection(bunny, mazeGrid, tileSize)
+		})
 
 	leftKey.press = () => {
 		move.left(bunny, mazeGrid, tileSize)
@@ -284,9 +293,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	board.addChild(bunny);
 
 	let currentBunnyDirection = 0
-	app.ticker.add(()=>{
-		if (currentBunnyDirection) currentBunnyDirection(bunny, mazeGrid, tileSize)
-	})
+
 
 	// record bunny.x and bunny.y
 	var coordsText = new PIXI.Text(
