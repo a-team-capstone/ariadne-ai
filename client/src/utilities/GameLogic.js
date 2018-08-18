@@ -15,7 +15,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
 	var gameHeight = maze.length * tileSize + 200
 	var gameWidth = maze[0].length * tileSize
-	var timeAllowed = 5 // hard coded for now
+	var timeAllowed = 20 // hard coded for now
 	var timeRemaining = timeAllowed
 
 
@@ -66,7 +66,9 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		coordsText.visible = true;
 		nav.visible = true;
 		winScreen.visible = false;
-		state=play
+		timeText.visible = true;
+		state=play;
+
 	}
 
 	function play() {
@@ -76,6 +78,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		coordsText.visible = true;
 		nav.visible = true;
 		winScreen.visible = false;
+		timeText.visible = true;
 	}
 
 	function end() {
@@ -274,9 +277,9 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	bunny.x = startX;
 	bunny.y = startY;
 
-	// make bunny bigger
-	bunny.scale.x = 0.2
-	bunny.scale.y = 0.2
+	// set bunny size
+	bunny.scale.x = 0.15
+	bunny.scale.y = 0.15
 
 	board.addChild(bunny);
 
