@@ -15,7 +15,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
 	var gameHeight = maze.length * tileSize + 200
 	var gameWidth = maze[0].length * tileSize
-	var timeAllowed = 20 // hard coded for now
+	var timeAllowed = 60 // hard coded for now
 	var timeRemaining = timeAllowed
 
 
@@ -42,12 +42,12 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)
-	startCircle.drawCircle(startX, startY, tileSize*1.25)
+	startCircle.drawCircle(startX, startY, tileSize*1.5)
 	board.addChild(startCircle)
 
 	var endCircle = new PIXI.Graphics()
 	endCircle.beginFill(0xed9b0e)
-	endCircle.drawCircle(endX, endY, tileSize*1.25)
+	endCircle.drawCircle(endX, endY, tileSize*1.5)
 	board.addChild(endCircle)
 
 	// set state and track which state to run
@@ -324,7 +324,14 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	function reachedTarget(sprite, target){
 		const targetY = target.row * tileSize// - tileSize
 		const targetX = target.col * tileSize// - tileSize
-		const reached = sprite.x === targetX && sprite.y === targetY
+		const proximityX = Math.abs(sprite.x - targetX)
+		const proximityY = Math.abs(sprite.y - targetY)
+		const proximityRequirement = tileSize * 2
+
+		console.log('proximity X and Y', proximityX, proximityY)
+
+		const reached = (proximityX <= proximityRequirement) && (proximityY <= proximityRequirement)
+
 		if (reached) state = end
 		return reached
 	}

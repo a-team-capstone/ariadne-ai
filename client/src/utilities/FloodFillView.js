@@ -36,12 +36,12 @@ const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)
-	startCircle.drawCircle(startX, startY, tileSize*1.25)
+	startCircle.drawCircle(startX, startY, tileSize*1.5)
 	board.addChild(startCircle)
 
 	var endCircle = new PIXI.Graphics()
 	endCircle.beginFill(0xed9b0e)
-	endCircle.drawCircle(endX, endY, tileSize*1.25)
+	endCircle.drawCircle(endX, endY, tileSize*1.5)
 	board.addChild(endCircle)
 
 	// Add board tiles. Currently set to transparent
