@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { auth } from '../store/user'
-import { WiredButton, WiredInput } from 'wired-elements'
+import 'wired-elements'
 
 /**
  * COMPONENT
