@@ -42,11 +42,16 @@ export const loadMaze = mazeId => {
 		try {
 			const { data } = await axios.get(`api/mazes/${mazeId}`)
 			console.log('Data loadMaze', data)
-			dispatch(getMaze(data.data))
+			dispatch(getMaze(data))
 		} catch (err) {
 			console.log('There was a problem getting your maze...', err)
 		}
 	}
+}
+
+const initialState = {
+	id: 0,
+	data: {}
 }
 
 /**
@@ -57,7 +62,7 @@ const mazeReducer = (state = {}, action) => {
 		case SAVE_MAZE:
 			return { ...state, id: action.maze }
 		case GET_MAZE:
-			return { ...state, data: [...action.maze] }
+			return { ...state, data: action.maze}
 		default:
 			return state
 	}

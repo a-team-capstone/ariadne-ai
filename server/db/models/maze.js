@@ -25,7 +25,33 @@ const Maze = db.define('maze', {
         return acc
       }, []).join(''))
     }
-	}
+	},
+  ST: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: [1, 1]
+  },
+  END: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: [576, 768]
+  },
+  BM: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  },
+  XT: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  },
+  FZ: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  },
+  TEL: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  },
+  PRT: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  },
+  time: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
+  }
 })
 
 // setter takes a matrix and sets 'data' value on maze instance as a binary string

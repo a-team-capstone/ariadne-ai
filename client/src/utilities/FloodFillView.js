@@ -10,10 +10,10 @@ const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 		backgroundColor: 0x001099bb,
 	})
 
-	var startX = startPoint[0] - (startPoint[0]%tileSize)
-	var startY = startPoint[1] - (startPoint[1]%tileSize)
-	var endX = endPoint[0] - (endPoint[0]%tileSize)
-	var endY = endPoint[1] - (endPoint[1]%tileSize)
+	var startY = startPoint[0] - (startPoint[0]%tileSize)
+	var startX = startPoint[1] - (startPoint[1]%tileSize)
+	var endY = endPoint[0] - (endPoint[0]%tileSize)
+	var endX = endPoint[1] - (endPoint[1]%tileSize)
 	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
 
 
