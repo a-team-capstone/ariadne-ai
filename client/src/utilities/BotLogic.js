@@ -3,7 +3,7 @@ import {down, up, left, right} from './MoveLogic'
 
 export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY) => {
 
-	// create a new Sprite from an image path
+	// create a new sprite from an image path
 	var bot = PIXI.Sprite.fromImage('botShield.png')
 
 	// move the sprite to the start of the maze

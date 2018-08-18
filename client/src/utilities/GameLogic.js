@@ -2,6 +2,7 @@ import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
 import {wallFollowerBot} from './BotLogic'
 import {extraTimePowerUp} from './PowerUpsLogic'
+import {createSprite} from './PixiObjects'
 import * as move from './MoveLogic'
 
 const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
@@ -48,10 +49,13 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	startCircle.drawCircle(startX, startY, tileSize*1.5)
 	board.addChild(startCircle)
 
-	var endCircle = new PIXI.Graphics()
-	endCircle.beginFill(0xed9b0e)
-	endCircle.drawCircle(endX, endY, tileSize*1.5)
-	board.addChild(endCircle)
+	// var endCircle = new PIXI.Graphics()
+	// endCircle.beginFill(0x008BFE)
+	// endCircle.drawCircle(endX, endY, tileSize*1.5)
+	// board.addChild(endCircle)
+
+	var endIcon = createSprite('star.png', endX, endY, .15)
+	board.addChild(endIcon)
 
 	// set state and track which state to run
 	var state = setup
@@ -61,14 +65,15 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	function setup() {
 		timeRemaining = timeAllowed
-		bunny.x=startX
-		bunny.y=startY
+		player.x=startX
+		player.y=startY
 		bot.x=startX
 		bot.y=startY
 		board.visible = true;
 		coordsText.visible = true;
 		nav.visible = true;
 		winScreen.visible = false;
+		botWonScreen.visible = false;
 		timeText.visible = true;
 		state=play;
 
@@ -77,20 +82,34 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	function play() {
 		board.visible = true;
 		bot.visible = true;
-		bunny.visible = true;
+		player.visible = true;
 		coordsText.visible = true;
 		nav.visible = true;
 		winScreen.visible = false;
+		botWonScreen.visible = false;
 		timeText.visible = true;
 	}
 
 	function end() {
 		board.visible = false;
 		bot.visible = false;
-		bunny.visible = false;
+		player.visible = false;
 		coordsText.visible = false;
 		nav.visible = false;
 		winScreen.visible = true;
+		botWonScreen.visible = false;
+		outOfTimeScreen.visible = false;
+		timeText.visible = false;
+	}
+
+	function botWon() {
+		board.visible = false;
+		bot.visible = false;
+		player.visible = false;
+		coordsText.visible = false;
+		nav.visible = false;
+		winScreen.visible = false;
+		botWonScreen.visible = true;
 		outOfTimeScreen.visible = false;
 		timeText.visible = false;
 	}
@@ -98,7 +117,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	function outOfTime() {
 		board.visible = false;
 		bot.visible = false;
-		bunny.visible = false;
+		player.visible = false;
 		nav.visible = false;
 		outOfTimeScreen.visible = true;
 		timeText.visible = false;
@@ -151,12 +170,35 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	outOfTimeScreen.addChild(tryAgainButton)
 
 
+		// out of time screen
+		var botWonScreen = new PIXI.Graphics();
+		botWonScreen.lineStyle(2, 0xf0ead6, 1);
+		botWonScreen.beginFill(0x003366);
+		botWonScreen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
+		var botWonText = new PIXI.Text(
+			"The bot beat you!\nClick below to replay.",
+			{fill:0xf9f9f7, fontSize: '40px'}
+		);
+		botWonText.x = 10;
+		botWonText.y = 150;
+		botWonScreen.addChild(botWonText)
+		var botWonButton = new PIXI.Graphics();
+	botWonButton.beginFill(0xf7a409)
+	botWonButton.drawRoundedRect(100, 400, 100, 50, 10);
+	botWonButton.interactive = true;
+	botWonButton.buttonMode = true;
+	botWonButton.on('pointerdown', ()=>{
+			state=setup
+		})
+		botWonScreen.addChild(botWonButton)
+
+
+
 
 	app.ticker.add(()=>{
 		if (timeRemaining > 0) {
 		timeRemaining -= 1/60
 		timeText.text = 'Time Remaining: '+Math.round(timeRemaining)
-		console.log(Math.round(timeRemaining))
 		}
 		else {
 			state = outOfTime
@@ -165,6 +207,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	app.stage.addChild(winScreen)
 	app.stage.addChild(outOfTimeScreen)
+	app.stage.addChild(botWonScreen)
 
 
 	// Add board tiles. Currently set to transparent
@@ -197,31 +240,31 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	app.ticker.add(()=>{
 		frames++
 		if (frames%4 ===0){
-			if (leftKey.isDown) move.left(bunny, mazeGrid, tileSize)
-			if (rightKey.isDown) move.right(bunny, mazeGrid, tileSize)
-			if (upKey.isDown) move.up(bunny,mazeGrid, tileSize)
-			if (downKey.isDown) move.down(bunny, mazeGrid, tileSize)
+			if (leftKey.isDown) move.left(player, mazeGrid, tileSize)
+			if (rightKey.isDown) move.right(player, mazeGrid, tileSize)
+			if (upKey.isDown) move.up(player,mazeGrid, tileSize)
+			if (downKey.isDown) move.down(player, mazeGrid, tileSize)
 		}
 	})
 		// nav button movement
 		app.ticker.add(()=>{
-			if (currentBunnyDirection && (frames%4 === 0)) currentBunnyDirection(bunny, mazeGrid, tileSize)
+			if (currentBunnyDirection && (frames%4 === 0)) currentBunnyDirection(player, mazeGrid, tileSize)
 		})
 
 	leftKey.press = () => {
-		move.left(bunny, mazeGrid, tileSize)
+		move.left(player, mazeGrid, tileSize)
 	}
 
 	rightKey.press = () => {
-		move.right(bunny, mazeGrid, tileSize)
+		move.right(player, mazeGrid, tileSize)
 	}
 
 	upKey.press = () => {
-		move.up(bunny, mazeGrid, tileSize)
+		move.up(player, mazeGrid, tileSize)
 	}
 
 	downKey.press = () => {
-		move.down(bunny, mazeGrid, tileSize)
+		move.down(player, mazeGrid, tileSize)
 	}
 
 
@@ -287,29 +330,15 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	nav.y = 805
 	app.stage.addChild(nav);
 
-
-	// create a new Sprite from an image path
-	var bunny = PIXI.Sprite.fromImage('shield.png')
-
-	// center the sprite's anchor point
-	bunny.anchor.set(0.5);
-
-	// move the sprite to the start of the maE
-	bunny.x = startX;
-	bunny.y = startY;
-
-	// set bunny size
-	bunny.scale.x = 0.15
-	bunny.scale.y = 0.15
-
-	board.addChild(bunny);
+	var player = createSprite('shield.png', startX, startY, .2)
+	board.addChild(player);
 
 	let currentBunnyDirection = 0
 
 
-	// record bunny.x and bunny.y
+	// record player.x and player.y
 	var coordsText = new PIXI.Text(
-		'X: '+bunny.x+'\nY: '+bunny.y,
+		'X: '+player.x+'\nY: '+player.y,
 		{fill:0xf9f9f7}
 	);
 	coordsText.x = 10;
@@ -322,18 +351,28 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 			{fill:0x000000}
 		);
 		timeText.x = 350;
-		timeText.y = 20;
+		timeText.y = 810;
 		app.stage.addChild(timeText);
 
+	// update coordinates and check if reached target
 	app.ticker.add(function() {
-		coordsText.text = 'X: '+bunny.x+'\nY: '+bunny.y
-		reachedTarget(bunny, mazeTarget)
+		coordsText.text = 'X: '+player.x+'\nY: '+player.y
+
+		// check if player reached target
+		if (overlapping(player, mazeTarget)) {
+				state = end
+		}
+
+		// check if bot reached target
+		if (overlapping(bot, mazeTarget)) {
+			state = botWon
+		}
 
 	})
 
 
-	// check if bunny has reached the target
-	function reachedTarget(sprite, target){
+	// check if a sprite has reached a certain target
+	function overlapping(sprite, target){
 		const targetY = target.row * tileSize// - tileSize
 		const targetX = target.col * tileSize// - tileSize
 		const proximityX = Math.abs(sprite.x - targetX)
@@ -342,13 +381,9 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 		// console.log('proximity X and Y', proximityX, proximityY)
 
-		const reached = (proximityX <= proximityRequirement) && (proximityY <= proximityRequirement)
+		const areOverlapping = (proximityX <= proximityRequirement) && (proximityY <= proximityRequirement)
 
-		if (reached) {
-			state = end
-			console.log('end state:', state)
-		}
-		return reached
+		return areOverlapping
 	}
 
 	return app
