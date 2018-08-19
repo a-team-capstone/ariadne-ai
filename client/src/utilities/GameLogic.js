@@ -27,6 +27,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let weaponY = startY
 	let slowDownX = startX + 300 // hard coded for now
 	let slowDownY = startY // hard coded for now
+	let bombX = startX+400 // hard coded for now
+	let bombY = startY // hard coded for now
 
 
 	let timeRemaining = timeAllowed
@@ -52,6 +54,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var extraTime = addPowerUp('hourGlassYellow.png', board, extraTimeX, extraTimeY, tileSize, .25)
 
 	var slowDown = addPowerUp('slowDown.png', board, slowDownX, slowDownY, tileSize, .15)
+
+	var bomb = addPowerUp('bomb.png', board, bombX, bombY, tileSize, .3)
 
 	var startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)
@@ -100,14 +104,18 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY, 2)
 
 		// reset powerups
+		if (extraTime) extraTime.destroy()
 		extraTime = addPowerUp('hourGlassYellow.png', board, extraTimeX, extraTimeY, tileSize, .25)
 
 		if (weapon) weapon.destroy()
 		weapon = addPowerUp('sword.png', board, weaponX, weaponY, tileSize, .15)
 		weaponGrabbed = false
 
-
+		if (slowDown) slowDown.destroy()
 		slowDown = addPowerUp('slowDown.png', board, slowDownX, slowDownY, tileSize, .15)
+
+		if (bomb) bomb.destroy()
+		bomb = addPowerUp('bomb.png', board, bombX, bombY, tileSize, .3)
 
 		state=play;
 	}
@@ -409,6 +417,27 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 			extraTime = null
 		}
 	})
+
+		// check if bomb should be activated
+		app.ticker.add(function() {
+			if ( bomb && overlapping(player, bomb)) {
+				{
+					player.x = startX
+					player.y = startY
+					bomb.destroy()
+					bomb = null
+				}
+			}
+			if ( bomb && overlapping(bot, bomb)) {
+				{
+					bot.x = startX
+					bot.y = startY
+					bomb.destroy()
+					bomb = null
+				}
+			}
+
+		})
 
 	// check if weapon should be activated
 	let weaponGrabbed = false
