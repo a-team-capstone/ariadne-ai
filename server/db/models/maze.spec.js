@@ -14,13 +14,13 @@ describe('Maze model', () => {
       beforeEach(async () => {
         codyMaze = await Maze.create({
           image: 'sketchMaze.jpg',
-          solveable: true,
+          solvable: true,
           data: '10110010101110010100'
         })
       })
 
-      it('sets solveable to true', () => {
-        expect(codyMaze.solveable).to.be.equal(true)
+      it('sets solvable to true', () => {
+        expect(codyMaze.solvable).to.be.equal(true)
       })
 
       it('returns binary string for data', () => {

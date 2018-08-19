@@ -66,8 +66,6 @@ class FloodFill extends Component {
 		
 		return (
 			<div id="floodFillView" className="floodFill">
-        {/* <h3>if (solvable === 'Analyzing...'){solvable ? 'Your maze is solvable!' : 'Your maze is not solvable!'}}</h3> */}
-
         { solvable === 'Analyzing...' ?
           <h3>{solvable}</h3> :
           <h3>{solvable ? 'Your maze is solvable!' : 'Your maze is not solvable!'}</h3>
@@ -136,11 +134,11 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
 	return {
-		handleClick(maze, image, userId, solveable, obstacles) {
+		handleClick(maze, image, userId, solvable, obstacles) {
 			dispatch(
 				uploadMaze({
 					image: image,
-					solveable: solveable,
+					solvable: solvable,
 					data: maze,
 					userId,
 					ST: obstacles.ST || [24, 24],
