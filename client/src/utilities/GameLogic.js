@@ -123,13 +123,13 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		timeText.visible = true;
 	}
 
-	function end() {
+	function win() {
+		winScreen.visible = true;
 		board.visible = false;
 		bot.visible = false;
 		player.visible = false;
 		coordsText.visible = false;
 		nav.visible = false;
-		winScreen.visible = true;
 		botWonScreen.visible = false;
 		outOfTimeScreen.visible = false;
 		timeText.visible = false;
@@ -148,12 +148,14 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	}
 
 	function outOfTime() {
+		outOfTimeScreen.visible = true;
 		board.visible = false;
 		bot.visible = false;
 		player.visible = false;
 		nav.visible = false;
-		outOfTimeScreen.visible = true;
 		timeText.visible = false;
+		coordsText.visible = false;
+
 	}
 
 
@@ -388,7 +390,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		coordsText.text = 'X: '+player.x+'\nY: '+player.y
 		// check if player reached target
 		if (overlapping(player, mazeTarget)) {
-				state = end
+				state = win
 		}
 
 		// check if bot reached target
