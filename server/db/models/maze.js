@@ -50,7 +50,7 @@ const Maze = db.define('maze', {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
   time: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
+    type: Sequelize.INTEGER
   }
 })
 

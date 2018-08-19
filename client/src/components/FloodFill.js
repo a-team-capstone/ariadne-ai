@@ -143,12 +143,12 @@ const mapDispatch = dispatch => {
 					userId,
 					ST: obstacles.ST || [24, 24],
 					END: obstacles.END || [744, 552],
-					// BM: obstacles.BM,
-					// XT: obstacles.XT,
-					// FZ: obstacles.FZ,
-					// TEL: obstacles.TEL,
-					// PRT: obstacles.PRT,
-					// time: obstacles.time || 30
+					BM: obstacles.BM || [0,0],
+					XT: obstacles.XT || [0,0],
+					FZ: obstacles.FZ || [0,0],
+					TEL: obstacles.TEL || [0,0],
+					PRT: obstacles.PRT || [0,0],
+					time: obstacles.time || 30
 					 })
 			)
 		}
