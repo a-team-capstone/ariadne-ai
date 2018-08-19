@@ -22,6 +22,10 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let timeAllowed = 60 // hard coded for now
 	let extraTimeX = startX + 100 // hard coded for now
 	let extraTimeY = startY // hard coded for now
+	let weaponX = startX + 150
+	let weaponY = startY
+	let slowDownX = startX + 200 // hard coded for now
+	let slowDownY = 0 // hard coded for now
 
 
 	let timeRemaining = timeAllowed
@@ -44,7 +48,17 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var board = new PIXI.Graphics()
 	board.addChild(background)
 
-	var extraTime = addPowerUp(board, extraTimeX, extraTimeY, tileSize, .25)
+	var extraTime = addPowerUp('hourGlassYellow.png', board, extraTimeX, extraTimeY, tileSize, .25)
+
+	var slowDown = addPowerUp('slowDown.png', board, slowDownX, slowDownY, tileSize, .3)
+
+	// create player
+	let player = createSprite('shield.png', startX, startY, .2)
+	board.addChild(player);
+	let currentPlayerDirection = 0
+
+
+	var weapon = addPowerUp('sword.png', board, weaponX, weaponY, tileSize, .15)
 
 	var bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY)
 
@@ -252,7 +266,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	})
 		// nav button movement
 		app.ticker.add(()=>{
-			if (currentBunnyDirection && (frames%4 === 0)) currentBunnyDirection(player, mazeGrid, tileSize)
+			if (currentPlayerDirection && (frames%4 === 0)) currentPlayerDirection(player, mazeGrid, tileSize)
 		})
 
 	leftKey.press = () => {
@@ -284,8 +298,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true;
 	right.buttonMode = true;
-	right.on('pointerdown', () => currentBunnyDirection = move.right);
-	right.on('pointerup', () => currentBunnyDirection = null);
+	right.on('pointerdown', () => currentPlayerDirection = move.right);
+	right.on('pointerup', () => currentPlayerDirection = null);
 	// add button to nav container
 	nav.addChild(right)
 
@@ -298,8 +312,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true;
 	left.buttonMode = true;
-	left.on('pointerdown', () => currentBunnyDirection = move.left);
-	left.on('pointerup', () => currentBunnyDirection = null);	// add button to nav container
+	left.on('pointerdown', () => currentPlayerDirection = move.left);
+	left.on('pointerup', () => currentPlayerDirection = null);	// add button to nav container
 	nav.addChild(left)
 
 
@@ -312,8 +326,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true;
 	up.buttonMode = true;
-	up.on('pointerdown', () => currentBunnyDirection = move.up);
-	up.on('pointerup', () => currentBunnyDirection = null);	// add button to nav container
+	up.on('pointerdown', () => currentPlayerDirection = move.up);
+	up.on('pointerup', () => currentPlayerDirection = null);	// add button to nav container
 	nav.addChild(up)
 
 	// draw a rectangle for down button
@@ -324,8 +338,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true;
 	down.buttonMode = true;
-	down.on('pointerdown', () => currentBunnyDirection = move.down);
-	down.on('pointerup', () => currentBunnyDirection = null);
+	down.on('pointerdown', () => currentPlayerDirection = move.down);
+	down.on('pointerup', () => currentPlayerDirection = null);
 	// add button to nav container
 	nav.addChild(down)
 
@@ -334,10 +348,6 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	nav.y = 805
 	app.stage.addChild(nav);
 
-	var player = createSprite('shield.png', startX, startY, .2)
-	board.addChild(player);
-
-	let currentBunnyDirection = 0
 
 
 	// record player.x and player.y
@@ -374,7 +384,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	})
 
-	// check if powerups should be activated
+	// check if extra time should be activated
 	app.ticker.add(function() {
 		if (extraTime && overlapping(player, extraTime))
 		{
@@ -383,6 +393,38 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 			extraTime = null
 		}
 	})
+
+	// check if weapon should be activated
+	let weaponGrabbed = false
+	app.ticker.add(function() {
+		if (!weaponGrabbed) {
+			if (weapon && overlapping(player, weapon))
+				{
+					weaponGrabbed = true
+				}
+			} else {
+				weapon.x = player.x+tileSize*1.5
+				weapon.y = player.y
+				if (overlapping(player, bot)){
+					bot.x = startX
+					bot.y = startY
+					weaponGrabbed = false
+					weapon.destroy()
+					weapon = null
+				}
+			}
+	})
+
+		// check if slowDown should be activated
+		app.ticker.add(function() {
+			if (slowDown && overlapping(bot, slowDown))
+			{
+				console.log('SLOW BOT DOWN')
+				slowDown.destroy()
+				slowDown = null
+			}
+		})
+
 
 
 	// check if a sprite has reached a certain target

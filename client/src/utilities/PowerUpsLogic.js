@@ -1,8 +1,8 @@
 import * as PIXI from 'pixi.js'
 
-export const addPowerUp = (board, x, y, tileSize, scale, anchor = .5) => {
+export const addPowerUp = (imagePath, board, x, y, tileSize, scale, anchor = .5) => {
 		// create a new Sprite from an image path
-		const powerUp = PIXI.Sprite.fromImage('hourGlassYellow.png')
+		const powerUp = PIXI.Sprite.fromImage(imagePath)
 		const adjustedX = x - (x%tileSize)
 		const adjustedY = y - (y%tileSize)
 
