@@ -6,7 +6,12 @@ import {createSprite} from './PixiObjects'
 import * as move from './MoveLogic'
 import {overlapping} from './MoveLogic'
 
-const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
+const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
+
+	let maze = mazeObj.data
+
+	let {WP, FZ, XT, BM, TEL, SD, PRT} = mazeObj
+
 
 	let startY = startPoint[0] - (startPoint[0]%tileSize)
 	let startX = startPoint[1] - (startPoint[1]%tileSize)
@@ -20,21 +25,23 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	console.log('game height and width', gameHeight, gameWidth)
 
-	let timeAllowed = 60 // hard coded for now
-	let extraTimeX = startX + 100 // hard coded for now
-	let extraTimeY = startY // hard coded for now
-	let weaponX = startX + 200 // hard coded for now
-	let weaponY = startY // hard coded for now
-	let slowDownX = startX + 300 // hard coded for now
-	let slowDownY = startY // hard coded for now
-	let bombX = startX+400 // hard coded for now
-	let bombY = startY // hard coded for now
-	let teleX = endX-400 // hard coded for now
-	let teleY = endY // hard coded for now
-	let portX = mazeWidth-tileSize // hard coded for now
-	let portY = mazeHeight-100 // hard coded for now
-	let freezeX = startX + 500 // hard coded for now
-	let freezeY = startY // hard coded for now
+	console.log('weapon', WP)
+
+	let timeAllowed = 60
+	let extraTimeX = XT? XT[1] : -999
+	let extraTimeY = XT? XT[0] : -999
+	let weaponX = WP? WP[1] : -999
+	let weaponY = WP? WP[0] : -999
+	let slowDownX = SD? SD[1] : -999
+	let slowDownY = SD? SD[0] : -999
+	let bombX = BM? BM[1] : -999
+	let bombY = BM? BM[0] : -999
+	let teleX = TEL? TEL[1] : -999
+	let teleY = TEL? TEL[0] : -999
+	let portX = PRT? PRT[1] : -999
+	let portY = PRT? PRT[0] : -999
+	let freezeX = FZ? FZ[1] : -999
+	let freezeY = FZ? FZ[0] : -999
 
 
 	let timeRemaining = timeAllowed
@@ -66,7 +73,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	let port = addPowerUp('port.png', board, portX, portY, tileSize, .5)
 
-	let freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, .25)
+	let freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, .15)
 
 	let startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)
@@ -85,7 +92,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let botLevelUnlocked = false
 	// set all bot related things out of sight
 	let bot = wallFollowerBot(app, board, mazeGrid, tileSize, -999, -999) // bot setup
-	let weapon = addPowerUp('sword.png', board, -999, -999, tileSize, .15) // bot setup
+	let weapon = addPowerUp('sword.png', board, -999, -999, tileSize, .2) // bot setup
 	let slowDown = addPowerUp('slowDown.png', board, -999, -999, tileSize, .15) // bot setup
 
 
@@ -119,7 +126,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		freezeCount = 300
 		freezeOn = false
 		if (freeze) freeze.destroy()
-		freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, .25)
+		freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, .15)
 
 		state = botLevelUnlocked? setupBot : play;
 	}
@@ -134,7 +141,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		slowDown = addPowerUp('slowDown.png', board, slowDownX, slowDownY, tileSize, .15)
 
 		if (weapon) weapon.destroy()
-		weapon = addPowerUp('sword.png', board, weaponX, weaponY, tileSize, .15)
+		weapon = addPowerUp('sword.png', board, weaponX, weaponY, tileSize, .2)
 		weaponGrabbed = false
 
 		state = play
@@ -585,8 +592,10 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		})
 
 	// check if teleport should be used
-	activateTeleport(app, player, tele, port, tileSize, mazeWidth, mazeHeight, mazeGrid) // activate for player
-	activateTeleport(app, bot, tele, port, tileSize, mazeWidth, mazeHeight, mazeGrid) // activate for bot
+	if (tele.x >= 0 && tele.y >= 0 && port.x >= 0 && port.y >= 0){
+		activateTeleport(app, player, tele, port, tileSize, mazeWidth, mazeHeight, mazeGrid) // activate for player
+		activateTeleport(app, bot, tele, port, tileSize, mazeWidth, mazeHeight, mazeGrid) // activate for bot
+	}
 
 
 
