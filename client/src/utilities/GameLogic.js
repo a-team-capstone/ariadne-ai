@@ -23,12 +23,16 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let timeAllowed = 60 // hard coded for now
 	let extraTimeX = startX + 100 // hard coded for now
 	let extraTimeY = startY // hard coded for now
-	let weaponX = startX + 200
-	let weaponY = startY
+	let weaponX = startX + 200 // hard coded for now
+	let weaponY = startY // hard coded for now
 	let slowDownX = startX + 300 // hard coded for now
 	let slowDownY = startY // hard coded for now
 	let bombX = startX+400 // hard coded for now
 	let bombY = startY // hard coded for now
+	let teleX = endX-400 // hard coded for now
+	let teleY = endY // hard coded for now
+	let portX = endX-100 // hard coded for now
+	let portY = endY // hard coded for now
 
 
 	let timeRemaining = timeAllowed
@@ -56,6 +60,10 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var slowDown = addPowerUp('slowDown.png', board, slowDownX, slowDownY, tileSize, .15)
 
 	var bomb = addPowerUp('bomb.png', board, bombX, bombY, tileSize, .3)
+
+	var tele = addPowerUp('tele.png', board, teleX, teleY, tileSize, .5)
+
+	var port = addPowerUp('port.png', board, portX, portY, tileSize, .5)
 
 	var startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)
@@ -439,6 +447,36 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 		})
 
+		// check if teleport should be activated
+		app.ticker.add(function() {
+			if ( tele && port && overlapping(player, tele, 1)) {
+				{
+					player.x = portX
+					player.y = portY
+				}
+			}
+			// if ( tele && port && overlapping(player, port, 1)) {
+			// 	{
+			// 		player.x = teleX
+			// 		player.y = teleY
+			// 	}
+			// }
+			if ( tele && port && overlapping(bot, tele, 1)) {
+				{
+					bot.x = portX
+					bot.y = portY
+				}
+			}
+			// if ( tele && port && overlapping(bot, port, 1)) {
+			// 	{
+			// 		bot.x = teleX
+			// 		bot.y = teleY
+			// 	}
+			// }
+
+
+		})
+
 	// check if weapon should be activated
 	let weaponGrabbed = false
 	app.ticker.add(function() {
@@ -480,7 +518,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 
 	// check if a sprite has reached a certain target
-	function overlapping(sprite, target){
+	function overlapping(sprite, target, closeness = 2){
 		let targetX, targetY
 		if (target.row && target.col) {
 			targetY = target.row * tileSize// - tileSize
@@ -491,7 +529,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		}
 		const proximityX = Math.abs(sprite.x - targetX)
 		const proximityY = Math.abs(sprite.y - targetY)
-		const proximityRequirement = tileSize * 2
+		const proximityRequirement = tileSize * closeness
 
 		const areOverlapping = (proximityX <= proximityRequirement) && (proximityY <= proximityRequirement)
 
