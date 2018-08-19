@@ -68,9 +68,6 @@ export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY, 
 					possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
 				}
 			}
-
-
-
 		}
 	})
 
@@ -107,10 +104,11 @@ export const greedyBot = (app, board, mazeGrid, moveSize, startX, startY) => {
 
 	let currentBotDirection = 0
 	app.ticker.add(()=>{
-		if (possibleDirections[currentBotDirection](bot, mazeGrid, moveSize)) possibleDirections[currentBotDirection](bot, mazeGrid, moveSize)
-		else {
-			currentBotDirection = (currentBotDirection+1)%6
-		}
+
+			if (possibleDirections[currentBotDirection](bot, mazeGrid, moveSize)) possibleDirections[currentBotDirection](bot, mazeGrid, moveSize)
+			else {
+				currentBotDirection = (currentBotDirection+1)%6
+			}
 	})
 
 	return bot

@@ -22,10 +22,10 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let timeAllowed = 60 // hard coded for now
 	let extraTimeX = startX + 100 // hard coded for now
 	let extraTimeY = startY // hard coded for now
-	let weaponX = startX + 150
+	let weaponX = startX + 200
 	let weaponY = startY
-	let slowDownX = startX + 200 // hard coded for now
-	let slowDownY = 0 // hard coded for now
+	let slowDownX = startX + 300 // hard coded for now
+	let slowDownY = startY // hard coded for now
 
 
 	let timeRemaining = timeAllowed
@@ -50,7 +50,12 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var extraTime = addPowerUp('hourGlassYellow.png', board, extraTimeX, extraTimeY, tileSize, .25)
 
-	var slowDown = addPowerUp('slowDown.png', board, slowDownX, slowDownY, tileSize, .3)
+	var slowDown = addPowerUp('slowDown.png', board, slowDownX, slowDownY, tileSize, .15)
+
+	var startCircle = new PIXI.Graphics()
+	startCircle.beginFill(0x00ff00)
+	startCircle.drawCircle(startX, startY, tileSize*1.5)
+	board.addChild(startCircle)
 
 	// create player
 	let player = createSprite('shield.png', startX, startY, .2)
@@ -62,10 +67,6 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY)
 
-	var startCircle = new PIXI.Graphics()
-	startCircle.beginFill(0x00ff00)
-	startCircle.drawCircle(startX, startY, tileSize*1.5)
-	board.addChild(startCircle)
 
 	// var endCircle = new PIXI.Graphics()
 	// endCircle.beginFill(0x008BFE)
@@ -76,7 +77,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	board.addChild(endIcon)
 
 	// set state and track which state to run
-	var state = setup
+	var state = play
 	app.ticker.add(function() {
 			state()
 	});
@@ -85,16 +86,28 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		timeRemaining = timeAllowed
 		player.x=startX
 		player.y=startY
-		bot.x=startX
-		bot.y=startY
+		// bot.x=startX
+		// bot.y=startY
 		board.visible = true;
 		coordsText.visible = true;
 		nav.visible = true;
 		winScreen.visible = false;
 		botWonScreen.visible = false;
 		timeText.visible = true;
-		state=play;
 
+		//reset bot
+		bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY, 2)
+
+		// reset powerups
+		extraTime = addPowerUp('hourGlassYellow.png', board, extraTimeX, extraTimeY, tileSize, .25)
+
+		weapon = addPowerUp('sword.png', board, weaponX, weaponY, tileSize, .15)
+		weaponGrabbed = false
+
+
+		slowDown = addPowerUp('slowDown.png', board, slowDownX, slowDownY, tileSize, .15)
+
+		state=play;
 	}
 
 	function play() {
