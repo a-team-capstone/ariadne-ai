@@ -147,7 +147,9 @@ const mapDispatch = dispatch => {
 					XT: obstacles.XT || [0,0],
 					FZ: obstacles.FZ || [0,0],
 					TEL: obstacles.TEL || [0,0],
-					PRT: obstacles.PRT || [0,0],
+          PRT: obstacles.PRT || [0,0],
+          SD: obstacles.SD || [0,0],
+          WP: obstacles.WP || [0,0],
 					time: obstacles.time || 30
 					 })
 			)
