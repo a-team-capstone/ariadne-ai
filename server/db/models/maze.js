@@ -11,7 +11,7 @@ const Maze = db.define('maze', {
 		type: Sequelize.STRING,
 		unique: true
 	},
-	solveable: {
+	solvable: {
 		type: Sequelize.BOOLEAN
 	},
 	data: {
@@ -28,11 +28,11 @@ const Maze = db.define('maze', {
 	},
   ST: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
-    defaultValue: [1, 1]
+    defaultValue: [24, 24]
   },
   END: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
-    defaultValue: [576, 768]
+    defaultValue: [744, 552]
   },
   BM: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
