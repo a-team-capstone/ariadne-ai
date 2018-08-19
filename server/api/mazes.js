@@ -1,6 +1,8 @@
 const router = require('express').Router()
 const { User, Maze, Play } = require('../db/models')
 const analyzeText = require('../utilities/analyzeText')
+const Sequelize = require('sequelize')
+const Op = Sequelize.Op
 
 module.exports = router
 
@@ -10,6 +12,21 @@ module.exports = router
 //delete maze
 //post a maze
 //get all (or highest/lowest) plays for specific maze
+
+router.get('/featured', async (req, res, next) => {
+	try {
+    const mazes = await Maze.findAll({
+      where: {
+        data: {
+          [Op.ne]: null
+        }
+      }
+    })
+    res.json(mazes)
+	} catch (err) {
+		next(err)
+	}
+})
 
 router.get('/:id', async (req, res, next) => {
 	try {
@@ -30,7 +47,7 @@ router.post('/analyze', async (req, res, next) => {
 		console.log('req body', req.body)
 		const response = await analyzeText(req.body.image)
 		res.send(response)
-	} catch(err) {
+	} catch (err) {
 		next(err)
 	}
 })
@@ -44,15 +61,6 @@ router.post('/analyze', async (req, res, next) => {
 // 		next(err)
 // 	}
 // })
-
-router.get('/featured', async (req, res, next) => {
-	try {
-    const mazes = await Maze.findAll()
-    res.json(mazes)
-	} catch (err) {
-		next(err)
-	}
-})
 
 router.delete('/:id', async (req, res, next) => {
 	try {

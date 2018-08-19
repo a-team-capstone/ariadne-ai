@@ -8,9 +8,6 @@ import {overlapping} from './MoveLogic'
 
 const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
-	console.log('running game logic')
-	console.log('tileSize', tileSize)
-
 	let startY = startPoint[0] - (startPoint[0]%tileSize)
 	let startX = startPoint[1] - (startPoint[1]%tileSize)
 	let endY = endPoint[0] - (endPoint[0]%tileSize)

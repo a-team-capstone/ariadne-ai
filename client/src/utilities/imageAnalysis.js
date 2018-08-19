@@ -7,7 +7,7 @@ export const scrapeImageData = (canvas, image) => {
 	console.log('Image', image)
 
 	let ctx = canvas.getContext('2d')
-	// image.crossOrigin = 'Anonymous'
+	image.crossOrigin = 'Anonymous'
 	ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
 	let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
