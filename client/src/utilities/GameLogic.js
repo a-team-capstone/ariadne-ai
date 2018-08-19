@@ -1,15 +1,15 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
 import {wallFollowerBot} from './BotLogic'
-import {addPowerUp} from './PowerUpsLogic'
+import {addPowerUp, activateTeleport} from './PowerUpsLogic'
 import {createSprite} from './PixiObjects'
 import * as move from './MoveLogic'
+import {overlapping} from './MoveLogic'
 
 const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	console.log('running game logic')
 	console.log('tileSize', tileSize)
-	console.log('game height and ßwidth', gameHeight, gameWidth)
 
 	let startY = startPoint[0] - (startPoint[0]%tileSize)
 	let startX = startPoint[1] - (startPoint[1]%tileSize)
@@ -18,7 +18,10 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let mazeTarget = {row: endY/tileSize, col: endX/tileSize}
 	let gameHeight = maze.length * tileSize + 200
 	let gameWidth = maze[0].length * tileSize
+	let mazeHeight = maze.length * tileSize
+	let mazeWidth = maze[0].length * tileSize
 
+	console.log('game height and width', gameHeight, gameWidth)
 
 	let timeAllowed = 60 // hard coded for now
 	let extraTimeX = startX + 100 // hard coded for now
@@ -31,8 +34,8 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let bombY = startY // hard coded for now
 	let teleX = endX-400 // hard coded for now
 	let teleY = endY // hard coded for now
-	let portX = endX-100 // hard coded for now
-	let portY = endY // hard coded for now
+	let portX = mazeWidth-tileSize // hard coded for now
+	let portY = mazeHeight-100 // hard coded for now
 	let freezeX = startX + 500 // hard coded for now
 	let freezeY = startY // hard coded for now
 
@@ -130,6 +133,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 		freezeCount = 300
 		freezeOn = false
+		if (freeze) freeze.destroy()
 		freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, .25)
 
 		state=play;
@@ -412,12 +416,12 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	app.ticker.add(function() {
 		coordsText.text = 'X: '+player.x+'\nY: '+player.y
 		// check if player reached target
-		if (overlapping(player, mazeTarget)) {
+		if (overlapping(player, mazeTarget, tileSize)) {
 				state = win
 		}
 
 		// check if bot reached target
-		if (overlapping(bot, mazeTarget)) {
+		if (overlapping(bot, mazeTarget, tileSize)) {
 			state = botWon
 		}
 
@@ -425,7 +429,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	// check if extra time should be activated
 	app.ticker.add(function() {
-		if (extraTime && overlapping(player, extraTime))
+		if (extraTime && overlapping(player, extraTime, tileSize))
 		{
 			timeRemaining += 10
 			extraTime.destroy()
@@ -435,7 +439,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 		// check if bomb should be activated
 		app.ticker.add(function() {
-			if ( bomb && overlapping(player, bomb)) {
+			if ( bomb && overlapping(player, bomb, tileSize)) {
 				{
 					player.x = startX
 					player.y = startY
@@ -443,7 +447,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 					bomb = null
 				}
 			}
-			if ( bomb && overlapping(bot, bomb)) {
+			if ( bomb && overlapping(bot, bomb, tileSize)) {
 				{
 					bot.x = startX
 					bot.y = startY
@@ -451,36 +455,6 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 					bomb = null
 				}
 			}
-
-		})
-
-		// check if teleport should be activated
-		app.ticker.add(function() {
-			if ( tele && port && overlapping(player, tele, 1)) {
-				{
-					player.x = portX
-					player.y = portY
-				}
-			}
-			// if ( tele && port && overlapping(player, port, 1)) {
-			// 	{
-			// 		player.x = teleX
-			// 		player.y = teleY
-			// 	}
-			// }
-			if ( tele && port && overlapping(bot, tele, 1)) {
-				{
-					bot.x = portX
-					bot.y = portY
-				}
-			}
-			// if ( tele && port && overlapping(bot, port, 1)) {
-			// 	{
-			// 		bot.x = teleX
-			// 		bot.y = teleY
-			// 	}
-			// }
-
 
 		})
 
@@ -505,7 +479,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var freezeCount = 300
 	var freezeOn = false
 	app.ticker.add(function() {
-		if (freeze && overlapping(player, freeze))
+		if (freeze && overlapping(player, freeze, tileSize))
 		{
 			freezeOn = true
 			freeze.destroy()
@@ -542,14 +516,14 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let weaponGrabbed = false
 	app.ticker.add(function() {
 		if (!weaponGrabbed) {
-			if (weapon && overlapping(player, weapon))
+			if (weapon && overlapping(player, weapon, tileSize))
 				{
 					weaponGrabbed = true
 				}
 			} else {
 				weapon.x = player.x+tileSize*1.5
 				weapon.y = player.y
-				if (overlapping(player, bot)){
+				if (overlapping(player, bot, tileSize)){
 					bot.x = startX
 					bot.y = startY
 					weaponGrabbed = false
@@ -561,7 +535,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 		// check if slowDown should be activated
 		app.ticker.add(function() {
-			if (slowDown && overlapping(bot, slowDown))
+			if (slowDown && overlapping(bot, slowDown, tileSize))
 			{
 				console.log('SLOW BOT DOWN')
 				const currentBotX = bot.x
@@ -575,26 +549,13 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 			}
 		})
 
+	// check if teleport should be used
+	activateTeleport(app, player, tele, port, tileSize, mazeWidth, mazeHeight, mazeGrid) // activate for player
+	activateTeleport(app, bot, tele, port, tileSize, mazeWidth, mazeHeight, mazeGrid) // activate for bot
 
 
-	// check if a sprite has reached a certain target
-	function overlapping(sprite, target, closeness = 2){
-		let targetX, targetY
-		if (target.row && target.col) {
-			targetY = target.row * tileSize// - tileSize
-			targetX = target.col * tileSize// - tileSize
-		} else {
-			targetY = target.y
-			targetX = target.x
-		}
-		const proximityX = Math.abs(sprite.x - targetX)
-		const proximityY = Math.abs(sprite.y - targetY)
-		const proximityRequirement = tileSize * closeness
 
-		const areOverlapping = (proximityX <= proximityRequirement) && (proximityY <= proximityRequirement)
 
-		return areOverlapping
-	}
 
 	return app
 }
