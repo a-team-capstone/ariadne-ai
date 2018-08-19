@@ -5,6 +5,11 @@ import showFloodFill from '../utilities/FloodFillView'
 import { getMazeFromImage } from '../utilities/imageAnalysis'
 import floodFill from '../utilities/floodFill'
 import { uploadMaze } from '../store/maze'
+import axios from 'axios'
+
+const api = axios.create({
+	withCredentials: true
+})
 
 class FloodFill extends Component {
 	constructor() {
@@ -17,17 +22,29 @@ class FloodFill extends Component {
 			solvable: '...analyzing',
 			explainerText: 'Detecting accessible maze regions using flood fill algorithm',
 			maze: [],
-			obstacles: {}
+			obstacles: {},
+			imageUrl: 'favicon.ico'
 		}
 	}
 
-	componentDidMount() {
+	async componentDidMount() {
+		console.log("HERE IN CDM")
 		const image = this.refs.mazeImage
-		image.crossOrigin = '*'
+		const { data } = await api.get(this.props.image)
+		
+		//const newUrl = window.atob(data)
+		//const newUrl = decodeURIComponent(data.replace(/(\r\n\t|\n|\r\t\s)/gm,""))
+		
+		// await this.setState({
+		// 	imageUrl: newUrl
+		// })
+		image.crossOrigin = 'Anonymous'
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 
-		image.onload = async() => {
-			this.setState({
+		//image.onload = async() => {
+			console.log("HERE IN ONLOAD")
+			await this.setState({
+				imageUrl: `data:image/jpeg;base64,${data}`,
 				imageHeight: image.naturalHeight,
 				imageWidth: image.naturalWidth
 			})
@@ -38,7 +55,7 @@ class FloodFill extends Component {
 				)
 				const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1}
 				const maze = mazeGrid.map(row => row.slice())
-				this.setState({ maze: maze, obstacles: obstacleAvgs })
+				await this.setState({ maze: maze, obstacles: obstacleAvgs })
 
 
 
@@ -61,11 +78,11 @@ class FloodFill extends Component {
 				const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
 				const solvable = (floodedMaze[endRow][endCol] === -1) ? 'YES' : 'NO'
 				const explainerText = 'Blue dots = accessible from starting point.'
-				this.setState({solvable, explainerText})
+				await this.setState({solvable, explainerText})
 
 				this.refs.board.appendChild(
 					showFloodFill(image.src, floodedMaze, tileSize, startPoint, endPoint).view)
-			}
+			//}
 		}
 
 	render() {
@@ -73,6 +90,7 @@ class FloodFill extends Component {
 		const invisibleCanvas = {opacity: 0}
 		const { image, handleClick, user } = this.props
 		const solveable = this.state.solvable
+		const imageUrl = this.state.imageUrl
 		console.log("obstacles", this.state.obstacles)
 		return (
 			<div id="floodFillView" className="floodFill">
@@ -82,7 +100,7 @@ class FloodFill extends Component {
 				<img
 					id="mazeImage"
 					ref="mazeImage"
-					src={image}
+					src={imageUrl}
 					alt="simpleMaze"
 					style={invisibleImage}
 					width={this.state.desiredWidth}
