@@ -12,15 +12,17 @@ class PixiGame extends Component {
 		}
 	}
 	componentDidMount() {
-		this.props.loadMaze(this.props.maze.id)
+    console.log('the maze in CDM', this.props.maze)
+    this.props.loadMaze(this.props.maze.id)
 	}
 
 	render() {
-		const { maze, image } = this.props
+    const { maze } = this.props
+    const { image } = maze
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 		if (maze.data && this.refs.board) {
-			const startPoint = maze.data.ST 
-			const endPoint = maze.data.END
+			const startPoint = maze.ST 
+      const endPoint = maze.END
 
 			this.refs.board.appendChild(PixiApp(image, maze.data.data, tileSize, startPoint, endPoint).view)
     }
@@ -35,7 +37,6 @@ class PixiGame extends Component {
 
 const mapState = state => {
 	return {
-		image: state.image,
 		maze: state.maze
 	}
 }
