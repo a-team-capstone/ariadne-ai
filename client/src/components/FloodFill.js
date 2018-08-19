@@ -45,7 +45,7 @@ class FloodFill extends Component {
 
 				const startPoint = obstacleAvgs.ST || [1, 1]//[25, 100]
 				console.log('length', mazeGrid)
-				const endPoint = obstacleAvgs.END || [672, 576]//[25, 500]
+				const endPoint = obstacleAvgs.END || [768, 576]//[25, 500]
 				console.log('start, end', startPoint, endPoint)
 				var startRow = Math.round(startPoint[0]/tileSize)
 				var startCol = Math.round(startPoint[1]/tileSize)
@@ -150,7 +150,7 @@ const mapDispatch = dispatch => {
 					data: maze,
 					userId,
 					ST: obstacles.ST || [1,1],
-					END: obstacles.END || [672, 576],
+					END: obstacles.END || [768, 576],
 					// BM: obstacles.BM,
 					// XT: obstacles.XT,
 					// FZ: obstacles.FZ,

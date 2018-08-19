@@ -32,7 +32,7 @@ const Maze = db.define('maze', {
   },
   END: {
     type: Sequelize.ARRAY(Sequelize.INTEGER),
-    defaultValue: [672, 576]
+    defaultValue: [768, 576]
   },
   BM: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
