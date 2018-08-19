@@ -14,8 +14,8 @@ class FloodFill extends Component {
 			imageWidth: 0,
 			desiredWidth: 600,
 			desiredHeight: 800,
-			solvable: '...analyzing',
-			explainerText: 'Detecting accessible maze regions using flood fill algorithm',
+			solvable: 'Analyzing...',
+			explainerText: 'Determining if your maze is solvable based on its boundaries.',
 			maze: [],
 			obstacles: {}
 		}
@@ -41,27 +41,16 @@ class FloodFill extends Component {
 				const maze = mazeGrid.map(row => row.slice())
 				this.setState({ maze: maze, obstacles: obstacleAvgs })
 
-
-
-				const startPoint = obstacleAvgs.ST || [24, 24]//[25, 100]
-				console.log('length', mazeGrid)
-				const endPoint = obstacleAvgs.END || [744, 552]//[25, 500]
-				console.log('start, end', startPoint, endPoint)
+				const startPoint = obstacleAvgs.ST || [24, 24]
+				const endPoint = obstacleAvgs.END || [744, 552]
 				var startRow = Math.round(startPoint[0]/tileSize)
 				var startCol = Math.round(startPoint[1]/tileSize)
 				var endRow = Math.round(endPoint[0]/tileSize)
 				var endCol = Math.round(endPoint[1]/tileSize)
-				//
-				//
-				// var startCol = startPoint[0] - (startPoint[0]%tileSize)
-				// var startRow = startPoint[1] - (startPoint[1]%tileSize)
-				// var endCol = endPoint[0] - (endPoint[0]%tileSize)
-				// var endRow = endPoint[1] - (endPoint[1]%tileSize)
 
-				console.log('calling floodFill, starting at (row, col)', startRow, startCol, 'ending at', endRow, endCol)
-				const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
-				const solvable = (floodedMaze[endRow][endCol] === -1) ? 'YES' : 'NO'
-				const explainerText = 'Blue dots = accessible from starting point.'
+        const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
+				const solvable = (floodedMaze[endRow][endCol] === -1)
+				const explainerText = solvable ? 'Blue dots indicate reachable areas in the maze.' : 'Your power-ups may say otherwise, though. Try to play your maze to be sure!'
 				this.setState({solvable, explainerText})
 
 				this.refs.board.appendChild(
@@ -73,12 +62,15 @@ class FloodFill extends Component {
 		const invisibleImage = {display: "none"}
 		const invisibleCanvas = {opacity: 0}
 		const { image, handleClick, user } = this.props
-		const solveable = this.state.solvable
-		console.log("obstacles", this.state.obstacles)
+		const { solvable, explainerText } = this.state
+		
 		return (
 			<div id="floodFillView" className="floodFill">
-				<h3>Is it solvable? {this.state.solvable}</h3>
-				<h5>{this.state.explainerText}</h5>
+        { solvable === 'Analyzing...' ?
+          <h3>{solvable}</h3> :
+          <h3>{solvable ? 'Your maze is solvable!' : 'Your maze is not solvable!'}</h3>
+        }
+				<h5>{explainerText}</h5>
 				<div ref="board" id="floodFillCanvas"/>
 				<img
 					id="mazeImage"
@@ -116,7 +108,7 @@ class FloodFill extends Component {
 						type="button"
 						id="playButton"
 						className="btn btn-primary"
-						onClick={() => handleClick(this.state.maze, image, user.id, solveable, this.state.obstacles)}
+						onClick={() => handleClick(this.state.maze, image, user.id, this.state.solvable, this.state.obstacles)}
 					>
 						Play
 					</button>
@@ -142,11 +134,11 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
 	return {
-		handleClick(maze, image, userId, solveable, obstacles) {
+		handleClick(maze, image, userId, solvable, obstacles) {
 			dispatch(
 				uploadMaze({
 					image: image,
-					solveable: solveable,
+					solvable: solvable,
 					data: maze,
 					userId,
 					ST: obstacles.ST || [24, 24],

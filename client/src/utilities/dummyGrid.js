@@ -33,7 +33,7 @@ const createGrid = (width, height, tileSize, mazeData) => {
 		grid.length - 1,
 		grid[0].length - 1
 	)
-	console.log('solveable?', floodGridObj.solveable)
+	console.log('solvable?', floodGridObj.solvable)
 	return floodGridObj.updatedGrid
 }
 
@@ -74,7 +74,7 @@ const floodGrid = (grid, startRow, startCol, endRow, endCol) => {
 	console.log('flooded', flooded)
 	return {
 		updatedGrid: updated,
-		solveable: flooded[endRow][endCol] === -1
+		solvable: flooded[endRow][endCol] === -1
 	}
 }
 

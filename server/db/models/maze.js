@@ -11,7 +11,7 @@ const Maze = db.define('maze', {
 		type: Sequelize.STRING,
 		unique: true
 	},
-	solveable: {
+	solvable: {
 		type: Sequelize.BOOLEAN
 	},
 	data: {
