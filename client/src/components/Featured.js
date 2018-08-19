@@ -1,10 +1,25 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { loadFeatured } from '../store/featuredMazes'
+import { saveMaze } from '../store/maze'
+import history from '../history'
+import axios from 'axios'
 
 class FeaturedMazes extends Component {
+  constructor () {
+    super()
+    this.handlePlay = this.handlePlay.bind(this)
+  }
+
   componentDidMount () {
     this.props.loadFeatured()
+  }
+
+  async handlePlay (evt) {
+    evt.preventDefault()
+    const maze = await axios.get(`api/mazes/${evt.target.value}`)
+    this.props.saveMaze(maze.data)
+    history.push('/pixi')
   }
 
   render () {
@@ -15,11 +30,11 @@ class FeaturedMazes extends Component {
       {
         featured.map(maze => {
           return (
-            <Fragment>
+            <Fragment key={maze.id}>
               <h6>Maze Name</h6>
               <p>Leader: Shelby</p>
               <p>Time: 35 seconds</p>
-              <button>Play</button>
+              <button value={maze.id} onClick={this.handlePlay}>Play</button>
             </Fragment>
           )
         })
@@ -34,7 +49,8 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-  loadFeatured: () => dispatch(loadFeatured())
+  loadFeatured: () => dispatch(loadFeatured()),
+  saveMaze: id => dispatch(saveMaze(id))
 })
 
 export default connect(mapState, mapDispatch)(FeaturedMazes)

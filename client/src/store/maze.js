@@ -9,7 +9,7 @@ const GET_MAZE = 'GET_MAZE'
 /**
  * ACTION CREATORS
  */
-const saveMaze = maze => ({
+export const saveMaze = maze => ({
 	type: SAVE_MAZE,
 	maze
 })
@@ -23,12 +23,10 @@ const getMaze = maze => ({
  * THUNK CREATORS
  */
 export const uploadMaze = maze => {
-	console.log('maze in thunk', maze)
 	return async dispatch => {
 		try {
 			const { data } = await axios.post(`api/mazes/`, maze)
-			// console.log('Maze data', data)
-			dispatch(saveMaze(data.id))
+			dispatch(saveMaze(data))
 			history.push('/pixi')
 		} catch (err) {
 			console.log('There was a problem. Maze was not saved...', err)
@@ -49,18 +47,13 @@ export const loadMaze = mazeId => {
 	}
 }
 
-const initialState = {
-	id: 0,
-	data: {}
-}
-
 /**
  * REDUCER
  */
 const mazeReducer = (state = {}, action) => {
 	switch (action.type) {
 		case SAVE_MAZE:
-			return { ...state, id: action.maze }
+			return action.maze
 		case GET_MAZE:
 			return { ...state, data: action.maze}
 		default:
