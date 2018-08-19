@@ -5,11 +5,13 @@ import axios from 'axios'
 
 export const scrapeImageData = (canvas, image) => {
 	console.log('Image', image)
-
+  let imgData
 	let ctx = canvas.getContext('2d')
-	// image.crossOrigin = 'Anonymous'
+	image.crossOrigin = '*'
+  //image.onload = () => {
 	ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
-	let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+//}
+  imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
 }
 
