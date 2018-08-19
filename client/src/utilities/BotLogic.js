@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import {down, up, left, right} from './MoveLogic'
 
-export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY) => {
+export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY, speed=2) => {
 
 	// create a new sprite from an image path
 	var bot = PIXI.Sprite.fromImage('botShield.png')
@@ -51,7 +51,7 @@ export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY) 
 	app.ticker.add(()=>{
 		botMoveCount++
 		if (!bot.visible) currentBotDirection = 'down'
-		else if (botMoveCount%6 === 0) {
+		else if (botMoveCount%(12/speed) === 0) {
 
 			// if blocked, switch to ifBlocked direction
 			if (!possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)) {

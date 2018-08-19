@@ -420,6 +420,13 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 			if (slowDown && overlapping(bot, slowDown))
 			{
 				console.log('SLOW BOT DOWN')
+				const currentBotX = bot.x
+				const currentBotY = bot.y
+				const oldBot = bot
+				bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentBotX, currentBotY, 1)
+				oldBot.x = -999
+				oldBot.y = -999
+				//board.addChild(newBot)
 				slowDown.destroy()
 				slowDown = null
 			}
