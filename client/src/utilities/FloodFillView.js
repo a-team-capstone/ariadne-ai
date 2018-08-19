@@ -1,4 +1,5 @@
 import * as PIXI from 'pixi.js'
+import {createSprite} from './PixiObjects'
 
 const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 	var gameHeight = maze.length * tileSize
@@ -35,13 +36,9 @@ const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var startCircle = new PIXI.Graphics()
 	startCircle.beginFill(0x00ff00)
-	startCircle.drawCircle(startX, startY, tileSize*1.25)
+	startCircle.drawCircle(startX, startY, tileSize*1.5)
 	board.addChild(startCircle)
 
-	var endCircle = new PIXI.Graphics()
-	endCircle.beginFill(0xed9b0e)
-	endCircle.drawCircle(endX, endY, tileSize*1.25)
-	board.addChild(endCircle)
 
 	// Add board tiles. Currently set to transparent
 	var tiles = new PIXI.Graphics()
@@ -51,23 +48,36 @@ const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 		for (var col = 0; col < maze.length; col++) {
 
 			// if (mazeGrid[col][row] === 1) {
-			// 	tiles.beginFill(blockedColor)
-			// 	tiles.drawCircle(row * tileSize, col * tileSize, tileSize/3)
-			// }
-			if (mazeGrid[col][row] === -1) {
-				tiles.beginFill(floodColor)
-				tiles.drawCircle(row * tileSize + .5 * tileSize, col * tileSize + .5 * tileSize, tileSize/3)
+				// 	tiles.beginFill(blockedColor)
+				// 	tiles.drawCircle(row * tileSize, col * tileSize, tileSize/3)
+				// }
+				if (mazeGrid[col][row] === -1) {
+					tiles.beginFill(floodColor)
+					tiles.drawCircle(row * tileSize + .5 * tileSize, col * tileSize + .5 * tileSize, tileSize/3)
 
+				}
 			}
 		}
-	}
-	board.addChild(tiles)
+		board.addChild(tiles)
 
-	board.x = 0
-	board.y = 0
-	app.stage.addChild(board)
+		var player = createSprite('shield.png', startX, startY, .2)
+		board.addChild(player);
 
-	return app
+		// var endCircle = new PIXI.Graphics()
+		// endCircle.beginFill(0x008BFE)
+		// endCircle.drawCircle(endX, endY, tileSize*1.5)
+		// board.addChild(endCircle)
+
+
+		var endIcon = createSprite('star.png', endX, endY, .15)
+		board.addChild(endIcon)
+		console.log('endIcon', endIcon)
+
+		board.x = 0
+		board.y = 0
+		app.stage.addChild(board)
+
+		return app
 }
 
 export default showFloodFill

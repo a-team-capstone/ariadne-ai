@@ -14,7 +14,7 @@ class FloodFill extends Component {
 			imageWidth: 0,
 			desiredWidth: 600,
 			desiredHeight: 800,
-			solvable: '...analyzing...',
+			solvable: '...analyzing',
 			explainerText: 'Detecting accessible maze regions using flood fill algorithm',
 			maze: [],
 			obstacles: {}
@@ -42,16 +42,16 @@ class FloodFill extends Component {
 
 
 
-				const startPoint = obstacleAvgs.ST || [1, 1]//[25, 100]
+				const startPoint = obstacleAvgs.ST || [24, 24]//[25, 100]
 				console.log('length', mazeGrid)
-				const endPoint = obstacleAvgs.END || [576, 768]//[25, 500]
+				const endPoint = obstacleAvgs.END || [744, 552]//[25, 500]
 				console.log('start, end', startPoint, endPoint)
 				var startRow = Math.round(startPoint[0]/tileSize)
 				var startCol = Math.round(startPoint[1]/tileSize)
 				var endRow = Math.round(endPoint[0]/tileSize)
 				var endCol = Math.round(endPoint[1]/tileSize)
-				// 
-				// 
+				//
+				//
 				// var startCol = startPoint[0] - (startPoint[0]%tileSize)
 				// var startRow = startPoint[1] - (startPoint[1]%tileSize)
 				// var endCol = endPoint[0] - (endPoint[0]%tileSize)
@@ -76,8 +76,7 @@ class FloodFill extends Component {
 		console.log("obstacles", this.state.obstacles)
 		return (
 			<div id="floodFillView" className="floodFill">
-				<h3>Is it solvable? </h3>
-				<h2>{this.state.solvable}</h2>
+				<h3>Is it solvable? {this.state.solvable}</h3>
 				<h5>{this.state.explainerText}</h5>
 				<div ref="board" id="floodFillCanvas"/>
 				<img
@@ -110,6 +109,7 @@ class FloodFill extends Component {
 						<button type="button" className="btn btn-primary">
 							Send to a friend
 						</button>
+					</Link>
 					{/* <Link to="/pixi"> */}
 					<button
 						type="button"
@@ -119,7 +119,7 @@ class FloodFill extends Component {
 					>
 						Play
 					</button>
-					</Link>
+					{/* </Link> */}
 					<Link to="/create-maze">
 						<button type="button" className="btn btn-primary">
 							Create new maze
@@ -143,13 +143,13 @@ const mapDispatch = dispatch => {
 	return {
 		handleClick(maze, image, userId, solveable, obstacles) {
 			dispatch(
-				uploadMaze({ 
-					image: image, 
-					solveable: solveable, 
-					data: maze, 
+				uploadMaze({
+					image: image,
+					solveable: solveable,
+					data: maze,
 					userId,
-					ST: obstacles.ST || [1,1],
-					END: obstacles.END || [576, 768],
+					ST: obstacles.ST || [24, 24],
+					END: obstacles.END || [744, 552],
 					// BM: obstacles.BM,
 					// XT: obstacles.XT,
 					// FZ: obstacles.FZ,
