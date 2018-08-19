@@ -19,6 +19,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	let gameHeight = maze.length * tileSize + 200
 	let gameWidth = maze[0].length * tileSize
 
+
 	let timeAllowed = 60 // hard coded for now
 	let extraTimeX = startX + 100 // hard coded for now
 	let extraTimeY = startY // hard coded for now
@@ -101,6 +102,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 		// reset powerups
 		extraTime = addPowerUp('hourGlassYellow.png', board, extraTimeX, extraTimeY, tileSize, .25)
 
+		if (weapon) weapon.destroy()
 		weapon = addPowerUp('sword.png', board, weaponX, weaponY, tileSize, .15)
 		weaponGrabbed = false
 
@@ -384,7 +386,6 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	// update coordinates and check if reached target
 	app.ticker.add(function() {
 		coordsText.text = 'X: '+player.x+'\nY: '+player.y
-
 		// check if player reached target
 		if (overlapping(player, mazeTarget)) {
 				state = end
