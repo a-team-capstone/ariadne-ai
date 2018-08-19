@@ -1,19 +1,22 @@
 import * as PIXI from 'pixi.js'
 
-export const extraTimePowerUp = (board) => {
+export const addPowerUp = (board, x, y, tileSize, scale, anchor = .5) => {
 		// create a new Sprite from an image path
-		var powerUp = PIXI.Sprite.fromImage('hourGlassYellow.png')
+		const powerUp = PIXI.Sprite.fromImage('hourGlassYellow.png')
+		const adjustedX = x - (x%tileSize)
+		const adjustedY = y - (y%tileSize)
+
 
 		// set sprite's location
-		powerUp.x = 200;
-		powerUp.y = 200;
+		powerUp.x = adjustedX;
+		powerUp.y = adjustedY;
 
 		// set sprite's size
-		powerUp.scale.x = 0.25
-		powerUp.scale.y = 0.25
+		powerUp.scale.x = scale
+		powerUp.scale.y = scale
 
 		// set the sprite's anchor point
-		powerUp.anchor.set(0.5);
+		powerUp.anchor.set(anchor);
 
 		// add sprite to board
 		board.addChild(powerUp);

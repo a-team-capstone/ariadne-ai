@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
 import {wallFollowerBot} from './BotLogic'
-import {extraTimePowerUp} from './PowerUpsLogic'
+import {addPowerUp} from './PowerUpsLogic'
 import {createSprite} from './PixiObjects'
 import * as move from './MoveLogic'
 
@@ -9,19 +9,23 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	console.log('running game logic')
 	console.log('tileSize', tileSize)
+	console.log('game height and ßwidth', gameHeight, gameWidth)
 
-	var startY = startPoint[0] - (startPoint[0]%tileSize)
-	var startX = startPoint[1] - (startPoint[1]%tileSize)
-	var endY = endPoint[0] - (endPoint[0]%tileSize)
-	var endX = endPoint[1] - (endPoint[1]%tileSize)
-	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
-	var gameHeight = maze.length * tileSize + 200
-	var gameWidth = maze[0].length * tileSize
-	var timeAllowed = 60 // hard coded for now
-	var timeRemaining = timeAllowed
+	let startY = startPoint[0] - (startPoint[0]%tileSize)
+	let startX = startPoint[1] - (startPoint[1]%tileSize)
+	let endY = endPoint[0] - (endPoint[0]%tileSize)
+	let endX = endPoint[1] - (endPoint[1]%tileSize)
+	let mazeTarget = {row: endY/tileSize, col: endX/tileSize}
+	let gameHeight = maze.length * tileSize + 200
+	let gameWidth = maze[0].length * tileSize
+
+	let timeAllowed = 60 // hard coded for now
+	let extraTimeX = startX + 100 // hard coded for now
+	let extraTimeY = startY // hard coded for now
 
 
-	console.log('game height and width', gameHeight, gameWidth)
+	let timeRemaining = timeAllowed
+
 	var app = new PIXI.Application(gameWidth, gameHeight, { antialias: true, backgroundColor: 0x001099bb })
 
 	var background = PIXI.Sprite.fromImage(img)
@@ -40,7 +44,7 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 	var board = new PIXI.Graphics()
 	board.addChild(background)
 
-	var extraTime = extraTimePowerUp(board)
+	var extraTime = addPowerUp(board, extraTimeX, extraTimeY, tileSize, .25)
 
 	var bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY)
 
@@ -370,16 +374,30 @@ const createBoard = (img, maze, tileSize, startPoint, endPoint) => {
 
 	})
 
+	// check if powerups should be activated
+	app.ticker.add(function() {
+		if (extraTime && overlapping(player, extraTime))
+		{
+			timeRemaining += 10
+			extraTime.destroy()
+			extraTime = null
+		}
+	})
+
 
 	// check if a sprite has reached a certain target
 	function overlapping(sprite, target){
-		const targetY = target.row * tileSize// - tileSize
-		const targetX = target.col * tileSize// - tileSize
+		let targetX, targetY
+		if (target.row && target.col) {
+			targetY = target.row * tileSize// - tileSize
+			targetX = target.col * tileSize// - tileSize
+		} else {
+			targetY = target.y
+			targetX = target.x
+		}
 		const proximityX = Math.abs(sprite.x - targetX)
 		const proximityY = Math.abs(sprite.y - targetY)
 		const proximityRequirement = tileSize * 2
-
-		// console.log('proximity X and Y', proximityX, proximityY)
 
 		const areOverlapping = (proximityX <= proximityRequirement) && (proximityY <= proximityRequirement)
 
