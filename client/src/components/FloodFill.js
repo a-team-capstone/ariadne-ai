@@ -56,7 +56,7 @@ class FloodFill extends Component {
 		const maze = mazeGrid.map(row => row.slice())
 		await this.setState({ maze: maze, obstacles: obstacleAvgs })
 
-		const startPoint = obstacleAvgs.ST || [24, 24]
+		const startPoint = obstacleAvgs.STA || [24, 24]
 		const endPoint = obstacleAvgs.END || [744, 552]
 		var startRow = Math.round(startPoint[0] / tileSize)
 		var startCol = Math.round(startPoint[1] / tileSize)
@@ -162,15 +162,15 @@ const mapDispatch = dispatch => {
 					solvable: solvable,
 					data: maze,
 					userId,
-					ST: obstacles.ST || [24, 24],
+					STA: obstacles.STA || [24, 24],
 					END: obstacles.END || [744, 552],
-					BM: obstacles.BM || null,
-					XT: obstacles.XT || null,
-					FZ: obstacles.FZ || null,
+					BMB: obstacles.BMB || null,
+					XTM: obstacles.XTM || null,
+					FRZ: obstacles.FRZ || null,
 					TEL: obstacles.TEL || null,
-					PRT: obstacles.PRT || null,
-					SD: obstacles.SD || null,
-					WP: obstacles.WP || null,
+		            PRT: obstacles.PRT || null,
+		            SLD: obstacles.SLD || null,
+		            WPN: obstacles.WPN || null,
 					time: obstacles.time || 30
 				})
 			)
