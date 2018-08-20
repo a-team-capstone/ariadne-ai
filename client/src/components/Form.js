@@ -29,7 +29,7 @@ const Form = props => {
 				</div>
 				{error && error.response && <div> {error.response.data} </div>}
 			</form>
-			<a href="/auth/google">
+			<a href={process.env.NODE_ENV === 'development' ? "http://localhost:3001/auth/google" : "https://ariadne-ai.herokuapp.com/auth/google"}>
 				{/* <button type="button" className="btn btn-primary"> */}
 				{displayName} with Google
 				{/* </button> */}
