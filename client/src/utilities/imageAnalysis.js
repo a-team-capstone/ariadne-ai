@@ -129,7 +129,7 @@ const getObstacleAvgs = (textData, height, width) => {
 export const getMazeFromImage = async (canvas, image, tileSize, imageUrl) => {
   const { data } = await axios.post('api/mazes/analyze', {"image": imageUrl})
 	const scraped = scrapeImageData(canvas, image)
-
+  console.log('google data', data)
 	const height = canvas.height
 	const width = canvas.width
 

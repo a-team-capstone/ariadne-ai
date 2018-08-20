@@ -11,8 +11,8 @@ import {createGameScreen, createButton} from './GameScreens'
 const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	let maze = mazeObj.data
 
+	let {WPN, FRZ, XTM, BMB, TEL, SLD, PRT, time} = mazeObj
 
-	let {WP, FZ, XT, BM, TEL, SD, PRT, time} = mazeObj
 
 
 	let startY = startPoint[0] - (startPoint[0] % tileSize)
@@ -30,20 +30,20 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 
 	let timeAllowed = time
-	let extraTimeX = XT? XT[1] : -999
-	let extraTimeY = XT? XT[0] : -999
-	let weaponX = WP? WP[1] : -999
-	let weaponY = WP? WP[0] : -999
-	let slowDownX = SD? SD[1] : -999
-	let slowDownY = SD? SD[0] : -999
-	let bombX = BM? BM[1] : -999
-	let bombY = BM? BM[0] : -999
+	let extraTimeX = XTM? XTM[1] : -999
+	let extraTimeY = XTM? XTM[0] : -999
+	let weaponX = WPN? WPN[1] : -999
+	let weaponY = WPN? WPN[0] : -999
+	let slowDownX = SLD? SLD[1] : -999
+	let slowDownY = SLD? SLD[0] : -999
+	let bombX = BMB? BMB[1] : -999
+	let bombY = BMB? BMB[0] : -999
 	let teleX = TEL? TEL[1] : -999
 	let teleY = TEL? TEL[0] : -999
 	let portX = PRT? PRT[1] : -999
 	let portY = PRT? PRT[0] : -999
-	let freezeX = FZ? FZ[1] : -999
-	let freezeY = FZ? FZ[0] : -999
+	let freezeX = FRZ? FRZ[1] : -999
+	let freezeY = FRZ? FRZ[0] : -999
 
 
 	let timeRemaining = timeAllowed

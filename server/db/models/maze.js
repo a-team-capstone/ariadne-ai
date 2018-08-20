@@ -26,31 +26,25 @@ const Maze = db.define('maze', {
       }, []).join(''))
     }
 	},
-  ST: {
+  STA: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
   END: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
-  BM: {
+  BMB: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
-  XT: {
+  XTM: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
-  FZ: {
+  FRZ: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
   TEL: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
   PRT: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
-  },
-  SD: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
-  },
-  WP: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
   time: {
