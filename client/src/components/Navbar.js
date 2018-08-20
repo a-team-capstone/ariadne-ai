@@ -50,6 +50,9 @@ class Navbar extends Component {
 				<Link to="/friends" onClick={this.handlerCloseSideBar}>
 					Friends
 				</Link>
+        <Link to="/tutorial" onClick={this.handlerCloseSideBar}>
+					Help
+				</Link>
 				{isLoggedIn && (
 					<Link to="/" onClick={handleClick}>
 						Logout

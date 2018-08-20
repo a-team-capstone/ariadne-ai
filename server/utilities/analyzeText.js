@@ -1,13 +1,13 @@
 const axios = require('axios')
 
 const getPoly = (text, data, label, index) => {
-  if(!data.responses[0].textAnnotations) return null
+  if (!data.responses[0].textAnnotations) return null
   const annts = data.responses[0].textAnnotations.slice(1)
   let vertices = index < 7 ? annts.filter(entry => entry.description.toUpperCase().includes(label) || 
     (entry.description.toUpperCase().includes(label[0]) && entry.description.toUpperCase().includes(label[1]))) 
     : annts.filter(entry => entry.description.search(label) >= 0)
   if (!vertices.length) return null
-  if (index === 7) return vertices[0].description
+  if (index === 9) return vertices[0].description
   vertices = vertices[0].boundingPoly.vertices
       vertices = vertices.reduce( (acc, curr, index) => {
         switch (index) {
@@ -29,7 +29,7 @@ async function analyzeText(imageUri) {
     console.log('imageuri', imageUri)
     const text = {}
     const time = /[0-9]+/
-    const labels = ['ST', 'END', 'XT', 'BM', 'FZ', 'TEL', 'PRT', time]
+    const labels = ['ST', 'END', 'XT', 'BM', 'FZ', 'TEL', 'PRT', 'SD', 'WP', time]
     const request = {
     "requests":[
       {
@@ -52,7 +52,7 @@ async function analyzeText(imageUri) {
       labels.forEach( (label, index) => {
         const poly = getPoly(text, data, label, index)
         if (poly !== null) {
-          index === 7 ? text.time = +poly : text[label] = poly
+          index === 9 ? text.time = +poly : text[label] = poly
         }
       })
       return text

@@ -4,8 +4,13 @@
 import axios from 'axios'
 
 export const scrapeImageData = (canvas, image) => {
+<<<<<<< HEAD
 	console.log('Image', image)
   let imgData
+=======
+	// console.log('Image', image)
+
+>>>>>>> master
 	let ctx = canvas.getContext('2d')
 	image.crossOrigin = 'Anonymous'
 	ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
@@ -45,7 +50,7 @@ const clearObstacles = (pixelGrid, textData, height, width) => {
       }
     }
   }
-  console.log('clearedGrid', pixelGrid)
+  // console.log('clearedGrid', pixelGrid)
   return pixelGrid
 }
 
@@ -75,6 +80,10 @@ export const organizeImageData = (imageData, height, width) => {
 		}
 	}
 
+<<<<<<< HEAD
+=======
+	// console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
+>>>>>>> master
 	return pixelGrid
 }
 
@@ -129,26 +138,22 @@ const getObstacleAvgs = (textData, height, width) => {
 //------------------------------------------------
 // calls all of the above functions on an image
 export const getMazeFromImage = async (canvas, image, tileSize, imageUrl) => {
-	// const ctx = canvas.getContext("2d");
   const { data } = await axios.post('api/mazes/analyze', {"image": imageUrl})
 	const scraped = scrapeImageData(canvas, image)
 
-	const height = canvas.height // image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
-	const width = canvas.width // image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
+	const height = canvas.height
+	const width = canvas.width
 
 	const tidyGrid = organizeImageData(scraped, height, width)
   const clearedGrid = clearObstacles(tidyGrid, data, image.naturalHeight, image.naturalWidth)
-  // console.log('cleared grid', clearedGrid)
   const obstacleAvgs = getObstacleAvgs(data, image.naturalHeight, image.naturalWidth)
   console.log('obstacleAvgs', obstacleAvgs)
-	// console.log('tidyGrid:', tidyGrid)
 	const mazeGrid = tileImageData(clearedGrid, tileSize)
 
 	return { mazeGrid, obstacleAvgs }
 }
 
 export const trimAmounts = (height, width, tileSize) => {
-	console.log('height, width, tileSize', height, width, tileSize)
 	const trimHeight = height % tileSize
 	const targetHeight = height - trimHeight
 	const trimWidth = width % tileSize

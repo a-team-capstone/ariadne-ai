@@ -1,12 +1,13 @@
 	// function to check if a move is blocked
 	export const blocked = (x,y, sprite, mazeGrid, moveSize) => {
-		var desiredX, desiredY
+		var desiredX = Math.round(x/moveSize)
+		var desiredY = Math.round(y/moveSize)
 		var underZero = x < 0 || y < 0
 		var overGridLength = (
-			x > (mazeGrid[0].length*moveSize)-1 || y > (mazeGrid.length*moveSize)-1
+			desiredX > (mazeGrid[0].length)-1 || desiredY > (mazeGrid.length)-1
 		)
 		if (!underZero && !overGridLength){
-			var isBlocked = mazeGrid[(y/moveSize)][(x/moveSize)]
+			var isBlocked = mazeGrid[desiredY][desiredX]
 		}
 		return underZero || overGridLength || isBlocked
 
@@ -43,3 +44,22 @@ export const down = (sprite, mazeGrid, moveSize) => {
 	return !blocked(desiredX, desiredY, sprite, mazeGrid, moveSize)
 
 }
+
+	// check if a sprite has reached a certain target
+export const overlapping = (sprite, target, tileSize, closeness = 2) => {
+		let targetX, targetY
+		if (target.row && target.col) {
+			targetY = target.row * tileSize// - tileSize
+			targetX = target.col * tileSize// - tileSize
+		} else {
+			targetY = target.y
+			targetX = target.x
+		}
+		const proximityX = Math.abs(sprite.x - targetX)
+		const proximityY = Math.abs(sprite.y - targetY)
+		const proximityRequirement = tileSize * closeness
+
+		const areOverlapping = (proximityX < proximityRequirement) && (proximityY <= proximityRequirement)
+
+		return areOverlapping
+	}

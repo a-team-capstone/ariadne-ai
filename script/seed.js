@@ -1,6 +1,5 @@
 const db = require('../server/db')
 const {User, Maze, Play} = require('../server/db/models')
-const {shelbyMaze} = require('../client/src/mazeGrids/10px_tiles')
 
 async function seed() {
   await db.sync({force: true})
@@ -36,22 +35,22 @@ async function seed() {
     Maze.create({
       name: 'Infinite Loop',
       image: 'shelbyMaze.jpg',
-      solveable: true
+      solvable: true
     }),
     Maze.create({
       name: 'Ursa Major',
-      image: 'shelbyMazeUnsolveable.jpg',
-      solveable: false
+      image: 'shelbyMazeUnsolvable.jpg',
+      solvable: false
     }),
     Maze.create({
       name: 'The Claw',
       image: 'danMaze2.jpg',
-      solveable: true
+      solvable: true
     }),
     Maze.create({
       name: 'Bludgeon',
       image: 'danMaze.jpg',
-      solveable: true
+      solvable: true
     })
   ])
 
