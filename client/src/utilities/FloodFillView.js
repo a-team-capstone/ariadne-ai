@@ -14,7 +14,7 @@ const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 	var startX = startPoint[1] - (startPoint[1]%tileSize)
 	var endY = endPoint[0] - (endPoint[0]%tileSize)
 	var endX = endPoint[1] - (endPoint[1]%tileSize)
-	var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
+	// var mazeTarget = {row: endY/tileSize, col: endX/tileSize}
 
 
 	var background = PIXI.Sprite.fromImage(img)
@@ -27,17 +27,17 @@ const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 
 	var mazeGrid = maze
 
-	var clearColor = 0xf7f8f9
-	var blockedColor = 0x101010
+	// var clearColor = 0xf7f8f9
+	// var blockedColor = 0x101010
 	var floodColor = 0x0262fc
 
 	var board = new PIXI.Graphics()
 	board.addChild(background)
 
-	var startCircle = new PIXI.Graphics()
-	startCircle.beginFill(0x00ff00)
-	startCircle.drawCircle(startX, startY, tileSize*1.5)
-	board.addChild(startCircle)
+	// var startCircle = new PIXI.Graphics()
+	// startCircle.beginFill(0x00ff00)
+	// startCircle.drawCircle(startX, startY, tileSize*1.5)
+	// board.addChild(startCircle)
 
 
 	// Add board tiles. Currently set to transparent
@@ -69,9 +69,8 @@ const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 		// board.addChild(endCircle)
 
 
-		var endIcon = createSprite('star.png', endX, endY, .15)
+		var endIcon = createSprite('star.png', endX, endY, .16)
 		board.addChild(endIcon)
-		console.log('endIcon', endIcon)
 
 		board.x = 0
 		board.y = 0
