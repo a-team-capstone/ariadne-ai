@@ -31,12 +31,12 @@ export const createGameScreen = (app, gameHeight, gameWidth, primaryText='primar
 		if (avatar.scale.x <= (scale)) grow = true
 
 		if (grow) {
-			avatar.scale.x += 0.001
-			avatar.scale.y += 0.001
+			avatar.scale.x += scale/1000
+			avatar.scale.y += scale/1000
 		}
 		else {
-			avatar.scale.x -= 0.001
-			avatar.scale.y -= 0.001
+			avatar.scale.x -= scale/1000
+			avatar.scale.y -= scale/1000
 		}
 
 })

@@ -11,7 +11,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	let maze = mazeObj.data
 
-	let {WP, FZ, XT, BM, TEL, SD, PRT} = mazeObj
+	let {WP, FZ, XT, BM, TEL, SD, PRT, time} = mazeObj
 
 
 	let startY = startPoint[0] - (startPoint[0]%tileSize)
@@ -27,7 +27,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	console.log('game height and width', gameHeight, gameWidth)
 
 
-	let timeAllowed = 60
+	let timeAllowed = time
 	let extraTimeX = XT? XT[1] : -999
 	let extraTimeY = XT? XT[0] : -999
 	let weaponX = WP? WP[1] : -999
@@ -174,6 +174,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		bot.y = -1111
 		player.x = -1111
 		player.y = -1111
+		timeRemaining = 9999
 		botLevelUnlocked = true;
 		botScreen.visible = true;
 		winScreen.visible = false;
@@ -188,6 +189,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	}
 
 	function win() {
+		timeRemaining = 9999
 		winScreen.visible = true;
 		botScreen.visible = false;
 		board.visible = false;
@@ -201,6 +203,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	}
 
 	function botWon() {
+		timeRemaining = 9999
 		board.visible = false;
 		bot.visible = false;
 		player.visible = false;
@@ -213,6 +216,8 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	}
 
 	function outOfTime() {
+		timeRemaining = 9999
+		botFromTime.visible = botLevelUnlocked? true : false
 		outOfTimeScreen.visible = true;
 		board.visible = false;
 		bot.visible = false;
@@ -240,65 +245,28 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	// completion screen
 	let winScreen = createGameScreen(app, gameHeight, gameWidth, 'Maze complete!')
-	let replaySoloFromWinScreen = replaySoloButton()
-	let replayBotFromWinScreen = replayBotButton()
-	winScreen.addChild(replaySoloFromWinScreen)
-	winScreen.addChild(replayBotFromWinScreen)
+	winScreen.addChild(replaySoloButton())
+	winScreen.addChild(replayBotButton())
 
 
 	// unlocked bot screen
 	let botScreen = createGameScreen(app, gameHeight, gameWidth, "Unlocked\n~ Bot Mode ~", 0x19cdff)
-	let replaySoloFromBotScreen = replaySoloButton()
-	let replayBotFromBotScreen = replayBotButton()
-	botScreen.addChild(replaySoloFromBotScreen)
-	botScreen.addChild(replayBotFromBotScreen)
+	botScreen.addChild(replaySoloButton())
+	botScreen.addChild(replayBotButton())
 
 
 	// out of time screen
-	let outOfTimeScreen = new PIXI.Graphics();
-	outOfTimeScreen.lineStyle(2, 0xf0ead6, 1);
-	outOfTimeScreen.beginFill(0x808080);
-	outOfTimeScreen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
-	let outOfTimeText = new PIXI.Text(
-		"Out of time!\nClick below to replay.",
-		{fill:0xf9f9f7, fontSize: '40px'}
-	);
-	outOfTimeText.x = 80;
-	outOfTimeText.y = 500;
-	outOfTimeScreen.addChild(outOfTimeText)
-	let tryAgainButton = new PIXI.Graphics();
-	tryAgainButton.beginFill(0x494845)
-	tryAgainButton.drawRoundedRect(80, 600, 300, 100, 10);
-	tryAgainButton.interactive = true;
-	tryAgainButton.buttonMode = true;
-	tryAgainButton.on('pointerdown', ()=>{
-		state=setup
-	})
-	outOfTimeScreen.addChild(tryAgainButton)
+	let outOfTimeScreen = createGameScreen(app, gameHeight, gameWidth, "Time's up!", 0xff7118, 'hourGlassYellow.png', 1.25)
+	let soloFromTime = replaySoloButton()
+	let botFromTime = replayBotButton()
+	outOfTimeScreen.addChild(soloFromTime)
+	outOfTimeScreen.addChild(botFromTime)
 
 
 		// out of time screen
-		let botWonScreen = new PIXI.Graphics();
-		botWonScreen.lineStyle(2, 0xf0ead6, 1);
-		botWonScreen.beginFill(0x003366);
-		botWonScreen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
-		let botWonText = new PIXI.Text(
-			"The bot beat you!\nClick below to replay.",
-			{fill:0xf9f9f7, fontSize: '40px'}
-		);
-		botWonText.x = 80;
-		botWonText.y = 500;
-		botWonScreen.addChild(botWonText)
-		let botWonButton = new PIXI.Graphics();
-	botWonButton.beginFill(0xf7a409)
-	botWonButton.drawRoundedRect(80, 600, 300, 100, 10);
-	botWonButton.interactive = true;
-	botWonButton.buttonMode = true;
-	botWonButton.on('pointerdown', ()=>{
-			state=setup
-		})
-		botWonScreen.addChild(botWonButton)
-
+		let botWonScreen = createGameScreen(app, gameHeight, gameWidth, "Beat by the bot!", 0xa8a8a8, 'botShield.png', .4)
+		botWonScreen.addChild(replaySoloButton())
+		botWonScreen.addChild(replayBotButton())
 
 
 
