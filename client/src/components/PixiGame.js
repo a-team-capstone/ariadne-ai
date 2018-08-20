@@ -25,7 +25,7 @@ class PixiGame extends Component {
 			const endPoint = maze.END
 
 			this.refs.board.appendChild(
-				PixiApp(image, maze.data.data, tileSize, startPoint, endPoint).view
+				PixiApp(image, maze.data, tileSize, startPoint, endPoint).view
 			)
 		}
 

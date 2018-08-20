@@ -35,9 +35,9 @@ const createApp = () => {
 	// logging middleware
 	app.use(morgan('dev'))
 
-  // body parsing middleware
-  
-  app.use(bodyParser({limit: '5mb'}))
+	// body parsing middleware
+
+	app.use(bodyParser({ limit: '5mb' }))
 	app.use(express.json())
 	app.use(express.urlencoded({ extended: true }))
 
@@ -77,6 +77,8 @@ const createApp = () => {
 				'Access-Control-Allow-Headers',
 				'Origin, X-Requested-With, Content-Type, Accept'
 			)
+			res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+			res.header('Access-Control-Request-Method: GET')
 			next()
 		}
 	})

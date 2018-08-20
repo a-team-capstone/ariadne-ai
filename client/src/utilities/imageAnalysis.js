@@ -4,12 +4,10 @@
 import axios from 'axios'
 
 export const scrapeImageData = (canvas, image) => {
-	// console.log('Image', image)
-
 	let ctx = canvas.getContext('2d')
 	image.crossOrigin = 'Anonymous'
 	ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
-	let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
 }
 
@@ -57,7 +55,6 @@ const clearObstacles = (pixelGrid, textData, height, width) => {
 // 0 if the average of r, g, and b is under 20 (or something) and otherwise 1
 // return the nice array of arrays of 1's and 0's
 export const organizeImageData = (imageData, height, width) => {
-	// console.log('height and width parameters', height, width)
 	let pixelGrid = []
 	let pixelRow = []
 
@@ -76,7 +73,6 @@ export const organizeImageData = (imageData, height, width) => {
 		}
 	}
 
-	// console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
 	return pixelGrid
 }
 
@@ -96,7 +92,6 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		originalWidth,
 		tileSize
 	)
-	// console.log('trim data:', targetHeight, targetWidth, trimHeight, trimWidth)
 
 	for (let row = 0; row < targetHeight; row += tileSize) {
 		let tileColorsRow = []
@@ -113,12 +108,6 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		}
 		tileColorsGrid.push(tileColorsRow)
 	}
-	// console.log('Tilegridcolors', tileColorsGrid)
-	// console.log(
-	// 	'maze height, width',
-	// 	tileColorsGrid.length,
-	// 	tileColorsGrid[0].length
-	// )
 	return tileColorsGrid
 }
 
@@ -137,28 +126,23 @@ const getObstacleAvgs = (textData, height, width) => {
 
 //------------------------------------------------
 // calls all of the above functions on an image
-export const getMazeFromImage = async (canvas, image, tileSize) => {
-	// const ctx = canvas.getContext("2d");
-  const { data } = await axios.post('api/mazes/analyze', {"image": image.src})
-  const scraped = scrapeImageData(canvas, image)
-  console.log('data from google analysis', data)
+export const getMazeFromImage = async (canvas, image, tileSize, imageUrl) => {
+  const { data } = await axios.post('api/mazes/analyze', {"image": imageUrl})
+	const scraped = scrapeImageData(canvas, image)
 
-	const height = canvas.height // image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)
-	const width = canvas.width // image.naturalWidth // Math.min(image.naturalHeight, image.naturalWidth)
+	const height = canvas.height
+	const width = canvas.width
 
 	const tidyGrid = organizeImageData(scraped, height, width)
   const clearedGrid = clearObstacles(tidyGrid, data, image.naturalHeight, image.naturalWidth)
-  // console.log('cleared grid', clearedGrid)
   const obstacleAvgs = getObstacleAvgs(data, image.naturalHeight, image.naturalWidth)
   console.log('obstacleAvgs', obstacleAvgs)
-	// console.log('tidyGrid:', tidyGrid)
 	const mazeGrid = tileImageData(clearedGrid, tileSize)
 
 	return { mazeGrid, obstacleAvgs }
 }
 
 export const trimAmounts = (height, width, tileSize) => {
-	// console.log('height, width, tileSize', height, width, tileSize)
 	const trimHeight = height % tileSize
 	const targetHeight = height - trimHeight
 	const trimWidth = width % tileSize

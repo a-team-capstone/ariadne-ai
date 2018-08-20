@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js'
 import {createSprite} from './PixiObjects'
 
 const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
-
 	var gameHeight = maze.length * tileSize
 	var gameWidth = maze[0].length * tileSize
 	console.log('gameHeight, gameWidth', gameHeight, gameWidth)
