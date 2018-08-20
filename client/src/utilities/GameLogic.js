@@ -187,6 +187,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		bot.visible = true;
 		player.visible = true;
 		coordsText.visible = true;
+		countdown.visible = false
 		nav.visible = true;
 		winScreen.visible = false;
 		botScreen.visible = false
@@ -206,6 +207,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		player.y = -1111
 		timeRemaining = 9999
 		botLevelUnlocked = true;
+		countdown.visible = false
 		newPowerUpsScreen.visible = true;
 		botScreen.visible = false;
 		winScreen.visible = false;
@@ -229,6 +231,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		player.y = -1111
 		timeRemaining = 9999
 		botLevelUnlocked = true;
+		countdown.visible = false
 		botScreen.visible = true;
 		winScreen.visible = false;
 		board.visible = false;
@@ -250,6 +253,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 		timeRemaining = 9999
 		winScreen.visible = true;
+		countdown.visible = false
 		botScreen.visible = false;
 		board.visible = false;
 		bot.visible = false;
@@ -269,6 +273,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	function botWon() {
 		timeRemaining = 9999
 		board.visible = false;
+		countdown.visible = false
 		bot.visible = false;
 		player.visible = false;
 		coordsText.visible = false;
@@ -303,6 +308,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	function quit() {
 		timeRemaining = 9999
 		quitScreen.visible = true
+		countdown.visible = false
 		botFromQuit.visible = botLevelUnlocked? true : false
 		outOfTimeScreen.visible = false;
 		board.visible = false;
