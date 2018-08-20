@@ -13,41 +13,24 @@ export const createGameScreen = (gameHeight, gameWidth, stateVar, newState, prim
 	bigText.x = 80;
 	bigText.y = 500;
 	screen.addChild(bigText)
-	// let replaySoloButton = new PIXI.Graphics();
-	// replaySoloButton.beginFill(0x494845)
-	// replaySoloButton.drawRoundedRect(80, 600, 300, 100, 10);
-	// replaySoloButton.interactive = true;
-	// replaySoloButton.buttonMode = true;
-	// replaySoloButton.on('pointerdown', ()=>{
-	// 	stateVar = newState
-	// })
-	// let replaySoloText = new PIXI.Text(
-	// 	"Replay Solo",
-	// 	{fill:0xf9f9f7, fontSize: '50px'}
-	// );
-	// replaySoloText.x = 95;
-	// replaySoloText.y = 620;
-	// replaySoloButton.addChild(replaySoloText)
-	// screen.addChild(replaySoloButton)
-
 	return screen
 }
 
-export const createButton = (clickHandler) => {
+export const createButton = (buttonX, buttonY, buttonText, clickHandler) => {
 
 	let replaySoloButton = new PIXI.Graphics();
 	replaySoloButton.beginFill(0x494845)
-	replaySoloButton.drawRoundedRect(80, 600, 300, 100, 10);
+	replaySoloButton.drawRoundedRect(buttonX, buttonY, 400, 100, 10);
 	replaySoloButton.interactive = true;
 	replaySoloButton.buttonMode = true;
 	replaySoloButton.on('pointerdown', clickHandler)
-	let replaySoloText = new PIXI.Text(
-		"Replay Solo",
+	let textObject = new PIXI.Text(
+		buttonText,
 		{fill:0xf9f9f7, fontSize: '50px'}
 	);
-	replaySoloText.x = 95;
-	replaySoloText.y = 620;
-	replaySoloButton.addChild(replaySoloText)
+	textObject.x = buttonX + 15;
+	textObject.y = buttonY + 20;
+	replaySoloButton.addChild(textObject)
 
 	return replaySoloButton
 }

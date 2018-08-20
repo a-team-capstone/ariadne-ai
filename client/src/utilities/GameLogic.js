@@ -116,6 +116,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeText.visible = true;
 		freezeOverlay.visible = false;
 
+		if (bot) bot.destroy()
 
 		// reset powerups
 		if (extraTime) extraTime.destroy()
@@ -199,11 +200,16 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	// completion screen
 	let winScreen = createGameScreen(gameHeight, gameWidth, state, setup)
-	let replayFromWinScreen = createButton(()=>{
+	let replaySoloFromWinScreen = createButton(80, 600, "Replay Solo", ()=>{
 		useBot = false
 		state = setup
 	})
-	winScreen.addChild(replayFromWinScreen)
+	let replayBotFromWinScreen = createButton(80, 700, "Replay vs. Bot", ()=>{
+		useBot = true
+		state = setup
+	})
+	winScreen.addChild(replaySoloFromWinScreen)
+	winScreen.addChild(replayBotFromWinScreen)
 
 
 
