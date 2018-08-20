@@ -194,6 +194,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeText.visible = true;
 		timeTitle.visible = true;
 		newPowerUpsScreen.visible = false;
+		quitScreen.visible = false;
 
 	}
 
@@ -216,6 +217,8 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		outOfTimeScreen.visible = false;
 		timeText.visible = false;
 		timeTitle.visible = false;
+		quitScreen.visible = false;
+
 	}
 
 	function botUnlocked() {
@@ -237,6 +240,8 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeText.visible = false;
 		timeTitle.visible = false;
 		newPowerUpsScreen.visible = false;
+		quitScreen.visible = false;
+
 
 	}
 
@@ -255,6 +260,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeText.visible = false;
 		timeTitle.visible = false;
 		newPowerUpsScreen.visible = false;
+		quitScreen.visible = false;
 
 
 	}
@@ -272,6 +278,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeText.visible = false;
 		timeTitle.visible = false;
 		newPowerUpsScreen.visible = false;
+		quitScreen.visible = false;
 
 
 	}
@@ -288,7 +295,22 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeTitle.visible = false;
 		coordsText.visible = false;
 		newPowerUpsScreen.visible = false;
+		quitScreen.visible = false;
 
+	}
+	function quit() {
+		timeRemaining = 9999
+		quitScreen.visible = true
+		botFromQuit.visible = botLevelUnlocked? true : false
+		outOfTimeScreen.visible = false;
+		board.visible = false;
+		bot.visible = false;
+		player.visible = false;
+		nav.visible = false;
+		timeText.visible = false;
+		timeTitle.visible = false;
+		coordsText.visible = false;
+		newPowerUpsScreen.visible = false;
 	}
 
 	let replaySoloButton = () => {
@@ -305,6 +327,12 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		})
 	}
 
+	let quitMazeButton = () => {
+		return createButton(gameWidth/2, 700, 'exitMazeButton.png', ()=>{
+		window.location="create-maze"
+		})
+	}
+
 	let newPowerUpsButton = () => {
 		return createButton(gameWidth/2, 900, 'replayBot.png', ()=>{
 		useBot = true
@@ -314,7 +342,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 
 	let goButton = () => {
-		return createButton(gameWidth/2, 900, 'goButton.png', ()=>{
+		return createButton(gameWidth/2, 925, 'goButton.png', ()=>{
 		useBot = true
 		state = setup
 		})
@@ -322,10 +350,19 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	let menuButton = () => {
 		return createButton(75, 893, 'menuButton.png', ()=>{
+		//state = menu
 		window.location = "create-maze"
 		})
 	}
-	board.addChild(menuButton())
+	//board.addChild(menuButton())
+
+	let quitButton = () => {
+		return createButton(75, 893, 'quitButton.png', ()=>{
+		state = quit
+		})
+	}
+	board.addChild(quitButton())
+
 
 	// out of time screen
 	let outOfTimeScreen = createGameScreen(app, gameHeight, gameWidth, "Time's up!", 0xff7118, 'hourGlassYellow.png', 1.25)
@@ -356,7 +393,15 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
   // bot won screen
   let botWonScreen = createGameScreen(app, gameHeight, gameWidth, "Beat by the bot!", 0xa8a8a8, 'botShield.png', .4)
   botWonScreen.addChild(replaySoloButton())
-  botWonScreen.addChild(replayBotButton())
+	botWonScreen.addChild(replayBotButton())
+
+  // quit screen
+	let quitScreen = createGameScreen(app, gameHeight, gameWidth, "", 0x00b5a2, 'quitButton.png', 2)
+	let botFromQuit = replayBotButton()
+  quitScreen.addChild(replaySoloButton())
+	quitScreen.addChild(botFromQuit)
+	quitScreen.addChild(quitMazeButton())
+
 
 
 
@@ -376,6 +421,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	app.stage.addChild(outOfTimeScreen)
 	app.stage.addChild(botWonScreen)
 	app.stage.addChild(newPowerUpsScreen)
+	app.stage.addChild(quitScreen)
 
 	// Add board tiles. Currently set to transparent
 	let tiles = new PIXI.Graphics()
