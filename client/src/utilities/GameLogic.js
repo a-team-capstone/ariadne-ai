@@ -32,10 +32,10 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	let timeAllowed = time
 	let extraTimeX = XTM? XTM[1] : -999
 	let extraTimeY = XTM? XTM[0] : -999
-	let weaponX = WPN? WPN[1] : -999
-	let weaponY = WPN? WPN[0] : -999
-	let slowDownX = SLD? SLD[1] : -999
-	let slowDownY = SLD? SLD[0] : -999
+	let weaponX = WPN? WPN[1] : startX+400
+	let weaponY = WPN? WPN[0] : startY
+	let slowDownX = SLD? SLD[1] : startX+200
+	let slowDownY = SLD? SLD[0] : startY
 	let bombX = BMB? BMB[1] : -999
 	let bombY = BMB? BMB[0] : -999
 	let teleX = TEL? TEL[1] : -999
