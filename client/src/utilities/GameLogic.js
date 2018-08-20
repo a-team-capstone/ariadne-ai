@@ -327,7 +327,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	outOfTimeScreen.addChild(botFromTime)
 
 		// intro to new powerups screen
-		let newPowerUpsScreen = createPowerUpsScreen(app, gameHeight, gameWidth, "New power ups!", 0x19cdff, 'sword.png', .75, 'slowDown.png', .4)
+		let newPowerUpsScreen = createPowerUpsScreen(app, gameHeight, gameWidth, "New power ups!", 0x000556, 'sword.png', .75, 'Weapon\nPick it up and attack the bot!', 'slowDown.png', .4, 'Bubble Gum\nSlows down the bot')
 		let botFromNewPowerUps = goButton()
 		newPowerUpsScreen.addChild(botFromNewPowerUps)
 

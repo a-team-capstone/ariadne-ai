@@ -72,11 +72,11 @@ export const createPowerUpsScreen= (app, gameHeight, gameWidth, primaryText='pri
 	}
 	);
 	bigText.x = gameWidth/2;
-	bigText.y = gameHeight*(1/8);
+	bigText.y = gameHeight*(1/16);
 	bigText.anchor.set(.5, .5)
 
 	let smallText1 = new PIXI.Text(
-		primaryText,
+		subtitle1,
 		{fill:0xf9f9f7, fontSize: '40px', align: "center", fontWeight: "bold","dropShadow": true,
     "dropShadowAlpha": 0.5,
     "dropShadowColor": "#4b4b4b",
@@ -84,11 +84,11 @@ export const createPowerUpsScreen= (app, gameHeight, gameWidth, primaryText='pri
 	}
 	);
 	smallText1.x = gameWidth/2;
-	smallText1.y = gameHeight*(4/8);
+	smallText1.y = gameHeight*(7/16);
 	smallText1.anchor.set(.5, .5)
 
 	let smallText2 = new PIXI.Text(
-		primaryText,
+		subtitle2,
 		{fill:0xf9f9f7, fontSize: '40px', align: "center", fontWeight: "bold","dropShadow": true,
     "dropShadowAlpha": 0.5,
     "dropShadowColor": "#4b4b4b",
@@ -96,7 +96,7 @@ export const createPowerUpsScreen= (app, gameHeight, gameWidth, primaryText='pri
 	}
 	);
 	smallText2.x = gameWidth/2;
-	smallText2.y = gameHeight*(7/8) - 25;
+	smallText2.y = gameHeight*(13/16);
 	smallText2.anchor.set(.5, .5)
 
 
@@ -105,7 +105,7 @@ export const createPowerUpsScreen= (app, gameHeight, gameWidth, primaryText='pri
 	avatar.scale.x = scale
 	avatar.scale.y = scale
 	avatar.x = gameWidth/2;
-	avatar.y = gameHeight*(3/8);
+	avatar.y = gameHeight*(2/8);
 	screen.addChild(avatar)
 	screen.addChild(bigText)
 	screen.addChild(smallText1)
