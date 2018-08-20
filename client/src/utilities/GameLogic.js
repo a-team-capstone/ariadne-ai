@@ -92,7 +92,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	let botLevelUnlocked = false
 	let useBot = false
 	// set all bot related things out of sight
-	let bot = wallFollowerBot(app, board, mazeGrid, tileSize, -111, -111) // bot setup
+	let bot = wallFollowerBot(app, board, mazeGrid, tileSize, -111, -111, endX, endY) // bot setup
 	let weapon = addPowerUp('sword.png', board, -999, -999, tileSize, .2) // bot setup
 	let slowDown = addPowerUp('slowDown.png', board, -999, -999, tileSize, .15) // bot setup
 
@@ -117,7 +117,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 		// set all bot related things out of sight
 		// if (bot) bot.destroy()
-		bot = wallFollowerBot(app, board, mazeGrid, tileSize, -111, -111)
+		bot = wallFollowerBot(app, board, mazeGrid, tileSize, -111, -111, endX, endY)
 		if (weapon) weapon.destroy()
 		weapon = addPowerUp('sword.png', board, -999, -999, tileSize, .2)
 		if (slowDown) slowDown.destroy()
@@ -143,7 +143,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		console.log('in setup bot')
 		//reset bot
 		// if (bot) bot.destroy()
-		bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY, 2)
+		bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY, endX, endY, 2)
 
 		// reset powerups
 		if (slowDown) slowDown.destroy()
@@ -510,7 +510,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 			const currentFreezeBotX = bot.x
 			const currentFreezeBotY = bot.y
 			const oldFreezeBot = bot
-			bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, 9999)
+			bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, endX, endY, 9999)
 			oldFreezeBot.x = -111
 			oldFreezeBot.y = -111
 
@@ -522,7 +522,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 			const currentUnFreezeBotX = bot.x
 			const currentUnFreezeBotY = bot.y
 			const oldUnFreezeBot = bot
-			bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, 2)
+			bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, endX, endY, 2)
 			oldUnFreezeBot.x = -111
 			oldUnFreezeBot.y = -111
 		}
@@ -557,7 +557,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 				const currentBotX = bot.x
 				const currentBotY = bot.y
 				const oldBot = bot
-				bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentBotX, currentBotY, 1)
+				bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentBotX, currentBotY, endX, endY, 1)
 				oldBot.x = -111
 				oldBot.y = -111
 				slowDown.destroy()

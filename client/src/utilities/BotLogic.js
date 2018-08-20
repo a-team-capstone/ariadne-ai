@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import {down, up, left, right} from './MoveLogic'
 
-export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY, speed=2) => {
+export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY, endX, endY, speed=2) => {
 
 	// create a new sprite from an image path
 	var bot = PIXI.Sprite.fromImage('botShield.png')
@@ -46,12 +46,41 @@ export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY, 
 		},
 	}
 
-	let currentBotDirection = 'down'
+	let currentBotDirection = 'up'
+	let finalDirection = null
 	let botMoveCount = 0
 	app.ticker.add(()=>{
 		botMoveCount++
-		if (!bot.visible) currentBotDirection = 'down'
+		if (!bot.visible) currentBotDirection = 'up'
+
+		if (finalDirection && (botMoveCount%(12/speed) === 0)){
+			possibleDirections[finalDirection].move(bot, mazeGrid, moveSize)
+		} else
+
+		if (botMoveCount < 5) {
+			finalDirection = null
+			possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
+		} else
+		if (botMoveCount < 10) {
+			currentBotDirection = 'left'
+			possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
+		}
 		else if (botMoveCount%(12/speed) === 0) {
+
+			// if unblocked straight horizontal line to finish, leave wall
+
+			// check if aligned horizontally
+			if (Math.round(bot.y/moveSize) === Math.round(endY/moveSize)  ) {
+				//console.log('aligned horizontally', mazeGrid[Math.round(bot.y/moveSize)].slice(Math.round(bot.x/moveSize), Math.round(endX/moveSize)))
+				let horizontalPath = mazeGrid[Math.round(bot.y/moveSize)].slice(Math.round(bot.x/moveSize), Math.round(endX/moveSize))
+
+				// check if horizontal path is clear
+				if (horizontalPath.reduce((a,b) => a + b, 0) === 0) {
+					//console.log('CLEAR HORIZONTAL PATH!!')
+					finalDirection = (bot.x < endX)? 'right' : 'left'
+					//console.log('final direction:', finalDirection)
+				}
+			}
 
 			// if blocked, switch to ifBlocked direction
 			if (!possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)) {
