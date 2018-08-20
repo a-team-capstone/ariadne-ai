@@ -5,7 +5,7 @@ import { addPowerUp, activateTeleport } from './PowerUpsLogic'
 import { createSprite } from './PixiObjects'
 import * as move from './MoveLogic'
 import {overlapping} from './MoveLogic'
-import {createGameScreen, createButton} from './GameScreens'
+import {createGameScreen, createButton, createPowerUpsScreen} from './GameScreens'
 
 
 const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
@@ -122,6 +122,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		winScreen.visible = false;
 		botWonScreen.visible = false;
 		timeText.visible = true;
+		timeTitle.visible = true;
 		freezeOverlay.visible = false;
 
 		// set all bot related things out of sight
@@ -191,7 +192,30 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		botWonScreen.visible = false;
 		outOfTimeScreen.visible = false;
 		timeText.visible = true;
+		timeTitle.visible = true;
+		newPowerUpsScreen.visible = false;
 
+	}
+
+	function newPowerUps() {
+		bot.x = -1111
+		bot.y = -1111
+		player.x = -1111
+		player.y = -1111
+		timeRemaining = 9999
+		botLevelUnlocked = true;
+		newPowerUpsScreen.visible = true;
+		botScreen.visible = false;
+		winScreen.visible = false;
+		board.visible = false;
+		bot.visible = false;
+		player.visible = false;
+		coordsText.visible = false;
+		nav.visible = false;
+		botWonScreen.visible = false;
+		outOfTimeScreen.visible = false;
+		timeText.visible = false;
+		timeTitle.visible = false;
 	}
 
 	function botUnlocked() {
@@ -211,6 +235,9 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		botWonScreen.visible = false;
 		outOfTimeScreen.visible = false;
 		timeText.visible = false;
+		timeTitle.visible = false;
+		newPowerUpsScreen.visible = false;
+
 	}
 
 	function win() {
@@ -226,6 +253,10 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		botWonScreen.visible = false;
 		outOfTimeScreen.visible = false;
 		timeText.visible = false;
+		timeTitle.visible = false;
+		newPowerUpsScreen.visible = false;
+
+
 	}
 
 	function botWon() {
@@ -239,6 +270,10 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		botWonScreen.visible = true;
 		outOfTimeScreen.visible = false;
 		timeText.visible = false;
+		timeTitle.visible = false;
+		newPowerUpsScreen.visible = false;
+
+
 	}
 
 	function outOfTime() {
@@ -251,6 +286,8 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		nav.visible = false;
 		timeText.visible = false;
 		coordsText.visible = false;
+		newPowerUpsScreen.visible = false;
+
 	}
 
 	let replaySoloButton = () => {
@@ -267,12 +304,33 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		})
 	}
 
+	let newPowerUpsButton = () => {
+		return createButton(gameWidth/2, 900, 'replayBot.png', ()=>{
+		useBot = true
+		state = newPowerUps
+		})
+	}
+
+
+	let goButton = () => {
+		return createButton(gameWidth/2, 900, 'goButton.png', ()=>{
+		useBot = true
+		state = setup
+		})
+	}
+
 	// out of time screen
 	let outOfTimeScreen = createGameScreen(app, gameHeight, gameWidth, "Time's up!", 0xff7118, 'hourGlassYellow.png', 1.25)
 	let soloFromTime = replaySoloButton()
 	let botFromTime = replayBotButton()
 	outOfTimeScreen.addChild(soloFromTime)
 	outOfTimeScreen.addChild(botFromTime)
+
+		// intro to new powerups screen
+		let newPowerUpsScreen = createPowerUpsScreen(app, gameHeight, gameWidth, "New power ups!", 0x19cdff, 'sword.png', .75, 'slowDown.png', .4)
+		let botFromNewPowerUps = goButton()
+		newPowerUpsScreen.addChild(botFromNewPowerUps)
+
 
 
 	// completion screen
@@ -284,7 +342,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	// unlocked bot screen
 	let botScreen = createGameScreen(app, gameHeight, gameWidth, "Unlocked\n~ Bot Mode ~", 0x19cdff)
 	botScreen.addChild(replaySoloButton())
-	botScreen.addChild(replayBotButton())
+	botScreen.addChild(newPowerUpsButton())
 
 
   // bot won screen
@@ -298,7 +356,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		if (timeRemaining > 0) {
 
 		timeRemaining -= 1/60
-		timeText.text = 'Time left:\n'+Math.round(timeRemaining)
+		timeText.text = Math.round(timeRemaining)
 		}
 		else {
 			state = outOfTime
@@ -309,6 +367,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	app.stage.addChild(botScreen)
 	app.stage.addChild(outOfTimeScreen)
 	app.stage.addChild(botWonScreen)
+	app.stage.addChild(newPowerUpsScreen)
 
 	// Add board tiles. Currently set to transparent
 	let tiles = new PIXI.Graphics()
@@ -443,13 +502,22 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	// record time remaining
 		let timeText = new PIXI.Text(
-			'Time left:\n'+Math.round(timeRemaining),
-			{fill:0xf9f9f7, fontSize: '35px', fontWeight: "bold", align: "right"}
+			Math.round(timeRemaining),
+			{fill:0xf9f9f7, fontSize: '100px', fontWeight: "bold", align: "center"}
 		);
-		timeText.x = 580;
-		timeText.y = 805;
-		timeText.anchor.set(1, 0)
+		timeText.x = 570;
+		timeText.y = 918;
+		timeText.anchor.set(1, .5)
 		app.stage.addChild(timeText);
+
+		let timeTitle = new PIXI.Text(
+			'Time left:',
+			{fill:0xf9f9f7, fontSize: '30px', fontWeight: "bold", align: "center"}
+		);
+		timeTitle.x = 580;
+		timeTitle.y = 823;
+		timeTitle.anchor.set(1, 0)
+		app.stage.addChild(timeTitle);
 
 	// update coordinates and check if reached target
 	app.ticker.add(function() {
