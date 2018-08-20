@@ -4,6 +4,7 @@ import { slide as Menu } from 'react-burger-menu'
 import { Link } from 'react-router-dom'
 import { logout } from '../store/user'
 import '../css/Navbar.css'
+import 'wired-elements'
 
 class Navbar extends Component {
 	constructor(props) {
@@ -39,23 +40,23 @@ class Navbar extends Component {
 				onStateChange={state => this.handleStateChange(state)}
 			>
 				<Link to="/create-maze" onClick={this.handlerCloseSideBar}>
-					Create Maze
+					<wired-button id="create-nav">Create Maze</wired-button>
 				</Link>
-        <Link to="/featured" onClick={this.handlerCloseSideBar}>
-          Featured
-        </Link>
+				<Link to="/featured" onClick={this.handlerCloseSideBar}>
+					<wired-button id="featured-nav">Featured</wired-button>
+				</Link>
 				<Link to="/my-account" onClick={this.handlerCloseSideBar}>
-					Profile
+					<wired-button id="profile-nav">Profile</wired-button>
 				</Link>
 				<Link to="/friends" onClick={this.handlerCloseSideBar}>
-					Friends
+					<wired-button id="friends-nav">Friends</wired-button>
 				</Link>
-        <Link to="/tutorial" onClick={this.handlerCloseSideBar}>
-					Help
+				<Link to="/tutorial" onClick={this.handlerCloseSideBar}>
+					<wired-button id="help-nav">Help</wired-button>
 				</Link>
 				{isLoggedIn && (
 					<Link to="/" onClick={handleClick}>
-						Logout
+						<wired-button id="logout-nav">Logout</wired-button>
 					</Link>
 				)}
 			</Menu>

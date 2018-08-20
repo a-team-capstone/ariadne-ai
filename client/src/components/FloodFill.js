@@ -6,11 +6,12 @@ import { getMazeFromImage } from '../utilities/imageAnalysis'
 import floodFill from '../utilities/floodFill'
 import { uploadMaze } from '../store/maze'
 import axios from 'axios'
-const fs = require('fs')
+import 'wired-elements'
+// const fs = require('fs')
 
-const api = axios.create({
-	withCredentials: true
-})
+// const api = axios.create({
+// 	withCredentials: true
+// })
 
 class FloodFill extends Component {
 	constructor() {
@@ -51,7 +52,7 @@ class FloodFill extends Component {
 			tileSize,
 			this.props.image
 		)
-		const mazeGoal = { row: mazeGrid.length - 1, col: mazeGrid[0].length - 1 }
+		// const mazeGoal = { row: mazeGrid.length - 1, col: mazeGrid[0].length - 1 }
 		const maze = mazeGrid.map(row => row.slice())
 		await this.setState({ maze: maze, obstacles: obstacleAvgs })
 
@@ -79,8 +80,7 @@ class FloodFill extends Component {
 		const invisibleCanvas = { opacity: 0 }
 		const { image, handleClick, user } = this.props
 		const imageUrl = this.state.imageUrl
-		console.log('obstacles', this.state.obstacles)
-
+		// console.log('obstacles', this.state.obstacles)
 		const { solvable, explainerText } = this.state
 
 		return (
@@ -103,30 +103,27 @@ class FloodFill extends Component {
 					width={this.state.desiredWidth}
 					height={this.state.desiredHeight}
 				/>
-				<div
-					id="floodFillCanvasAndButtons"
-					// style = {canvasStyle}
-				>
-					<canvas
-						id="mazeImageCanvas"
-						ref="mazeImageCanvas"
-						style={invisibleCanvas}
-						// width={this.state.imageWidth} // "4032" //{imageWidth} //"4032" //"2500" //"4032" //"600" //update with image width
-						width={this.state.desiredWidth}
-						height={this.state.desiredHeight}
-						// height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
-						//style={{ border: '1px solid #000000' }}
-					/>
+				<div>
+					<div className="row">
+						<canvas
+							id="mazeImageCanvas"
+							ref="mazeImageCanvas"
+							style={invisibleCanvas}
+							// width={this.state.imageWidth} // "4032" //{imageWidth} //"4032" //"2500" //"4032" //"600" //update with image width
+							width={this.state.desiredWidth}
+							height={this.state.desiredHeight}
+							// height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
+							//style={{ border: '1px solid #000000' }}
+						/>
+					</div>
+
 					<div className="row" id="floodFillButtons">
 						<Link to="/create-maze">
-							<button type="button" className="btn btn-primary">
-								Send to a friend
-							</button>
+							<wired-button id="send-btn">Send to a friend</wired-button>
 						</Link>
 						<button
 							type="button"
-							id="playButton"
-							className="btn btn-primary"
+							className="play-btn"
 							onClick={() =>
 								handleClick(
 									this.state.maze,
@@ -137,12 +134,10 @@ class FloodFill extends Component {
 								)
 							}
 						>
-							Play
+							<wired-button id="play-btn">Play</wired-button>
 						</button>
 						<Link to="/create-maze">
-							<button type="button" className="btn btn-primary">
-								New maze
-							</button>
+							<wired-button id="newmaze-btn">New maze</wired-button>
 						</Link>
 					</div>
 				</div>
