@@ -8,9 +8,7 @@ export const scrapeImageData = (canvas, image) => {
   let imgData
 	let ctx = canvas.getContext('2d')
 	image.crossOrigin = 'Anonymous'
-  //image.onload = () => {
 	ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
-//}
   imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
 }
@@ -59,7 +57,6 @@ const clearObstacles = (pixelGrid, textData, height, width) => {
 // 0 if the average of r, g, and b is under 20 (or something) and otherwise 1
 // return the nice array of arrays of 1's and 0's
 export const organizeImageData = (imageData, height, width) => {
-	// console.log('height and width parameters', height, width)
 	let pixelGrid = []
 	let pixelRow = []
 
@@ -78,7 +75,6 @@ export const organizeImageData = (imageData, height, width) => {
 		}
 	}
 
-	console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
 	return pixelGrid
 }
 
@@ -98,7 +94,6 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		originalWidth,
 		tileSize
 	)
-	// console.log('trim data:', targetHeight, targetWidth, trimHeight, trimWidth)
 
 	for (let row = 0; row < targetHeight; row += tileSize) {
 		let tileColorsRow = []
@@ -115,12 +110,6 @@ export const tileImageData = (organizedImageData, tileSize) => {
 		}
 		tileColorsGrid.push(tileColorsRow)
 	}
-	// console.log('Tilegridcolors', tileColorsGrid)
-	// console.log(
-	// 	'maze height, width',
-	// 	tileColorsGrid.length,
-	// 	tileColorsGrid[0].length
-	// )
 	return tileColorsGrid
 }
 

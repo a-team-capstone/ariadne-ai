@@ -29,62 +29,50 @@ class FloodFill extends Component {
 	}
 
 	async componentDidMount() {
-		console.log("HERE IN CDM")
 		const image = this.refs.mazeImage
 		const { data } = await axios({
   			url: this.props.image,
   			method: 'GET',
   			responseType: 'blob', // important
 		})
-		console.log('data', data)
 		const newUrl = URL.createObjectURL(data)
 		image.crossOrigin = 'Anonymous'
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 
-		//image.onload = async() => {
-			console.log("HERE IN ONLOAD")
-			await this.setState({
-				//imageUrl: `data:image/jpeg;base64,${data}`,
-				imageUrl: newUrl,
-				imageHeight: image.naturalHeight,
-				imageWidth: image.naturalWidth
-			})
-				const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
-					this.refs.mazeImageCanvas,
-					image,
-					tileSize,
-					this.props.image
-				)
-				const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1}
-				const maze = mazeGrid.map(row => row.slice())
-				await this.setState({ maze: maze, obstacles: obstacleAvgs })
+		await this.setState({
+			imageUrl: newUrl,
+			imageHeight: image.naturalHeight,
+			imageWidth: image.naturalWidth
+		})
+		const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
+			this.refs.mazeImageCanvas,
+			image,
+			tileSize,
+			this.props.image
+		)
+		const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1}
+		const maze = mazeGrid.map(row => row.slice())
+		await this.setState({ maze: maze, obstacles: obstacleAvgs })
 
 
 
-				const startPoint = obstacleAvgs.ST || [24, 24]//[25, 100]
-				console.log('length', mazeGrid)
-				const endPoint = obstacleAvgs.END || [744, 552]//[25, 500]
-				console.log('start, end', startPoint, endPoint)
-				var startRow = Math.round(startPoint[0]/tileSize)
-				var startCol = Math.round(startPoint[1]/tileSize)
-				var endRow = Math.round(endPoint[0]/tileSize)
-				var endCol = Math.round(endPoint[1]/tileSize)
-				//
-				//
-				// var startCol = startPoint[0] - (startPoint[0]%tileSize)
-				// var startRow = startPoint[1] - (startPoint[1]%tileSize)
-				// var endCol = endPoint[0] - (endPoint[0]%tileSize)
-				// var endRow = endPoint[1] - (endPoint[1]%tileSize)
+		const startPoint = obstacleAvgs.ST || [24, 24]
+		const endPoint = obstacleAvgs.END || [744, 552]
+		console.log('start, end', startPoint, endPoint)
+		var startRow = Math.round(startPoint[0]/tileSize)
+		var startCol = Math.round(startPoint[1]/tileSize)
+		var endRow = Math.round(endPoint[0]/tileSize)
+		var endCol = Math.round(endPoint[1]/tileSize)
 
-				console.log('calling floodFill, starting at (row, col)', startRow, startCol, 'ending at', endRow, endCol)
-				const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
-				const solvable = (floodedMaze[endRow][endCol] === -1) ? 'YES' : 'NO'
-				const explainerText = 'Blue dots = accessible from starting point.'
-				await this.setState({solvable, explainerText})
+		console.log('calling floodFill, starting at (row, col)', startRow, startCol, 'ending at', endRow, endCol)
+		const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
+		const solvable = (floodedMaze[endRow][endCol] === -1) ? 'YES' : 'NO'
+		const explainerText = 'Blue dots = accessible from starting point.'
+		await this.setState({solvable, explainerText})
 
-				this.refs.board.appendChild(
-					showFloodFill(image.src, floodedMaze, tileSize, startPoint, endPoint).view)
-			//}
+		this.refs.board.appendChild(
+			showFloodFill(image.src, floodedMaze, tileSize, startPoint, endPoint).view)
+		
 		}
 
 	render() {
