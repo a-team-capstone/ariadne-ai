@@ -5,7 +5,7 @@ import { addPowerUp, activateTeleport } from './PowerUpsLogic'
 import { createSprite } from './PixiObjects'
 import * as move from './MoveLogic'
 import {overlapping} from './MoveLogic'
-import {createGameScreen, createButton, createPowerUpsScreen} from './GameScreens'
+import {createGameScreen, createButton, createPowerUpsScreen, createOverlay} from './GameScreens'
 
 
 const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
@@ -285,6 +285,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		player.visible = false;
 		nav.visible = false;
 		timeText.visible = false;
+		timeTitle.visible = false;
 		coordsText.visible = false;
 		newPowerUpsScreen.visible = false;
 
@@ -318,6 +319,13 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		state = setup
 		})
 	}
+
+	let menuButton = () => {
+		return createButton(75, 893, 'menuButton.png', ()=>{
+		window.location = "create-maze"
+		})
+	}
+	board.addChild(menuButton())
 
 	// out of time screen
 	let outOfTimeScreen = createGameScreen(app, gameHeight, gameWidth, "Time's up!", 0xff7118, 'hourGlassYellow.png', 1.25)
@@ -567,17 +575,11 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	})
 
 	// prepare freeze overlay
-	let freezeOverlay = new PIXI.Graphics()
-	freezeOverlay.alpha = 0.4
-	freezeOverlay.lineStyle(2, 0xf0ead6, 1)
-	freezeOverlay.beginFill(0x00ccfe)
-	freezeOverlay.drawRoundedRect(0, 0, gameWidth, gameHeight, 10)
-	freezeOverlay.visible = false
+	let freezeOverlay = createOverlay(app, gameHeight, gameWidth, 0xf9f9f7)
 	let freezeText = new PIXI.Text(5, { fill: 0xf9f9f7, fontSize: '300px' })
 	freezeText.x = 200
 	freezeText.y = 250
 	freezeOverlay.addChild(freezeText)
-	app.stage.addChild(freezeOverlay)
 
 	// check if freeze should be activated
 	let freezeCount = 300
