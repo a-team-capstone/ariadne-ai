@@ -93,7 +93,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	let botLevelUnlocked = false
 	let useBot = false
 	// set all bot related things out of sight
-	let bot = wallFollowerBot(app, board, mazeGrid, tileSize, -999, -999) // bot setup
+	let bot = wallFollowerBot(app, board, mazeGrid, tileSize, -111, -111) // bot setup
 	let weapon = addPowerUp('sword.png', board, -999, -999, tileSize, .2) // bot setup
 	let slowDown = addPowerUp('slowDown.png', board, -999, -999, tileSize, .15) // bot setup
 
@@ -116,7 +116,13 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeText.visible = true;
 		freezeOverlay.visible = false;
 
-		if (bot) bot.destroy()
+		// set all bot related things out of sight
+		// if (bot) bot.destroy()
+		bot = wallFollowerBot(app, board, mazeGrid, tileSize, -111, -111)
+		if (weapon) weapon.destroy()
+		weapon = addPowerUp('sword.png', board, -999, -999, tileSize, .2)
+		if (slowDown) slowDown.destroy()
+		slowDown = addPowerUp('slowDown.png', board, -999, -999, tileSize, .15)
 
 		// reset powerups
 		if (extraTime) extraTime.destroy()
@@ -135,8 +141,9 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	}
 
 	function setupBot() {
+		console.log('in setup bot')
 		//reset bot
-		if (bot) bot.destroy()
+		// if (bot) bot.destroy()
 		bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY, 2)
 
 		// reset powerups
@@ -199,12 +206,12 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 
 	// completion screen
-	let winScreen = createGameScreen(gameHeight, gameWidth, state, setup)
-	let replaySoloFromWinScreen = createButton(80, 600, "Replay Solo", ()=>{
+	let winScreen = createGameScreen(app, gameHeight, gameWidth, 'Maze complete!')
+	let replaySoloFromWinScreen = createButton(gameWidth/2, 775, 'replaySolo.png', ()=>{
 		useBot = false
 		state = setup
 	})
-	let replayBotFromWinScreen = createButton(80, 700, "Replay vs. Bot", ()=>{
+	let replayBotFromWinScreen = createButton(gameWidth/2, 875, 'replayBot.png', ()=>{
 		useBot = true
 		state = setup
 	})
@@ -458,7 +465,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		}
 
 		// check if bot reached target
-		if (overlapping(bot, mazeTarget, tileSize)) {
+		else if (overlapping(bot, mazeTarget, tileSize)) {
 			bot.x = startX
 			bot.y = startY
 			state = botWon
@@ -534,8 +541,8 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 			const currentFreezeBotY = bot.y
 			const oldFreezeBot = bot
 			bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, 9999)
-			oldFreezeBot.x = -999
-			oldFreezeBot.y = -999
+			oldFreezeBot.x = -111
+			oldFreezeBot.y = -111
 
 		}
 		if (freezeOn && !freezeCount) {
@@ -546,8 +553,8 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 			const currentUnFreezeBotY = bot.y
 			const oldUnFreezeBot = bot
 			bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, 2)
-			oldUnFreezeBot.x = -999
-			oldUnFreezeBot.y = -999
+			oldUnFreezeBot.x = -111
+			oldUnFreezeBot.y = -111
 		}
 	})
 
@@ -581,8 +588,8 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 				const currentBotY = bot.y
 				const oldBot = bot
 				bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentBotX, currentBotY, 1)
-				oldBot.x = -999
-				oldBot.y = -999
+				oldBot.x = -111
+				oldBot.y = -111
 				slowDown.destroy()
 				slowDown = null
 			}

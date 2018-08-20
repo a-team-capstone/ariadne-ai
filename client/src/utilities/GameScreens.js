@@ -1,36 +1,58 @@
 import * as PIXI from 'pixi.js'
 
-export const createGameScreen = (gameHeight, gameWidth, stateVar, newState, primaryText='', secondaryText='', color='', botModeButton = true, soloModeButton = true) => {
-	// completion screen
+export const createGameScreen = (app, gameHeight, gameWidth, primaryText='primary text here', secondaryText='secondary text here', imagePath = 'star.png', scale = 1, color=0xf7a409) => {
 	let screen = new PIXI.Graphics();
 	screen.lineStyle(2, 0xf0ead6, 1);
-	screen.beginFill(0xf7a409);
+	screen.beginFill(color);
 	screen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
 	let bigText = new PIXI.Text(
-		"Maze complete!\nClick below to replay.",
-		{fill:0xf9f9f7, fontSize: '40px'}
+		primaryText,
+		{fill:0xf9f9f7, fontSize: '70px', align: "center", fontWeight: "bold","dropShadow": true,
+    "dropShadowAlpha": 0.5,
+    "dropShadowColor": "#4b4b4b",
+		"dropShadowDistance": 1,
+	}
 	);
-	bigText.x = 80;
-	bigText.y = 500;
+	bigText.x = gameWidth/2;
+	bigText.y = gameHeight*(2/3);
+	bigText.anchor.set(.5, .5)
+	let avatar = PIXI.Sprite.fromImage(imagePath)
+	avatar.anchor.set(.5, .5)
+	avatar.scale.x = scale
+	avatar.scale.y = scale
+	avatar.x = gameWidth/2;
+	avatar.y = gameHeight/3;
+	screen.addChild(avatar)
 	screen.addChild(bigText)
+
+	let grow = true
+	app.ticker.add(function() {
+		if (avatar.scale.x >= (scale * 1.05)) grow = false
+		if (avatar.scale.x <= (scale)) grow = true
+
+		if (grow) {
+			avatar.scale.x += 0.001
+			avatar.scale.y += 0.001
+		}
+		else {
+			avatar.scale.x -= 0.001
+			avatar.scale.y -= 0.001
+		}
+
+})
 	return screen
 }
 
-export const createButton = (buttonX, buttonY, buttonText, clickHandler) => {
+export const createButton = (buttonX, buttonY, imagePath, clickHandler) => {
 
-	let replaySoloButton = new PIXI.Graphics();
-	replaySoloButton.beginFill(0x494845)
-	replaySoloButton.drawRoundedRect(buttonX, buttonY, 400, 100, 10);
-	replaySoloButton.interactive = true;
-	replaySoloButton.buttonMode = true;
-	replaySoloButton.on('pointerdown', clickHandler)
-	let textObject = new PIXI.Text(
-		buttonText,
-		{fill:0xf9f9f7, fontSize: '50px'}
-	);
-	textObject.x = buttonX + 15;
-	textObject.y = buttonY + 20;
-	replaySoloButton.addChild(textObject)
-
-	return replaySoloButton
+	let button = PIXI.Sprite.fromImage(imagePath)
+	button.interactive = true;
+	button.buttonMode = true;
+	button.on('pointerdown', clickHandler)
+	button.x = buttonX
+	button.y = buttonY
+	button.anchor.set(.5, .5)
+	button.scale.x = .5
+	button.scale.y = .5
+	return button
 }
