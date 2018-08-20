@@ -139,9 +139,9 @@ const getObstacleAvgs = (textData, height, width) => {
 
 //------------------------------------------------
 // calls all of the above functions on an image
-export const getMazeFromImage = async (canvas, image, tileSize) => {
+export const getMazeFromImage = async (canvas, image, tileSize, imageUrl) => {
 	// const ctx = canvas.getContext("2d");
-  const { data } = await axios.post('api/mazes/analyze', {"image": image.src})
+  const { data } = await axios.post('api/mazes/analyze', {"image": imageUrl})
 	const scraped = scrapeImageData(canvas, image)
 
 	const height = canvas.height // image.naturalHeight //Math.max(image.naturalHeight, image.naturalWidth)

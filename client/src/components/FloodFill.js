@@ -6,6 +6,7 @@ import { getMazeFromImage } from '../utilities/imageAnalysis'
 import floodFill from '../utilities/floodFill'
 import { uploadMaze } from '../store/maze'
 import axios from 'axios'
+const fs = require('fs')
 
 const api = axios.create({
 	withCredentials: true
@@ -30,28 +31,29 @@ class FloodFill extends Component {
 	async componentDidMount() {
 		console.log("HERE IN CDM")
 		const image = this.refs.mazeImage
-		const { data } = await api.get(this.props.image)
-		
-		//const newUrl = window.atob(data)
-		//const newUrl = decodeURIComponent(data.replace(/(\r\n\t|\n|\r\t\s)/gm,""))
-		
-		// await this.setState({
-		// 	imageUrl: newUrl
-		// })
+		const { data } = await axios({
+  			url: this.props.image,
+  			method: 'GET',
+  			responseType: 'blob', // important
+		})
+		console.log('data', data)
+		const newUrl = URL.createObjectURL(data)
 		image.crossOrigin = 'Anonymous'
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 
 		//image.onload = async() => {
 			console.log("HERE IN ONLOAD")
 			await this.setState({
-				imageUrl: `data:image/jpeg;base64,${data}`,
+				//imageUrl: `data:image/jpeg;base64,${data}`,
+				imageUrl: newUrl,
 				imageHeight: image.naturalHeight,
 				imageWidth: image.naturalWidth
 			})
 				const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
 					this.refs.mazeImageCanvas,
 					image,
-					tileSize
+					tileSize,
+					this.props.image
 				)
 				const mazeGoal = {row: mazeGrid.length-1, col: mazeGrid[0].length-1}
 				const maze = mazeGrid.map(row => row.slice())
