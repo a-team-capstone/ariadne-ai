@@ -4,17 +4,10 @@
 import axios from 'axios'
 
 export const scrapeImageData = (canvas, image) => {
-<<<<<<< HEAD
-	console.log('Image', image)
-  let imgData
-=======
-	// console.log('Image', image)
-
->>>>>>> master
 	let ctx = canvas.getContext('2d')
 	image.crossOrigin = 'Anonymous'
 	ctx.drawImage(image, 0, 0, canvas.width, canvas.height)
-  imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height)
 	return imgData
 }
 
@@ -80,10 +73,6 @@ export const organizeImageData = (imageData, height, width) => {
 		}
 	}
 
-<<<<<<< HEAD
-=======
-	// console.log('pixelGrid height, width', pixelGrid.length, pixelGrid[0].length)
->>>>>>> master
 	return pixelGrid
 }
 
