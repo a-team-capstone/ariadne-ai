@@ -3,7 +3,7 @@ import Upload from './Upload'
 
 const CreateMaze = () => {
 	return (
-		<div>
+		<div className="create-maze">
 			<h3>Get Creative</h3>
 			<div>
 				<Upload />

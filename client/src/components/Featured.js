@@ -6,51 +6,54 @@ import history from '../history'
 import axios from 'axios'
 
 class FeaturedMazes extends Component {
-  constructor () {
-    super()
-    this.handlePlay = this.handlePlay.bind(this)
-  }
+	constructor() {
+		super()
+		this.handlePlay = this.handlePlay.bind(this)
+	}
 
-  componentDidMount () {
-    this.props.loadFeatured()
-  }
+	componentDidMount() {
+		this.props.loadFeatured()
+	}
 
-  async handlePlay (evt) {
-    evt.preventDefault()
-    const maze = await axios.get(`api/mazes/${evt.target.value}`)
-    this.props.saveMaze(maze.data)
-    history.push('/pixi')
-  }
+	async handlePlay(evt) {
+		evt.preventDefault()
+		const maze = await axios.get(`api/mazes/${evt.target.value}`)
+		this.props.saveMaze(maze.data)
+		history.push('/pixi')
+	}
 
-  render () {
-    const { featured } = this.props
-    return (
-      <Fragment>
-      <h4>Featured Mazes</h4>
-      {
-        featured.map(maze => {
-          return (
-            <Fragment key={maze.id}>
-              <h6>Maze Name</h6>
-              <p>Leader: Shelby</p>
-              <p>Time: 35 seconds</p>
-              <button value={maze.id} onClick={this.handlePlay}>Play</button>
-            </Fragment>
-          )
-        })
-      }
-      </Fragment>
-    )
-  }
+	render() {
+		const { featured } = this.props
+		return (
+			<div className="main">
+				<h4>Featured Mazes</h4>
+				{featured.map(maze => {
+					return (
+						<Fragment key={maze.id}>
+							<h6>Maze Name</h6>
+							<p>Leader: Shelby</p>
+							<p>Time: 35 seconds</p>
+							<button value={maze.id} onClick={this.handlePlay}>
+								Play
+							</button>
+						</Fragment>
+					)
+				})}
+			</div>
+		)
+	}
 }
 
 const mapState = state => ({
-  featured: state.featured
+	featured: state.featured
 })
 
 const mapDispatch = dispatch => ({
-  loadFeatured: () => dispatch(loadFeatured()),
-  saveMaze: id => dispatch(saveMaze(id))
+	loadFeatured: () => dispatch(loadFeatured()),
+	saveMaze: id => dispatch(saveMaze(id))
 })
 
-export default connect(mapState, mapDispatch)(FeaturedMazes)
+export default connect(
+	mapState,
+	mapDispatch
+)(FeaturedMazes)
