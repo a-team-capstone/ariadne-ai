@@ -70,15 +70,15 @@ class FloodFill extends Component {
 		const { solvable, explainerText } = this.state
 
 		return (
-			<div id="floodFillView" className="floodFill">
+			<div id="floodFillView">
 				{solvable === 'Analyzing...' ? (
-					<h3>{solvable}</h3>
+					<h4>{solvable}</h4>
 				) : (
-					<h3>
+					<p>
 						{solvable ? 'Your maze is solvable!' : 'Your maze is not solvable!'}
-					</h3>
+					</p>
 				)}
-				<h5>{explainerText}</h5>
+				<p>{explainerText}</p>
 				<div ref="board" id="floodFillCanvas" />
 				<img
 					id="mazeImage"
@@ -104,14 +104,11 @@ class FloodFill extends Component {
 						//style={{ border: '1px solid #000000' }}
 					/>
 					<div className="row" id="floodFillButtons">
-						{/* </Link> */}
-						{/* If not solvable show try again sends back to create maze */}
 						<Link to="/create-maze">
 							<button type="button" className="btn btn-primary">
 								Send to a friend
 							</button>
 						</Link>
-						{/* <Link to="/pixi"> */}
 						<button
 							type="button"
 							id="playButton"
@@ -128,10 +125,9 @@ class FloodFill extends Component {
 						>
 							Play
 						</button>
-						{/* </Link> */}
 						<Link to="/create-maze">
 							<button type="button" className="btn btn-primary">
-								Create new maze
+								New maze
 							</button>
 						</Link>
 					</div>
@@ -158,13 +154,15 @@ const mapDispatch = dispatch => {
 					data: maze,
 					userId,
 					ST: obstacles.ST || [24, 24],
-					END: obstacles.END || [744, 552]
-					// BM: obstacles.BM,
-					// XT: obstacles.XT,
-					// FZ: obstacles.FZ,
-					// TEL: obstacles.TEL,
-					// PRT: obstacles.PRT,
-					// time: obstacles.time || 30
+					END: obstacles.END || [744, 552],
+					BM: obstacles.BM || null,
+					XT: obstacles.XT || null,
+					FZ: obstacles.FZ || null,
+					TEL: obstacles.TEL || null,
+					PRT: obstacles.PRT || null,
+					SD: obstacles.SD || null,
+					WP: obstacles.WP || null,
+					time: obstacles.time || 30
 				})
 			)
 		}

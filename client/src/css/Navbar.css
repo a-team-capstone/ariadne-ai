@@ -55,5 +55,15 @@
 /* Custom */
 
 .menu {
-	width: 250px !important;
+	width: 200px !important;
+}
+
+@media screen and (max-width: 480px) {
+	.bm-burger-button {
+		position: fixed;
+		width: 26px;
+		height: 20px;
+		left: 26px;
+		top: 26px;
+	}
 }

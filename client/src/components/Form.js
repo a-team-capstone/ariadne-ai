@@ -22,7 +22,7 @@ const Form = props => {
 					<input name="password" type="password" className="form-control" />
 				</div>
 				<div>
-					<button type="submit" className="btn">
+					<button type="submit" className="form-btn">
 						<wired-button id="form-btn">{displayName}</wired-button>
 					</button>
 					{/* <wired-button id="login-btn">{displayName}</wired-button> */}
