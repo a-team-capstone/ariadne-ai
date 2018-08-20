@@ -153,9 +153,9 @@ export const createPowerUpsScreen= (app, gameHeight, gameWidth, primaryText='pri
 
 export const createOverlay = 	(app, gameHeight, gameWidth, color = 0xf9f9f7) => {
 		let overlay = new PIXI.Graphics()
-	overlay.alpha = 0.4
+	overlay.alpha = 0.6
 	overlay.lineStyle(2, 0xf0ead6, 1)
-	overlay.beginFill(0x00ccfe)
+	overlay.beginFill(color)
 	overlay.drawRoundedRect(0, 0, gameWidth, gameHeight, 10)
 	overlay.visible = false
 	app.stage.addChild(overlay)

@@ -1,5 +1,3 @@
-import * as PIXI from 'pixi.js'
-
 const keyboardTracker = function(keyCode) {
   let key = {};
   key.code = keyCode;

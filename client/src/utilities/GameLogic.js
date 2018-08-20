@@ -83,17 +83,17 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	let freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, 0.15)
 
-	let startCircle = new PIXI.Graphics()
-	startCircle.beginFill(0x00ff00)
-	startCircle.drawCircle(startX, startY, tileSize * 1.5)
-	board.addChild(startCircle)
+	// let startCircle = new PIXI.Graphics()
+	// startCircle.beginFill(0x00ff00)
+	// startCircle.drawCircle(startX, startY, tileSize * 1.5)
+	// board.addChild(startCircle)
 
 	// create player
 	let player = createSprite('shield.png', startX, startY, 0.2)
 	board.addChild(player)
 	let currentPlayerDirection = 0
 
-	let endIcon = createSprite('star.png', endX, endY, 0.15)
+	let endIcon = createSprite('star.png', endX, endY, 0.17)
 	board.addChild(endIcon)
 
 	let botLevelUnlocked = false
@@ -147,8 +147,9 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		if (bomb) bomb.destroy()
 		bomb = addPowerUp('bomb.png', board, bombX, bombY, tileSize, 0.3)
 
-		freezeCount = 300
-		freezeOn = false
+		freezeCount = 180
+		freezePlayer = false
+		freezeBot = false
 		if (freeze) freeze.destroy()
 		freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, 0.15)
 
@@ -285,6 +286,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	function outOfTime() {
 		timeRemaining = 9999
+		countdown.visible = false
 		botFromTime.visible = botLevelUnlocked? true : false
 		outOfTimeScreen.visible = true;
 		board.visible = false;
@@ -348,12 +350,12 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		})
 	}
 
-	let menuButton = () => {
-		return createButton(75, 893, 'menuButton.png', ()=>{
-		//state = menu
-		window.location = "create-maze"
-		})
-	}
+	// let menuButton = () => {
+	// 	return createButton(75, 893, 'menuButton.png', ()=>{
+	// 	//state = menu
+	// 	window.location = "create-maze"
+	// 	})
+	// }
 	//board.addChild(menuButton())
 
 	let quitButton = () => {
@@ -620,6 +622,21 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		}
 	})
 
+	// show countdown for last five seconds
+	app.ticker.add(function() {
+		if (timeRemaining <= 5 && timeRemaining > 0) {
+			countdown.visible = true
+			countdownText.text = Math.round(timeRemaining)
+		}
+	})
+
+	// prepare freeze overlay
+	let countdown = createOverlay(app, gameHeight, gameWidth, 0xff7c02)
+	let countdownText = new PIXI.Text(5, { fill: 0xf9f9f7, fontSize: '300px' })
+	countdownText.x = 200
+	countdownText.y = 250
+	countdown.addChild(countdownText)
+
 	// prepare freeze overlay
 	let freezeOverlay = createOverlay(app, gameHeight, gameWidth, 0xf9f9f7)
 	let freezeText = new PIXI.Text(5, { fill: 0xf9f9f7, fontSize: '300px' })
@@ -628,43 +645,95 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	freezeOverlay.addChild(freezeText)
 
 	// check if freeze should be activated
-	let freezeCount = 300
-	let freezeOn = false
+	let frozenPlayer
+	let frozenBot
+	let freezeCount = 180
+	let freezeBot = false
+	let freezePlayer = false
 	app.ticker.add(function() {
-		if (freeze && overlapping(player, freeze, tileSize)) {
-			freezeOn = true
-			freeze.destroy()
-			freeze = null
-		}
-		if (freezeOn && freezeCount) {
-			freezeOverlay.visible = true
-			freezeCount--
-			freezeText.text = Math.round(freezeCount / 60)
-			timeRemaining += 1 / 60
-			// console.log('FREEZE BOT')
-			const currentFreezeBotX = bot.x
-			const currentFreezeBotY = bot.y
-			const oldFreezeBot = bot
+		let frozenPlayerX = null
+		let frozenPlayerY = null
+		let frozenBotX = null
+		let frozenBotY = null
+		// if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot) {
+		// 	freezeBot = true
+		// }
+		// if (freezeBot && freezeCount) {
+		// 	freezeCount--
+		// 	const currentFreezeBotX = bot.x
+		// 	const currentFreezeBotY = bot.y
+		// 	const oldFreezeBot = bot
 
-			bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, endX, endY, 9999)
-			oldFreezeBot.x = -111
-			oldFreezeBot.y = -111
+		// 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, endX, endY, 9999)
+		// 	oldFreezeBot.x = -111
+		// 	oldFreezeBot.y = -111
 
-		}
-		if (freezeOn && !freezeCount) {
-			freezeOn = false
-			freezeOverlay.visible = false
-			// console.log('UNFREEZE BOT')
-			const currentUnFreezeBotX = bot.x
-			const currentUnFreezeBotY = bot.y
-			const oldUnFreezeBot = bot
+		// }
+		// if (freezeBot && !freezeCount) {
+		// 	freezeBot = false
+		// 	freezeOverlay.visible = false
+		// 	const currentUnFreezeBotX = bot.x
+		// 	const currentUnFreezeBotY = bot.y
+		// 	const oldUnFreezeBot = bot
+		// 	freeze.destroy()
+		// 	freeze = null
 
-			bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, endX, endY, 2)
-			oldUnFreezeBot.x = -111
-			oldUnFreezeBot.y = -111
-		}
-	})
+		// 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, endX, endY, 2)
+		// 	oldUnFreezeBot.x = -111
+		// 	oldUnFreezeBot.y = -111
+		// } else
 
+		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer) {
+		freezePlayer = true
+		frozenPlayerX = player.x
+		frozenPlayerY = player.y
+		frozenPlayer = createSprite('shield.png', frozenPlayerX, frozenPlayerY, 0.2)
+		freeze.x = frozenPlayer.x
+		freeze.y = frozenPlayer.y
+
+		board.addChild(frozenPlayer)
+
+		player.x = -888
+		player.y = -888
+	}
+	if (freezePlayer && freezeCount) {
+		freezeCount--
+		freeze.scale.x *= 1.002
+		freeze.scale.y *= 1.002
+	}
+	if (freezePlayer && !freezeCount) {
+		player = frozenPlayer
+		freezePlayer = false
+		freeze.destroy()
+		freeze = null
+	}
+		else if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot) {
+		freezeBot = true
+		frozenBotX = bot.x
+		frozenBotY = bot.y
+		frozenBot = createSprite('botShield.png', frozenBotX, frozenBotY, 0.05)
+		freeze.x = frozenBot.x
+		freeze.y = frozenBot.y
+
+		board.addChild(frozenBot)
+
+		bot.x = -111
+		bot.y = -111
+	}
+	if (freezeBot && freezeCount) {
+		freezeCount--
+		freeze.scale.x *= 1.002
+		freeze.scale.y *= 1.002
+	}
+	if (freezeBot && !freezeCount) {
+		bot.x = frozenBot.x
+		bot.y = frozenBot.y
+		freezeBot = false
+		frozenBot.destroy()
+		freeze.destroy()
+		freeze = null
+	}
+})
 	// check if weapon should be activated
 	let weaponGrabbed = false
 	app.ticker.add(function() {
@@ -683,7 +752,9 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 				weapon = null
 			}
 		}
-	})
+	}
+
+)
 
 		// check if slowDown should be activated
 		app.ticker.add(function() {
