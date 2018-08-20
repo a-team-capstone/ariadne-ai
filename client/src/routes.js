@@ -7,13 +7,13 @@ import { me } from './store/user'
 import { Signup, Login } from './components/Form'
 import Home from './components/Home'
 import MyAccount from './components/MyAccount'
-import CreateMaze from './components/CreateMaze'
 import WithNavBar from './components/WithNavBar'
 import FeaturedMazes from './components/Featured'
 import Friends from './components/Friends'
 import FloodFill from './components/FloodFill'
 import PlayOrSave from './components/PlayOrSave'
 import TutorialPage from './components/TutorialPage'
+import Create from './components/Create'
 
 class Routes extends Component {
 	componentDidMount() {
@@ -32,7 +32,7 @@ class Routes extends Component {
 						<Switch>
 							<WithNavBar>
 								<Route path="/my-account" component={MyAccount} />
-								<Route path="/create-maze" component={CreateMaze} />
+								<Route path="/create-maze" component={Create} />
 								<Route path="/featured" component={FeaturedMazes} />
 								<Route path="/friends" component={Friends} />
 								<Route path="/flood-fill" component={FloodFill} />

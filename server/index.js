@@ -93,6 +93,7 @@ const createApp = () => {
 
 	// sends index.html
 	app.use('*', (req, res) => {
+		console.log('this is the path', path.join(__dirname, '..', 'public/index.html'))
 		res.sendFile(path.join(__dirname, '..', 'public/index.html'))
 	})
 

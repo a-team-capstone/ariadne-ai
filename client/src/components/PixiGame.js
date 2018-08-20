@@ -11,9 +11,15 @@ class PixiGame extends Component {
 			desiredHeight: 800
 		}
 	}
-	componentDidMount() {
+	async componentDidMount() {
 		console.log('the maze in CDM', this.props.maze)
-		this.props.loadMaze(this.props.maze.id)
+		await this.props.loadMaze(this.props.maze.id)
+		var is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false
+		if (is_mobile) {
+			setTimeout(function () {
+	  		window.scrollTo(0, 60);
+			}, 500)
+		}
 	}
 
 	render() {
