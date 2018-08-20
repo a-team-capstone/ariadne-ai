@@ -26,7 +26,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	console.log('game height and width', gameHeight, gameWidth)
 
-	console.log('weapon', WP)
 
 	let timeAllowed = 60
 	let extraTimeX = XT? XT[1] : -999
@@ -164,13 +163,33 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		coordsText.visible = true;
 		nav.visible = true;
 		winScreen.visible = false;
+		botScreen.visible = false
 		botWonScreen.visible = false;
+		outOfTimeScreen.visible = false;
 		timeText.visible = true;
 	}
 
+	function botUnlocked() {
+		bot.x = -1111
+		bot.y = -1111
+		player.x = -1111
+		player.y = -1111
+		botLevelUnlocked = true;
+		botScreen.visible = true;
+		winScreen.visible = false;
+		board.visible = false;
+		bot.visible = false;
+		player.visible = false;
+		coordsText.visible = false;
+		nav.visible = false;
+		botWonScreen.visible = false;
+		outOfTimeScreen.visible = false;
+		timeText.visible = false;
+	}
+
 	function win() {
-		botScreen.visible = botLevelUnlocked? false : true;
-		winScreen.visible = botLevelUnlocked? true : false;
+		winScreen.visible = true;
+		botScreen.visible = false;
 		board.visible = false;
 		bot.visible = false;
 		player.visible = false;
@@ -203,54 +222,37 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		coordsText.visible = false;
 	}
 
+	let replaySoloButton = () => {
+		return createButton(gameWidth/2, 800, 'replaySolo.png', ()=>{
+		useBot = false
+		state = setup
+		})
+	}
+
+	let replayBotButton = () => {
+		return createButton(gameWidth/2, 900, 'replayBot.png', ()=>{
+		useBot = true
+		state = setup
+		})
+	}
+
 
 
 	// completion screen
 	let winScreen = createGameScreen(app, gameHeight, gameWidth, 'Maze complete!')
-	let replaySoloFromWinScreen = createButton(gameWidth/2, 775, 'replaySolo.png', ()=>{
-		useBot = false
-		state = setup
-	})
-	let replayBotFromWinScreen = createButton(gameWidth/2, 875, 'replayBot.png', ()=>{
-		useBot = true
-		state = setup
-	})
+	let replaySoloFromWinScreen = replaySoloButton()
+	let replayBotFromWinScreen = replayBotButton()
 	winScreen.addChild(replaySoloFromWinScreen)
 	winScreen.addChild(replayBotFromWinScreen)
 
 
-
-
 	// unlocked bot screen
-	let botScreen = new PIXI.Graphics();
-	botScreen.lineStyle(2, 0xf0ead6, 1);
-	botScreen.beginFill(0x00a5ff);
-	botScreen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
-	let botText = new PIXI.Text(
-		"Unlocked: Human v. Bot Mode\nRace the bot to the finish!",
-		{fill:0xf9f9f7, fontSize: '40px'}
-	);
-	botText.x = 10;
-	botText.y = 400;
-	botScreen.addChild(botText)
-	let secondaryText = new PIXI.Text(
-		"Click below to start.",
-		{fill:0xf9f9f7, fontSize: '35px'}
-	);
-	secondaryText.x = 80;
-	secondaryText.y = 520;
-	botScreen.addChild(secondaryText)
+	let botScreen = createGameScreen(app, gameHeight, gameWidth, "Unlocked\n~ Bot Mode ~", 0x19cdff)
+	let replaySoloFromBotScreen = replaySoloButton()
+	let replayBotFromBotScreen = replayBotButton()
+	botScreen.addChild(replaySoloFromBotScreen)
+	botScreen.addChild(replayBotFromBotScreen)
 
-	let botLevelButton = new PIXI.Graphics();
-	botLevelButton.beginFill(0x494845)
-	botLevelButton.drawRoundedRect(80, 600, 300, 100, 10);
-	botLevelButton.interactive = true;
-	botLevelButton.buttonMode = true;
-	botLevelButton.on('pointerdown', ()=>{
-		botLevelUnlocked = true
-		state=setup
-	})
-	botScreen.addChild(botLevelButton)
 
 	// out of time screen
 	let outOfTimeScreen = new PIXI.Graphics();
@@ -461,7 +463,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		coordsText.text = 'X: '+player.x+'\nY: '+player.y
 		// check if player reached target
 		if (overlapping(player, mazeTarget, tileSize)) {
-				state = win
+				state = botLevelUnlocked? win : botUnlocked
 		}
 
 		// check if bot reached target

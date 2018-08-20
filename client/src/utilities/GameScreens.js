@@ -1,6 +1,6 @@
 import * as PIXI from 'pixi.js'
 
-export const createGameScreen = (app, gameHeight, gameWidth, primaryText='primary text here', secondaryText='secondary text here', imagePath = 'star.png', scale = 1, color=0xf7a409) => {
+export const createGameScreen = (app, gameHeight, gameWidth, primaryText='primary text here', color=0xf7a409, imagePath = 'star.png', scale = 1) => {
 	let screen = new PIXI.Graphics();
 	screen.lineStyle(2, 0xf0ead6, 1);
 	screen.beginFill(color);
