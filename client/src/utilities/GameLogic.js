@@ -5,6 +5,7 @@ import {addPowerUp, activateTeleport} from './PowerUpsLogic'
 import {createSprite} from './PixiObjects'
 import * as move from './MoveLogic'
 import {overlapping} from './MoveLogic'
+import {createGameScreen, createButton} from './GameScreens'
 
 const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
@@ -90,6 +91,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	board.addChild(endIcon)
 
 	let botLevelUnlocked = false
+	let useBot = false
 	// set all bot related things out of sight
 	let bot = wallFollowerBot(app, board, mazeGrid, tileSize, -999, -999) // bot setup
 	let weapon = addPowerUp('sword.png', board, -999, -999, tileSize, .2) // bot setup
@@ -128,7 +130,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		if (freeze) freeze.destroy()
 		freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, .15)
 
-		state = botLevelUnlocked? setupBot : play;
+		state = useBot? setupBot : play;
 	}
 
 	function setupBot() {
@@ -196,26 +198,15 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 
 	// completion screen
-	let winScreen = new PIXI.Graphics();
-	winScreen.lineStyle(2, 0xf0ead6, 1);
-	winScreen.beginFill(0xf7a409);
-	winScreen.drawRoundedRect(0,0, gameWidth, gameHeight, 10);
-	let winText = new PIXI.Text(
-		"Maze complete!\nClick below to replay.",
-		{fill:0xf9f9f7, fontSize: '40px'}
-	);
-	winText.x = 80;
-	winText.y = 500;
-	winScreen.addChild(winText)
-	let replayButton = new PIXI.Graphics();
-	replayButton.beginFill(0x494845)
-	replayButton.drawRoundedRect(80, 600, 300, 100, 10);
-	replayButton.interactive = true;
-	replayButton.buttonMode = true;
-	replayButton.on('pointerdown', ()=>{
-		state=setup
+	let winScreen = createGameScreen(gameHeight, gameWidth, state, setup)
+	let replayFromWinScreen = createButton(()=>{
+		useBot = false
+		state = setup
 	})
-	winScreen.addChild(replayButton)
+	winScreen.addChild(replayFromWinScreen)
+
+
+
 
 	// unlocked bot screen
 	let botScreen = new PIXI.Graphics();
