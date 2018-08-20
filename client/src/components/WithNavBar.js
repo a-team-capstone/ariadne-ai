@@ -6,7 +6,7 @@ class WithNavBar extends Component {
 		return (
 			<div>
 				<Navbar />
-				<div className="main">
+				<div>
 					{/* Mount child routes */}
 					{this.props.children}
 				</div>

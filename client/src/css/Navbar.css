@@ -25,7 +25,9 @@
 
 /* General sidebar styles */
 .bm-menu {
-	background: #373a47;
+	/* original bg */
+	/* background: #373a47;  */
+	background: #1034a6;
 	padding: 2.5em 1.5em 0;
 	font-size: 1.15em;
 	margin-left: -20px;
@@ -55,5 +57,46 @@
 /* Custom */
 
 .menu {
-	width: 250px !important;
+	width: 200px !important;
+}
+
+#create-nav,
+#friends-nav,
+#featured-nav,
+#logout-nav,
+#help-nav,
+#profile-nav {
+	width: 100%;
+	padding: 0 0.75em;
+	color: #020717;
+	background: #e0e7fc;
+	margin-bottom: 0.5em;
+}
+
+#create-nav:hover,
+#friends-nav:hover,
+#featured-nav:hover,
+#logout-nav:hover,
+#help-nav:hover,
+#profile-nav:hover {
+	color: #1b4de9;
+}
+
+#create-nav:focus:hover,
+#friends-nav:focus:hover,
+#featured-nav:focus:hover,
+#logout-nav:focus:hover,
+#help-nav:focus:hover,
+#profile-nav:focus:hover {
+	color: #1b4de9;
+}
+
+@media screen and (max-width: 480px) {
+	.bm-burger-button {
+		position: fixed;
+		width: 26px;
+		height: 20px;
+		left: 18px;
+		top: 18px;
+	}
 }

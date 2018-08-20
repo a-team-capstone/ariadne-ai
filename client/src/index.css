@@ -1,13 +1,22 @@
 * {
 	margin: 0;
 	padding: 0;
-	/* max-width: 100vw; */
 }
 
 body {
 	margin: 0;
 	padding: 0;
-	font-family: sans-serif;
+	font-family: 'Palanquin', sans-serif;
+}
+
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+	border: 0;
+	padding: 0;
+}
+
+.container-fluid {
+	padding-left: 0;
 }
 
 .main-container {
@@ -15,25 +24,76 @@ body {
 	padding-left: 0;
 	margin: 0;
 }
+
+/* Home */
 .home {
 	position: absolute;
 	width: 300px;
 	height: 300px;
 	z-index: 15;
-	top: 50%;
+	top: 45%;
 	left: 50%;
 	text-align: center;
 	margin: -100px 0 0 -150px;
 }
 
-.container-fluid {
-	padding-left: 0;
+.home h2 {
+	color: #091e5e;
+	font-family: 'Palanquin Dark', sans-serif;
+	font-size: 48px;
 }
 
-.home button {
+#login-btn,
+#signup-btn {
 	width: 100%;
-	margin-bottom: 2.5em;
+	padding: 0.5em 0;
+	color: #020717;
+	background: #e0e7fc;
+	font-size: 18px;
+	cursor: pointer;
+	margin-top: 1.5em;
 }
+
+#login-btn:hover,
+#signup-btn:hover {
+	color: #1034a6;
+}
+
+/* Home End */
+
+/* Login */
+.login {
+	position: absolute;
+	width: 300px;
+	height: 300px;
+	z-index: 15;
+	top: 45%;
+	left: 50%;
+	text-align: center;
+	margin: -100px 0 0 -150px;
+	max-width: 100vw;
+}
+
+#form-btn {
+	width: 100%;
+	padding: 0.5em 7.25em;
+	color: #020717;
+	background: #e0e7fc;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+#form-btn:hover {
+	color: #1034a6;
+}
+
+.form-btn {
+	border: 0;
+	padding: 0;
+	margin-bottom: 2em;
+}
+/* Login End */
+
 /* My Account */
 .my-account {
 	position: absolute;
@@ -47,7 +107,7 @@ body {
 }
 
 .circle {
-	background: #f00;
+	background: #333;
 	margin-bottom: 2.5em;
 	margin-left: 35%;
 	width: 100px;
@@ -56,6 +116,183 @@ body {
 }
 
 /* My Account End */
+
+.main {
+	position: absolute;
+	width: 400px;
+	height: 500px;
+	z-index: 15;
+	top: 30%;
+	left: 40%;
+	text-align: center;
+	margin: -100px 0 0 -150px;
+	max-width: 100vw;
+}
+
+/* Create Maze */
+.create-maze {
+	text-align: center;
+	padding: 0.25em;
+}
+
+#rotate-right,
+#rotate-left,
+#selection,
+#file {
+	/* width: 100%; */
+	padding: 0.25em 0.5em;
+	color: #020717;
+	background: #e0e7fc;
+	font-size: 16px;
+	cursor: pointer;
+}
+
+#rotate-right:hover,
+#rotate-left:hover,
+#selection:hover,
+#file:hover {
+	color: #1034a6;
+}
+
+.create-btn {
+	border: 0;
+	padding: 0;
+	margin-left: 1.5em;
+}
+
+.fileUpload {
+	position: relative;
+	overflow: hidden;
+	margin: 0.25em;
+}
+.fileUpload input.upload {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 0;
+	padding: 0;
+	font-size: 16px;
+	cursor: pointer;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
+@media screen and (min-width: 480px) {
+	.create-maze {
+		text-align: center;
+		padding: 2.5em;
+	}
+	#selection {
+		margin-top: 2em;
+	}
+	#rotate-right,
+	#rotate-left {
+		margin-bottom: 2em;
+	}
+}
+
+/* End Create Maze */
+
+/* Flood Fill Start */
+
+#floodFillView {
+	position: absolute;
+	max-width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 35%;
+	margin: 0 0 0 0;
+	text-align: center;
+}
+
+#floodFillView canvas {
+	max-height: 80vh;
+}
+
+#floodFillButtons {
+	position: absolute;
+	width: 100%;
+	/* margin: 1em; */
+	z-index: 20;
+	bottom: 0;
+	left: 3em;
+}
+
+#send-btn,
+#play-btn,
+#newmaze-btn {
+	width: 100%;
+	padding: 0 0.5em;
+	color: #020717;
+	background: #e0e7fc;
+	font-size: 18px;
+	cursor: pointer;
+	margin-top: 1.5em;
+}
+
+#send-btn:hover,
+#play-btn:hover,
+#newmaze-btn:hover {
+	color: #1034a6;
+}
+
+.play-btn {
+	border: 0;
+	padding: 0;
+	margin: 0 1.5em;
+}
+
+#mazeImageCanvas {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	max-width: 100vw;
+	margin: 0 0 0 0;
+	z-index: -5;
+}
+#mazeImage {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	max-width: 100vw;
+	margin: 0 0 0 0;
+	z-index: -5;
+}
+
+@media screen and (max-width: 480px) {
+	#floodFillView {
+		position: absolute;
+		max-width: 100vw;
+		height: 100vh;
+		top: 0;
+		left: 0;
+		margin: 0 0 0 0;
+		text-align: center;
+	}
+
+	#floodFillView canvas {
+		max-height: 75vh;
+	}
+
+	#floodFillButtons {
+		position: absolute;
+		width: 100%;
+		z-index: 20;
+		bottom: 0;
+		left: 1em;
+	}
+
+	.play-btn {
+		border: 0;
+		padding: 0;
+		margin: 0 0.5em;
+		background: none;
+	}
+}
+
+/* End Flood Fill */
+
+/* Pixi Game */
 
 #field {
 	position: absolute;
@@ -82,126 +319,29 @@ body {
 	width: 80px;
 }
 
-.main {
-	position: absolute;
-	width: 400px;
-	height: 500px;
-	z-index: 15;
-	top: 30%;
-	left: 40%;
-	text-align: center;
-	margin: -100px 0 0 -150px;
-	max-width: 100vw;
-}
-
 ul {
 	list-style: none;
 }
 
 #pixiGameBoard {
+	position: absolute;
 	max-width: 100vw;
 	margin: 0 0 0 0;
-	right: 0%;
-	left: 0%;
+	left: 35%;
 }
 
 #pixiGameBoard canvas {
 	max-height: 100vh;
 }
 
-
-#floodFillView {
-	position: absolute;
-	max-width: 100vw;
-	height: 100vh;
-	top: 0;
-	left: 0;
-	margin: 0 0 0 0;
-}
-
-#floodFillView canvas{
-	max-height: 75vh;
-}
-
-#floodFillButtons {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	align-content: space-around;
-	align-content: center;
-	position: absolute;
-	width: 600px;
-	margin: 10px 10px;
-	z-index: 20;
-	top: 85vh;
+@media screen and (max-width: 480px) {
+	#pixiGameBoard {
+		position: absolute;
+		max-width: 100vw;
+		margin: 0 0 0 0;
+		right: 0%;
+		left: 0%;
 	}
-
-	#playButton {
-		background-color: #ed9b0e;
-		border-color: #ed9b0e;
-		width: 150px;
-	}
-
-	@media screen and (max-width: 600px) {
-		#floodFillButtons {
-			position: absolute;
-			max-width: 100vw;
-			margin: 10px 10px;
-			z-index: 20;
-			top: 145vw;
-			}
-
-		#floodFill {
-			position: absolute;
-			max-width: 70vw;
-			max-height: 100vh;
-			margin: 0 0 0 0;
-			left: 15vw;
-		}
-
-		#floodFillCanvas canvas{
-			position: absolute;
-			max-width: 90vw;
-			margin: 0, 0;
-			right: 0vw;
-		}
-
-		#floodFillButtons button {
-				width: 80vw;
-				margin: 5px 5px;
-		}
-	}
-
-
-image {
-	position: absolute;
-	max-width: 100vw;
-	margin: 0 0 0 0;
-	right: 0%;
-	left: 0%;
 }
-/*
-canvas {
-	position: absolute;
-	max-width: 100vw;
-	margin: 0 0 0 0;
-	right: 0%;
-	left: 0%;
-} */
 
-#mazeImageCanvas {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	max-width: 100vw;
-	margin: 0 0 0 0;
-	z-index: -5;
-}
-#mazeImage {
-	position: absolute;
-	top: 0px;
-	left: 0px;
-	max-width: 100vw;
-	margin: 0 0 0 0;
-	z-index: -5;
-}
+/* End of Pixi Game */

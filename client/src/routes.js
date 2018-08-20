@@ -33,13 +33,12 @@ class Routes extends Component {
 							<WithNavBar>
 								<Route path="/my-account" component={MyAccount} />
 								<Route path="/create-maze" component={CreateMaze} />
-                <Route path="/featured" component={FeaturedMazes} />
+								<Route path="/featured" component={FeaturedMazes} />
 								<Route path="/friends" component={Friends} />
 								<Route path="/flood-fill" component={FloodFill} />
 								<Route path="/play" component={PlayOrSave} />
-                <Route path="/tutorial" component={TutorialPage} />
+								<Route path="/tutorial" component={TutorialPage} />
 							</WithNavBar>
-
 						</Switch>
 					)}
 				</Switch>

@@ -12,27 +12,29 @@ class PixiGame extends Component {
 		}
 	}
 	componentDidMount() {
-    console.log('the maze in CDM', this.props.maze)
-    this.props.loadMaze(this.props.maze.id)
+		console.log('the maze in CDM', this.props.maze)
+		this.props.loadMaze(this.props.maze.id)
 	}
 
 	render() {
-    const { maze } = this.props
-    const { image } = maze
+		const { maze } = this.props
+		const { image } = maze
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 		if (maze.data && this.refs.board) {
 			const startPoint = maze.ST
-      const endPoint = maze.END
+			const endPoint = maze.END
 
-			this.refs.board.appendChild(PixiApp(image, maze.data, tileSize, startPoint, endPoint).view)
-    }
+			this.refs.board.appendChild(
+				PixiApp(image, maze.data, tileSize, startPoint, endPoint).view
+			)
+		}
 
-    return (
-      <div>
-        <div ref="board" id="pixiGameBoard"/>
-      </div>
-    )
-  }
+		return (
+			<div>
+				<div ref="board" id="pixiGameBoard" />
+			</div>
+		)
+	}
 }
 
 const mapState = state => {
