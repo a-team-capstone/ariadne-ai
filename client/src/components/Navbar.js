@@ -4,7 +4,7 @@ import { slide as Menu } from 'react-burger-menu'
 import { Link } from 'react-router-dom'
 import { logout } from '../store/user'
 import '../css/Navbar.css'
-import 'wired-elements'
+// import 'wired-elements'
 
 class Navbar extends Component {
 	constructor(props) {

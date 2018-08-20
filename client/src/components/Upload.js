@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { imageUpload } from '../store/image'
 import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
-import 'wired-elements'
+// import 'wired-elements'
 
 class Upload extends Component {
 	constructor(props) {

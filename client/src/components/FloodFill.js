@@ -6,7 +6,7 @@ import { getMazeFromImage } from '../utilities/imageAnalysis'
 import floodFill from '../utilities/floodFill'
 import { uploadMaze } from '../store/maze'
 import axios from 'axios'
-import 'wired-elements'
+// import 'wired-elements'
 // const fs = require('fs')
 
 // const api = axios.create({
@@ -168,9 +168,9 @@ const mapDispatch = dispatch => {
 					XTM: obstacles.XTM || null,
 					FRZ: obstacles.FRZ || null,
 					TEL: obstacles.TEL || null,
-		            PRT: obstacles.PRT || null,
-		            SLD: obstacles.SLD || null,
-		            WPN: obstacles.WPN || null,
+					PRT: obstacles.PRT || null,
+					SLD: obstacles.SLD || null,
+					WPN: obstacles.WPN || null,
 					time: obstacles.time || 30
 				})
 			)
