@@ -270,6 +270,12 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		})
 	}
 
+	// out of time screen
+	let outOfTimeScreen = createGameScreen(app, gameHeight, gameWidth, "Time's up!", 0xff7118, 'hourGlassYellow.png', 1.25)
+	let soloFromTime = replaySoloButton()
+	let botFromTime = replayBotButton()
+	outOfTimeScreen.addChild(soloFromTime)
+	outOfTimeScreen.addChild(botFromTime)
 
 
 	// completion screen
@@ -284,7 +290,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	botScreen.addChild(replayBotButton())
 
 
-  // out of time screen
+  // bot won screen
   let botWonScreen = createGameScreen(app, gameHeight, gameWidth, "Beat by the bot!", 0xa8a8a8, 'botShield.png', .4)
   botWonScreen.addChild(replaySoloButton())
   botWonScreen.addChild(replayBotButton())
