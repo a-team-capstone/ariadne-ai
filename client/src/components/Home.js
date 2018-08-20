@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import 'wired-elements'
+// import 'wired-elements'
 
 class Home extends Component {
 	render() {
