@@ -48,10 +48,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	let timeRemaining = timeAllowed
 
-	let app = new PIXI.Application(gameWidth, gameHeight, {
-		antialias: true,
-		backgroundColor: 0x001099bb
-	})
+	let app = new PIXI.Application(gameWidth, gameHeight, { antialias: true, backgroundColor: 0x167AF6 })
 
 	let background = PIXI.Sprite.fromImage(img)
 	background.anchor.x = 0
@@ -299,9 +296,11 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 
 	app.ticker.add(() => {
 		if (timeRemaining > 0) {
-			timeRemaining -= 1 / 60
-			timeText.text = 'Time left: ' + Math.round(timeRemaining)
-		} else {
+
+		timeRemaining -= 1/60
+		timeText.text = 'Time left:\n'+Math.round(timeRemaining)
+		}
+		else {
 			state = outOfTime
 		}
 	})
@@ -434,21 +433,23 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	app.stage.addChild(nav)
 
 	// record player.x and player.y
-	let coordsText = new PIXI.Text('X: ' + player.x + '\nY: ' + player.y, {
-		fill: 0xf9f9f7
-	})
-	coordsText.x = 10
-	coordsText.y = 810
-	app.stage.addChild(coordsText)
+	let coordsText = new PIXI.Text(
+		'X: '+player.x+'\nY: '+player.y,
+		{fill:0xf9f9f7}
+	);
+	coordsText.x = 10;
+	coordsText.y = 810;
+	//app.stage.addChild(coordsText);
 
 	// record time remaining
-	let timeText = new PIXI.Text('Time left: ' + Math.round(timeRemaining), {
-		fill: 0xf9f9f7,
-		fontSize: '30px'
-	})
-	timeText.x = 350
-	timeText.y = 810
-	app.stage.addChild(timeText)
+		let timeText = new PIXI.Text(
+			'Time left:\n'+Math.round(timeRemaining),
+			{fill:0xf9f9f7, fontSize: '35px', fontWeight: "bold", align: "right"}
+		);
+		timeText.x = 580;
+		timeText.y = 805;
+		timeText.anchor.set(1, 0)
+		app.stage.addChild(timeText);
 
 	// update coordinates and check if reached target
 	app.ticker.add(function() {
