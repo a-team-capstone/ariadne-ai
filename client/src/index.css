@@ -135,6 +135,24 @@ input::-moz-focus-inner {
 	padding: 0.25em;
 }
 
+.key {
+  width: 200px;
+  margin: 0 auto;
+  padding: 10px 0px 20px 35px;
+}
+
+.key p {
+  text-align: left;
+}
+
+.key img {
+  width: 30px;
+  height: auto;
+  float: left;
+  margin-right: 15px;
+}
+
+#ready,
 #rotate-right,
 #rotate-left,
 #selection,
@@ -147,6 +165,7 @@ input::-moz-focus-inner {
 	cursor: pointer;
 }
 
+#ready:hover,
 #rotate-right:hover,
 #rotate-left:hover,
 #selection:hover,
@@ -161,7 +180,7 @@ input::-moz-focus-inner {
 }
 
 .fileUpload {
-	position: relative;
+	/* position: relative; */
 	overflow: hidden;
 	margin: 0.25em;
 }
