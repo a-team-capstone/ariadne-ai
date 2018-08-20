@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { imageUpload } from '../store/image'
 import Cropper from 'react-cropper'
@@ -58,33 +58,28 @@ class Upload extends Component {
 
 	render() {
 		return (
-			<div>
-				{/* We can style crop-container in media queries to set the width of the cropper!! */}
 				<div
 					id="crop-container"
-					style={{ width: '90%', position: 'absolute', left: '5%' }}
-				>
-					{/* <input type="file" onChange={this.onChange} /> */}
+					style={{ width: '90%', position: 'absolute', left: '5%' }}>
 					<wired-button id="file">
 						<div className="fileUpload">
 							<span>Upload</span>
 							<input type="file" className="upload" onChange={this.onChange} />
 						</div>
 					</wired-button>
+
 					<div id="cropperButtons">
 						<button
 							type="button"
 							className="create-btn"
-							onClick={this.rotateLeft}
-						>
-							<wired-button id="rotate-left">Rotate Left</wired-button>
+							onClick={this.rotateLeft}>
+							  <wired-button id="rotate-left">Rotate Left</wired-button>
 						</button>
 
 						<button
 							type="button"
 							className="create-btn"
-							onClick={this.rotateRight}
-						>
+							onClick={this.rotateRight}>
 							<wired-button id="rotate-right">Rotate Right</wired-button>
 						</button>
 					</div>
@@ -94,20 +89,15 @@ class Upload extends Component {
 						aspectRatio={3 / 4}
 						guides={false}
 						src={this.state.src}
-						ref={cropper => {
-							this.cropper = cropper
-						}}
-					/>
+						ref={cropper => {this.cropper = cropper}}/>
 
 					<button
 						type="button"
 						className="create-btn"
-						onClick={this.saveToBucket}
-					>
-						<wired-button id="selection">Use Selection</wired-button>
+						onClick={this.saveToBucket}>
+						  <wired-button id="selection">Use Selection</wired-button>
 					</button>
 				</div>
-			</div>
 		)
 	}
 }

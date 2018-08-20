@@ -37,7 +37,7 @@ class TutorialPage extends Component {
           content.subhead? <h5>{content.subhead}</h5> : null
         }
         {
-          content.image ? <img src={content.image} width={300}/> : null
+          content.image ? <img src={content.image} width={250}/> : null
         }
 				<p>{content.text}</p>
 				{pageNum > 0 ? <button onClick={this.handleBack}>Back</button> : null}
