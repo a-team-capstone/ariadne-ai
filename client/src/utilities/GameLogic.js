@@ -6,14 +6,12 @@ import { createSprite } from './PixiObjects'
 import * as move from './MoveLogic'
 import {overlapping} from './MoveLogic'
 import {createGameScreen, createButton, createPowerUpsScreen, createOverlay} from './GameScreens'
+import axios from 'axios'
 
+const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) => {
+	let maze = mazeInstance.data.data
 
-const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
-	let maze = mazeObj.data
-
-	let {WPN, FRZ, XTM, BMB, TEL, SLD, PRT, time} = mazeObj
-
-
+  let {WPN, FRZ, XTM, BMB, TEL, SLD, PRT, time} = mazeInstance
 
 	let startY = startPoint[0] - (startPoint[0] % tileSize)
 	let startX = startPoint[1] - (startPoint[1] % tileSize)
@@ -24,10 +22,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	let gameWidth = maze[0].length * tileSize
 	let mazeHeight = maze.length * tileSize
 	let mazeWidth = maze[0].length * tileSize
-
-	console.log('game height and width', gameHeight, gameWidth)
-
-
 
 	let timeAllowed = time
 	let extraTimeX = XTM? XTM[1] : -999
@@ -44,7 +38,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	let portY = PRT? PRT[0] : -999
 	let freezeX = FRZ? FRZ[1] : -999
 	let freezeY = FRZ? FRZ[0] : -999
-
 
 	let timeRemaining = timeAllowed
 
@@ -158,7 +151,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	}
 
 	function setupBot() {
-		console.log('in setup bot')
 		//reset bot
 		// if (bot) bot.destroy()
 		bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY, endX, endY, 2)
@@ -221,7 +213,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeText.visible = false;
 		timeTitle.visible = false;
 		quitScreen.visible = false;
-
 	}
 
 	function botUnlocked() {
@@ -245,12 +236,9 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeTitle.visible = false;
 		newPowerUpsScreen.visible = false;
 		quitScreen.visible = false;
-
-
 	}
 
 	function win() {
-
 		timeRemaining = 9999
 		winScreen.visible = true;
 		countdown.visible = false
@@ -265,9 +253,7 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeText.visible = false;
 		timeTitle.visible = false;
 		newPowerUpsScreen.visible = false;
-		quitScreen.visible = false;
-
-
+    quitScreen.visible = false;
 	}
 
 	function botWon() {
@@ -285,8 +271,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		timeTitle.visible = false;
 		newPowerUpsScreen.visible = false;
 		quitScreen.visible = false;
-
-
 	}
 
 	function outOfTime() {
@@ -303,8 +287,8 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		coordsText.visible = false;
 		newPowerUpsScreen.visible = false;
 		quitScreen.visible = false;
-
-	}
+  }
+  
 	function quit() {
 		timeRemaining = 9999
 		quitScreen.visible = true
@@ -379,11 +363,10 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	outOfTimeScreen.addChild(soloFromTime)
 	outOfTimeScreen.addChild(botFromTime)
 
-		// intro to new powerups screen
-		let newPowerUpsScreen = createPowerUpsScreen(app, gameHeight, gameWidth, "New power ups!", 0x000556, 'sword.png', .75, 'Weapon\nPick it up and attack the bot!', 'slowDown.png', .4, 'Bubble Gum\nSlows down the bot')
-		let botFromNewPowerUps = goButton()
-		newPowerUpsScreen.addChild(botFromNewPowerUps)
-
+  // intro to new powerups screen
+  let newPowerUpsScreen = createPowerUpsScreen(app, gameHeight, gameWidth, "New power ups!", 0x000556, 'sword.png', .75, 'Weapon\nPick it up and attack the bot!', 'slowDown.png', .4, 'Bubble Gum\nSlows down the bot')
+  let botFromNewPowerUps = goButton()
+  newPowerUpsScreen.addChild(botFromNewPowerUps)
 
 
 	// completion screen
@@ -409,8 +392,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
   quitScreen.addChild(replaySoloButton())
 	quitScreen.addChild(botFromQuit)
 	quitScreen.addChild(quitMazeButton())
-
-
 
 
 	app.ticker.add(() => {
@@ -528,7 +509,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	up.lineStyle(2, 0xf0ead6, 1)
 	up.beginFill(0x494845)
 	up.drawRoundedRect(90, 0, 90, 90, 10)
-
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true
 	up.buttonMode = true
@@ -560,7 +540,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	);
 	coordsText.x = 10;
 	coordsText.y = 810;
-	//app.stage.addChild(coordsText);
 
 	// record time remaining
 		let timeText = new PIXI.Text(
@@ -582,13 +561,21 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		app.stage.addChild(timeTitle);
 
 	// update coordinates and check if reached target
-	app.ticker.add(function() {
+	app.ticker.add(async function() {
 		coordsText.text = 'X: ' + player.x + '\nY: ' + player.y
-		// check if player reached target
+    // check if player reached target
+    const { id, solvable } = mazeInstance
 		if (overlapping(player, mazeTarget, tileSize)) {
-
-				state = botLevelUnlocked? win : botUnlocked
-
+        state = botLevelUnlocked? win : botUnlocked
+        let request = {
+          seconds: (timeAllowed - timeRemaining),
+          playerId: user.id,
+          mazeId: id
+        }
+        await axios.post('api/plays/', request)
+        if(!solvable) {
+          await axios.put(`api/mazes/${id}`)
+        }
 		}
 
 		// check if bot reached target
@@ -657,37 +644,37 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 	let freezeBot = false
 	let freezePlayer = false
 	app.ticker.add(function() {
-		let frozenPlayerX = null
-		let frozenPlayerY = null
-		let frozenBotX = null
-		let frozenBotY = null
-		// if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot) {
-		// 	freezeBot = true
-		// }
-		// if (freezeBot && freezeCount) {
-		// 	freezeCount--
-		// 	const currentFreezeBotX = bot.x
-		// 	const currentFreezeBotY = bot.y
-		// 	const oldFreezeBot = bot
+  let frozenPlayerX = null
+  let frozenPlayerY = null
+  let frozenBotX = null
+  let frozenBotY = null
+  // if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot) {
+  // 	freezeBot = true
+  // }
+  // if (freezeBot && freezeCount) {
+  // 	freezeCount--
+  // 	const currentFreezeBotX = bot.x
+  // 	const currentFreezeBotY = bot.y
+  // 	const oldFreezeBot = bot
 
-		// 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, endX, endY, 9999)
-		// 	oldFreezeBot.x = -111
-		// 	oldFreezeBot.y = -111
+  // 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, endX, endY, 9999)
+  // 	oldFreezeBot.x = -111
+  // 	oldFreezeBot.y = -111
 
-		// }
-		// if (freezeBot && !freezeCount) {
-		// 	freezeBot = false
-		// 	freezeOverlay.visible = false
-		// 	const currentUnFreezeBotX = bot.x
-		// 	const currentUnFreezeBotY = bot.y
-		// 	const oldUnFreezeBot = bot
-		// 	freeze.destroy()
-		// 	freeze = null
+  // }
+  // if (freezeBot && !freezeCount) {
+  // 	freezeBot = false
+  // 	freezeOverlay.visible = false
+  // 	const currentUnFreezeBotX = bot.x
+  // 	const currentUnFreezeBotY = bot.y
+  // 	const oldUnFreezeBot = bot
+  // 	freeze.destroy()
+  // 	freeze = null
 
-		// 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, endX, endY, 2)
-		// 	oldUnFreezeBot.x = -111
-		// 	oldUnFreezeBot.y = -111
-		// } else
+  // 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, endX, endY, 2)
+  // 	oldUnFreezeBot.x = -111
+  // 	oldUnFreezeBot.y = -111
+  // } else
 
 		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer) {
 		freezePlayer = true
@@ -708,8 +695,10 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 		freeze.scale.y *= 1.002
 	}
 	if (freezePlayer && !freezeCount) {
-		player = frozenPlayer
+		player.x =frozenPlayer.x
+		player.y = frozenPlayer.y
 		freezePlayer = false
+		frozenPlayer.destroy()
 		freeze.destroy()
 		freeze = null
 	}
@@ -759,24 +748,22 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 			}
 		}
 	}
-
 )
 
-		// check if slowDown should be activated
-		app.ticker.add(function() {
-			if (slowDown && overlapping(bot, slowDown, tileSize))
-			{
-				console.log('SLOW BOT DOWN')
-				const currentBotX = bot.x
-				const currentBotY = bot.y
-				const oldBot = bot
-				bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentBotX, currentBotY, endX, endY, 1)
-				oldBot.x = -111
-				oldBot.y = -111
-				slowDown.destroy()
-				slowDown = null
-			}
-		})
+  // check if slowDown should be activated
+  app.ticker.add(function() {
+    if (slowDown && overlapping(bot, slowDown, tileSize))
+    {
+      const currentBotX = bot.x
+      const currentBotY = bot.y
+      const oldBot = bot
+      bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentBotX, currentBotY, endX, endY, 1)
+      oldBot.x = -111
+      oldBot.y = -111
+      slowDown.destroy()
+      slowDown = null
+    }
+  })
 
 	// check if teleport should be used
 	if (tele.x >= 0 && tele.y >= 0 && port.x >= 0 && port.y >= 0) {
@@ -801,7 +788,6 @@ const createBoard = (img, mazeObj, tileSize, startPoint, endPoint) => {
 			mazeGrid
 		) // activate for bot
 	}
-
 	return app
 }
 

@@ -4,7 +4,6 @@ import { slide as Menu } from 'react-burger-menu'
 import { Link } from 'react-router-dom'
 import { logout } from '../store/user'
 import '../css/Navbar.css'
-// import 'wired-elements'
 
 class Navbar extends Component {
 	constructor(props) {
@@ -52,7 +51,7 @@ class Navbar extends Component {
 					<wired-button id="friends-nav">Friends</wired-button>
 				</Link>
 				<Link to="/tutorial" onClick={this.handlerCloseSideBar}>
-					<wired-button id="help-nav">Help</wired-button>
+					<wired-button id="help-nav">Tutorial</wired-button>
 				</Link>
 				{isLoggedIn && (
 					<Link to="/" onClick={handleClick}>
