@@ -54,8 +54,8 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   router.get(
     '/callback',
     passport.authenticate('google', {
-      successRedirect: '/home',
-      failureRedirect: '/login'
+      successRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/my-account' : 'https://ariadne-ai.herokuapp.com/my-account',
+      failureRedirect: process.env.NODE_ENV === 'development' ? 'http://localhost:3000/login' : 'https://ariadne-ai.herokuapp.com/login'
     })
   )
 }
