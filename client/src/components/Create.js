@@ -119,17 +119,17 @@ class Create extends Component {
 						<button
 							type="button"
 							className="create-btn"
-							onClick={this.saveToBucket}
+							onClick={this.rotateRight}
 						>
-							<wired-button id="selection">Use Selection</wired-button>
+							<wired-button id="rotate-right">Rotate Right</wired-button>
 						</button>
 
 						<button
 							type="button"
 							className="create-btn"
-							onClick={this.rotateRight}
+							onClick={this.saveToBucket}
 						>
-							<wired-button id="rotate-right">Rotate Right</wired-button>
+							<wired-button id="selection">Use Selection</wired-button>
 						</button>
 					</div>
 				)}
