@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from 'react'
-// import Upload from './Upload'
 import { connect } from 'react-redux'
 import { imageUpload } from '../store/image'
 import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
-// import 'wired-elements'
 
 class Create extends Component {
 	constructor(props) {
@@ -96,8 +94,7 @@ class Create extends Component {
 				) : (
 					<div
 						id="crop-container"
-						style={{ width: '90%', position: 'absolute', left: '5%' }}
-					>
+						style={{ width: '90%', position: 'absolute', left: '5%' }}>
 						<Cropper
 							style={{ height: 400, width: '100%' }}
 							aspectRatio={3 / 4}
@@ -105,32 +102,38 @@ class Create extends Component {
 							src={this.state.src}
 							ref={cropper => {
 								this.cropper = cropper
-							}}
-						/>
+							}}/>
 
 						<button
 							type="button"
 							className="create-btn"
-							onClick={this.rotateLeft}
-						>
+							onClick={this.rotateLeft}>
 							<wired-button id="rotate-left">Rotate Left</wired-button>
 						</button>
 
-						<button
+            <button
 							type="button"
 							className="create-btn"
-							onClick={this.rotateRight}
-						>
+							onClick={this.rotateRight}>
 							<wired-button id="rotate-right">Rotate Right</wired-button>
 						</button>
 
 						<button
 							type="button"
 							className="create-btn"
-							onClick={this.saveToBucket}
-						>
+							onClick={this.saveToBucket}>
 							<wired-button id="selection">Use Selection</wired-button>
 						</button>
+
+            <wired-button id="file">
+							<div className="fileUpload">
+								<span>Change Photo</span>
+								<input
+									type="file"
+									className="upload"
+									onChange={this.onChange}/>
+							</div>
+						</wired-button>
 					</div>
 				)}
 			</div>
