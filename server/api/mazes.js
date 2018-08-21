@@ -9,6 +9,7 @@ module.exports = router
 //maze routes:
 //get featured mazes
 //get single maze
+//update a maze to solvable
 //delete maze
 //post a maze
 //get all (or highest/lowest) plays for specific maze
@@ -40,6 +41,23 @@ router.get('/:id', async (req, res, next) => {
 	} catch (err) {
 		next(err)
 	}
+})
+
+router.put('/:id', async (req, res, next) => {
+  try {
+    const maze = await Maze.findById(req.params.id)
+    if (!maze) {
+      const error = new Error('Maze not found!')
+			error.status = 404
+			return next(error)
+    }
+    const updated = await maze.update({
+      solvable: true
+    })
+    res.json(updated)
+  } catch (err) {
+    next(err)
+  }
 })
 
 router.post('/analyze', async (req, res, next) => {

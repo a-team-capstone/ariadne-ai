@@ -12,7 +12,6 @@ class PixiGame extends Component {
 		}
 	}
 	async componentDidMount() {
-		console.log('the maze in CDM', this.props.maze)
 		await this.props.loadMaze(this.props.maze.id)
 		let is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false
 		if (is_mobile) {
@@ -23,7 +22,7 @@ class PixiGame extends Component {
 	}
 
 	render() {
-		const { maze } = this.props
+		const { maze, user } = this.props
 		const { image } = maze
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 		if (maze.data && this.refs.board) {
@@ -31,9 +30,9 @@ class PixiGame extends Component {
 			const endPoint = maze.END
 
 			this.refs.board.appendChild(
-				PixiApp(image, maze.data, tileSize, startPoint, endPoint).view
+				PixiApp(image, maze, tileSize, startPoint, endPoint, user).view
 			)
-		}
+    }
 
 		return (
 			<div>
@@ -45,7 +44,8 @@ class PixiGame extends Component {
 
 const mapState = state => {
 	return {
-		maze: state.maze
+    maze: state.maze,
+    user: state.user
 	}
 }
 
