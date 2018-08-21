@@ -21,11 +21,6 @@ export const imageUpload = formData => {
   return async dispatch => {
     try {
       const { data } = await axios.post(`api/uploads/image-upload`, formData)
-      // , {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data;',
-      //   },
-      // })
       dispatch(uploadImage(data.Location))
       history.push('/flood-fill')
     } catch (err) {
