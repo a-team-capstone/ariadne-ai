@@ -60,7 +60,7 @@ const createApp = () => {
 	app.use('/api', require('./api'))
 
 	// static file-serving middleware
-	app.use(express.static(path.join(__dirname, '..', 'client/public')))
+	app.use(express.static(path.join(__dirname, '..', '/public')))
 	if (process.env.NODE_ENV === 'production') {
 		app.use(express.static('client/build'))
 	}
@@ -86,9 +86,9 @@ const createApp = () => {
 	app.use('*', (req, res) => {
 		console.log(
 			'this is the path',
-			path.join(__dirname, '..', 'client/public/index.html')
+			path.join(__dirname, '..', '/public/index.html')
 		)
-		res.sendFile(path.join(__dirname, '..', 'client/public/index.html'))
+		res.sendFile(path.join(__dirname, '..', '/public/index.html'))
 	})
 
 	// error handling endware
