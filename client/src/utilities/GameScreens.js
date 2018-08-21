@@ -14,7 +14,7 @@ export const createGameScreen = (app, gameHeight, gameWidth, primaryText='primar
 	}
 	);
 	bigText.x = gameWidth/2;
-	bigText.y = gameHeight*(5/8);
+	bigText.y = gameHeight*(9/16);
 	bigText.anchor.set(.5, 1)
 	let avatar = PIXI.Sprite.fromImage(imagePath)
 	avatar.anchor.set(.5, 1)
