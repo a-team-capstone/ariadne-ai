@@ -52,7 +52,7 @@ class Navbar extends Component {
 					<wired-button id="friends-nav">Friends</wired-button>
 				</Link>
 				<Link to="/tutorial" onClick={this.handlerCloseSideBar}>
-					<wired-button id="help-nav">Help</wired-button>
+					<wired-button id="help-nav">Tutorial</wired-button>
 				</Link>
 				{isLoggedIn && (
 					<Link to="/" onClick={handleClick}>
