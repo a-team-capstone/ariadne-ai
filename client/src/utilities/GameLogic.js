@@ -570,7 +570,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		if (overlapping(player, mazeTarget, tileSize)) {
         state = botLevelUnlocked? win : botUnlocked
         let request = {
-          seconds: 20,
+          seconds: (timeAllowed - timeRemaining),
           playerId: user.id,
           mazeId: id
         }

@@ -13,6 +13,8 @@ Maze.belongsTo(User)
 User.hasMany(Play, { as: 'player', foreignKey: 'playerId'})
 Maze.hasMany(Play)
 
+Play.belongsTo(Maze)
+
 module.exports = {
   User,
   Maze,

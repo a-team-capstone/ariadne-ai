@@ -17,7 +17,9 @@ const Maze = db.define('maze', {
 	data: {
     type: Sequelize.TEXT,
     get () {
-      return makeMatrix(this.getDataValue('data'))
+      if (this.getDataValue('data')) {
+        return makeMatrix(this.getDataValue('data'))
+      }
     },
     set (matrix) {
       this.setDataValue('data', matrix.reduce((acc, curr) => {
