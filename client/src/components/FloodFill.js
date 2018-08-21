@@ -28,10 +28,13 @@ class FloodFill extends Component {
 			obstacles: {},
 			imageUrl: 'favicon.ico'
 		}
+		this.mazeImage = React.createRef()
+		this.mazeImageCanvas = React.createRef()
+		this.board = React.createRef()
 	}
 
 	async componentDidMount() {
-		const image = this.refs.mazeImage
+		const image = this.mazeImage.current
 		const { data } = await axios({
 			url: this.props.image,
 			method: 'GET',
@@ -47,7 +50,7 @@ class FloodFill extends Component {
 			imageWidth: image.naturalWidth
 		})
 		const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
-			this.refs.mazeImageCanvas,
+			this.mazeImageCanvas.current,
 			image,
 			tileSize,
 			this.props.image
@@ -70,7 +73,7 @@ class FloodFill extends Component {
 			: 'Your power-ups may say otherwise, though. Try to play your maze to be sure!'
 		this.setState({ solvable, explainerText })
 
-		this.refs.board.appendChild(
+		this.board.current.appendChild(
 			showFloodFill(image.src, floodedMaze, tileSize, startPoint, endPoint).view
 		)
 	}
@@ -80,7 +83,6 @@ class FloodFill extends Component {
 		const invisibleCanvas = { opacity: 0 }
 		const { image, handleClick, user } = this.props
 		const imageUrl = this.state.imageUrl
-		// console.log('obstacles', this.state.obstacles)
 		const { solvable, explainerText } = this.state
 
 		return (
@@ -93,10 +95,10 @@ class FloodFill extends Component {
 					</p>
 				)}
 				<p>{explainerText}</p>
-				<div ref="board" id="floodFillCanvas" />
+				<div ref={this.board} id="floodFillCanvas" />
 				<img
 					id="mazeImage"
-					ref="mazeImage"
+					ref={this.mazeImage}
 					src={imageUrl}
 					alt="simpleMaze"
 					style={invisibleImage}
@@ -107,13 +109,10 @@ class FloodFill extends Component {
 					<div className="row">
 						<canvas
 							id="mazeImageCanvas"
-							ref="mazeImageCanvas"
+							ref={this.mazeImageCanvas}
 							style={invisibleCanvas}
-							// width={this.state.imageWidth} // "4032" //{imageWidth} //"4032" //"2500" //"4032" //"600" //update with image width
 							width={this.state.desiredWidth}
 							height={this.state.desiredHeight}
-							// height={this.state.imageHeight} // "3024" // {imageHeight} //"3024" //"1875" // "3024" //"800" //update with image height
-							//style={{ border: '1px solid #000000' }}
 						/>
 					</div>
 

@@ -13,10 +13,11 @@ class PixiGame extends Component {
 	}
 	async componentDidMount() {
 		await this.props.loadMaze(this.props.maze.id)
-		let is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false
+		let is_mobile =
+			!!navigator.userAgent.match(/iphone|android|blackberry/gi) || false
 		if (is_mobile) {
-			setTimeout(function () {
-	  		window.scrollTo(0, 60);
+			setTimeout(function() {
+				window.scrollTo(0, 60)
 			}, 500)
 		}
 	}
@@ -32,7 +33,7 @@ class PixiGame extends Component {
 			this.refs.board.appendChild(
 				PixiApp(image, maze, tileSize, startPoint, endPoint, user).view
 			)
-    }
+		}
 
 		return (
 			<div>
@@ -44,8 +45,8 @@ class PixiGame extends Component {
 
 const mapState = state => {
 	return {
-    maze: state.maze,
-    user: state.user
+		maze: state.maze,
+		user: state.user
 	}
 }
 
