@@ -288,7 +288,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		newPowerUpsScreen.visible = false;
 		quitScreen.visible = false;
   }
-  
+
 	function quit() {
 		timeRemaining = 9999
 		quitScreen.visible = true
@@ -320,7 +320,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	}
 
 	let quitMazeButton = () => {
-		return createButton(gameWidth/2, 700, 'exitMazeButton.png', ()=>{
+		return createButton(gameWidth/2, 600, 'exitMazeButton.png', ()=>{
 		window.location="create-maze"
 		})
 	}
@@ -340,6 +340,18 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		})
 	}
 
+	let shareButton = () => {
+		return createButton(gameWidth/2, 700, 'challengeFriends.png', ()=>{
+			// Shelby -- space to add share with friend stuff here
+		window.location = "create-maze" // change
+		})
+	}
+
+	let leaveMazeButton = () => {
+		return createButton(gameWidth/2, 960, 'leaveMaze.png', ()=>{
+		window.location = "create-maze"
+		})
+	}
 	// let menuButton = () => {
 	// 	return createButton(75, 893, 'menuButton.png', ()=>{
 	// 	//state = menu
@@ -349,7 +361,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	//board.addChild(menuButton())
 
 	let quitButton = () => {
-		return createButton(75, 893, 'quitButton.png', ()=>{
+		return createButton(75, 893, 'redQuitButton.png', ()=>{
 		state = quit
 		})
 	}
@@ -362,6 +374,8 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	let botFromTime = replayBotButton()
 	outOfTimeScreen.addChild(soloFromTime)
 	outOfTimeScreen.addChild(botFromTime)
+	outOfTimeScreen.addChild(shareButton())
+
 
   // intro to new powerups screen
   let newPowerUpsScreen = createPowerUpsScreen(app, gameHeight, gameWidth, "New power ups!", 0x000556, 'sword.png', .75, 'Weapon\nPick it up and attack the bot!', 'slowDown.png', .4, 'Bubble Gum\nSlows down the bot')
@@ -370,21 +384,26 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 
 
 	// completion screen
-	let winScreen = createGameScreen(app, gameHeight, gameWidth, 'Maze complete!')
+	let winScreen = createGameScreen(app, gameHeight, gameWidth, 'Maze complete!',0xf7a409, 'star.png', .9)
 	winScreen.addChild(replaySoloButton())
 	winScreen.addChild(replayBotButton())
+	winScreen.addChild(shareButton())
+
 
 
 	// unlocked bot screen
-	let botScreen = createGameScreen(app, gameHeight, gameWidth, "Unlocked\n~ Bot Mode ~", 0x19cdff)
+	let botScreen = createGameScreen(app, gameHeight, gameWidth, "Try Bot Mode!", 0x19cdff,'newMode.png', .9)
 	botScreen.addChild(replaySoloButton())
 	botScreen.addChild(newPowerUpsButton())
+	botScreen.addChild(shareButton())
 
 
   // bot won screen
   let botWonScreen = createGameScreen(app, gameHeight, gameWidth, "Beat by the bot!", 0xa8a8a8, 'botShield.png', .4)
   botWonScreen.addChild(replaySoloButton())
 	botWonScreen.addChild(replayBotButton())
+	botWonScreen.addChild(shareButton())
+
 
   // quit screen
 	let quitScreen = createGameScreen(app, gameHeight, gameWidth, "", 0x00b5a2, 'quitButton.png', 2)
@@ -392,6 +411,8 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
   quitScreen.addChild(replaySoloButton())
 	quitScreen.addChild(botFromQuit)
 	quitScreen.addChild(quitMazeButton())
+	quitScreen.addChild(shareButton())
+
 
 
 	app.ticker.add(() => {
@@ -572,10 +593,10 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
           playerId: user.id,
           mazeId: id
         }
-        await axios.post('api/plays/', request)
-        if(!solvable) {
-          await axios.put(`api/mazes/${id}`)
-        }
+        // await axios.post('api/plays/', request)
+        // if(!solvable) {
+        //   await axios.put(`api/mazes/${id}`)
+        // }
 		}
 
 		// check if bot reached target

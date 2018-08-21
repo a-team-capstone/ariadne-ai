@@ -14,14 +14,14 @@ export const createGameScreen = (app, gameHeight, gameWidth, primaryText='primar
 	}
 	);
 	bigText.x = gameWidth/2;
-	bigText.y = gameHeight*(2/3);
-	bigText.anchor.set(.5, .5)
+	bigText.y = gameHeight*(5/8);
+	bigText.anchor.set(.5, 1)
 	let avatar = PIXI.Sprite.fromImage(imagePath)
-	avatar.anchor.set(.5, .5)
+	avatar.anchor.set(.5, 1)
 	avatar.scale.x = scale
 	avatar.scale.y = scale
 	avatar.x = gameWidth/2;
-	avatar.y = gameHeight/3;
+	avatar.y = gameHeight*(1/2);
 	screen.addChild(avatar)
 	screen.addChild(bigText)
 
