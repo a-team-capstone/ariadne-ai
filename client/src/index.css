@@ -77,7 +77,7 @@ input::-moz-focus-inner {
 
 #form-btn {
 	width: 100%;
-	padding: 0.5em 7.25em;
+	padding: 0.5em 5em;
 	color: #020717;
 	background: #e0e7fc;
 	font-size: 18px;
@@ -93,6 +93,11 @@ input::-moz-focus-inner {
 	border: 0;
 	padding: 0;
 	margin-bottom: 2em;
+}
+
+.input {
+	width: 80%;
+	margin-left: 2em;
 }
 /* Login End */
 

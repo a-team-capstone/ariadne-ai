@@ -7,16 +7,16 @@ import { auth } from '../store/user'
  * COMPONENT
  */
 const Form = props => {
-  const { name, displayName, handleSubmit, error } = props
-  console.log('display name', displayName)
+	const { name, displayName, handleSubmit, error } = props
+	console.log('display name', displayName)
 	return (
 		<div className="login">
 			<form onSubmit={handleSubmit} name={name}>
-				<div className="form-group">
+				<div className="form-group input">
 					<label htmlFor="email">Email</label>
 					<input name="email" type="text" className="form-control" />
 				</div>
-				<div className="form-group">
+				<div className="form-group input">
 					<label htmlFor="password">Password</label>
 					<input name="password" type="password" className="form-control" />
 				</div>
@@ -28,7 +28,13 @@ const Form = props => {
 				</div>
 				{error && error.response && <div> {error.response.data} </div>}
 			</form>
-			<a href={process.env.NODE_ENV === 'development' ? "http://localhost:3001/auth/google" : "https://ariadne-ai.herokuapp.com/auth/google"}>
+			<a
+				href={
+					process.env.NODE_ENV === 'development'
+						? 'http://localhost:3001/auth/google'
+						: 'https://ariadne-ai.herokuapp.com/auth/google'
+				}
+			>
 				{/* <button type="button" className="btn btn-primary"> */}
 				{displayName} with Google
 				{/* </button> */}
