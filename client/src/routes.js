@@ -37,7 +37,6 @@ class Routes extends Component {
 								<Route path="/featured" component={FeaturedMazes} />
 								<Route path="/friends" component={Friends} />
 								<Route path="/flood-fill" component={FloodFill} />
-								<Route path="/play" component={PlayOrSave} />
 								<Route path="/tutorial" component={TutorialPage} />
                 <Route path="/select-friends" component={SelectFriends} />
 							</WithNavBar>
