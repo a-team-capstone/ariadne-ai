@@ -71,6 +71,7 @@
 	color: #020717;
 	background: #e0e7fc;
 	margin-bottom: 0.5em;
+	outline: none;
 }
 
 #create-nav:hover,

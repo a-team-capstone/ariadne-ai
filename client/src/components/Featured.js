@@ -25,7 +25,7 @@ class FeaturedMazes extends Component {
 	render() {
 		const { featured } = this.props
 		return (
-			<div className="main">
+			<div className="tutorial">
 				<h4>Featured Mazes</h4>
 				{featured.map(maze => {
 					return (
