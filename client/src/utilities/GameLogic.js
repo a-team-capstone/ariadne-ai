@@ -399,13 +399,15 @@ const createBoard = (
 	let shareButton = () => {
 		return createButton(gameWidth / 2, 700, 'challengeFriends.png', () => {
 			// Shelby -- space to add share with friend stuff here
-			window.location = 'create-maze' // change
+			// window.location = 'create-maze' // change
+			history.push('/select-friends')
 		})
 	}
 
 	let leaveMazeButton = () => {
 		return createButton(gameWidth / 2, 960, 'leaveMaze.png', () => {
-			window.location = 'create-maze'
+			// window.location = 'create-maze'
+			history.push('/create-maze')
 		})
 	}
 	// let menuButton = () => {
