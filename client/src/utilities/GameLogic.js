@@ -36,6 +36,11 @@ const createBoard = (
 	let mazeHeight = maze.length * tileSize
 	let mazeWidth = maze[0].length * tileSize
 
+	let widthOffset = 50
+	let heightOffset = 25
+	gameWidth += 2 * widthOffset
+	gameHeight += 2 * heightOffset
+
 	let timeAllowed = time
 	let extraTimeX = XTM ? XTM[1] : -999
 	let extraTimeY = XTM ? XTM[0] : -999
@@ -182,6 +187,18 @@ const createBoard = (
 		freezePlayer = false
 		freezeBot = false
 		if (freeze) freeze.destroy()
+		try {
+			frozenBot.destroy()
+		} catch (error) {
+			frozenBot = null
+		}
+		try {
+			frozenPlayer.destroy()
+		} catch (error) {
+			frozenPlayer = null
+		}
+
+
 		freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, 0.15)
 
 		state = useBot ? setupBot : play
@@ -362,43 +379,44 @@ const createBoard = (
 	}
 
 	let replaySoloButton = () => {
-		return createButton(gameWidth / 2, 800, 'replaySolo.png', () => {
-			useBot = false
-			state = setup
+
+		return createButton(gameWidth/2, 750, 'replaySolo.png', ()=>{
+		useBot = false
+		state = setup
 		})
 	}
 
 	let replayBotButton = () => {
-		return createButton(gameWidth / 2, 900, 'replayBot.png', () => {
-			useBot = true
-			state = setup
+		return createButton(gameWidth/2, 850, 'replayBot.png', ()=>{
+		useBot = true
+		state = setup
 		})
 	}
 
 	let quitMazeButton = () => {
-		return createButton(gameWidth / 2, 600, 'exitMazeButton.png', () => {
+
+		return createButton(gameWidth / 2, 950, 'exitMazeButton.png', () => {
 			// window.location = 'create-maze'
 			history.push('/create-maze')
 		})
 	}
 
 	let newPowerUpsButton = () => {
-		return createButton(gameWidth / 2, 900, 'replayBot.png', () => {
-			useBot = true
-			state = newPowerUps
+		return createButton(gameWidth/2, 850, 'replayBot.png', ()=>{
+		useBot = true
+		state = newPowerUps
 		})
 	}
 
 	let goButton = () => {
-		return createButton(gameWidth / 2, 925, 'goButton.png', () => {
-			useBot = true
-			state = setup
+		return createButton(gameWidth/2, 950, 'goButton.png', ()=>{
+		useBot = true
+		state = setup
 		})
 	}
 
 	let shareButton = () => {
-		return createButton(gameWidth / 2, 700, 'challengeFriends.png', () => {
-			// Shelby -- space to add share with friend stuff here
+		return createButton(gameWidth / 2, 650, 'challengeFriends.png', () => {
 			// window.location = 'create-maze' // change
 			history.push('/select-friends')
 		})
@@ -440,6 +458,7 @@ const createBoard = (
 	outOfTimeScreen.addChild(soloFromTime)
 	outOfTimeScreen.addChild(botFromTime)
 	outOfTimeScreen.addChild(shareButton())
+	outOfTimeScreen.addChild(quitMazeButton())
 
 	// intro to new powerups screen
 	let newPowerUpsScreen = createPowerUpsScreen(
@@ -471,6 +490,7 @@ const createBoard = (
 	winScreen.addChild(replaySoloButton())
 	winScreen.addChild(replayBotButton())
 	winScreen.addChild(shareButton())
+	winScreen.addChild(quitMazeButton())
 
 	// unlocked bot screen
 	let botScreen = createGameScreen(
@@ -485,6 +505,7 @@ const createBoard = (
 	botScreen.addChild(replaySoloButton())
 	botScreen.addChild(newPowerUpsButton())
 	botScreen.addChild(shareButton())
+	botScreen.addChild(quitMazeButton())
 
 	// bot won screen
 	let botWonScreen = createGameScreen(
@@ -499,6 +520,8 @@ const createBoard = (
 	botWonScreen.addChild(replaySoloButton())
 	botWonScreen.addChild(replayBotButton())
 	botWonScreen.addChild(shareButton())
+	botWonScreen.addChild(quitMazeButton())
+
 
 	// quit screen
 	let quitScreen = createGameScreen(
@@ -513,8 +536,8 @@ const createBoard = (
 	let botFromQuit = replayBotButton()
 	quitScreen.addChild(replaySoloButton())
 	quitScreen.addChild(botFromQuit)
-	quitScreen.addChild(quitMazeButton())
 	quitScreen.addChild(shareButton())
+	quitScreen.addChild(quitMazeButton())
 
 	app.ticker.add(() => {
 		if (timeRemaining > 0) {
@@ -551,8 +574,8 @@ const createBoard = (
 	}
 	board.addChild(tiles)
 
-	board.x = 0
-	board.y = 0
+	board.x = widthOffset
+	board.y = 20
 	app.stage.addChild(board)
 
 	// Keyboard navigation
@@ -603,7 +626,7 @@ const createBoard = (
 	let right = new PIXI.Graphics()
 	right.lineStyle(2, 0xf0ead6, 1)
 	right.beginFill(0x494845)
-	right.drawRoundedRect(180, 45, 90, 90, 10)
+	right.drawRoundedRect(192, 48, 96, 96, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true
 	right.buttonMode = true
@@ -616,7 +639,7 @@ const createBoard = (
 	let left = new PIXI.Graphics()
 	left.lineStyle(2, 0xf0ead6, 1)
 	left.beginFill(0x494845)
-	left.drawRoundedRect(0, 45, 90, 90, 10)
+	left.drawRoundedRect(0, 48, 96, 96, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true
 	left.buttonMode = true
@@ -628,7 +651,7 @@ const createBoard = (
 	let up = new PIXI.Graphics()
 	up.lineStyle(2, 0xf0ead6, 1)
 	up.beginFill(0x494845)
-	up.drawRoundedRect(90, 0, 90, 90, 10)
+	up.drawRoundedRect(96, 0, 96, 96, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true
 	up.buttonMode = true
@@ -640,7 +663,7 @@ const createBoard = (
 	let down = new PIXI.Graphics()
 	down.beginFill(0x494845)
 	down.lineStyle(2, 0xf0ead6, 1)
-	down.drawRoundedRect(90, 90, 90, 90, 10)
+	down.drawRoundedRect(96, 96, 96, 96, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true
 	down.buttonMode = true
@@ -649,41 +672,40 @@ const createBoard = (
 	// add button to nav container
 	nav.addChild(down)
 
-	nav.x = 150
-	nav.y = 805
+	nav.x = 150 + widthOffset
+	nav.y = 830
 	app.stage.addChild(nav)
 
 	// record player.x and player.y
-	let coordsText = new PIXI.Text('X: ' + player.x + '\nY: ' + player.y, {
-		fill: 0xf9f9f7
-	})
-	coordsText.x = 10
-	coordsText.y = 810
+	let coordsText = new PIXI.Text(
+		'X: '+player.x+'\nY: '+player.y,
+		{fill:0xf9f9f7}
+	);
+	coordsText.x = 10;
+	coordsText.y = 815;
 
 	// record time remaining
-	let timeText = new PIXI.Text(Math.round(timeRemaining), {
-		fill: 0xf9f9f7,
-		fontSize: '100px',
-		fontWeight: 'bold',
-		align: 'center'
-	})
-	timeText.x = 570
-	timeText.y = 918
-	timeText.anchor.set(1, 0.5)
-	app.stage.addChild(timeText)
+		let timeText = new PIXI.Text(
+			Math.round(timeRemaining),
+			{fill:0xf9f9f7, fontSize: '100px', fontWeight: "bold", align: "center"}
+		);
+		timeText.x = 570+widthOffset;
+		timeText.y = 918;
+		timeText.anchor.set(1, .5)
+		app.stage.addChild(timeText);
 
-	let timeTitle = new PIXI.Text('Time left:', {
-		fill: 0xf9f9f7,
-		fontSize: '30px',
-		fontWeight: 'bold',
-		align: 'center'
-	})
-	timeTitle.x = 580
-	timeTitle.y = 823
-	timeTitle.anchor.set(1, 0)
-	app.stage.addChild(timeTitle)
+		let timeTitle = new PIXI.Text(
+			'Time left:',
+			{fill:0xf9f9f7, fontSize: '30px', fontWeight: "bold", align: "center"}
+		);
+		timeTitle.x = 580+widthOffset;
+		timeTitle.y = 823;
+		timeTitle.anchor.set(1, 0)
+		app.stage.addChild(timeTitle);
 
-	let savedPlay = false
+  let savedPlay = false
+
+
 	// update coordinates and check if reached target
 	app.ticker.add(async function() {
 		coordsText.text = 'X: ' + player.x + '\nY: ' + player.y
@@ -753,8 +775,9 @@ const createBoard = (
 	// prepare freeze overlay
 	let countdown = createOverlay(app, gameHeight, gameWidth, 0xff7c02)
 	let countdownText = new PIXI.Text(5, { fill: 0xf9f9f7, fontSize: '300px' })
-	countdownText.x = 200
-	countdownText.y = 250
+	countdownText.anchor.set(.5,.5)
+	countdownText.x = gameWidth/2
+	countdownText.y = gameHeight*(3/8)
 	countdown.addChild(countdownText)
 
 	// prepare freeze overlay
@@ -765,101 +788,73 @@ const createBoard = (
 	freezeOverlay.addChild(freezeText)
 
 	// check if freeze should be activated
-	let frozenPlayer
-	let frozenBot
+	let frozenPlayer = 0
+	let frozenBot = 0
 	let freezeCount = 180
 	let freezeBot = false
 	let freezePlayer = false
 	app.ticker.add(function() {
-		let frozenPlayerX = null
-		let frozenPlayerY = null
-		let frozenBotX = null
-		let frozenBotY = null
-		// if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot) {
-		// 	freezeBot = true
-		// }
-		// if (freezeBot && freezeCount) {
-		// 	freezeCount--
-		// 	const currentFreezeBotX = bot.x
-		// 	const currentFreezeBotY = bot.y
-		// 	const oldFreezeBot = bot
 
-		// 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, endX, endY, 9999)
-		// 	oldFreezeBot.x = -111
-		// 	oldFreezeBot.y = -111
+  let frozenPlayerX = null
+  let frozenPlayerY = null
+  let frozenBotX = null
+  let frozenBotY = null
 
-		// }
-		// if (freezeBot && !freezeCount) {
-		// 	freezeBot = false
-		// 	freezeOverlay.visible = false
-		// 	const currentUnFreezeBotX = bot.x
-		// 	const currentUnFreezeBotY = bot.y
-		// 	const oldUnFreezeBot = bot
-		// 	freeze.destroy()
-		// 	freeze = null
+		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer && !freezeBot) {
+		freezePlayer = true
+		frozenPlayerX = player.x
+		frozenPlayerY = player.y
+		frozenPlayer = createSprite('shield.png', frozenPlayerX, frozenPlayerY, 0.2)
+		freeze.x = frozenPlayer.x
+		freeze.y = frozenPlayer.y
 
-		// 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, endX, endY, 2)
-		// 	oldUnFreezeBot.x = -111
-		// 	oldUnFreezeBot.y = -111
-		// } else
-
-		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer) {
-			freezePlayer = true
-			frozenPlayerX = player.x
-			frozenPlayerY = player.y
-			frozenPlayer = createSprite(
-				'shield.png',
-				frozenPlayerX,
-				frozenPlayerY,
-				0.2
-			)
-			freeze.x = frozenPlayer.x
-			freeze.y = frozenPlayer.y
 
 			board.addChild(frozenPlayer)
 
-			player.x = -888
-			player.y = -888
-		}
-		if (freezePlayer && freezeCount) {
-			freezeCount--
-			freeze.scale.x *= 1.002
-			freeze.scale.y *= 1.002
-		}
-		if (freezePlayer && !freezeCount) {
-			player.x = frozenPlayer.x
-			player.y = frozenPlayer.y
-			freezePlayer = false
-			frozenPlayer.destroy()
-			freeze.destroy()
-			freeze = null
-		} else if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot) {
-			freezeBot = true
-			frozenBotX = bot.x
-			frozenBotY = bot.y
-			frozenBot = createSprite('botShield.png', frozenBotX, frozenBotY, 0.05)
-			freeze.x = frozenBot.x
-			freeze.y = frozenBot.y
+		player.x = -888
+		player.y = -888
+	}
+	if (freezePlayer && freezeCount) {
+		freezeCount--
+		freeze.scale.x *= 1.002
+		freeze.scale.y *= 1.002
+	}
+	if (freezePlayer && !freezeCount) {
+		player.x =frozenPlayer.x
+		player.y = frozenPlayer.y
+		freezePlayer = false
+		frozenPlayer.destroy()
+		freeze.destroy()
+		freeze = null
+	}
+		else if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot && !freezePlayer) {
+		freezeBot = true
+		frozenBotX = bot.x
+		frozenBotY = bot.y
+		frozenBot = createSprite('botShield.png', frozenBotX, frozenBotY, 0.05)
+		freeze.x = frozenBot.x
+		freeze.y = frozenBot.y
 
-			board.addChild(frozenBot)
+		board.addChild(frozenBot)
 
-			bot.x = -111
-			bot.y = -111
-		}
-		if (freezeBot && freezeCount) {
-			freezeCount--
-			freeze.scale.x *= 1.002
-			freeze.scale.y *= 1.002
-		}
-		if (freezeBot && !freezeCount) {
-			bot.x = frozenBot.x
-			bot.y = frozenBot.y
-			freezeBot = false
-			frozenBot.destroy()
-			freeze.destroy()
-			freeze = null
-		}
-	})
+		bot.x = -111
+		bot.y = -111
+	}
+	if (freezeBot && freezeCount) {
+		freezeCount--
+		freeze.scale.x *= 1.002
+		freeze.scale.y *= 1.002
+	}
+	if (freezeBot && !freezeCount) {
+		bot.x = frozenBot.x
+		bot.y = frozenBot.y
+		freezeBot = false
+		frozenBot.destroy()
+		freeze.destroy()
+		freeze = null
+	}
+})
+
 	// check if weapon should be activated
 	let weaponGrabbed = false
 	app.ticker.add(function() {
