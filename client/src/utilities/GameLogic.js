@@ -11,6 +11,11 @@ import axios from 'axios'
 const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) => {
 	let maze = mazeInstance.data.data
 
+	let using_mobile =
+			!!navigator.userAgent.match(/iphone|android|blackberry/gi) || false
+	console.log('using_mobile', using_mobile)
+
+
   let {FRZ, XTM, BMB, TEL, PRT, time} = mazeInstance
 
 	let startY = startPoint[0] - (startPoint[0] % tileSize)
@@ -22,6 +27,11 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	let gameWidth = maze[0].length * tileSize
 	let mazeHeight = maze.length * tileSize
 	let mazeWidth = maze[0].length * tileSize
+
+	let widthOffset = 50
+	let heightOffset = 25
+	gameWidth += 2 * widthOffset
+	gameHeight += 2 * heightOffset
 
 	let timeAllowed = time
 	let extraTimeX = XTM? XTM[1] : -999
@@ -350,7 +360,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 
 
 	let goButton = () => {
-		return createButton(gameWidth/2, 925, 'goButton.png', ()=>{
+		return createButton(gameWidth/2, 950, 'goButton.png', ()=>{
 		useBot = true
 		state = setup
 		})
@@ -468,8 +478,8 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	}
 	board.addChild(tiles)
 
-	board.x = 0
-	board.y = 0
+	board.x = widthOffset
+	board.y = 20
 	app.stage.addChild(board)
 
 	// Keyboard navigation
@@ -520,7 +530,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	let right = new PIXI.Graphics()
 	right.lineStyle(2, 0xf0ead6, 1)
 	right.beginFill(0x494845)
-	right.drawRoundedRect(180, 45, 90, 90, 10)
+	right.drawRoundedRect(192, 48, 96, 96, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true
 	right.buttonMode = true
@@ -533,7 +543,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	let left = new PIXI.Graphics()
 	left.lineStyle(2, 0xf0ead6, 1)
 	left.beginFill(0x494845)
-	left.drawRoundedRect(0, 45, 90, 90, 10)
+	left.drawRoundedRect(0, 48, 96, 96, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true
 	left.buttonMode = true
@@ -545,7 +555,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	let up = new PIXI.Graphics()
 	up.lineStyle(2, 0xf0ead6, 1)
 	up.beginFill(0x494845)
-	up.drawRoundedRect(90, 0, 90, 90, 10)
+	up.drawRoundedRect(96, 0, 96, 96, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true
 	up.buttonMode = true
@@ -557,7 +567,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	let down = new PIXI.Graphics()
 	down.beginFill(0x494845)
 	down.lineStyle(2, 0xf0ead6, 1)
-	down.drawRoundedRect(90, 90, 90, 90, 10)
+	down.drawRoundedRect(96, 96, 96, 96, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true
 	down.buttonMode = true
@@ -566,8 +576,8 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	// add button to nav container
 	nav.addChild(down)
 
-	nav.x = 150
-	nav.y = 805
+	nav.x = 150 + widthOffset
+	nav.y = 830
 	app.stage.addChild(nav)
 
 	// record player.x and player.y
@@ -576,14 +586,14 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		{fill:0xf9f9f7}
 	);
 	coordsText.x = 10;
-	coordsText.y = 810;
+	coordsText.y = 815;
 
 	// record time remaining
 		let timeText = new PIXI.Text(
 			Math.round(timeRemaining),
 			{fill:0xf9f9f7, fontSize: '100px', fontWeight: "bold", align: "center"}
 		);
-		timeText.x = 570;
+		timeText.x = 570+widthOffset;
 		timeText.y = 918;
 		timeText.anchor.set(1, .5)
 		app.stage.addChild(timeText);
@@ -592,7 +602,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 			'Time left:',
 			{fill:0xf9f9f7, fontSize: '30px', fontWeight: "bold", align: "center"}
 		);
-		timeTitle.x = 580;
+		timeTitle.x = 580+widthOffset;
 		timeTitle.y = 823;
 		timeTitle.anchor.set(1, 0)
 		app.stage.addChild(timeTitle);
@@ -663,8 +673,9 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	// prepare freeze overlay
 	let countdown = createOverlay(app, gameHeight, gameWidth, 0xff7c02)
 	let countdownText = new PIXI.Text(5, { fill: 0xf9f9f7, fontSize: '300px' })
-	countdownText.x = 200
-	countdownText.y = 250
+	countdownText.anchor.set(.5,.5)
+	countdownText.x = gameWidth/2
+	countdownText.y = gameHeight*(3/8)
 	countdown.addChild(countdownText)
 
 	// prepare freeze overlay
