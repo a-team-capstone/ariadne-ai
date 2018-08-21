@@ -9,6 +9,7 @@ import { auth } from '../store/user'
 const Form = props => {
 	const { name, displayName, handleSubmit, error } = props
 	console.log('display name', displayName)
+	console.log('node env', process.env.NODE_ENV)
 	return (
 		<div className="login">
 			<form onSubmit={handleSubmit} name={name}>
@@ -32,7 +33,7 @@ const Form = props => {
 				href={
 					process.env.NODE_ENV === 'development'
 						? 'http://localhost:3001/auth/google'
-						: 'https://ariadne-ai.herokuapp.com/auth/google'
+						: '/app/server/auth/google'
 				}
 			>
 				{/* <button type="button" className="btn btn-primary"> */}
