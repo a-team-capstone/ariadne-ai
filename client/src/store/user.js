@@ -40,13 +40,13 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method) => async dispatch => {
 	let res
 	try {
-		res = await axios.post(`auth/${method}`, { email, password })
+    res = await axios.post(`auth/${method}`, { email, password })
 	} catch (authError) {
 		return dispatch(getUser({ error: authError }))
 	}
 	try {
-		dispatch(getUser(res.data))
-		history.push('/create-maze')
+    dispatch(getUser(res.data))
+    method === 'signup' ? history.push('/tutorial') : history.push('/create-maze')
 	} catch (dispatchOrHistoryErr) {
 		console.error(dispatchOrHistoryErr)
 	}

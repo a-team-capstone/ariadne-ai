@@ -2,14 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { auth } from '../store/user'
-import 'wired-elements'
 
 /**
  * COMPONENT
  */
 const Form = props => {
-	const { name, displayName, handleSubmit, error } = props
-	// console.log('In form')
+  const { name, displayName, handleSubmit, error } = props
+  console.log('display name', displayName)
 	return (
 		<div className="login">
 			<form onSubmit={handleSubmit} name={name}>

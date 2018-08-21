@@ -1,11 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
+// import Upload from './Upload'
 import { connect } from 'react-redux'
 import { imageUpload } from '../store/image'
 import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
-import 'wired-elements'
+// import 'wired-elements'
 
-class Upload extends Component {
+class Create extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -57,21 +58,56 @@ class Upload extends Component {
 	}
 
 	render() {
+		const { src } = this.state
+
 		return (
-			<div>
-				{/* We can style crop-container in media queries to set the width of the cropper!! */}
-				<div
-					id="crop-container"
-					style={{ width: '90%', position: 'absolute', left: '5%' }}
-				>
-					{/* <input type="file" onChange={this.onChange} /> */}
-					<wired-button id="file">
-						<div className="fileUpload">
-							<span>Upload</span>
-							<input type="file" className="upload" onChange={this.onChange} />
+			<div className="create-maze">
+				<h3>Get Creative</h3>
+				{src === '' ? (
+					<Fragment>
+						<p>Add any of these power-ups to your drawing:</p>
+						<div className="key">
+							<img src="/shield.png" />
+							<p>STA - Start</p>
+							<img src="/star.png" />
+							<p>END - End</p>
+							<img src="/hourGlassYellow.png" />
+							<p>XTM - Extra time</p>
+							<img src="/bomb.png" />
+							<p>BMB - Bomb</p>
+							<img src="/freeze.png" />
+							<p>FRZ - Freeze</p>
+							<img src="/tele.png" />
+							<p>TEL - Tele</p>
+							<img src="/port.png" />
+							<p>PRT - port</p>
 						</div>
-					</wired-button>
-					<div id="cropperButtons">
+						<wired-button id="file">
+							<div className="fileUpload">
+								<span>Upload</span>
+								<input
+									type="file"
+									className="upload"
+									onChange={this.onChange}
+								/>
+							</div>
+						</wired-button>
+					</Fragment>
+				) : (
+					<div
+						id="crop-container"
+						style={{ width: '90%', position: 'absolute', left: '5%' }}
+					>
+						<Cropper
+							style={{ height: 400, width: '100%' }}
+							aspectRatio={3 / 4}
+							guides={false}
+							src={this.state.src}
+							ref={cropper => {
+								this.cropper = cropper
+							}}
+						/>
+
 						<button
 							type="button"
 							className="create-btn"
@@ -83,30 +119,20 @@ class Upload extends Component {
 						<button
 							type="button"
 							className="create-btn"
+							onClick={this.saveToBucket}
+						>
+							<wired-button id="selection">Use Selection</wired-button>
+						</button>
+
+						<button
+							type="button"
+							className="create-btn"
 							onClick={this.rotateRight}
 						>
 							<wired-button id="rotate-right">Rotate Right</wired-button>
 						</button>
 					</div>
-
-					<Cropper
-						style={{ height: 400, width: '100%' }}
-						aspectRatio={3 / 4}
-						guides={false}
-						src={this.state.src}
-						ref={cropper => {
-							this.cropper = cropper
-						}}
-					/>
-
-					<button
-						type="button"
-						className="create-btn"
-						onClick={this.saveToBucket}
-					>
-						<wired-button id="selection">Use Selection</wired-button>
-					</button>
-				</div>
+				)}
 			</div>
 		)
 	}
@@ -119,4 +145,4 @@ const mapDispatch = dispatch => ({
 export default connect(
 	null,
 	mapDispatch
-)(Upload)
+)(Create)

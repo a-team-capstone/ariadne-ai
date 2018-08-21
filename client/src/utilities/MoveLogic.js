@@ -1,27 +1,28 @@
 	// function to check if a move is blocked
 	export const blocked = (x,y, sprite, mazeGrid, moveSize) => {
-		var desiredX = Math.round(x/moveSize)
-		var desiredY = Math.round(y/moveSize)
-		var underZero = x < 0 || y < 0
-		var overGridLength = (
+		let desiredX = Math.round(x/moveSize)
+		let desiredY = Math.round(y/moveSize)
+		let underZero = x < 0 || y < 0
+		let overGridLength = (
 			desiredX > (mazeGrid[0].length)-1 || desiredY > (mazeGrid.length)-1
 		)
+		let isBlocked
 		if (!underZero && !overGridLength){
-			var isBlocked = mazeGrid[desiredY][desiredX]
+			isBlocked = mazeGrid[desiredY][desiredX]
 		}
 		return underZero || overGridLength || isBlocked
 
 	}
 
 export const right = (sprite, mazeGrid, moveSize) => {
-	var desiredX, desiredY
+	let desiredX, desiredY
 	desiredX = sprite.x+moveSize
 	desiredY = sprite.y
 	if (!blocked(desiredX, desiredY, sprite, mazeGrid, moveSize)) sprite.x+=moveSize
 	return !blocked(desiredX, desiredY, sprite, mazeGrid, moveSize)
 }
 export const left = (sprite, mazeGrid, moveSize) => {
-	var desiredX, desiredY
+	let desiredX, desiredY
 	desiredX = sprite.x-moveSize
 	desiredY = sprite.y
 	if (!blocked(desiredX, desiredY, sprite, mazeGrid, moveSize)) sprite.x-=moveSize
@@ -29,7 +30,7 @@ export const left = (sprite, mazeGrid, moveSize) => {
 
 }
 export const up = (sprite, mazeGrid, moveSize) => {
-	var desiredX, desiredY
+	let desiredX, desiredY
 	desiredX = sprite.x
 	desiredY = sprite.y-moveSize
 	if (!blocked(desiredX, desiredY, sprite, mazeGrid, moveSize)) sprite.y-=moveSize
@@ -37,7 +38,7 @@ export const up = (sprite, mazeGrid, moveSize) => {
 
 }
 export const down = (sprite, mazeGrid, moveSize) => {
-	var desiredX, desiredY
+	let desiredX, desiredY
 	desiredX = sprite.x
 	desiredY = sprite.y+moveSize
 	if (!blocked(desiredX, desiredY, sprite, mazeGrid, moveSize)) sprite.y+=moveSize
@@ -58,7 +59,6 @@ export const overlapping = (sprite, target, tileSize, closeness = 2) => {
 		const proximityX = Math.abs(sprite.x - targetX)
 		const proximityY = Math.abs(sprite.y - targetY)
 		const proximityRequirement = tileSize * closeness
-
 		const areOverlapping = (proximityX < proximityRequirement) && (proximityY <= proximityRequirement)
 
 		return areOverlapping

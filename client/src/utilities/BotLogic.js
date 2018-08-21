@@ -4,7 +4,7 @@ import {down, up, left, right} from './MoveLogic'
 export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY, endX, endY, speed=2) => {
 
 	// create a new sprite from an image path
-	var bot = PIXI.Sprite.fromImage('botShield.png')
+	let bot = PIXI.Sprite.fromImage('botShield.png')
 
 	// move the sprite to the start of the maze
 	bot.x = startX;
@@ -107,7 +107,7 @@ export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY, 
 export const greedyBot = (app, board, mazeGrid, moveSize, startX, startY) => {
 
 	// create a new Sprite from an image path
-	var bot = PIXI.Sprite.fromImage('botShield.png')
+	let bot = PIXI.Sprite.fromImage('botShield.png')
 
 	// move the sprite to the start of the maze
 	bot.x = startX;

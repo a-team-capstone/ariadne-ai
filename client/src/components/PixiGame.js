@@ -11,13 +11,18 @@ class PixiGame extends Component {
 			desiredHeight: 800
 		}
 	}
-	componentDidMount() {
-		console.log('the maze in CDM', this.props.maze)
-		this.props.loadMaze(this.props.maze.id)
+	async componentDidMount() {
+		await this.props.loadMaze(this.props.maze.id)
+		let is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false
+		if (is_mobile) {
+			setTimeout(function () {
+	  		window.scrollTo(0, 60);
+			}, 500)
+		}
 	}
 
 	render() {
-		const { maze } = this.props
+		const { maze, user } = this.props
 		const { image } = maze
 		const tileSize = Math.floor(this.state.desiredWidth / 25)
 		if (maze.data && this.refs.board) {
@@ -25,9 +30,9 @@ class PixiGame extends Component {
 			const endPoint = maze.END
 
 			this.refs.board.appendChild(
-				PixiApp(image, maze.data, tileSize, startPoint, endPoint).view
+				PixiApp(image, maze, tileSize, startPoint, endPoint, user).view
 			)
-		}
+    }
 
 		return (
 			<div>
@@ -39,7 +44,8 @@ class PixiGame extends Component {
 
 const mapState = state => {
 	return {
-		maze: state.maze
+    maze: state.maze,
+    user: state.user
 	}
 }
 

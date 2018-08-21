@@ -87,7 +87,7 @@ export const tileImageData = (organizedImageData, tileSize) => {
 	const originalHeight = organizedImageData.length
 	const originalWidth = organizedImageData[0].length
 
-	const { trimHeight, trimWidth, targetHeight, targetWidth } = trimAmounts(
+	const { targetHeight, targetWidth } = trimAmounts(
 		originalHeight,
 		originalWidth,
 		tileSize
