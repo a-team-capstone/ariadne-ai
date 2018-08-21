@@ -63,3 +63,20 @@ export const oneDirectionTeleport = (app, sprite, portal, tileSize, mazeWidth, m
 			}
 		})
 	}
+
+	export const randomPlacement = (mazeGrid, tileSize) => {
+		let numRows = mazeGrid.length - 2
+		let numCols = mazeGrid[0].length - 2
+		let row = Math.round(Math.random() * numRows)
+		let col = Math.round(Math.random() * numCols)
+
+		while (mazeGrid[row][col] === 1){
+			row = Math.round(Math.random() * numRows)
+			col = Math.round(Math.random() * numCols)
+		}
+
+		let placementX = Math.round(col * tileSize)
+		let placementY = Math.round(row * tileSize)
+
+		return {x: placementX, y: placementY}
+	}

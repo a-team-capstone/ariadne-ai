@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
 import { wallFollowerBot } from './BotLogic'
-import { addPowerUp, activateTeleport } from './PowerUpsLogic'
+import { addPowerUp, activateTeleport, randomPlacement} from './PowerUpsLogic'
 import { createSprite } from './PixiObjects'
 import * as move from './MoveLogic'
 import {overlapping} from './MoveLogic'
@@ -11,7 +11,7 @@ import axios from 'axios'
 const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) => {
 	let maze = mazeInstance.data.data
 
-  let {WPN, FRZ, XTM, BMB, TEL, SLD, PRT, time} = mazeInstance
+  let {FRZ, XTM, BMB, TEL, PRT, time} = mazeInstance
 
 	let startY = startPoint[0] - (startPoint[0] % tileSize)
 	let startX = startPoint[1] - (startPoint[1] % tileSize)
@@ -26,10 +26,6 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	let timeAllowed = time
 	let extraTimeX = XTM? XTM[1] : -999
 	let extraTimeY = XTM? XTM[0] : -999
-	let weaponX = WPN? WPN[1] : startX+400
-	let weaponY = WPN? WPN[0] : startY
-	let slowDownX = SLD? SLD[1] : startX+200
-	let slowDownY = SLD? SLD[0] : startY
 	let bombX = BMB? BMB[1] : -999
 	let bombY = BMB? BMB[0] : -999
 	let teleX = TEL? TEL[1] : -999
@@ -38,6 +34,15 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	let portY = PRT? PRT[0] : -999
 	let freezeX = FRZ? FRZ[1] : -999
 	let freezeY = FRZ? FRZ[0] : -999
+
+	let weaponPlacement = randomPlacement(maze, tileSize)
+	let slowDownPlacement = randomPlacement(maze, tileSize)
+
+	let weaponX = weaponPlacement.x
+	let weaponY = weaponPlacement.y
+	let slowDownX = slowDownPlacement.x
+	let slowDownY = slowDownPlacement.y
+
 
 	let timeRemaining = timeAllowed
 
@@ -154,6 +159,17 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		//reset bot
 		// if (bot) bot.destroy()
 		bot = wallFollowerBot(app, board, mazeGrid, tileSize, startX, startY, endX, endY, 2)
+
+		weaponPlacement = randomPlacement(maze, tileSize)
+		slowDownPlacement = randomPlacement(maze, tileSize)
+
+		weaponX = weaponPlacement.x
+		weaponY = weaponPlacement.y
+		slowDownX = slowDownPlacement.x
+		slowDownY = slowDownPlacement.y
+
+		console.log('weapon', weaponPlacement)
+		console.log('slowdown', slowDownPlacement)
 
 		// reset powerups
 		if (slowDown) slowDown.destroy()
