@@ -695,8 +695,10 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		freeze.scale.y *= 1.002
 	}
 	if (freezePlayer && !freezeCount) {
-		player = frozenPlayer
+		player.x =frozenPlayer.x
+		player.y = frozenPlayer.y
 		freezePlayer = false
+		frozenPlayer.destroy()
 		freeze.destroy()
 		freeze = null
 	}

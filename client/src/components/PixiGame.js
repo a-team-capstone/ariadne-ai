@@ -13,7 +13,7 @@ class PixiGame extends Component {
 	}
 	async componentDidMount() {
 		await this.props.loadMaze(this.props.maze.id)
-		var is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false
+		let is_mobile = !!navigator.userAgent.match(/iphone|android|blackberry/ig) || false
 		if (is_mobile) {
 			setTimeout(function () {
 	  		window.scrollTo(0, 60);
