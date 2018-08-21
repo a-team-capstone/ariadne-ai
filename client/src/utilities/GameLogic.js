@@ -105,7 +105,8 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	})
 
 	function setup() {
-		timeRemaining = timeAllowed
+    timeRemaining = timeAllowed
+    savedPlay = false
 
 		player.x=startX
 		player.y=startY
@@ -560,6 +561,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		timeTitle.anchor.set(1, 0)
 		app.stage.addChild(timeTitle);
 
+  let savedPlay = false
 	// update coordinates and check if reached target
 	app.ticker.add(async function() {
 		coordsText.text = 'X: ' + player.x + '\nY: ' + player.y
@@ -568,13 +570,16 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		if (overlapping(player, mazeTarget, tileSize)) {
         state = botLevelUnlocked? win : botUnlocked
         let request = {
-          seconds: (timeAllowed - timeRemaining),
+          seconds: 20,
           playerId: user.id,
           mazeId: id
         }
-        await axios.post('api/plays/', request)
-        if(!solvable) {
-          await axios.put(`api/mazes/${id}`)
+        if (!savedPlay) {
+          savedPlay = true
+          await axios.post('api/plays/', request)
+          if(!solvable) {
+            await axios.put(`api/mazes/${id}`)
+          }
         }
 		}
 

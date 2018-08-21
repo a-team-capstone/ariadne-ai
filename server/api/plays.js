@@ -29,3 +29,27 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
+// GET /api/plays/:id/challenges
+router.get('/:id/challenges', async (req, res, next) => {
+  try {
+    const challenges = await Play.findAll({
+      where: {
+        playerId: req.params.id,
+        attempted: false
+      }
+    })
+    res.json(challenges)
+  } catch (err) {
+    next(err)
+  }
+})
+
+// PUT /api/plays/
+// router.put('/', async (req, res, next) => {
+//   try {
+    
+//   } catch (err) {
+//     next(err)
+//   }
+// })
