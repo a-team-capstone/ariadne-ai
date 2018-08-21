@@ -160,6 +160,18 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		freezePlayer = false
 		freezeBot = false
 		if (freeze) freeze.destroy()
+		try {
+			frozenBot.destroy()
+		} catch (error) {
+			frozenBot = null
+		}
+		try {
+			frozenPlayer.destroy()
+		} catch (error) {
+			frozenPlayer = null
+		}
+
+
 		freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, 0.15)
 
 
@@ -691,8 +703,8 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 	freezeOverlay.addChild(freezeText)
 
 	// check if freeze should be activated
-	let frozenPlayer
-	let frozenBot
+	let frozenPlayer = 0
+	let frozenBot = 0
 	let freezeCount = 180
 	let freezeBot = false
 	let freezePlayer = false
@@ -701,35 +713,8 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
   let frozenPlayerY = null
   let frozenBotX = null
   let frozenBotY = null
-  // if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot) {
-  // 	freezeBot = true
-  // }
-  // if (freezeBot && freezeCount) {
-  // 	freezeCount--
-  // 	const currentFreezeBotX = bot.x
-  // 	const currentFreezeBotY = bot.y
-  // 	const oldFreezeBot = bot
 
-  // 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentFreezeBotX, currentFreezeBotY, endX, endY, 9999)
-  // 	oldFreezeBot.x = -111
-  // 	oldFreezeBot.y = -111
-
-  // }
-  // if (freezeBot && !freezeCount) {
-  // 	freezeBot = false
-  // 	freezeOverlay.visible = false
-  // 	const currentUnFreezeBotX = bot.x
-  // 	const currentUnFreezeBotY = bot.y
-  // 	const oldUnFreezeBot = bot
-  // 	freeze.destroy()
-  // 	freeze = null
-
-  // 	bot = wallFollowerBot(app, board, mazeGrid, tileSize, currentUnFreezeBotX, currentUnFreezeBotY, endX, endY, 2)
-  // 	oldUnFreezeBot.x = -111
-  // 	oldUnFreezeBot.y = -111
-  // } else
-
-		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer) {
+		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer && !freezeBot) {
 		freezePlayer = true
 		frozenPlayerX = player.x
 		frozenPlayerY = player.y
@@ -755,7 +740,7 @@ const createBoard = (img, mazeInstance, tileSize, startPoint, endPoint, user) =>
 		freeze.destroy()
 		freeze = null
 	}
-		else if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot) {
+		else if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot && !freezePlayer) {
 		freezeBot = true
 		frozenBotX = bot.x
 		frozenBotY = bot.y
