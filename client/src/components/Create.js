@@ -65,19 +65,19 @@ class Create extends Component {
 					<Fragment>
 						<p>Add any of these power-ups to your drawing:</p>
 						<div className="key">
-							<img src="/shield.png" />
+							<img alt="start" src="/shield.png" />
 							<p>STA - Start</p>
-							<img src="/star.png" />
+							<img alt="end" src="/star.png" />
 							<p>END - End</p>
-							<img src="/hourGlassYellow.png" />
+							<img alt="extra time" src="/hourGlassYellow.png" />
 							<p>XTM - Extra time</p>
-							<img src="/bomb.png" />
+							<img alt="bomb" src="/bomb.png" />
 							<p>BMB - Bomb</p>
-							<img src="/freeze.png" />
+							<img alt="freeze" src="/freeze.png" />
 							<p>FRZ - Freeze</p>
-							<img src="/tele.png" />
+							<img alt="tele" src="/tele.png" />
 							<p>TEL - Tele</p>
-							<img src="/port.png" />
+							<img alt="port" src="/port.png" />
 							<p>PRT - port</p>
 						</div>
 						<wired-button id="file">

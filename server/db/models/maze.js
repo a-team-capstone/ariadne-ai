@@ -1,12 +1,12 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 const makeMatrix = require('../../utilities/makeMatrix')
+const generateName = require('../../utilities/randomNames')
 
 const Maze = db.define('maze', {
-  // name: {
-  //   type: Sequelize.STRING,
-  //   unique: true
-  // },
+	name: {
+		type: Sequelize.STRING
+	},
 	image: {
 		type: Sequelize.STRING,
 		unique: true
@@ -56,5 +56,9 @@ const Maze = db.define('maze', {
 
 // setter takes a matrix and sets 'data' value on maze instance as a binary string
 // getter returns the binary string in its matrix format
+
+Maze.beforeCreate(maze => {
+	maze.name = generateName()
+})
 
 module.exports = Maze
