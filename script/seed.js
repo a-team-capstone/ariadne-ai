@@ -28,6 +28,46 @@ async function seed() {
       email: 'goober@email.com',
       password: 'goob',
       admin: false
+    }),
+    User.create({
+      email: 'morgan@email.com',
+      password: 'morgan',
+      admin: false
+    }),
+    User.create({
+      email: 'Kendall@email.com',
+      password: 'kendall',
+      admin: false
+    }),
+    User.create({
+      email: 'Dylan@email.com',
+      password: 'dylan',
+      admin: false
+    }),
+    User.create({
+      email: 'Kyle@email.com',
+      password: 'kyle',
+      admin: false
+    }),
+    User.create({
+      email: 'Bill@email.com',
+      password: 'bill',
+      admin: false
+    }),
+    User.create({
+      email: 'pete@email.com',
+      password: 'pete',
+      admin: false
+    }),
+    User.create({
+      email: 'j4wdin@email.com',
+      password: 'j4wdin',
+      admin: false
+    }),
+    User.create({
+      email: 'p00lSh4rk@email.com',
+      password: '123',
+      admin: false
     })
   ])
 
@@ -80,6 +120,7 @@ async function seed() {
     }])
   ])
 
+  // friends 0-11
   await Promise.all([
     mazes[0].setUser(users[0]),
     mazes[1].setUser(users[0]),
@@ -91,7 +132,19 @@ async function seed() {
     users[0].addFriend(users[3]),
     users[0].addFriend(users[2]),
     users[2].addFriend(users[1]),
-    users[1].addFriend(users[3])
+    users[1].addFriend(users[3]),
+    users[8].addFriend(users[5]),
+    users[5].addFriend(users[8]),
+    users[6].addFriend(users[9]),
+    users[9].addFriend(users[11]),
+    users[11].addFriend(users[6]),
+    users[11].addFriend(users[1]),
+    users[1].addFriend(users[10]),
+    users[8].addFriend(users[10]),
+    users[4].addFriend(users[5]),
+    users[4].addFriend(users[9]),
+    users[4].addFriend(users[11]),
+    users[4].addFriend(users[6])
   ])
 }
 
