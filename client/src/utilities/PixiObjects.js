@@ -3,7 +3,7 @@ import * as PIXI from 'pixi.js'
 export const createSprite = (imagePath, x, y, scale=1, anchor=.5) => {
 
 	// create a new sprite from an image path
-	var spr = PIXI.Sprite.fromImage(imagePath)
+	let spr = PIXI.Sprite.fromImage(imagePath)
 
 	// move the sprite to the start of the maze
 	spr.x = x

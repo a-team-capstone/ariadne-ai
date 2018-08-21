@@ -58,10 +58,10 @@ class FloodFill extends Component {
 
 		const startPoint = obstacleAvgs.STA || [24, 24]
 		const endPoint = obstacleAvgs.END || [744, 552]
-		var startRow = Math.round(startPoint[0] / tileSize)
-		var startCol = Math.round(startPoint[1] / tileSize)
-		var endRow = Math.round(endPoint[0] / tileSize)
-		var endCol = Math.round(endPoint[1] / tileSize)
+		let startRow = Math.round(startPoint[0] / tileSize)
+		let startCol = Math.round(startPoint[1] / tileSize)
+		let endRow = Math.round(endPoint[0] / tileSize)
+		let endCol = Math.round(endPoint[1] / tileSize)
 
 		const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
 		const solvable = floodedMaze[endRow][endCol] === -1
