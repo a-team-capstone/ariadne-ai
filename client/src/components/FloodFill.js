@@ -117,9 +117,6 @@ class FloodFill extends Component {
 					</div>
 
 					<div className="row" id="floodFillButtons">
-						<Link to="/create-maze">
-							<wired-button id="send-btn">Send to a friend</wired-button>
-						</Link>
 						<button
 							type="button"
 							className="play-btn"

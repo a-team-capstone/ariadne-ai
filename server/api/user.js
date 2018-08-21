@@ -26,6 +26,22 @@ router.use('/:id', (req, res, next) => {
 	}
 })
 
+router.get('/:id/friends', async (req, res, next) => {
+	try {
+		const user = await User.findById(req.params.id, {
+			include: [
+				{
+					model: User,
+					as: 'friend'
+				}
+			]
+		})
+		res.json(user)
+	} catch (err) {
+		next(err)
+	}
+})
+
 router.get('/:id', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id)
@@ -45,22 +61,6 @@ router.put('/:id', async (req, res, next) => {
 		const user = await User.findById(req.params.id)
 		const updatedUser = await user.update(req.body)
 		res.json(updatedUser)
-	} catch (err) {
-		next(err)
-	}
-})
-
-router.get('/:id/friends', async (req, res, next) => {
-	try {
-		const user = await User.findById(req.params.id, {
-			include: [
-				{
-					model: User,
-					as: 'friend'
-				}
-			]
-		})
-		res.json(user)
 	} catch (err) {
 		next(err)
 	}
