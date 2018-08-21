@@ -60,7 +60,7 @@ const createApp = () => {
 	app.use('/api', require('./api'))
 
 	// static file-serving middleware
-	app.use(express.static(path.join(__dirname, '..', 'public')))
+	app.use(express.static(path.join(__dirname, '..', '/client/public')))
 	if (process.env.NODE_ENV === 'production') {
 		app.use(express.static('client/build'))
 	}
@@ -82,19 +82,10 @@ const createApp = () => {
 			next()
 		}
 	})
-	// const cors = require('cors')
 
-	// app.use(
-	// 	cors({
-	// 		origin: 'http://localhost:3000',
-	// 		credentials: true
-	// 	})
-	// )
-
-	// sends index.html
 	app.use('*', (req, res) => {
-		console.log('this is the path', path.join(__dirname, '..', 'public/index.html'))
-		res.sendFile(path.join(__dirname, '..', 'public/index.html'))
+		console.log('this is the path', path.join(__dirname, '..', '/client/public/index.html'))
+		res.sendFile(path.join(__dirname, '..', '/client/public/index.html'))
 	})
 
 	// error handling endware
