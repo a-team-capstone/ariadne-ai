@@ -83,13 +83,13 @@ const createApp = () => {
 		}
 	})
 
-	app.use('*', (req, res) => {
-		console.log(
-			'this is the path',
-			path.join(__dirname, '..', '/public/index.html')
-		)
-		res.sendFile(path.join(__dirname, '..', '/public/index.html'))
-	})
+	// app.use('*', (req, res) => {
+	// 	console.log(
+	// 		'this is the path',
+	// 		path.join(__dirname, '..', '/public/index.html')
+	// 	)
+	// 	res.sendFile(path.join(__dirname, '..', '/public/index.html'))
+	// })
 
 	// error handling endware
 	app.use((err, req, res, next) => {
