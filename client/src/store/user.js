@@ -7,6 +7,7 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const GET_FRIENDS = 'GET_FRIENDS'
+const ADD_FRIEND = 'ADD_FRIEND'
 
 /**
  * ACTION CREATORS
@@ -22,6 +23,11 @@ const removeUser = () => ({
 const getFriends = friends => ({
 	type: GET_FRIENDS,
 	friends
+})
+
+export const addFriend = friend => ({
+	type: ADD_FRIEND,
+	friend
 })
 
 /**
@@ -40,13 +46,15 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method) => async dispatch => {
 	let res
 	try {
-    res = await axios.post(`auth/${method}`, { email, password })
+		res = await axios.post(`auth/${method}`, { email, password })
 	} catch (authError) {
 		return dispatch(getUser({ error: authError }))
 	}
 	try {
-    dispatch(getUser(res.data))
-    method === 'signup' ? history.push('/tutorial') : history.push('/create-maze')
+		dispatch(getUser(res.data))
+		method === 'signup'
+			? history.push('/tutorial')
+			: history.push('/create-maze')
 	} catch (dispatchOrHistoryErr) {
 		console.error(dispatchOrHistoryErr)
 	}
@@ -66,6 +74,7 @@ export const loadFriends = id => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.get(`api/user/${id}/friends`)
+			// console.log('Data in load friends', data)
 			console.log('Data friends', data.friend)
 			dispatch(getFriends(data.friend))
 		} catch (err) {
@@ -85,6 +94,8 @@ const userReducer = (state = {}, action) => {
 			return {}
 		case GET_FRIENDS:
 			return { ...state, friends: action.friends }
+		case ADD_FRIEND:
+			return { ...state, friends: [...state.friends, action.friend] }
 		default:
 			return state
 	}

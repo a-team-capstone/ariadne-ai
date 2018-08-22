@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getResults, clearUsers } from '../store/users'
+import { addFriend } from '../store/user'
 import Suggestions from './Suggestions'
 
 class SearchFriends extends Component {
@@ -11,6 +12,7 @@ class SearchFriends extends Component {
 		}
 		this.search = React.createRef()
 		this.handleInputChange = this.handleInputChange.bind(this)
+		this.handleClick = this.handleClick.bind(this)
 	}
 
 	handleInputChange() {
@@ -28,7 +30,14 @@ class SearchFriends extends Component {
 		)
 	}
 
+	handleClick(friend) {
+		console.log('Handleclick', friend)
+		this.props.addFriend(friend)
+	}
+
 	render() {
+		const { results } = this.props
+		console.log('Results', results)
 		return (
 			<form>
 				<div className="form-group">
@@ -40,7 +49,10 @@ class SearchFriends extends Component {
 						className="form-control"
 					/>
 				</div>
-				<Suggestions results={this.props.results} />
+				<Suggestions
+					results={this.props.results}
+					handleClick={this.handleClick}
+				/>
 			</form>
 		)
 	}
@@ -55,7 +67,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
 	return {
 		getResults: query => dispatch(getResults(query)),
-		clearUsers: () => dispatch(clearUsers())
+		clearUsers: () => dispatch(clearUsers()),
+		addFriend: friend => dispatch(addFriend(friend))
 	}
 }
 
