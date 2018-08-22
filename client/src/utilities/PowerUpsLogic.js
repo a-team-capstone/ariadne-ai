@@ -56,13 +56,13 @@ export const oneDirectionTeleport = (app, sprite, portal, tileSize, mazeWidth, m
 				newLocation = oneDirectionTeleport(app, sprite, PORT, tileSize, mazeWidth, mazeHeight, mazeGrid)
 				sprite.x = newLocation.x
 				sprite.y = newLocation.y
-				playSound('tele')
+				// playSound('tele')
 			} else
 			if ( TELE && PORT && overlapping(sprite, PORT, tileSize, 1)) {
 				newLocation = oneDirectionTeleport(app, sprite, TELE, tileSize, mazeWidth, mazeHeight, mazeGrid)
 				sprite.x = newLocation.x
 				sprite.y = newLocation.y
-				playSound('port')
+				// playSound('port')
 			}
 		})
 	}

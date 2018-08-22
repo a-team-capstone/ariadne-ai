@@ -69,7 +69,7 @@ class FloodFill extends Component {
 		const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
 		const solvable = floodedMaze[endRow][endCol] === -1
 		const explainerText = solvable
-			? `Any area with blue dots is reachable. Ready to play?`
+			? `Any area with blue dots is reachable. Ready?`
 			: 'Your power-ups may help you defy the laws of solvability! Give it a try!'
 		this.setState({ solvable, explainerText })
 

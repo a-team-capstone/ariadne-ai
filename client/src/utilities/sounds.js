@@ -61,9 +61,14 @@ export const playOnce= (sound) => {
 	if (soundsDict[sound].on) {
 		let soundEffect = new Audio(soundsDict[sound].file)
 		if (soundsDict[sound].on) {
+			try {
 			console.log('playing once: ', sound)
 			soundEffect.play()
 			soundsDict[sound].on = false
+			} catch (error) {
+				console.log('could not play sound', sound)
+				soundsDict[sound].on = true
+			}
 		}
 	}
 }
@@ -71,8 +76,13 @@ export const playOnce= (sound) => {
 export const playSound= (sound) => {
 	if (soundsDict[sound].on) {
 		let soundEffect = new Audio(soundsDict[sound].file)
-		console.log('playing sound: ', sound)
-		soundEffect.play()
+		try {
+			console.log('playing sound: ', sound)
+			soundEffect.play()
+		} catch (error) {
+			console.log('could not play sound', sound)
+			soundsDict[sound].on = true
+		}
 	}
 }
 
