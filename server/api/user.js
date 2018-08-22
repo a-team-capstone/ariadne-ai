@@ -56,6 +56,20 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
+router.put('/:id/friends', async (req, res, next) => {
+	try {
+		// console.log('In put', req.body)
+		const friend = req.body
+		const user = await User.findById(req.params.id)
+		const newFriend = await User.findById(friend.id)
+		// console.log('User in route', dataValues)
+		await user.addFriend(newFriend)
+		res.sendStatus(200)
+	} catch (err) {
+		next(err)
+	}
+})
+
 router.put('/:id', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id)
