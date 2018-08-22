@@ -63,7 +63,7 @@ class Create extends Component {
 				<h3>Get Creative</h3>
 				{src === '' ? (
 					<Fragment>
-						<p>Add any of these power-ups to your drawing:</p>
+						<p>Start, end, and power-ups are detected by their initials. Write in up to one of each!</p>
 						<div className="key">
 							<img alt="start" src="/shield.png" />
 							<p>STA - Start</p>
@@ -82,7 +82,7 @@ class Create extends Component {
 						</div>
 						<wired-button id="file">
 							<div className="fileUpload">
-								<span>Upload</span>
+								<span>Upload or Take Picture</span>
 								<input
 									type="file"
 									className="upload"
@@ -108,26 +108,27 @@ class Create extends Component {
 							type="button"
 							className="create-btn"
 							onClick={this.rotateLeft}>
-							<wired-button id="rotate-left">Rotate Left</wired-button>
+							<wired-button id="rotate-left">⟲</wired-button>
+						</button>
+
+
+						<button
+							type="button"
+							className="create-btn"
+							onClick={this.saveToBucket}>
+							<wired-button id="selection">Use to create Maze!  </wired-button>
 						</button>
 
             <button
 							type="button"
 							className="create-btn"
 							onClick={this.rotateRight}>
-							<wired-button id="rotate-right">Rotate Right</wired-button>
-						</button>
-
-						<button
-							type="button"
-							className="create-btn"
-							onClick={this.saveToBucket}>
-							<wired-button id="selection">Use Selection</wired-button>
+							<wired-button id="rotate-right">⟳ </wired-button>
 						</button>
 
             <wired-button id="file">
 							<div className="fileUpload">
-								<span>Change Photo</span>
+								<span>Choose New Image</span>
 								<input
 									type="file"
 									className="upload"
