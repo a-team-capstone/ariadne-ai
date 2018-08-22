@@ -147,18 +147,23 @@ h3 {
 /* Create Maze */
 .create-maze {
 	text-align: center;
-	padding: .5em 0 0 .75em;
+  padding: .5em 0 0 .75em;
+  padding-top: 80px;
+}
+
+.create-maze h3 {
+  margin-bottom: 15px;
 }
 
 .create-maze p {
-	font-size: 1.1em;
+  font-size: 1.1em;
 }
 
 .key {
 	width: 250px;
 	left: 50vw;
 	margin: auto auto;
-	padding: 0px 0px 0px 35px;
+	padding: 15px 0px 0px 35px;
 }
 
 .key p {
@@ -228,7 +233,8 @@ h3 {
 @media screen and (min-width: 480px) {
 	.create-maze {
 		text-align: center;
-		padding: 2.5em;
+    padding: 2.5em;
+    padding-top: 100px;
 	}
 	#selection {
 		margin-top: 2em;
@@ -270,9 +276,9 @@ h3 {
 	/* left: 4em; */
 }
 
-#send-btn,
-#play-btn,
-#newmaze-btn {
+#floodFillView #send-btn,
+#floodFillView #play-btn,
+#floodFillView #newmaze-btn {
 	width: 100%;
 	padding: 0 0.5em;
 	color: #020717;
@@ -284,7 +290,7 @@ h3 {
 	left: 100%;
 }
 
-#play-btn {
+#floodFillView #play-btn {
 	background: #fff382;
 }
 
@@ -298,7 +304,7 @@ h3 {
 	border: 0;
 	padding: 0;
 	margin: 0 1.5em;
-	/* outline: none; */
+	outline: none;
 }
 
 #mazeImageCanvas {
@@ -418,7 +424,18 @@ ul {
 
 .tutorial {
 	padding: 5em;
-	text-align: center;
+  text-align: center;
+  max-width: 550px;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.tutorial h3 {
+  margin-bottom: 40px;
+}
+
+.tutorial p {
+  margin-top: 20px;
 }
 
 #started-btn {
@@ -436,7 +453,8 @@ ul {
 
 @media screen and (max-width: 480px) {
 	.tutorial {
-		padding: 2.5em;
+    padding: 2.5em;
+    padding-top: 80px;
 	}
 }
 
@@ -446,11 +464,9 @@ ul {
 /* Friend Select  */
 
 .selection {
-  min-width: 300px;
-  width: 50%;
-  position: absolute;
-  left: 20%;
-  top: 100px;
+  max-width: 350px;
+  padding-top: 100px;
+  margin: 0 auto;
   text-align: center;
 }
 
@@ -477,12 +493,10 @@ ul {
 }
 
 .sentChallenges {
-  min-width: 300px;
-  width: 50%;
-  position: absolute;
-  left: 20%;
-  top: 100px;
+  width: 300px;
+  padding-top: 100px;
   text-align: center;
+  margin: 0 auto;
 }
 
 .sentChallenges h5 {
