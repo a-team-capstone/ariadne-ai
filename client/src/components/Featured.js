@@ -30,21 +30,13 @@ class FeaturedMazes extends Component {
 				<h4>Featured Mazes</h4>
 				{featured.map(maze => {
 					return (
-						// <Fragment key={maze.id}>
-						// 	<h6>Maze Name</h6>
-						// 	<p>Leader: Shelby</p>
-						// 	<p>Time: 35 seconds</p>
-						// 	<button value={maze.id} onClick={this.handlePlay}>
-						// 		Play
-						// 	</button>
-						// </Fragment>
 						<div className="card card-featured" key={maze.id}>
 							<div className="card-body">
-								<h5 className="card-title">Maze Name</h5>
-								<h6 className="card-subtitle mb-2 text-muted">
+								<h5 className="card-title">{maze.name}</h5>
+								{/* <h6 className="card-subtitle mb-2 text-muted">
 									Leader: Shelby
-								</h6>
-								<p className="card-text">Time: 35 seconds</p>
+								</h6> */}
+								{/* <p className="card-text">Time: 35 seconds</p> */}
 								<wired-button id="featured">
 									<button
 										className="featured-btn"

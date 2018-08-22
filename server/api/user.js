@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, Maze } = require('../db/models')
+const { User, Maze, Play } = require('../db/models')
 
 module.exports = router
 
@@ -112,4 +112,26 @@ router.get('/:id/mazes', async (req, res, next) => {
 	} catch (err) {
 		next(err)
 	}
+})
+
+router.get('/:id/challenges', async (req, res, next) => {
+  try {
+    const challenges = await Play.findAll({
+      where: {
+        playerId: req.params.id,
+        attempted: false
+      },
+      include: [{
+        model: Maze,
+        attributes: ['name', 'id'],
+        include: [{
+          model: User,
+          attributes: ['userName']
+        }]
+      }]
+    })
+    res.json(challenges)
+  } catch (err) {
+    next(err)
+  }
 })

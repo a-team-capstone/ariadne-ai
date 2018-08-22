@@ -7,6 +7,8 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const GET_FRIENDS = 'GET_FRIENDS'
+const GET_CHALLENGES = 'GET_CHALLENGES'
+const GET_MAZES = 'GET_MAZES'
 const ADD_FRIEND = 'ADD_FRIEND'
 
 /**
@@ -30,11 +32,20 @@ const addFriend = friend => ({
 	friend
 })
 
+const getChallenges = challenges => ({
+	type: GET_CHALLENGES,
+	challenges
+})
+
+const getMazes = mazes => ({
+	type: GET_MAZES,
+	mazes
+})
+
 /**
  * THUNK CREATORS
  */
 export const me = () => async dispatch => {
-	console.log('Here')
 	try {
 		const res = await axios.get('auth/me')
 		dispatch(getUser(res.data || {}))
@@ -74,8 +85,6 @@ export const loadFriends = id => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.get(`api/user/${id}/friends`)
-			// console.log('Data in load friends', data)
-			// console.log('Data friends', data.friend)
 			dispatch(getFriends(data.friend))
 		} catch (err) {
 			console.log('No friends...', err)
@@ -84,13 +93,34 @@ export const loadFriends = id => {
 }
 
 export const updateFriends = info => {
-	console.log('Info in thunk', info)
 	return async dispatch => {
 		try {
 			await axios.put(`api/user/${info.id}/friends`, info.friend)
 			dispatch(addFriend(info.friend))
 		} catch (err) {
 			console.log('User was not added...', err)
+		}
+	}
+}
+
+export const loadChallenges = id => {
+	return async dispatch => {
+		try {
+			const { data } = await axios.get(`api/user/${id}/challenges`)
+			dispatch(getChallenges(data))
+		} catch (err) {
+			console.log('No challenges...', err)
+		}
+	}
+}
+
+export const loadMazes = id => {
+	return async dispatch => {
+		try {
+			const { data } = await axios.get(`api/user/${id}/mazes`)
+			dispatch(getMazes(data))
+		} catch (err) {
+			console.log('No mazes yet!', err)
 		}
 	}
 }
@@ -108,6 +138,10 @@ const userReducer = (state = {}, action) => {
 			return { ...state, friends: action.friends }
 		case ADD_FRIEND:
 			return { ...state, friends: [...state.friends, action.friend] }
+		case GET_CHALLENGES:
+			return { ...state, challenges: action.challenges }
+		case GET_MAZES:
+			return { ...state, mazes: action.mazes }
 		default:
 			return state
 	}

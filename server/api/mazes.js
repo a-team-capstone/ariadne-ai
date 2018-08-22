@@ -62,7 +62,6 @@ router.put('/:id', async (req, res, next) => {
 
 router.post('/analyze', async (req, res, next) => {
 	try {
-		console.log('req body', req.body)
 		const response = await analyzeText(req.body.image)
 		res.send(response)
 	} catch (err) {
@@ -73,7 +72,7 @@ router.post('/analyze', async (req, res, next) => {
 // router.get('/:id/best', async (req, res, next) => {
 // 	try {
 // 		const sorted = allPlays.sort( (a, b) => a.seconds - b.seconds )
-// 		const best = sorted.slice(0, 3)
+// 		const best = sorted.slice(0, 1)
 // 		res.json(best)
 // 	} catch (err) {
 // 		next(err)
@@ -92,7 +91,27 @@ router.delete('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
 	try {
-		const maze = await Maze.create(req.body)
+		const [ maze, wasCreated ] = await Maze.findOrCreate({
+			where: {
+				image: req.body.image
+			},
+			defaults: {
+					image: req.body.image,
+					solvable: req.body.solvable,
+					data: req.body.data,
+					userId: req.body.userId,
+					STA: req.body.STA,
+					END: req.body.END,
+					BMB: req.body.BMB,
+					XTM: req.body.XTM,
+					FRZ: req.body.FRZ,
+					TEL: req.body.TEL,
+					PRT: req.body.PRT,
+					SLD: req.body.SLD,
+					WPN: req.body.WPN,
+					time: req.body.time
+				}
+			})
 		res.json(maze)
 	} catch (err) {
 		next(err)
