@@ -14,19 +14,8 @@ module.exports = router
 // need to send playerId (being challenged) & mazeId (maze they will play) on req.body
 router.post('/challenge', async (req, res, next) => {
   try {
-    const { playerId, mazeId } = req.body
-    const challenge = await Play.create({
-      attempted: false,
-      seconds: null,
-      playerId,
-      mazeId
-    })
-    if (!challenge) {
-      const error = new Error('Unable to send challenge!')
-      error.status = 400
-      return next(error)
-    }
-    res.json(challenge)
+    await Play.bulkCreate(req.body)
+    res.sendStatus(201)
   } catch (err) {
     next(err)
   }

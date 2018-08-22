@@ -72,7 +72,7 @@ router.post('/analyze', async (req, res, next) => {
 // router.get('/:id/best', async (req, res, next) => {
 // 	try {
 // 		const sorted = allPlays.sort( (a, b) => a.seconds - b.seconds )
-// 		const best = sorted.slice(0, 3)
+// 		const best = sorted.slice(0, 1)
 // 		res.json(best)
 // 	} catch (err) {
 // 		next(err)
