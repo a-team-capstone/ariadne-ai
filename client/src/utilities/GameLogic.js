@@ -389,7 +389,7 @@ const createBoard = (
 	}
 	let soundEffect = null
 	// let soundsDirectory = {}
-	let winSound, extraTimeSound, teleSound, portSound, bombSound, countDownSound, freezeSound, weaponSound, slowDownSound
+	let winSound, extraTimeSound, teleSound, portSound, bombSound, countDownSound, freezeSound, weaponSound, slowDownSound, quitSound, shareSound, botWonSound
 
 	let startButton = () => {
 		return createButton(gameWidth/2, gameHeight/2, 'goButton.png', () => {
@@ -402,10 +402,11 @@ const createBoard = (
 			freezeSound = new Audio('freezeSound.mp3')
 			weaponSound = new Audio('weaponSound.mp3')
 			slowDownSound = new Audio('slowDownSound.mp3')
-			// soundsDirectory['winSound'] = {sound: winSound, on: true}
-			// soundsDirectory['extraTimeSound'] = {sound: extraTimeSound, on: true}
+			quitSound = new Audio('clickSound.mp3')
+			shareSound = new Audio('clickSound.mp3')
+			botWonSound = new Audio('robotWonSound.mp3')
 
-			// soundEffect = tele
+
 			app.ticker.add(function() {
 				if (soundEffect) {
 					soundEffect.play()
@@ -439,6 +440,7 @@ const createBoard = (
 			// playSound'exitMaze')
 			timeRemaining = -999
 			history.push('/create-maze')
+			soundEffect = quitSound
 		})
 	}
 
@@ -459,7 +461,7 @@ const createBoard = (
 
 	let shareButton = () => {
 		return createButton(gameWidth / 2, 850, 'challengeFriends.png', () => {
-			// playSound'shareMaze')
+			soundEffect = shareSound
 			timeRemaining = -999
 			// window.location = 'create-maze' // change
 			history.push('/select-friends')
@@ -470,6 +472,7 @@ const createBoard = (
 		return createButton(75, 910, 'redQuitButton.png', () => {
 			// playSound'exitMaze')
 			state = quit
+			soundEffect = quitSound
 		})
 	}
 	board.addChild(quitButton())
@@ -763,6 +766,7 @@ const createBoard = (
 		else if (overlapping(bot, mazeTarget, tileSize)) {
 			bot.x = startX
 			bot.y = startY
+			soundEffect = botWonSound
 			state = botWon
 		}
 	})
