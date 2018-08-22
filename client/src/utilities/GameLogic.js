@@ -391,7 +391,7 @@ const createBoard = (
 		newPowerUpsScreen.visible = false
 	}
 	let soundEffect = null
-	let winSound, extraTimeSound, teleSound, portSound, bombSound, countDownSound, freezeSound, weaponSound, slowDownSound, quitSound, shareSound, botWonSound
+	let winSound, extraTimeSound, teleSound, portSound, bombSound, countDownSound, freezeSound, weaponSound, slowDownSound, quitSound, shareSound, botWonSound, startSound
 
 
 	let replaySoloButton = () => {
@@ -826,6 +826,9 @@ const createBoard = (
 		quitSound = new Audio('clickSound.mp3')
 		shareSound = new Audio('clickSound.mp3')
 		botWonSound = new Audio('robotWonSound.mp3')
+		startSound = new Audio('startSound.mp3')
+
+		soundEffect = startSound
 
 		app.ticker.add(function() {
 			if (soundEffect) {
