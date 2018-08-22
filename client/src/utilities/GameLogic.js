@@ -11,6 +11,7 @@ import {
 	createPowerUpsScreen,
 	createOverlay
 } from './GameScreens'
+import {playSound, resetSounds} from './sounds'
 import axios from 'axios'
 
 const createBoard = (
@@ -22,6 +23,7 @@ const createBoard = (
 	user,
 	history
 ) => {
+
 	let maze = mazeInstance.data.data
 
 	let { FRZ, XTM, BMB, TEL, PRT, time } = mazeInstance
@@ -42,7 +44,6 @@ const createBoard = (
 	gameHeight += 2 * heightOffset
 
 	console.log('gameHeight, gameWidth', gameHeight, gameWidth)
-
 
 	let timeAllowed = time
 	let extraTimeX = XTM ? XTM[1] : -999
@@ -143,6 +144,7 @@ const createBoard = (
 	function setup() {
 		timeRemaining = timeAllowed
 		savedPlay = false
+		resetSounds()
 
 		player.x = startX
 		player.y = startY
@@ -289,6 +291,7 @@ const createBoard = (
 	}
 
 	function botUnlocked() {
+		playSound('win')
 		bot.x = -1111
 		bot.y = -1111
 		player.x = -1111
@@ -312,6 +315,7 @@ const createBoard = (
 	}
 
 	function win() {
+		playSound('win')
 		timeRemaining = 9999
 		winScreen.visible = true
 		countdown.visible = false
@@ -772,7 +776,7 @@ const createBoard = (
 		}
 	})
 
-	// prepare freeze overlay
+	// prepare countdown overlay
 	let countdown = createOverlay(app, gameHeight, gameWidth, 0xff7c02)
 	let countdownText = new PIXI.Text(5, { fill: 0xf9f9f7, fontSize: '300px' })
 	countdownText.anchor.set(.5,.5)
@@ -801,6 +805,7 @@ const createBoard = (
   let frozenBotY = null
 
 		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer && !freezeBot) {
+		playSound('freeze')
 		freezePlayer = true
 		frozenPlayerX = player.x
 		frozenPlayerY = player.y
@@ -828,6 +833,7 @@ const createBoard = (
 		freeze = null
 	}
 		else if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot && !freezePlayer) {
+		playSound('freeze')
 		freezeBot = true
 		frozenBotX = bot.x
 		frozenBotY = bot.y
