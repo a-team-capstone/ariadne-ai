@@ -15,6 +15,10 @@ input::-moz-focus-inner {
 	padding: 0;
 }
 
+h3 {
+	text-decoration: underline;
+}
+
 .container-fluid {
 	padding-left: 0;
 }
@@ -120,6 +124,10 @@ input::-moz-focus-inner {
 	width: 100px;
 	height: 100px;
 	border-radius: 50%;
+}
+
+.profile-list {
+	padding: 20px;
 }
 
 /* My Account End */
