@@ -37,7 +37,6 @@ class SearchFriends extends Component {
 
 	render() {
     let { results, user } = this.props
-    console.log('the user on state', user)
 		const userFriendIds = user.friends && user.friends.map(friend => friend.id)
 		results = results.filter(result => userFriendIds.indexOf(result.id) === -1)
 		return (
