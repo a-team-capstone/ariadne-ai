@@ -33,7 +33,7 @@ const Form = props => {
 				href={
 					process.env.NODE_ENV === 'development'
 						? 'http://localhost:3001/auth/google'
-						: 'auth/google'
+						: '/auth/google'
 				}
 			>
 				{/* <button type="button" className="btn btn-primary"> */}
