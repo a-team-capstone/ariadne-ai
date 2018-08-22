@@ -7,6 +7,8 @@ import history from '../history'
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const GET_FRIENDS = 'GET_FRIENDS'
+const GET_CHALLENGES = 'GET_CHALLENGES'
+const GET_MAZES = 'GET_MAZES'
 
 /**
  * ACTION CREATORS
@@ -22,6 +24,16 @@ const removeUser = () => ({
 const getFriends = friends => ({
 	type: GET_FRIENDS,
 	friends
+})
+
+const getChallenges = challenges => ({
+	type: GET_CHALLENGES,
+	challenges
+})
+
+const getMazes = mazes => ({
+	type: GET_MAZES,
+	mazes
 })
 
 /**
@@ -65,10 +77,31 @@ export const loadFriends = id => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.get(`api/user/${id}/friends`)
-			console.log('Data friends', data.friend)
 			dispatch(getFriends(data.friend))
 		} catch (err) {
 			console.log('No friends...', err)
+		}
+	}
+}
+
+export const loadChallenges = id => {
+	return async dispatch => {
+		try {
+			const { data } = await axios.get(`api/user/${id}/challenges`)
+			dispatch(getChallenges(data))
+		} catch (err) {
+			console.log('No challenges...', err)
+		}
+	}
+}
+
+export const loadMazes = id => {
+	return async dispatch => {
+		try {
+			const { data } = await axios.get(`api/user/${id}/mazes`)
+			dispatch(getMazes(data))
+ 		} catch (err) {
+			console.log('No mazes yet!', err)
 		}
 	}
 }
@@ -84,6 +117,10 @@ const userReducer = (state = {}, action) => {
 			return {}
 		case GET_FRIENDS:
 			return { ...state, friends: action.friends }
+		case GET_CHALLENGES: 
+			return {...state, challenges: action.challenges}
+		case GET_MAZES: 
+			return {...state, mazes: action.mazes}
 		default:
 			return state
 	}

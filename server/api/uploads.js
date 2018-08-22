@@ -46,7 +46,6 @@ const uploadCrop = (body, fileName) => {
 // Define POST route
 // POST /api/uploads/image-upload
 router.post('/image-upload', (request, response) => {
-  console.log("request in route", request.headers)
   try {
     const form = new multiparty.Form()
     form.parse(request, async (fields, files) => {

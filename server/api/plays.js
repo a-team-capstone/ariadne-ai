@@ -45,27 +45,7 @@ router.post('/', async (req, res, next) => {
 // GET /api/plays/:id/challenges
 // Do we want to include the maze name? Will it exist by demo day?
 // Include model User off of maze, send back the user Name and Image? Just name?
-router.get('/:id/challenges', async (req, res, next) => {
-  try {
-    const challenges = await Play.findAll({
-      where: {
-        playerId: req.params.id,
-        attempted: false
-      },
-      include: [{
-        model: Maze,
-        attributes: ['image'],
-        include: [{
-          model: User,
-          attributes: ['userName']
-        }]
-      }]
-    })
-    res.json(challenges)
-  } catch (err) {
-    next(err)
-  }
-})
+
 
 // PUT /api/plays/
 router.put('/:id', async (req, res, next) => {
