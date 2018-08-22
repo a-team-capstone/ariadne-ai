@@ -84,6 +84,11 @@ const setUserNameFromEmail = user => {
   }
 };
 
+const setEmail = user => {
+  user.email = user.email.toLowerCase()
+}
+
 User.beforeCreate(setSaltAndPassword);
 User.beforeUpdate(setSaltAndPassword);
 User.beforeCreate(setUserNameFromEmail);
+User.beforeCreate(setEmail)

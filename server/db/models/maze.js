@@ -22,17 +22,21 @@ const Maze = db.define('maze', {
       }
     },
     set (matrix) {
+      if(typeof(matrix) === 'object'){
       this.setDataValue('data', matrix.reduce((acc, curr) => {
         acc = acc.concat(curr)
         return acc
-      }, []).join(''))
+      }, []).join('')) }
+      else this.setDataValue('data', matrix)
     }
 	},
   STA: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: [24, 24]
   },
   END: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: [744, 552]
   },
   BMB: {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
@@ -50,7 +54,8 @@ const Maze = db.define('maze', {
     type: Sequelize.ARRAY(Sequelize.INTEGER)
   },
   time: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    defaultValue: 30
   }
 })
 
@@ -58,7 +63,7 @@ const Maze = db.define('maze', {
 // getter returns the binary string in its matrix format
 
 Maze.beforeCreate(maze => {
-	maze.name = generateName()
+	if(!maze.name) maze.name = generateName()
 })
 
 module.exports = Maze
