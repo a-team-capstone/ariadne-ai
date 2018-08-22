@@ -25,7 +25,7 @@ const getFriends = friends => ({
 	friends
 })
 
-export const addFriend = friend => ({
+const addFriend = friend => ({
 	type: ADD_FRIEND,
 	friend
 })
@@ -75,10 +75,22 @@ export const loadFriends = id => {
 		try {
 			const { data } = await axios.get(`api/user/${id}/friends`)
 			// console.log('Data in load friends', data)
-			console.log('Data friends', data.friend)
+			// console.log('Data friends', data.friend)
 			dispatch(getFriends(data.friend))
 		} catch (err) {
 			console.log('No friends...', err)
+		}
+	}
+}
+
+export const updateFriends = info => {
+	console.log('Info in thunk', info)
+	return async dispatch => {
+		try {
+			await axios.put(`api/user/${info.id}/friends`, info.friend)
+			dispatch(addFriend(info.friend))
+		} catch (err) {
+			console.log('User was not added...', err)
 		}
 	}
 }

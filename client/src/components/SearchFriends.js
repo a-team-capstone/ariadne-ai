@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getResults, clearUsers } from '../store/users'
-import { addFriend } from '../store/user'
+import { updateFriends } from '../store/user'
 import Suggestions from './Suggestions'
 
 class SearchFriends extends Component {
@@ -33,27 +33,28 @@ class SearchFriends extends Component {
 	handleClick(evt, friends) {
 		evt.preventDefault()
 		// console.log('Handleclick', friends)
-		this.props.addFriend(friends)
+		this.props.addFriend({ id: this.props.user.id, friend: friends })
 	}
 
 	render() {
-		const { results } = this.props
+		let { results, user } = this.props
+		const userFriendIds = user.friends && user.friends.map(friend => friend.id)
+		// console.log('Before filter Results', results)
+		results = results.filter(result => userFriendIds.indexOf(result.id) === -1)
 		// console.log('Results', results)
 		return (
 			<form>
 				<div className="form-group">
+					<h5>Add new friends</h5>
 					<input
 						type="text"
-						placeholder="Search for friends..."
+						placeholder="Search by name..."
 						ref={this.search}
 						onChange={this.handleInputChange}
 						className="form-control"
 					/>
 				</div>
-				<Suggestions
-					results={this.props.results}
-					handleClick={this.handleClick}
-				/>
+				<Suggestions results={results} handleClick={this.handleClick} />
 			</form>
 		)
 	}
@@ -61,6 +62,7 @@ class SearchFriends extends Component {
 
 const mapState = state => {
 	return {
+		user: state.user,
 		results: state.users
 	}
 }
@@ -69,7 +71,7 @@ const mapDispatch = dispatch => {
 	return {
 		getResults: query => dispatch(getResults(query)),
 		clearUsers: () => dispatch(clearUsers()),
-		addFriend: friend => dispatch(addFriend(friend))
+		addFriend: friend => dispatch(updateFriends(friend))
 	}
 }
 
