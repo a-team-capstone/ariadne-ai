@@ -48,7 +48,7 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 	router.get(
 		'/',
 		(req, res, next) => {
-			console.log('here')
+			console.log('here in google')
 			console.log('Node', process.env.NODE_ENV)
 			next()
 		},

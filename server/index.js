@@ -83,13 +83,12 @@ const createApp = () => {
 		}
 	})
 
-	// app.use('*', (req, res) => {
-	// 	console.log(
-	// 		'this is the path',
-	// 		path.join(__dirname, '..', '/public/index.html')
-	// 	)
-	// 	res.sendFile(path.join(__dirname, '..', '/public/index.html'))
-	// })
+	app.use('*', (req, res) => {
+		console.log('here')
+		if (process.env.NODE_ENV === 'production') {
+		res.sendFile(path.join(__dirname, '..', 'client/build/index.html'))
+		}
+	})
 
 	// error handling endware
 	app.use((err, req, res, next) => {
