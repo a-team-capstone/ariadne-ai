@@ -28,7 +28,6 @@ const getFriends = friends => ({
  * THUNK CREATORS
  */
 export const me = () => async dispatch => {
-	console.log('Here')
 	try {
 		const res = await axios.get('auth/me')
 		dispatch(getUser(res.data || {}))

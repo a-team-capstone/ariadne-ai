@@ -23,7 +23,7 @@ export const getUserFriends = id => {
   return async dispatch => {
     try {
       const { data } = await axios.get(`api/user/${id}/friends`)
-      dispatch(getFriends(data))
+      dispatch(getFriends(data.friend))
     } catch (err) {
       console.log('Unable to get user friends', err)
     }
