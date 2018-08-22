@@ -69,8 +69,8 @@ class FloodFill extends Component {
 		const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
 		const solvable = floodedMaze[endRow][endCol] === -1
 		const explainerText = solvable
-			? 'Blue dots indicate reachable areas in the maze.'
-			: 'Your power-ups may say otherwise, though. Try to play your maze to be sure!'
+			? `Any area with blue dots is reachable. Ready to play?`
+			: 'Your power-ups may help you defy the laws of solvability! Give it a try!'
 		this.setState({ solvable, explainerText })
 
 		this.board.current.appendChild(
@@ -88,11 +88,11 @@ class FloodFill extends Component {
 		return (
 			<div id="floodFillView">
 				{solvable === 'Analyzing...' ? (
-					<h4>{solvable}</h4>
+					<h2>{solvable}</h2>
 				) : (
-					<p>
-						{solvable ? 'Your maze is solvable!' : 'Your maze is not solvable!'}
-					</p>
+					<h3>
+						{solvable ? `It's solvable!` : 'Unsolvable! Or is it?'}
+					</h3>
 				)}
 				<p>{explainerText}</p>
 				<div ref={this.board} id="floodFillCanvas" />
@@ -117,6 +117,9 @@ class FloodFill extends Component {
 					</div>
 
 					<div className="row" id="floodFillButtons">
+						<Link to="/create-maze">
+							<wired-button id="newmaze-btn">Discard maze</wired-button>
+						</Link>
 						<button
 							type="button"
 							className="play-btn"
@@ -130,11 +133,8 @@ class FloodFill extends Component {
 								)
 							}
 						>
-							<wired-button id="play-btn">Play</wired-button>
+							<wired-button id="play-btn">Play maze</wired-button>
 						</button>
-						<Link to="/create-maze">
-							<wired-button id="newmaze-btn">New maze</wired-button>
-						</Link>
 					</div>
 				</div>
 			</div>

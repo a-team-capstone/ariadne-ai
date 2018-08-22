@@ -60,10 +60,10 @@ class Create extends Component {
 
 		return (
 			<div className="create-maze">
-				<h3>Get Creative</h3>
 				{src === '' ? (
 					<Fragment>
-						<p>Start, end, and power-ups are detected by their initials. Write in up to one of each!</p>
+					<h3>Get Creative</h3>
+						<p>Maze features are detected by their initials. Write in up to one of each!</p>
 						<div className="key">
 							<img alt="start" src="/shield.png" />
 							<p>STA - Start</p>
