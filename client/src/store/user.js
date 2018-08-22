@@ -9,6 +9,7 @@ const REMOVE_USER = 'REMOVE_USER'
 const GET_FRIENDS = 'GET_FRIENDS'
 const GET_CHALLENGES = 'GET_CHALLENGES'
 const GET_MAZES = 'GET_MAZES'
+const ADD_FRIEND = 'ADD_FRIEND'
 
 /**
  * ACTION CREATORS
@@ -24,6 +25,11 @@ const removeUser = () => ({
 const getFriends = friends => ({
 	type: GET_FRIENDS,
 	friends
+})
+
+const addFriend = friend => ({
+	type: ADD_FRIEND,
+	friend
 })
 
 const getChallenges = challenges => ({
@@ -51,13 +57,15 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method) => async dispatch => {
 	let res
 	try {
-    res = await axios.post(`auth/${method}`, { email, password })
+		res = await axios.post(`auth/${method}`, { email, password })
 	} catch (authError) {
 		return dispatch(getUser({ error: authError }))
 	}
 	try {
-    dispatch(getUser(res.data))
-    method === 'signup' ? history.push('/tutorial') : history.push('/create-maze')
+		dispatch(getUser(res.data))
+		method === 'signup'
+			? history.push('/tutorial')
+			: history.push('/create-maze')
 	} catch (dispatchOrHistoryErr) {
 		console.error(dispatchOrHistoryErr)
 	}
@@ -84,6 +92,17 @@ export const loadFriends = id => {
 	}
 }
 
+export const updateFriends = info => {
+	return async dispatch => {
+		try {
+			await axios.put(`api/user/${info.id}/friends`, info.friend)
+			dispatch(addFriend(info.friend))
+		} catch (err) {
+			console.log('User was not added...', err)
+		}
+	}
+}
+
 export const loadChallenges = id => {
 	return async dispatch => {
 		try {
@@ -100,7 +119,7 @@ export const loadMazes = id => {
 		try {
 			const { data } = await axios.get(`api/user/${id}/mazes`)
 			dispatch(getMazes(data))
- 		} catch (err) {
+		} catch (err) {
 			console.log('No mazes yet!', err)
 		}
 	}
@@ -117,10 +136,12 @@ const userReducer = (state = {}, action) => {
 			return {}
 		case GET_FRIENDS:
 			return { ...state, friends: action.friends }
-		case GET_CHALLENGES: 
-			return {...state, challenges: action.challenges}
-		case GET_MAZES: 
-			return {...state, mazes: action.mazes}
+		case ADD_FRIEND:
+			return { ...state, friends: [...state.friends, action.friend] }
+		case GET_CHALLENGES:
+			return { ...state, challenges: action.challenges }
+		case GET_MAZES:
+			return { ...state, mazes: action.mazes }
 		default:
 			return state
 	}
