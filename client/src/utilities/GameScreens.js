@@ -21,7 +21,7 @@ export const createGameScreen = (app, gameHeight, gameWidth, primaryText='primar
 	avatar.scale.x = scale
 	avatar.scale.y = scale
 	avatar.x = gameWidth/2;
-	avatar.y = gameHeight*.45;
+	avatar.y = gameHeight*.48;
 	screen.addChild(avatar)
 	screen.addChild(bigText)
 
