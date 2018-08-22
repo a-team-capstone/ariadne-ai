@@ -140,8 +140,9 @@ const createBoard = (
 	let slowDown = addPowerUp('slowDown.png', board, -999, -999, tileSize, 0.15) // bot setup
 
 	// set state and track which state to run
-	let state = play
+	let state = setup
 	app.ticker.add(function() {
+		console.log(state)
 		state()
 	})
 
@@ -159,8 +160,8 @@ const createBoard = (
 		nav.visible = true
 		winScreen.visible = false
 		botWonScreen.visible = false
-		timeText.visible = true
-		timeTitle.visible = true
+		timeText.visible = false
+		timeTitle.visible = false
 		freezeOverlay.visible = false
 
 		// set all bot related things out of sight
@@ -254,6 +255,7 @@ const createBoard = (
 		weaponGrabbed = false
 
 		state = play
+
 	}
 
 	function play() {
@@ -294,6 +296,8 @@ const createBoard = (
 		timeText.visible = false
 		timeTitle.visible = false
 		quitScreen.visible = false
+
+		state = setup
 	}
 
 	function botUnlocked() {
@@ -388,31 +392,8 @@ const createBoard = (
 		newPowerUpsScreen.visible = false
 	}
 	let soundEffect = null
-	// let soundsDirectory = {}
 	let winSound, extraTimeSound, teleSound, portSound, bombSound, countDownSound, freezeSound, weaponSound, slowDownSound, quitSound, shareSound, botWonSound
 
-const initiateSounds = () => {
-
-			introOverlay.visible = false
-			teleSound = new Audio('teleSound.mp3')
-			portSound = new Audio('portSound.mp3')
-			extraTimeSound = new Audio('extraTimeSound.mp3')
-			winSound = new Audio('extraTimeSound.mp3')
-			bombSound = new Audio('bombSound.mp3')
-			freezeSound = new Audio('freezeSound.mp3')
-			weaponSound = new Audio('weaponSound.mp3')
-			slowDownSound = new Audio('slowDownSound.mp3')
-			quitSound = new Audio('clickSound.mp3')
-			shareSound = new Audio('clickSound.mp3')
-			botWonSound = new Audio('robotWonSound.mp3')
-
-			app.ticker.add(function() {
-				if (soundEffect) {
-					soundEffect.play()
-					soundEffect = null
-				}
-			})
-		}
 
 	let replaySoloButton = () => {
 
@@ -572,11 +553,13 @@ const initiateSounds = () => {
 	quitScreen.addChild(quitMazeButton())
 
 	app.ticker.add(() => {
-		if (timeRemaining > 0) {
-			timeRemaining -= 1 / 60
-			timeText.text = Math.round(timeRemaining)
-		} else if (timeRemaining >= -1){
-			state = outOfTime
+		if (!introOverlay.visible) {
+			if (timeRemaining > 0) {
+				timeRemaining -= 1 / 60
+				timeText.text = Math.round(timeRemaining)
+			} else if (timeRemaining >= -1){
+				state = outOfTime
+			}
 		}
 	})
 
@@ -821,17 +804,55 @@ const initiateSounds = () => {
 
 	// prepare intro overlay
 	let introOverlay = createOverlay(app, gameHeight, gameWidth, 0x161000, .9)
-	let introText = new PIXI.Text("Tap to begin", { fill: 0xfffefc, fontSize: '80px' })
+	let introText = new PIXI.Text("Tap to\nbegin!", { fill: 0xfffefc, fontSize: '150px', align: "center", fontWeight: "bold","dropShadow": true,
+	"dropShadowAlpha": 0.5,
+	"dropShadowColor": "#4b4b4b",
+	"dropShadowDistance": 1,})
 	introOverlay.visible = true
 	introText.anchor.set(.5,.5)
 	introText.x = gameWidth/2
-	introText.y = gameHeight*(3/8)
+	introText.y = gameHeight*.48
 	introOverlay.addChild(introText)
 	introOverlay.interactive = true;
 	introOverlay.buttonMode = true;
-	introOverlay.on('pointerdown', initializeSounds())
+	introOverlay.on('pointerdown', () => {
+
+		introOverlay.visible = false
+		teleSound = new Audio('teleSound.mp3')
+		portSound = new Audio('portSound.mp3')
+		extraTimeSound = new Audio('extraTimeSound.mp3')
+		winSound = new Audio('winSound.mp3')
+		bombSound = new Audio('bombSound.mp3')
+		freezeSound = new Audio('freezeSound.mp3')
+		weaponSound = new Audio('weaponSound.mp3')
+		slowDownSound = new Audio('slowDownSound.mp3')
+		quitSound = new Audio('clickSound.mp3')
+		shareSound = new Audio('clickSound.mp3')
+		botWonSound = new Audio('robotWonSound.mp3')
+
+		app.ticker.add(function() {
+			if (soundEffect) {
+				soundEffect.play()
+				soundEffect = null
+			}
+		})
+		timeRemaining = timeAllowed
+		if (useBot) {
+			if (bot) bot.x = -7777
+			bot = wallFollowerBot(
+				app,
+				board,
+				mazeGrid,
+				tileSize,
+				startX,
+				startY,
+				endX,
+				endY,
+				1
+			)
+		}
+	})
 	app.stage.addChild(introOverlay)
-	//introOverlay.addChild(startButton())
 
 
 	// prepare freeze overlay
@@ -916,7 +937,7 @@ const initiateSounds = () => {
 	app.ticker.add(function() {
 		if (!weaponGrabbed) {
 			if (weapon && overlapping(player, weapon, tileSize)) {
-				// // playSound'weapon')
+				soundEffect = weaponSound
 				weaponGrabbed = true
 			}
 		} else {
