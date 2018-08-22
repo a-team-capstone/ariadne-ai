@@ -84,6 +84,7 @@ const createApp = () => {
 	})
 
 	app.use('*', (req, res) => {
+		console.log('here')
 		if (process.env.NODE_ENV === 'production') {
 		res.sendFile(path.join(__dirname, '..', 'client/build/index.html'))
 		}
