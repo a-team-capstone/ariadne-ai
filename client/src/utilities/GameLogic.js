@@ -391,13 +391,13 @@ const createBoard = (
 	// let soundsDirectory = {}
 	let winSound, extraTimeSound, teleSound, portSound, bombSound, countDownSound, freezeSound, weaponSound, slowDownSound, quitSound, shareSound, botWonSound
 
-	let startButton = () => {
-		return createButton(gameWidth/2, gameHeight/2, 'goButton.png', () => {
+const initiateSounds = () => {
+
 			introOverlay.visible = false
 			teleSound = new Audio('teleSound.mp3')
 			portSound = new Audio('portSound.mp3')
 			extraTimeSound = new Audio('extraTimeSound.mp3')
-			winSound = new Audio('winSound.mp3')
+			winSound = new Audio('extraTimeSound.mp3')
 			bombSound = new Audio('bombSound.mp3')
 			freezeSound = new Audio('freezeSound.mp3')
 			weaponSound = new Audio('weaponSound.mp3')
@@ -406,15 +406,13 @@ const createBoard = (
 			shareSound = new Audio('clickSound.mp3')
 			botWonSound = new Audio('robotWonSound.mp3')
 
-
 			app.ticker.add(function() {
 				if (soundEffect) {
 					soundEffect.play()
 					soundEffect = null
 				}
 			})
-		})
-	}
+		}
 
 	let replaySoloButton = () => {
 
@@ -747,6 +745,7 @@ const createBoard = (
 		const { id, solvable } = mazeInstance
 		if (overlapping(player, mazeTarget, tileSize)) {
 			soundEffect = winSound
+			player.x = -8888
 			state = botLevelUnlocked ? win : botUnlocked
 			let request = {
 				seconds: timeAllowed - timeRemaining,
@@ -821,15 +820,18 @@ const createBoard = (
 	countdown.addChild(countdownText)
 
 	// prepare intro overlay
-	let introOverlay = createOverlay(app, gameHeight, gameWidth, 0x161000, .8)
-	let introText = new PIXI.Text("Starting Maze", { fill: 0xfffefc, fontSize: '80px' })
+	let introOverlay = createOverlay(app, gameHeight, gameWidth, 0x161000, .9)
+	let introText = new PIXI.Text("Tap to begin", { fill: 0xfffefc, fontSize: '80px' })
 	introOverlay.visible = true
 	introText.anchor.set(.5,.5)
 	introText.x = gameWidth/2
 	introText.y = gameHeight*(3/8)
 	introOverlay.addChild(introText)
+	introOverlay.interactive = true;
+	introOverlay.buttonMode = true;
+	introOverlay.on('pointerdown', initializeSounds())
 	app.stage.addChild(introOverlay)
-	introOverlay.addChild(startButton())
+	//introOverlay.addChild(startButton())
 
 
 	// prepare freeze overlay
