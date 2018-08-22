@@ -85,7 +85,7 @@ const createApp = () => {
 
 	app.use('*', (req, res) => {
 		if (process.env.NODE_ENV === 'production') {
-		res.sendFile(path.join(__dirname, '..', 'client/build/public/index.html'))
+		res.sendFile(path.join(__dirname, '..', 'client/build/index.html'))
 		}
 	})
 
