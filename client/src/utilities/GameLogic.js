@@ -41,6 +41,9 @@ const createBoard = (
 	gameWidth += 2 * widthOffset
 	gameHeight += 2 * heightOffset
 
+	console.log('gameHeight, gameWidth', gameHeight, gameWidth)
+
+
 	let timeAllowed = time
 	let extraTimeX = XTM ? XTM[1] : -999
 	let extraTimeY = XTM ? XTM[0] : -999
@@ -227,9 +230,6 @@ const createBoard = (
 		slowDownX = slowDownPlacement.x
 		slowDownY = slowDownPlacement.y
 
-		console.log('weapon', weaponPlacement)
-		console.log('slowdown', slowDownPlacement)
-
 		// reset powerups
 		if (slowDown) slowDown.destroy()
 		slowDown = addPowerUp(
@@ -387,7 +387,7 @@ const createBoard = (
 	}
 
 	let replayBotButton = () => {
-		return createButton(gameWidth/2, 850, 'replayBot.png', ()=>{
+		return createButton(gameWidth/2, 650, 'replayBot.png', ()=>{
 		useBot = true
 		state = setup
 		})
@@ -402,7 +402,7 @@ const createBoard = (
 	}
 
 	let newPowerUpsButton = () => {
-		return createButton(gameWidth/2, 850, 'replayBot.png', ()=>{
+		return createButton(gameWidth/2, 650, 'replayBot.png', ()=>{
 		useBot = true
 		state = newPowerUps
 		})
@@ -416,7 +416,7 @@ const createBoard = (
 	}
 
 	let shareButton = () => {
-		return createButton(gameWidth / 2, 650, 'challengeFriends.png', () => {
+		return createButton(gameWidth / 2, 850, 'challengeFriends.png', () => {
 			// window.location = 'create-maze' // change
 			history.push('/select-friends')
 		})
@@ -437,7 +437,7 @@ const createBoard = (
 	//board.addChild(menuButton())
 
 	let quitButton = () => {
-		return createButton(75, 893, 'redQuitButton.png', () => {
+		return createButton(75, 910, 'redQuitButton.png', () => {
 			state = quit
 		})
 	}
@@ -689,17 +689,17 @@ const createBoard = (
 			Math.round(timeRemaining),
 			{fill:0xf9f9f7, fontSize: '100px', fontWeight: "bold", align: "center"}
 		);
-		timeText.x = 570+widthOffset;
-		timeText.y = 918;
-		timeText.anchor.set(1, .5)
+		timeText.x = 475+widthOffset;
+		timeText.y = 930;
+		timeText.anchor.set(0, .5)
 		app.stage.addChild(timeText);
 
 		let timeTitle = new PIXI.Text(
 			'Time left:',
 			{fill:0xf9f9f7, fontSize: '30px', fontWeight: "bold", align: "center"}
 		);
-		timeTitle.x = 580+widthOffset;
-		timeTitle.y = 823;
+		timeTitle.x = 590+widthOffset;
+		timeTitle.y = 840;
 		timeTitle.anchor.set(1, 0)
 		app.stage.addChild(timeTitle);
 

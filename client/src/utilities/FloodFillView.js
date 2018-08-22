@@ -4,7 +4,6 @@ import {createSprite} from './PixiObjects'
 const showFloodFill = (img, maze, tileSize, startPoint, endPoint) => {
 	let gameHeight = maze.length * tileSize
 	let gameWidth = maze[0].length * tileSize
-	console.log('gameHeight, gameWidth', gameHeight, gameWidth)
 	let app = new PIXI.Application(gameWidth, gameHeight, {
 		antialias: true,
 		backgroundColor: 0x001099bb,
