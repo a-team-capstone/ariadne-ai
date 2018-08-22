@@ -409,3 +409,39 @@ ul {
 }
 
 /* End of Tutorial Page */
+
+
+/* Friend Select  */
+
+.selection {
+  min-width: 300px;
+  width: 50%;
+  position: absolute;
+  left: 20%;
+  top: 100px;
+  text-align: center;
+}
+
+.selection h5 {
+  margin-bottom: 30px;
+}
+
+.selection button {
+  margin-top: 30px;
+}
+
+.form-check {
+  overflow: hidden;
+}
+
+.form-check label {
+  float: left;
+}
+
+.selection input {
+  clear: both;
+  position: absolute;
+  right: 0px;
+}
+
+/* End of Friend Select  */
