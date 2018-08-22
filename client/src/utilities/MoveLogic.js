@@ -1,3 +1,4 @@
+
 	// function to check if a move is blocked
 	export const blocked = (x,y, sprite, mazeGrid, moveSize) => {
 		let desiredX = Math.round(x/moveSize)

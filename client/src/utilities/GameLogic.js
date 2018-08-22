@@ -1,7 +1,7 @@
 import * as PIXI from 'pixi.js'
 import keyboardTracker from './keyboardTracker'
 import { wallFollowerBot } from './BotLogic'
-import { addPowerUp, activateTeleport, randomPlacement } from './PowerUpsLogic'
+import { addPowerUp, oneDirectionTeleport, randomPlacement } from './PowerUpsLogic'
 import { createSprite } from './PixiObjects'
 import * as move from './MoveLogic'
 import { overlapping } from './MoveLogic'
@@ -11,7 +11,7 @@ import {
 	createPowerUpsScreen,
 	createOverlay
 } from './GameScreens'
-import {playSound, playOnce, resetSounds} from './sounds'
+import {resetSounds} from './sounds'
 import axios from 'axios'
 
 const createBoard = (
@@ -27,7 +27,10 @@ const createBoard = (
 	let maze = mazeInstance.data.data
 	let { FRZ, XTM, BMB, TEL, PRT, time } = mazeInstance
 	resetSounds()
-	// playSound('startMaze')
+	let soundsToPlay = ['weapon', 'weapon', 'weapon']
+	let soundsToPlayOnce =['tele', 'weapon']
+
+	//// playSound'startMaze')
 
 	let startY = startPoint[0] - (startPoint[0] % tileSize)
 	let startX = startPoint[1] - (startPoint[1] % tileSize)
@@ -137,7 +140,7 @@ const createBoard = (
 	let slowDown = addPowerUp('slowDown.png', board, -999, -999, tileSize, 0.15) // bot setup
 
 	// set state and track which state to run
-	let state = play
+	let state = setup
 	app.ticker.add(function() {
 		state()
 	})
@@ -145,8 +148,10 @@ const createBoard = (
 	function setup() {
 		timeRemaining = timeAllowed
 		savedPlay = false
+		soundEffect = null
 		resetSounds()
 
+		introOverlay.visible = true
 		player.x = startX
 		player.y = startY
 		board.visible = true
@@ -154,8 +159,8 @@ const createBoard = (
 		nav.visible = true
 		winScreen.visible = false
 		botWonScreen.visible = false
-		timeText.visible = true
-		timeTitle.visible = true
+		timeText.visible = false
+		timeTitle.visible = false
 		freezeOverlay.visible = false
 
 		// set all bot related things out of sight
@@ -249,11 +254,12 @@ const createBoard = (
 		weaponGrabbed = false
 
 		state = play
+
 	}
 
 	function play() {
 		board.visible = true
-		bot.visible = true
+		bot.visible = introOverlay.visible? false : true
 		player.visible = true
 		coordsText.visible = true
 		countdown.visible = false
@@ -289,10 +295,11 @@ const createBoard = (
 		timeText.visible = false
 		timeTitle.visible = false
 		quitScreen.visible = false
+
+		state = setup
 	}
 
 	function botUnlocked() {
-		// playOnce('win')
 		bot.x = -1111
 		bot.y = -1111
 		player.x = -1111
@@ -316,7 +323,6 @@ const createBoard = (
 	}
 
 	function win() {
-		// playOnce('win')
 		timeRemaining = 9999
 		winScreen.visible = true
 		countdown.visible = false
@@ -384,11 +390,13 @@ const createBoard = (
 		coordsText.visible = false
 		newPowerUpsScreen.visible = false
 	}
+	let soundEffect = null
+	let winSound, extraTimeSound, teleSound, portSound, bombSound, countDownSound, freezeSound, weaponSound, slowDownSound, quitSound, shareSound, botWonSound, startSound
+
 
 	let replaySoloButton = () => {
 
 		return createButton(gameWidth/2, 750, 'replaySolo.png', ()=>{
-		playSound('startMaze')
 		useBot = false
 		state = setup
 		})
@@ -396,7 +404,6 @@ const createBoard = (
 
 	let replayBotButton = () => {
 		return createButton(gameWidth/2, 650, 'replayBot.png', ()=>{
-		// playOnce('startMaze')
 		useBot = true
 		state = setup
 		})
@@ -406,9 +413,10 @@ const createBoard = (
 
 		return createButton(gameWidth / 2, 950, 'exitMazeButton.png', () => {
 			// window.location = 'create-maze'
-			playSound('exitMaze')
+			// playSound'exitMaze')
 			timeRemaining = -999
 			history.push('/create-maze')
+			soundEffect = quitSound
 		})
 	}
 
@@ -422,14 +430,14 @@ const createBoard = (
 	let goButton = () => {
 		return createButton(gameWidth/2, 950, 'goButton.png', ()=>{
 		useBot = true
-		playSound('startMaze')
+		// playSound'startMaze')
 		state = setup
 		})
 	}
 
 	let shareButton = () => {
 		return createButton(gameWidth / 2, 850, 'challengeFriends.png', () => {
-			playSound('shareMaze')
+			soundEffect = shareSound
 			timeRemaining = -999
 			// window.location = 'create-maze' // change
 			history.push('/select-friends')
@@ -438,8 +446,9 @@ const createBoard = (
 
 	let quitButton = () => {
 		return createButton(75, 910, 'redQuitButton.png', () => {
-			playSound('exitMaze')
+			// playSound'exitMaze')
 			state = quit
+			soundEffect = quitSound
 		})
 	}
 	board.addChild(quitButton())
@@ -541,11 +550,13 @@ const createBoard = (
 	quitScreen.addChild(quitMazeButton())
 
 	app.ticker.add(() => {
-		if (timeRemaining > 0) {
-			timeRemaining -= 1 / 60
-			timeText.text = Math.round(timeRemaining)
-		} else if (timeRemaining >= -1){
-			state = outOfTime
+		if (!introOverlay.visible) {
+			if (timeRemaining > 0) {
+				timeRemaining -= 1 / 60
+				timeText.text = Math.round(timeRemaining)
+			} else if (timeRemaining >= -1){
+				state = outOfTime
+			}
 		}
 	})
 
@@ -591,7 +602,7 @@ const createBoard = (
 	let frames = 0
 	app.ticker.add(() => {
 		frames++
-		if (frames % 4 === 0) {
+		if (frames % 4 === 0 && !introOverlay.visible) {
 			if (leftKey.isDown) move.left(player, mazeGrid, tileSize)
 			if (rightKey.isDown) move.right(player, mazeGrid, tileSize)
 			if (upKey.isDown) move.up(player, mazeGrid, tileSize)
@@ -604,21 +615,21 @@ const createBoard = (
 			currentPlayerDirection(player, mazeGrid, tileSize)
 	})
 
-	leftKey.press = () => {
-		move.left(player, mazeGrid, tileSize)
-	}
+	// leftKey.press = () => {
+	// 	move.left(player, mazeGrid, tileSize)
+	// }
 
-	rightKey.press = () => {
-		move.right(player, mazeGrid, tileSize)
-	}
+	// rightKey.press = () => {
+	// 	move.right(player, mazeGrid, tileSize)
+	// }
 
-	upKey.press = () => {
-		move.up(player, mazeGrid, tileSize)
-	}
+	// upKey.press = () => {
+	// 	move.up(player, mazeGrid, tileSize)
+	// }
 
-	downKey.press = () => {
-		move.down(player, mazeGrid, tileSize)
-	}
+	// downKey.press = () => {
+	// 	move.down(player, mazeGrid, tileSize)
+	// }
 
 	// navigation buttons
 	let nav = new PIXI.Container()
@@ -714,6 +725,8 @@ const createBoard = (
 		// check if player reached target
 		const { id, solvable } = mazeInstance
 		if (overlapping(player, mazeTarget, tileSize)) {
+			soundEffect = winSound
+			player.x = -8888
 			state = botLevelUnlocked ? win : botUnlocked
 			let request = {
 				seconds: timeAllowed - timeRemaining,
@@ -733,6 +746,7 @@ const createBoard = (
 		else if (overlapping(bot, mazeTarget, tileSize)) {
 			bot.x = startX
 			bot.y = startY
+			soundEffect = botWonSound
 			state = botWon
 		}
 	})
@@ -740,7 +754,7 @@ const createBoard = (
 	// check if extra time should be activated
 	app.ticker.add(function() {
 		if (extraTime && overlapping(player, extraTime, tileSize)) {
-			// playOnce('extraTime')
+			soundEffect = extraTimeSound
 			timeRemaining += 10
 			extraTime.destroy()
 			extraTime = null
@@ -751,7 +765,7 @@ const createBoard = (
 	app.ticker.add(function() {
 		if (bomb && overlapping(player, bomb, tileSize)) {
 			{
-				// playOnce('bomb')
+				soundEffect = bombSound
 				player.x = startX
 				player.y = startY
 				bomb.destroy()
@@ -760,7 +774,7 @@ const createBoard = (
 		}
 		if (bomb && overlapping(bot, bomb, tileSize)) {
 			{
-				// playOnce('bomb')
+				soundEffect = bombSound
 				bot.x = startX
 				bot.y = startY
 				bomb.destroy()
@@ -772,7 +786,7 @@ const createBoard = (
 	// show countdown for last five seconds
 	app.ticker.add(function() {
 		if (timeRemaining <= 5 && timeRemaining > 0) {
-			// playOnce('countdown')
+			soundEffect = countDownSound
 			countdown.visible = true
 			countdownText.text = Math.round(timeRemaining)
 		}
@@ -785,6 +799,62 @@ const createBoard = (
 	countdownText.x = gameWidth/2
 	countdownText.y = gameHeight*(3/8)
 	countdown.addChild(countdownText)
+
+	// prepare intro overlay
+	let introOverlay = createOverlay(app, gameHeight, gameWidth, 0x161000, .9)
+	let introText = new PIXI.Text("Tap to\nbegin!", { fill: 0xfffefc, fontSize: '150px', align: "center", fontWeight: "bold","dropShadow": true,
+	"dropShadowAlpha": 0.5,
+	"dropShadowColor": "#4b4b4b",
+	"dropShadowDistance": 1,})
+	introOverlay.visible = true
+	introText.anchor.set(.5,.5)
+	introText.x = gameWidth/2
+	introText.y = gameHeight*.48
+	introOverlay.addChild(introText)
+	introOverlay.interactive = true;
+	introOverlay.buttonMode = true;
+	introOverlay.on('pointerdown', () => {
+
+		introOverlay.visible = false
+		teleSound = new Audio('teleSound.mp3')
+		portSound = new Audio('portSound.mp3')
+		extraTimeSound = new Audio('extraTimeSound.mp3')
+		winSound = new Audio('winSound.mp3')
+		bombSound = new Audio('bombSound.mp3')
+		freezeSound = new Audio('freezeSound.mp3')
+		weaponSound = new Audio('weaponSound.mp3')
+		slowDownSound = new Audio('slowDownSound.mp3')
+		quitSound = new Audio('clickSound.mp3')
+		shareSound = new Audio('clickSound.mp3')
+		botWonSound = new Audio('robotWonSound.mp3')
+		startSound = new Audio('startSound.mp3')
+
+		soundEffect = startSound
+
+		app.ticker.add(function() {
+			if (soundEffect) {
+				soundEffect.play()
+				soundEffect = null
+			}
+		})
+		timeRemaining = timeAllowed
+		if (useBot) {
+			if (bot) bot.x = -7777
+			bot = wallFollowerBot(
+				app,
+				board,
+				mazeGrid,
+				tileSize,
+				startX,
+				startY,
+				endX,
+				endY,
+				1
+			)
+		}
+	})
+	app.stage.addChild(introOverlay)
+
 
 	// prepare freeze overlay
 	let freezeOverlay = createOverlay(app, gameHeight, gameWidth, 0xf9f9f7)
@@ -807,7 +877,7 @@ const createBoard = (
   let frozenBotY = null
 
 		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer && !freezeBot) {
-		// playOnce('freeze')
+		soundEffect = freezeSound
 		freezePlayer = true
 		frozenPlayerX = player.x
 		frozenPlayerY = player.y
@@ -835,7 +905,7 @@ const createBoard = (
 		freeze = null
 	}
 		else if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot && !freezePlayer) {
-		// playOnce('freeze')
+		soundEffect = freezeSound
 		freezeBot = true
 		frozenBotX = bot.x
 		frozenBotY = bot.y
@@ -868,14 +938,14 @@ const createBoard = (
 	app.ticker.add(function() {
 		if (!weaponGrabbed) {
 			if (weapon && overlapping(player, weapon, tileSize)) {
-				// playSound('weapon')
+				soundEffect = weaponSound
 				weaponGrabbed = true
 			}
 		} else {
 			weapon.x = player.x + tileSize * 1.5
 			weapon.y = player.y
 			if (overlapping(player, bot, tileSize)) {
-				// playOnce('weapon')
+				soundEffect = weaponSound
 				bot.x = startX
 				bot.y = startY
 				weaponGrabbed = false
@@ -888,7 +958,7 @@ const createBoard = (
 	// check if slowDown should be activated
 	app.ticker.add(function() {
 		if (slowDown && overlapping(bot, slowDown, tileSize)) {
-			// playOnce('slowDown')
+			soundEffect = slowDownSound
 			const currentBotX = bot.x
 			const currentBotY = bot.y
 			const oldBot = bot
@@ -911,6 +981,26 @@ const createBoard = (
 	})
 
 	// check if teleport should be used
+
+	const activateTeleport = (app, sprite, TELE, PORT, tileSize, mazeWidth, mazeHeight, mazeGrid) => {
+		app.ticker.add(()=>{
+			let newLocation
+			if ( TELE && PORT && overlapping(sprite, TELE, tileSize, 1))
+			{
+				newLocation = oneDirectionTeleport(app, sprite, PORT, tileSize, mazeWidth, mazeHeight, mazeGrid)
+				sprite.x = newLocation.x
+				sprite.y = newLocation.y
+				soundEffect = teleSound
+			} else
+			if ( TELE && PORT && overlapping(sprite, PORT, tileSize, 1)) {
+				newLocation = oneDirectionTeleport(app, sprite, TELE, tileSize, mazeWidth, mazeHeight, mazeGrid)
+				sprite.x = newLocation.x
+				sprite.y = newLocation.y
+				soundEffect = portSound
+			}
+		})
+	}
+
 	if (tele.x >= 0 && tele.y >= 0 && port.x >= 0 && port.y >= 0) {
 		activateTeleport(
 			app,
@@ -933,6 +1023,9 @@ const createBoard = (
 			mazeGrid
 		) // activate for bot
 	}
+
+
+
 	return app
 }
 

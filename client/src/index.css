@@ -323,7 +323,7 @@ input::-moz-focus-inner {
 }
 
 #play-btn {
-	background: #fff382;
+	background: #FE9237;
 }
 
 #send-btn:hover,
@@ -335,7 +335,8 @@ input::-moz-focus-inner {
 .play-btn {
 	border: 0;
 	padding: 0;
-	margin: 0 1.5em;
+  margin: 0 1.5em;
+  background: none;
 	/* outline: none; */
 }
 
@@ -456,7 +457,17 @@ ul {
 
 .tutorial {
 	padding: 5em;
-	text-align: center;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.tutorial h3 {
+  margin-bottom: 30px;
+}
+
+.tutorial p {
+  margin-top: 20px;
 }
 
 #started-btn {
@@ -470,6 +481,28 @@ ul {
 
 #started-btn:hover {
 	color: #1034a6;
+}
+
+#tutorial-btn {
+	width: 100%;
+	padding: 0 0.5em;
+	color: #020717;
+	background: #e0e7fc;
+	font-size: 18px;
+	cursor: pointer;
+	outline: none;
+	margin-top: 1.5em;
+}
+
+#tutorial-btn:hover {
+	color: #1034a6;
+}
+
+.tutorial-btn {
+	border: 0;
+	padding: 0;
+	margin: 0 1.5em;
+	/* outline: none; */
 }
 
 @media screen and (max-width: 480px) {

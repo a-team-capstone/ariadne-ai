@@ -37,13 +37,13 @@ class TutorialPage extends Component {
 				{content.image ? <img src={content.image} width={200} /> : null}
 				<p>{content.text}</p>
 				{pageNum > 0 ? (
-					<button type="button" className="play-btn" onClick={this.handleBack}>
-						<wired-button id="play-btn">Back</wired-button>
+					<button type="button" className="tutorial-btn" onClick={this.handleBack}>
+						<wired-button id="tutorial-btn">Back</wired-button>
 					</button>
 				) : null}
 				{pageNum < tutorialContent.length - 1 ? (
-					<button type="button" className="play-btn" onClick={this.handleNext}>
-						<wired-button id="play-btn">Next</wired-button>
+					<button type="button" className="tutorial-btn" onClick={this.handleNext}>
+						<wired-button id="tutorial-btn">Next</wired-button>
 					</button>
 				) : null}
 				{pageNum === tutorialContent.length - 1 ? (

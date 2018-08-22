@@ -31,7 +31,7 @@ class MyAccount extends Component {
 			<div id="profile" className="main">
 				<h4>{user.userName}</h4>
 				<div>
-					<div className="profile-list" id="challenges">
+					<div className="profile-list">
 						<h5>Challenges</h5>
 						{challenges.length ? (
 							challenges.map(challenge => (
