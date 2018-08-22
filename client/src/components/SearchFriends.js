@@ -30,20 +30,21 @@ class SearchFriends extends Component {
 		)
 	}
 
-	handleClick(friend) {
-		console.log('Handleclick', friend)
-		this.props.addFriend(friend)
+	handleClick(evt, friends) {
+		evt.preventDefault()
+		// console.log('Handleclick', friends)
+		this.props.addFriend(friends)
 	}
 
 	render() {
 		const { results } = this.props
-		console.log('Results', results)
+		// console.log('Results', results)
 		return (
 			<form>
 				<div className="form-group">
 					<input
 						type="text"
-						placeholder="Search for..."
+						placeholder="Search for friends..."
 						ref={this.search}
 						onChange={this.handleInputChange}
 						className="form-control"

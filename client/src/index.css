@@ -412,3 +412,87 @@ ul {
 }
 
 /* End of Tutorial Page */
+
+/* Featured */
+
+.featured {
+	padding: 3em;
+	text-align: center;
+}
+
+#featured {
+	/* width: 100%; */
+	padding: 0.25em 0.5em;
+	color: #020717;
+	background: #e0e7fc;
+	font-size: 20px;
+	cursor: pointer;
+	outline: none;
+}
+
+#featured:hover {
+	color: #1034a6;
+}
+
+.featured-btn {
+	color: #020717;
+	background: #e0e7fc;
+	padding: 0.05em 0.5em;
+	border: none;
+}
+
+.card-featured {
+	width: 100%;
+	-moz-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+		0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	-webkit-box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+		0 2px 10px 0 rgba(0, 0, 0, 0.12);
+	box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+}
+
+/* End Featured */
+
+/* Friends */
+.friends {
+	padding: 2.5em;
+	text-align: center;
+}
+
+.friends p {
+	text-align: left;
+}
+
+#friends {
+	/* width: 100%; */
+	position: absolute;
+	padding: 0.05em 0.25em;
+	color: #020717;
+	background: #e0e7fc;
+	font-size: 16px;
+	cursor: pointer;
+	outline: none;
+	right: 15%;
+}
+
+#friends:hover {
+	color: #1034a6;
+}
+
+.friends-btn {
+	color: #020717;
+	background: #e0e7fc;
+	padding: 0.05em 0.25em;
+	border: none;
+	outline: none;
+}
+
+.list-friends {
+	text-align: left;
+	margin-bottom: 0.5em;
+}
+
+.list-friends button {
+	/* float: right; */
+	outline: none;
+}
+/* End Friends */
