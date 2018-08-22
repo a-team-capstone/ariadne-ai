@@ -35,11 +35,9 @@ export const uploadMaze = maze => {
 }
 
 export const loadMaze = mazeId => {
-	console.log('Load maze thunk', mazeId)
 	return async dispatch => {
 		try {
 			const { data } = await axios.get(`api/mazes/${mazeId}`)
-			console.log('Data loadMaze', data)
 			dispatch(getMaze(data))
 		} catch (err) {
 			console.log('There was a problem getting your maze...', err)

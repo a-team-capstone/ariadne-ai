@@ -63,10 +63,12 @@ class FloodFill extends Component {
 		const endPoint = obstacleAvgs.END || [744, 552]
 		let startRow = Math.round(startPoint[0] / tileSize)
 		let startCol = Math.round(startPoint[1] / tileSize)
-		let endRow = Math.round(endPoint[0] / tileSize)
-		let endCol = Math.round(endPoint[1] / tileSize)
+		let endRow = Math.min(Math.round(endPoint[0] / tileSize), mazeGrid.length - 1)
+		let endCol = Math.min(Math.round(endPoint[1] / tileSize), mazeGrid[0].length -1)
 
 		const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
+		console.log('floodedMaze', floodedMaze)
+		console.log('endRow, endCol', endRow, endCol)
 		const solvable = floodedMaze[endRow][endCol] === -1
 		const explainerText = solvable
 			? `Any area with blue dots is reachable. Ready?`
