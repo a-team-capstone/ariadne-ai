@@ -147,7 +147,12 @@ h3 {
 /* Create Maze */
 .create-maze {
 	text-align: center;
-	padding: 0.75em;
+  padding: 0.75em;
+  padding-top: 80px;
+}
+
+.create-maze h3 {
+  margin-bottom: 15px;
 }
 
 .key {
@@ -216,7 +221,8 @@ h3 {
 @media screen and (min-width: 480px) {
 	.create-maze {
 		text-align: center;
-		padding: 2.5em;
+    padding: 2.5em;
+    padding-top: 100px;
 	}
 	#selection {
 		margin-top: 2em;
@@ -397,7 +403,18 @@ ul {
 
 .tutorial {
 	padding: 5em;
-	text-align: center;
+  text-align: center;
+  max-width: 550px;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.tutorial h3 {
+  margin-bottom: 40px;
+}
+
+.tutorial p {
+  margin-top: 20px;
 }
 
 #started-btn {
@@ -415,7 +432,8 @@ ul {
 
 @media screen and (max-width: 480px) {
 	.tutorial {
-		padding: 2.5em;
+    padding: 2.5em;
+    padding-top: 80px;
 	}
 }
 
