@@ -91,3 +91,25 @@ export const resetSounds = () => {
 		soundsDict[sound].on = true
 	}
 }
+
+export const playOnceQueue = (queue) => {
+	queue.forEach(
+		playOnce(queue.shift())
+	)
+}
+
+export const playSoundQueue = (queue) => {
+	while (queue.length) {
+			let sound = queue.shift()
+			console.log('playing from sound queue', sound)
+			playSound(sound)
+	}
+}
+
+export const playSoundOnceQueue = (queue) => {
+	while (queue.length) {
+			let sound = queue.shift()
+			console.log('playing from once queue', sound)
+			playOnce(sound)
+	}
+}

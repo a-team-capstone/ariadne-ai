@@ -11,7 +11,7 @@ import {
 	createPowerUpsScreen,
 	createOverlay
 } from './GameScreens'
-import {playSound, playOnce, resetSounds} from './sounds'
+import {playSound, playOnce, resetSounds, playSoundQueue, playOnceQueue} from './sounds'
 import axios from 'axios'
 
 const createBoard = (
@@ -27,7 +27,14 @@ const createBoard = (
 	let maze = mazeInstance.data.data
 	let { FRZ, XTM, BMB, TEL, PRT, time } = mazeInstance
 	resetSounds()
+<<<<<<< Updated upstream
 	playSound('startMaze')
+=======
+	let soundsToPlay = []
+	let soundsToPlayOnce = []
+
+	soundsToPlayOnce.push('startMaze')
+>>>>>>> Stashed changes
 
 	let startY = startPoint[0] - (startPoint[0] % tileSize)
 	let startX = startPoint[1] - (startPoint[1] % tileSize)
@@ -353,7 +360,7 @@ const createBoard = (
 	}
 
 	function outOfTime() {
-		// playOnce('outOfTime')
+		soundsToPlayOnce.push('outOfTime')
 		timeRemaining = 9999
 		countdown.visible = false
 		botFromTime.visible = botLevelUnlocked ? true : false
@@ -396,7 +403,7 @@ const createBoard = (
 
 	let replayBotButton = () => {
 		return createButton(gameWidth/2, 650, 'replayBot.png', ()=>{
-		// playOnce('startMaze')
+		soundsToPlayOnce.push('startMaze')
 		useBot = true
 		state = setup
 		})
@@ -631,7 +638,11 @@ const createBoard = (
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true
 	right.buttonMode = true
-	right.on('pointerdown', () => (currentPlayerDirection = move.right))
+	right.on('pointerdown', () => {
+		currentPlayerDirection = move.right
+		playSoundQueue(soundsToPlay)
+		playSoundQueue(soundsToPlayOnce)
+	})
 	right.on('pointerup', () => (currentPlayerDirection = null))
 	// add button to nav container
 	nav.addChild(right)
@@ -644,7 +655,11 @@ const createBoard = (
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true
 	left.buttonMode = true
-	left.on('pointerdown', () => (currentPlayerDirection = move.left))
+	left.on('pointerdown', () => {
+		currentPlayerDirection = move.left
+		playSoundQueue(soundsToPlay)
+		playSoundQueue(soundsToPlayOnce)
+	})
 	left.on('pointerup', () => (currentPlayerDirection = null)) // add button to nav container
 	nav.addChild(left)
 
@@ -656,7 +671,11 @@ const createBoard = (
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true
 	up.buttonMode = true
-	up.on('pointerdown', () => (currentPlayerDirection = move.up))
+	up.on('pointerdown', () => {
+		currentPlayerDirection = move.up
+		playSoundQueue(soundsToPlay)
+		playSoundQueue(soundsToPlayOnce)
+	})
 	up.on('pointerup', () => (currentPlayerDirection = null)) // add button to nav container
 	nav.addChild(up)
 
@@ -668,7 +687,11 @@ const createBoard = (
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true
 	down.buttonMode = true
-	down.on('pointerdown', () => (currentPlayerDirection = move.down))
+	down.on('pointerdown', () => {
+		currentPlayerDirection = move.down
+		playSoundQueue(soundsToPlay)
+		playSoundQueue(soundsToPlayOnce)
+	})
 	down.on('pointerup', () => (currentPlayerDirection = null))
 	// add button to nav container
 	nav.addChild(down)
@@ -739,7 +762,7 @@ const createBoard = (
 	// check if extra time should be activated
 	app.ticker.add(function() {
 		if (extraTime && overlapping(player, extraTime, tileSize)) {
-			// playOnce('extraTime')
+			soundsToPlayOnce.push('extraTime')
 			timeRemaining += 10
 			extraTime.destroy()
 			extraTime = null
@@ -750,7 +773,7 @@ const createBoard = (
 	app.ticker.add(function() {
 		if (bomb && overlapping(player, bomb, tileSize)) {
 			{
-				// playOnce('bomb')
+				soundsToPlayOnce.push('bomb')
 				player.x = startX
 				player.y = startY
 				bomb.destroy()
@@ -759,7 +782,7 @@ const createBoard = (
 		}
 		if (bomb && overlapping(bot, bomb, tileSize)) {
 			{
-				// playOnce('bomb')
+				soundsToPlayOnce.push('bomb')
 				bot.x = startX
 				bot.y = startY
 				bomb.destroy()
@@ -771,7 +794,7 @@ const createBoard = (
 	// show countdown for last five seconds
 	app.ticker.add(function() {
 		if (timeRemaining <= 5 && timeRemaining > 0) {
-			// playOnce('countdown')
+			soundsToPlayOnce.push('countdown')
 			countdown.visible = true
 			countdownText.text = Math.round(timeRemaining)
 		}
@@ -806,7 +829,7 @@ const createBoard = (
   let frozenBotY = null
 
 		if (freeze && overlapping(player, freeze, tileSize) && !freezePlayer && !freezeBot) {
-		// playOnce('freeze')
+		soundsToPlayOnce.push('freeze')
 		freezePlayer = true
 		frozenPlayerX = player.x
 		frozenPlayerY = player.y
@@ -834,7 +857,7 @@ const createBoard = (
 		freeze = null
 	}
 		else if (freeze && overlapping(bot, freeze, tileSize) && !freezeBot && !freezePlayer) {
-		// playOnce('freeze')
+		soundsToPlayOnce.push('freeze')
 		freezeBot = true
 		frozenBotX = bot.x
 		frozenBotY = bot.y
@@ -867,14 +890,14 @@ const createBoard = (
 	app.ticker.add(function() {
 		if (!weaponGrabbed) {
 			if (weapon && overlapping(player, weapon, tileSize)) {
-				// playSound('weapon')
+				soundsToPlay.push('weapon')
 				weaponGrabbed = true
 			}
 		} else {
 			weapon.x = player.x + tileSize * 1.5
 			weapon.y = player.y
 			if (overlapping(player, bot, tileSize)) {
-				// playOnce('weapon')
+				soundsToPlay.push('weapon')
 				bot.x = startX
 				bot.y = startY
 				weaponGrabbed = false
@@ -887,7 +910,7 @@ const createBoard = (
 	// check if slowDown should be activated
 	app.ticker.add(function() {
 		if (slowDown && overlapping(bot, slowDown, tileSize)) {
-			// playOnce('slowDown')
+			soundsToPlayOnce.push('slowDown')
 			const currentBotX = bot.x
 			const currentBotY = bot.y
 			const oldBot = bot
