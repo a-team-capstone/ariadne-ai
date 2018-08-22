@@ -41,9 +41,8 @@ class MyAccount extends Component {
 						  <div className="list-group-item list-group-item-action flex-column align-items-start">
 						    <div className="d-flex w-100 justify-content-between">
 						      <h5 className="mb-1">{challenge.maze.name}</h5>
-						      <small>New</small>
-						    </div>
-						    <button type = "button" className="btn btn-primary" value={challenge.maze.id} onClick={this.handlePlay}>Play</button>
+						      <button type = "button" className="btn btn-primary" value={challenge.maze.id} onClick={this.handlePlay}>Play</button>
+						    </div>  
 						  	</div>
 						</div>
 					)) : <h5>No Challenges Yet!</h5>
