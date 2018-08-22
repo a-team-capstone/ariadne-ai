@@ -685,6 +685,21 @@ const createBoard = (
 	// add button to nav container
 	nav.addChild(down)
 
+	const downArrow = createSprite('arrow.png', nav.width/2, down.height*1.5, 0.75)
+	down.addChild(downArrow)
+
+	const upArrow = createSprite('arrow.png', nav.width/2, up.height/2, 0.75)
+	upArrow.rotation = Math.PI
+	up.addChild(upArrow)
+
+	const leftArrow = createSprite('arrow.png', nav.width*.17, up.height, 0.75)
+	leftArrow.rotation = Math.PI/2
+	left.addChild(leftArrow)
+
+	const rightArrow = createSprite('arrow.png', nav.width*.83, up.height, 0.75)
+	rightArrow.rotation = Math.PI*(3/2)
+	right.addChild(rightArrow)
+
 	nav.x = 150 + widthOffset
 	nav.y = 830
 	app.stage.addChild(nav)
