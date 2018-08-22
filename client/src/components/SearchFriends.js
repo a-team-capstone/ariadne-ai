@@ -32,16 +32,13 @@ class SearchFriends extends Component {
 
 	handleClick(evt, friends) {
 		evt.preventDefault()
-		// console.log('Handleclick', friends)
 		this.props.addFriend({ id: this.props.user.id, friend: friends })
 	}
 
 	render() {
-		let { results, user } = this.props
+    let { results, user } = this.props
 		const userFriendIds = user.friends && user.friends.map(friend => friend.id)
-		// console.log('Before filter Results', results)
 		results = results.filter(result => userFriendIds.indexOf(result.id) === -1)
-		// console.log('Results', results)
 		return (
 			<form>
 				<div className="form-group">
