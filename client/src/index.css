@@ -444,4 +444,27 @@ ul {
   right: 0px;
 }
 
+.sentChallenges {
+  min-width: 300px;
+  width: 50%;
+  position: absolute;
+  left: 20%;
+  top: 100px;
+  text-align: center;
+}
+
+.sentChallenges h5 {
+  margin-bottom: 30px;
+}
+
+.sentChallenges button {
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.sentChallenges img {
+  width: 200px;
+  margin-bottom: 50px;
+}
+
 /* End of Friend Select  */

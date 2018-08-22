@@ -61,11 +61,12 @@ class SelectFriends extends Component {
       {
         challengeSent ?
         (
-        <Fragment>
-          <h4>Challenges Sent!</h4>
+        <div className="sentChallenges">
+          <h5>Challenges Sent!</h5>
+          <img src="/mail.png" alt="mail" />
           <Link to="/pixi"><button>Replay Maze</button></Link>
           <Link to="/create-maze"><button>Create New Maze</button></Link>
-        </Fragment>
+        </div>
         ) :
         (
         <div className="selection">
