@@ -1,4 +1,3 @@
-	import {playSound, playOnce, resetSounds} from './sounds'
 
 	// function to check if a move is blocked
 	export const blocked = (x,y, sprite, mazeGrid, moveSize) => {

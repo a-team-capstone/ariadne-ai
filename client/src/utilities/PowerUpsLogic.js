@@ -1,6 +1,5 @@
 import * as PIXI from 'pixi.js'
 import {overlapping} from './MoveLogic'
-import {playSound} from './sounds'
 
 export const addPowerUp = (imagePath, board, x, y, tileSize, scale, anchor = .5) => {
 		// create a new Sprite from an image path

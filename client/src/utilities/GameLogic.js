@@ -11,7 +11,7 @@ import {
 	createPowerUpsScreen,
 	createOverlay
 } from './GameScreens'
-import {playSound, playOnce, resetSounds, playSoundQueue, playSoundOnceQueue} from './sounds'
+import {resetSounds} from './sounds'
 import axios from 'axios'
 
 const createBoard = (
@@ -142,7 +142,6 @@ const createBoard = (
 	// set state and track which state to run
 	let state = setup
 	app.ticker.add(function() {
-		console.log(state)
 		state()
 	})
 
@@ -260,7 +259,7 @@ const createBoard = (
 
 	function play() {
 		board.visible = true
-		bot.visible = true
+		bot.visible = introOverlay.visible? false : true
 		player.visible = true
 		coordsText.visible = true
 		countdown.visible = false
@@ -398,7 +397,6 @@ const createBoard = (
 	let replaySoloButton = () => {
 
 		return createButton(gameWidth/2, 750, 'replaySolo.png', ()=>{
-		// playSound'startMaze')
 		useBot = false
 		state = setup
 		})
@@ -406,7 +404,6 @@ const createBoard = (
 
 	let replayBotButton = () => {
 		return createButton(gameWidth/2, 650, 'replayBot.png', ()=>{
-		playOnce('startMaze')
 		useBot = true
 		state = setup
 		})
@@ -605,7 +602,7 @@ const createBoard = (
 	let frames = 0
 	app.ticker.add(() => {
 		frames++
-		if (frames % 4 === 0) {
+		if (frames % 4 === 0 && !introOverlay.visible) {
 			if (leftKey.isDown) move.left(player, mazeGrid, tileSize)
 			if (rightKey.isDown) move.right(player, mazeGrid, tileSize)
 			if (upKey.isDown) move.up(player, mazeGrid, tileSize)
@@ -618,21 +615,21 @@ const createBoard = (
 			currentPlayerDirection(player, mazeGrid, tileSize)
 	})
 
-	leftKey.press = () => {
-		move.left(player, mazeGrid, tileSize)
-	}
+	// leftKey.press = () => {
+	// 	move.left(player, mazeGrid, tileSize)
+	// }
 
-	rightKey.press = () => {
-		move.right(player, mazeGrid, tileSize)
-	}
+	// rightKey.press = () => {
+	// 	move.right(player, mazeGrid, tileSize)
+	// }
 
-	upKey.press = () => {
-		move.up(player, mazeGrid, tileSize)
-	}
+	// upKey.press = () => {
+	// 	move.up(player, mazeGrid, tileSize)
+	// }
 
-	downKey.press = () => {
-		move.down(player, mazeGrid, tileSize)
-	}
+	// downKey.press = () => {
+	// 	move.down(player, mazeGrid, tileSize)
+	// }
 
 	// navigation buttons
 	let nav = new PIXI.Container()
