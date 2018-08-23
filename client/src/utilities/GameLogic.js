@@ -295,8 +295,6 @@ const createBoard = (
 		timeText.visible = false
 		timeTitle.visible = false
 		quitScreen.visible = false
-
-		state = setup
 	}
 
 	function botUnlocked() {
@@ -664,7 +662,7 @@ const createBoard = (
 	up.lineStyle(2, 0xf0ead6, 1)
 	up.beginFill(0x494845)
 	up.drawRoundedRect(96, 0, 96, 96, 10)
-	
+
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true
 	up.buttonMode = true
