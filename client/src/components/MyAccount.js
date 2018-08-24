@@ -28,7 +28,7 @@ class MyAccount extends Component {
 			return <h1>Loading...</h1>
 		}
 		return (
-			<div id="profile" className="main">
+			<div className="my-account">
 				<h4>{user.userName}</h4>
 				<div>
 					<div className="profile-list">
