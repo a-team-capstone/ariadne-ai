@@ -146,7 +146,7 @@ const createBoard = (
 	})
 
 	let screenTime = 0
-	let screenTimeDelay = 120
+	let screenTimeDelay = 60
 
 	function setup() {
 		timeRemaining = timeAllowed
