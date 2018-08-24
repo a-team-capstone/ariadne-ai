@@ -108,25 +108,16 @@ input::-moz-focus-inner {
 	height: 500px;
 	z-index: 15;
 	top: 30%;
-	left: 40%;
+	left: 35%;
 	text-align: center;
 	margin: -100px 0 0 -150px;
 }
 
-.circle {
-	background: #333;
-	margin-bottom: 2.5em;
-	margin-left: 35%;
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-}
-
 .profile-list {
-	padding: 20px;
+	padding-right: 2em;
 }
 
-#acount {
+#account {
 	/* width: 100%; */
 	position: absolute;
 	padding: 0.05em 0.25em;
@@ -135,7 +126,7 @@ input::-moz-focus-inner {
 	font-size: 16px;
 	cursor: pointer;
 	outline: none;
-	right: 15%;
+	right: 0;
 }
 
 #account:hover {
