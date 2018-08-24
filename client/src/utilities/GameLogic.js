@@ -145,12 +145,15 @@ const createBoard = (
 		state()
 	})
 
+	let screenTime = 0
+	let screenTimeDelay = 120
+
 	function setup() {
 		timeRemaining = timeAllowed
 		savedPlay = false
 		soundEffect = null
 		resetSounds()
-
+		screenTime = 0
 		introOverlay.visible = true
 		player.x = startX
 		player.y = startY
@@ -318,6 +321,7 @@ const createBoard = (
 		timeTitle.visible = false
 		newPowerUpsScreen.visible = false
 		quitScreen.visible = false
+		screenTime++
 	}
 
 	function win() {
@@ -336,6 +340,7 @@ const createBoard = (
 		timeTitle.visible = false
 		newPowerUpsScreen.visible = false
 		quitScreen.visible = false
+		screenTime++
 	}
 
 	function botWon() {
@@ -354,6 +359,7 @@ const createBoard = (
 		timeTitle.visible = false
 		newPowerUpsScreen.visible = false
 		quitScreen.visible = false
+		screenTime++
 	}
 
 	function outOfTime() {
@@ -371,6 +377,7 @@ const createBoard = (
 		coordsText.visible = false
 		newPowerUpsScreen.visible = false
 		quitScreen.visible = false
+		screenTime++
 	}
 
 	function quit() {
@@ -387,6 +394,7 @@ const createBoard = (
 		timeTitle.visible = false
 		coordsText.visible = false
 		newPowerUpsScreen.visible = false
+		screenTime++
 	}
 	let soundEffect = null
 	let winSound, extraTimeSound, teleSound, portSound, bombSound, countDownSound, freezeSound, weaponSound, slowDownSound, quitSound, shareSound, botWonSound, startSound
@@ -410,11 +418,11 @@ const createBoard = (
 	let quitMazeButton = () => {
 
 		return createButton(gameWidth / 2, 950, 'exitMazeButton.png', () => {
-			// window.location = 'create-maze'
-			// playSound'exitMaze')
-			timeRemaining = -999
-			history.push('/create-maze')
-			soundEffect = quitSound
+			if (screenTime > screenTimeDelay) {
+				timeRemaining = -999
+				history.push('/create-maze')
+				soundEffect = quitSound
+			}
 		})
 	}
 
@@ -435,19 +443,19 @@ const createBoard = (
 
 	let shareButton = () => {
 		return createButton(gameWidth / 2, 850, 'challengeFriends.png', () => {
-			soundEffect = shareSound
-			timeRemaining = -999
-			// window.location = 'create-maze' // change
-			history.push('/select-friends')
+			if (screenTime > screenTimeDelay) {
+				soundEffect = shareSound
+				timeRemaining = -999
+				history.push('/select-friends')
+			}
 		})
 	}
 
 	let quitButton = () => {
-		return createButton(75, 910, 'redQuitButton.png', () => {
-			// playSound'exitMaze')
+		return createButton(widthOffset/2, 910, 'redQuitButton.png', () => {
 			state = quit
 			soundEffect = quitSound
-		})
+		}, .3)
 	}
 	board.addChild(quitButton())
 
@@ -636,7 +644,7 @@ const createBoard = (
 	let right = new PIXI.Graphics()
 	right.lineStyle(2, 0xf0ead6, 1)
 	right.beginFill(0x494845)
-	right.drawRoundedRect(192, 48, 96, 96, 10)
+	right.drawRoundedRect(252, 50, 126, 100, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	right.interactive = true
 	right.buttonMode = true
@@ -649,7 +657,7 @@ const createBoard = (
 	let left = new PIXI.Graphics()
 	left.lineStyle(2, 0xf0ead6, 1)
 	left.beginFill(0x494845)
-	left.drawRoundedRect(0, 48, 96, 96, 10)
+	left.drawRoundedRect(0, 50, 126, 100, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	left.interactive = true
 	left.buttonMode = true
@@ -661,7 +669,7 @@ const createBoard = (
 	let up = new PIXI.Graphics()
 	up.lineStyle(2, 0xf0ead6, 1)
 	up.beginFill(0x494845)
-	up.drawRoundedRect(96, 0, 96, 96, 10)
+	up.drawRoundedRect(126, 0, 126, 100, 10)
 
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	up.interactive = true
@@ -674,7 +682,7 @@ const createBoard = (
 	let down = new PIXI.Graphics()
 	down.beginFill(0x494845)
 	down.lineStyle(2, 0xf0ead6, 1)
-	down.drawRoundedRect(96, 96, 96, 96, 10)
+	down.drawRoundedRect(126, 100, 126, 100, 10)
 	// Opt-in to interactivity, show hand curser normalize touch and mouse
 	down.interactive = true
 	down.buttonMode = true
@@ -698,8 +706,8 @@ const createBoard = (
 	rightArrow.rotation = Math.PI*(3/2)
 	right.addChild(rightArrow)
 
-	nav.x = 150 + widthOffset
-	nav.y = 830
+	nav.x = gameWidth/2-(126*1.5)
+	nav.y = 820
 	app.stage.addChild(nav)
 
 	// record player.x and player.y
@@ -713,19 +721,19 @@ const createBoard = (
 	// record time remaining
 		let timeText = new PIXI.Text(
 			Math.round(timeRemaining),
-			{fill:0xf9f9f7, fontSize: '100px', fontWeight: "bold", align: "center"}
+			{fill:0xf9f9f7, fontSize: '80px', fontWeight: "bold", align: "center"}
 		);
-		timeText.x = 475+widthOffset;
-		timeText.y = 930;
+		timeText.x = 520+widthOffset;
+		timeText.y = 935;
 		timeText.anchor.set(0, .5)
 		app.stage.addChild(timeText);
 
 		let timeTitle = new PIXI.Text(
 			'Time left:',
-			{fill:0xf9f9f7, fontSize: '30px', fontWeight: "bold", align: "center"}
+			{fill:0xf9f9f7, fontSize: '25px', fontWeight: "bold", align: "center"}
 		);
-		timeTitle.x = 590+widthOffset;
-		timeTitle.y = 840;
+		timeTitle.x = 615+widthOffset;
+		timeTitle.y = 865;
 		timeTitle.anchor.set(1, 0)
 		app.stage.addChild(timeTitle);
 
