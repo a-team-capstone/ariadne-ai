@@ -1,32 +1,48 @@
 # ariadne.ai
 
+[ariadne.ai](https://ariadne-ai.herokuapp.com)
+
+Application that uses artificial intelligence to transform mazes you create by hand into interactive, playable games.
+
 ## Team Members
 
+- Ali Ebner
 - Sasha Havia
 - Isabel Hirama
-- Ali Ebner
 - Shelby Smitherman
 
 ### Tech Stack
 
 Progressive Web App
 
-- Reliable: They load instantly
-- Fast: They respond quickly
-- Engaging: They feel natural
-- Will work offline
+Front End:
+React, Redux, Pixi.js
 
-Front End: React, Redux, ML library
-Backend End: Express/Node, Sequelize/PostgreSQL
+Back End:
+Express/Node, Sequelize/PostgreSQL, Google Cloud Vision (Optical Character Recognition API), Amazon Web Services (S3)
 
-#### Libraries
+### To Start
 
-React Art
-ML Library (possibly Google Quick Draw?)
-AWS (Amazon Web Services) for storing images
+touch secrets.js (in root directory of the project) && attach the following secret env variables:
 
-### to start
+process.env.GOOGLE_CLIENT_ID = 'CLIENT_ID_HERE'
+process.env.GOOGLE_CLIENT_SECRET = 'CLIENT_SECRET_HERE'
+process.env.GOOGLE_CALLBACK = '/auth/google/callback'
+
+process.env.AWS_ACCESS_KEY_ID = 'ACCESS_KEY_ID_HERE'
+process.env.AWS_SECRET_ACCESS_KEY = 'SECRET_ACCESS_KEY_HERE'
+process.env.IMAGE_S3_BUCKET = 'your-bucket-name'
+
+process.env.GOOGLE_API_KEY = 'API_KEY_HERE'
 
 ```javascript
-npm start
+npm install
+cd client && npm install
+cd .. && npm start
+```
+
+### Testing
+
+```javascript
+npm run test
 ```
