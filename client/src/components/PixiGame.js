@@ -13,7 +13,7 @@ class PixiGame extends Component {
 	}
 	async componentDidMount() {
 		await this.props.loadMaze(this.props.maze.id)
-	}
+  }
 
 	componentWillUnmount() {
 		console.log('window.downHandlers', window.downHandlers)

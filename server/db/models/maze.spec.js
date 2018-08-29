@@ -23,13 +23,13 @@ describe('Maze model', () => {
         expect(codyMaze.solvable).to.be.equal(true)
       })
 
-      it('returns binary string for data', () => {
-        expect(codyMaze.data).to.be.equal('10110010101110010100')
+      it('returns maze matrix from data binary string', () => {
+        expect(codyMaze.data).to.be.an('array')
       })
 
       it('sets the image correctly', () => {
         expect(codyMaze.image).to.be.equal('sketchMaze.jpg')
       })
-    }) 
-  }) 
+    })
+  })
 })

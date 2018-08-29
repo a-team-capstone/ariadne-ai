@@ -1,8 +1,10 @@
+
 window.downHandlers = []
 window.upHandlers = []
 
 
 const keyboardTracker = function(keyCode) {
+
   let key = {};
   key.code = keyCode;
   key.isDown = false;
@@ -37,6 +39,7 @@ const keyboardTracker = function(keyCode) {
 	window.upHandlers.push(up)
 
   //Attach event listeners
+
   window.addEventListener(
     "keydown", down, false
   );
