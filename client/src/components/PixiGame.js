@@ -13,7 +13,7 @@ class PixiGame extends Component {
 	}
 	async componentDidMount() {
 		await this.props.loadMaze(this.props.maze.id)
-	}
+  }
 
 	render() {
 		const { maze, user } = this.props

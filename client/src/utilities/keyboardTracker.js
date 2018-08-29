@@ -1,4 +1,4 @@
-const keyboardTracker = function(keyCode) {
+const keyboardTracker = function(keyCode, target) {
   let key = {};
   key.code = keyCode;
   key.isDown = false;
@@ -26,10 +26,10 @@ const keyboardTracker = function(keyCode) {
   };
 
   //Attach event listeners
-  window.addEventListener(
+  target.addEventListener(
     "keydown", key.downHandler.bind(key), false
   );
-  window.addEventListener(
+  target.addEventListener(
     "keyup", key.upHandler.bind(key), false
   );
   return key;

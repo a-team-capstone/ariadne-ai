@@ -592,11 +592,13 @@ const createBoard = (
 
 	// Keyboard navigation
 
+  const gameBoard = document.getElementById('pixiGameBoard')
+
 	//Capture the keyboard arrow keys
-	let leftKey = keyboardTracker(37),
-		upKey = keyboardTracker(38),
-		rightKey = keyboardTracker(39),
-		downKey = keyboardTracker(40)
+	let leftKey = keyboardTracker(37, gameBoard),
+		upKey = keyboardTracker(38, gameBoard),
+		rightKey = keyboardTracker(39, gameBoard),
+		downKey = keyboardTracker(40, gameBoard)
 
 	// arrow key movement
 	let frames = 0
