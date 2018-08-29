@@ -8,8 +8,6 @@ import { auth } from '../store/user'
  */
 const Form = props => {
 	const { name, displayName, handleSubmit, error } = props
-	console.log('display name', displayName)
-	console.log('node env', process.env.NODE_ENV)
 	return (
 		<div className="login">
 			<form onSubmit={handleSubmit} name={name}>
