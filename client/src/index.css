@@ -108,25 +108,16 @@ input::-moz-focus-inner {
 	height: 500px;
 	z-index: 15;
 	top: 30%;
-	left: 40%;
+	left: 35%;
 	text-align: center;
 	margin: -100px 0 0 -150px;
 }
 
-.circle {
-	background: #333;
-	margin-bottom: 2.5em;
-	margin-left: 35%;
-	width: 100px;
-	height: 100px;
-	border-radius: 50%;
-}
-
 .profile-list {
-	padding: 20px;
+	padding-right: 2em;
 }
 
-#acount {
+#account {
 	/* width: 100%; */
 	position: absolute;
 	padding: 0.05em 0.25em;
@@ -135,7 +126,7 @@ input::-moz-focus-inner {
 	font-size: 16px;
 	cursor: pointer;
 	outline: none;
-	right: 15%;
+	right: 0;
 }
 
 #account:hover {
@@ -323,7 +314,7 @@ input::-moz-focus-inner {
 }
 
 #play-btn {
-	background: #FE9237;
+	background: #fe9237;
 }
 
 #send-btn:hover,
@@ -335,8 +326,8 @@ input::-moz-focus-inner {
 .play-btn {
 	border: 0;
 	padding: 0;
-  margin: 0 1.5em;
-  background: none;
+	margin: 0 1.5em;
+	background: none;
 	/* outline: none; */
 }
 
@@ -457,17 +448,17 @@ ul {
 
 .tutorial {
 	padding: 5em;
-  text-align: center;
-  max-width: 500px;
-  margin: 0 auto;
+	text-align: center;
+	max-width: 500px;
+	margin: 0 auto;
 }
 
 .tutorial h3 {
-  margin-bottom: 30px;
+	margin-bottom: 30px;
 }
 
 .tutorial p {
-  margin-top: 20px;
+	margin-top: 20px;
 }
 
 #started-btn {
@@ -571,7 +562,11 @@ ul {
 
 @media screen and (max-width: 480px) {
 	.featured {
-		padding: 5em;
+		padding: 3.5em;
+	}
+
+	.card-body {
+		padding: 1em 0.25em;
 	}
 }
 
@@ -579,18 +574,18 @@ ul {
 
 /* Friends */
 .friends {
-  padding: 2em;
-  padding-top: 100px;
-  text-align: center;
-  max-width: 400px;
-  min-width: 300px;
-  margin: 0 auto;
+	padding: 2em;
+	padding-top: 100px;
+	text-align: center;
+	max-width: 400px;
+	min-width: 300px;
+	margin: 0 auto;
 }
 
 @media screen and (max-width: 480px) {
-  .friends {
-    padding-top: 3em;
-  }
+	.friends {
+		padding-top: 3em;
+	}
 }
 
 .friends h3 {

@@ -15,6 +15,17 @@ class PixiGame extends Component {
 		await this.props.loadMaze(this.props.maze.id)
   }
 
+	componentWillUnmount() {
+		console.log('window.downHandlers', window.downHandlers)
+		console.log('window.upHandlers', window.upHandlers)
+		window.downHandlers.forEach(
+			listener => window.removeEventListener("keydown", listener)
+		)
+		window.upHandlers.forEach(
+			listener => window.removeEventListener("keyup", listener)
+		)
+	}
+
 	render() {
 		const { maze, user } = this.props
 		const { image } = maze

@@ -43,7 +43,7 @@ export const createGameScreen = (app, gameHeight, gameWidth, primaryText='primar
 	return screen
 }
 
-export const createButton = (buttonX, buttonY, imagePath, clickHandler) => {
+export const createButton = (buttonX, buttonY, imagePath, clickHandler, scale = .5) => {
 
 	let button = PIXI.Sprite.fromImage(imagePath)
 	button.interactive = true;
@@ -52,8 +52,8 @@ export const createButton = (buttonX, buttonY, imagePath, clickHandler) => {
 	button.x = buttonX
 	button.y = buttonY
 	button.anchor.set(.5, .5)
-	button.scale.x = .5
-	button.scale.y = .5
+	button.scale.x = scale
+	button.scale.y = scale
 	return button
 }
 

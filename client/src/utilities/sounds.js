@@ -32,7 +32,7 @@ let soundsDict = {
 		on: true
 	},
 	'startMaze': {
-		file: 'extraTimeSound.mp3',
+		file: 'extraTimeSound.mp3', // need to find a sound
 		on: true
 	},
 	'botWon': {

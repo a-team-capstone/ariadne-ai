@@ -45,7 +45,7 @@
 	"short_name": "AAI",
 	"theme_color": "#091e5e",
 	"background_color": "#ffffff",
-	"display": "browser",
+	"display": "fullscreen",
 	"orientation": "portrait",
 	"scope": "/",
 	"start_url": "./index.html",
