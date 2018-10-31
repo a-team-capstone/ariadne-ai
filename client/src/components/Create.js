@@ -80,7 +80,7 @@ class Create extends Component {
 							<img alt="port" src="/port.png" />
 							<p>PRT - port</p>
 						</div>
-						<wired-button id="file">
+						<button className="reg-btn">
 							<div className="fileUpload">
 								<span>Upload or Take Picture</span>
 								<input
@@ -89,7 +89,7 @@ class Create extends Component {
 									onChange={this.onChange}
 								/>
 							</div>
-						</wired-button>
+						</button>
 					</Fragment>
 				) : (
 					<div
@@ -106,27 +106,27 @@ class Create extends Component {
 
 						<button
 							type="button"
-							className="create-btn"
+							className="reg-btn"
 							onClick={this.rotateLeft}>
-							<wired-button id="rotate-left">⟲</wired-button>
+							⟲
 						</button>
 
 
 						<button
 							type="button"
-							className="create-btn"
+							className="reg-btn"
 							onClick={this.saveToBucket}>
-							<wired-button id="selection">Use to create Maze!  </wired-button>
+							Use to create Maze!
 						</button>
 
             <button
 							type="button"
-							className="create-btn"
+							className="reg-btn"
 							onClick={this.rotateRight}>
-							<wired-button id="rotate-right">⟳ </wired-button>
+							⟳
 						</button>
 
-            <wired-button id="file">
+            <button className="reg-btn">
 							<div className="fileUpload">
 								<span>Choose New Image</span>
 								<input
@@ -134,7 +134,7 @@ class Create extends Component {
 									className="upload"
 									onChange={this.onChange}/>
 							</div>
-						</wired-button>
+						</button>
 					</div>
 				)}
 			</div>

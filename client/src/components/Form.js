@@ -3,9 +3,6 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { auth } from '../store/user'
 
-/**
- * COMPONENT
- */
 const Form = props => {
 	const { name, displayName, handleSubmit, error } = props
 	return (
@@ -20,10 +17,7 @@ const Form = props => {
 					<input name="password" type="password" className="form-control" />
 				</div>
 				<div>
-					<button type="submit" className="form-btn">
-						<wired-button id="form-btn">{displayName}</wired-button>
-					</button>
-					{/* <wired-button id="login-btn">{displayName}</wired-button> */}
+						<button type="submit" className="reg-btn">{displayName}</button>
 				</div>
 				{error && error.response && <div> {error.response.data} </div>}
 			</form>
@@ -34,9 +28,7 @@ const Form = props => {
 						: 'auth/google'
 				}
 			>
-				{/* <button type="button" className="btn btn-primary"> */}
 				{displayName} with Google
-				{/* </button> */}
 			</a>
 		</div>
 	)
