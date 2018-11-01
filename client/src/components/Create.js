@@ -5,8 +5,9 @@ import Cropper from 'react-cropper'
 import 'cropperjs/dist/cropper.css'
 
 class Create extends Component {
-	constructor(props) {
-		super(props)
+  // took out props from constructor and super
+	constructor() {
+		super()
 		this.state = {
 			src: '',
 			cropResult: null
@@ -61,7 +62,7 @@ class Create extends Component {
 		return (
 			<div className="create-maze">
 				{src === '' ? (
-					<Fragment>
+          <div>
 					<h3>Get Creative</h3>
 						<p>Maze features are detected by their initials. Write in up to one of each!</p>
 						<div className="key">
@@ -90,7 +91,7 @@ class Create extends Component {
 								/>
 							</div>
 						</button>
-					</Fragment>
+            </div>
 				) : (
 					<div
 						id="crop-container"

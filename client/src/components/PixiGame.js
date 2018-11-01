@@ -16,8 +16,6 @@ class PixiGame extends Component {
   }
 
 	componentWillUnmount() {
-		console.log('window.downHandlers', window.downHandlers)
-		console.log('window.upHandlers', window.upHandlers)
 		window.downHandlers.forEach(
 			listener => window.removeEventListener("keydown", listener)
 		)

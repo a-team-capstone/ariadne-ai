@@ -21,13 +21,11 @@ const Form = props => {
 				</div>
 				{error && error.response && <div> {error.response.data} </div>}
 			</form>
-			<a
-				href={
+			<a href={
 					process.env.NODE_ENV === 'development'
 						? 'http://localhost:3001/auth/google'
 						: 'auth/google'
-				}
-			>
+				}>
 				{displayName} with Google
 			</a>
 		</div>

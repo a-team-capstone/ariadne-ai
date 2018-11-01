@@ -47,7 +47,7 @@ const getMazes = mazes => ({
  */
 export const me = () => async dispatch => {
 	try {
-		const res = await axios.get('auth/me')
+    const res = await axios.get('/auth/me')
 		dispatch(getUser(res.data || {}))
 	} catch (err) {
 		console.error(err)
@@ -57,15 +57,18 @@ export const me = () => async dispatch => {
 export const auth = (email, password, method) => async dispatch => {
 	let res
 	try {
-		res = await axios.post(`auth/${method}`, { email, password })
+		res = await axios.post(`/auth/${method}`, { email, password })
 	} catch (authError) {
-		return dispatch(getUser({ error: authError }))
-	}
-	try {
-		dispatch(getUser(res.data))
-		method === 'signup'
-			? history.push('/tutorial')
-			: history.push('/create-maze')
+    console.error(authError)
+  }
+  
+  try {
+    // console.log('history object, ', history)
+    dispatch(getUser(res.data))
+    window.location = '/create-maze'
+		// method === 'signup'
+		// 	? history.push('/tutorial')
+		// 	: history.push('/create-maze')
 	} catch (dispatchOrHistoryErr) {
 		console.error(dispatchOrHistoryErr)
 	}

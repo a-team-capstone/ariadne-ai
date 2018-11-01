@@ -243,28 +243,18 @@ input::-moz-focus-inner {
 	color: #1034a6;
 }
 
-.create-btn {
-	border: 0;
-	padding: 0;
-	margin-left: 0.25em;
-	outline: none;
+.fileUpload {
+	position: relative;
+  overflow: hidden;
+  display: inline-block;
 }
 
-.fileUpload {
-	/* position: relative; */
-	overflow: hidden;
-	margin: 0.25em;
-}
-.fileUpload input.upload {
-	position: absolute;
-	top: 0;
-	right: 0;
-	margin: 0;
-	padding: 0;
-	font-size: 16px;
-	cursor: pointer;
-	opacity: 0;
-	filter: alpha(opacity=0);
+.upload {
+  font-size: 16px;
+  position: absolute;
+  opacity: 0;
+  left: 0;
+  top: 0;
 }
 
 @media screen and (max-width: 480px) {
