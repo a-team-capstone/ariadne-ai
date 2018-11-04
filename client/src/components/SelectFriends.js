@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { getUserFriends } from '../store/friends'
+import { loadFriends } from '../store/user'
 import { Link } from 'react-router-dom'
 import FriendSelect from './FriendSelect'
 import axios from 'axios'
@@ -106,7 +106,7 @@ const mapState = state => ({
 })
 
 const mapDispatch = dispatch => ({
-	getFriends: id => dispatch(getUserFriends(id))
+	getFriends: id => dispatch(loadFriends(id))
 })
 
 export default connect(

@@ -1,5 +1,11 @@
 import axios from 'axios'
 import history from '../history'
+
+let initialState = {
+  allMazes: [],
+  selectedMaze: {}
+}
+
 /**
  * ACTION TYPES
  */
@@ -48,12 +54,12 @@ export const loadMaze = mazeId => {
 /**
  * REDUCER
  */
-const mazeReducer = (state = {}, action) => {
+const mazeReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SAVE_MAZE:
-			return action.maze
+			return {...state, allMazes: [...state.allMazes, action.maze]}
 		case GET_MAZE:
-			return { ...state, data: action.maze}
+			return { ...state, selectedMaze: action.maze}
 		default:
 			return state
 	}

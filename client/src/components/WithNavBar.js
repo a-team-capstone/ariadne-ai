@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import Navbar from './Navbar'
 
 class WithNavBar extends Component {
-	render() {
+  render() {
 		return (
 			<div>
 				<Navbar />
 				<div>
-					{/* Mount child routes */}
-					{this.props.children}
+        {/* Mount child routes */}
+        {this.props.children}
 				</div>
 			</div>
 		)

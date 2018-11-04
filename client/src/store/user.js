@@ -1,6 +1,13 @@
 import axios from 'axios'
 import history from '../history'
 
+let initialState = {
+  me: {},
+  myFriends: [],
+  myMazes: [],
+  myPlays: [] // should be plays AND challenges and filter on front end
+}
+
 /**
  * ACTION TYPES
  */
@@ -63,12 +70,10 @@ export const auth = (email, password, method) => async dispatch => {
   }
   
   try {
-    // console.log('history object, ', history)
     dispatch(getUser(res.data))
-    window.location = '/create-maze'
-		// method === 'signup'
-		// 	? history.push('/tutorial')
-		// 	: history.push('/create-maze')
+		method === 'signup'
+			? history.push('/tutorial')
+			: history.push('/create-maze')
 	} catch (dispatchOrHistoryErr) {
 		console.error(dispatchOrHistoryErr)
 	}
@@ -131,20 +136,20 @@ export const loadMazes = id => {
 /**
  * REDUCER
  */
-const userReducer = (state = {}, action) => {
+const userReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_USER:
-			return action.user
+			return {...state, me: action.user}
 		case REMOVE_USER:
-			return {}
+			return {...state, me: {}}
 		case GET_FRIENDS:
-			return { ...state, friends: action.friends }
+			return { ...state, myFriends: action.friends }
 		case ADD_FRIEND:
-			return { ...state, friends: [...state.friends, action.friend] }
+			return { ...state, myFriends: [...state.myFriends, action.friend] }
 		case GET_CHALLENGES:
-			return { ...state, challenges: action.challenges }
+			return { ...state, myPlays: action.challenges }
 		case GET_MAZES:
-			return { ...state, mazes: action.mazes }
+			return { ...state, myMazes: action.mazes }
 		default:
 			return state
 	}

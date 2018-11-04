@@ -43,7 +43,6 @@ const uploadCrop = (body, fileName) => {
   return s3.upload(data).promise()
 }
 
-// Define POST route
 // POST /api/uploads/image-upload
 router.post('/image-upload', (request, response) => {
   try {

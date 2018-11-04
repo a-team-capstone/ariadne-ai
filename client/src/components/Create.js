@@ -6,8 +6,8 @@ import 'cropperjs/dist/cropper.css'
 
 class Create extends Component {
   // took out props from constructor and super
-	constructor() {
-		super()
+	constructor(props) {
+		super(props)
 		this.state = {
 			src: '',
 			cropResult: null

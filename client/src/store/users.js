@@ -1,5 +1,9 @@
 import axios from 'axios'
 
+// let initialState = {
+//   filteredUsers: []
+// }
+
 /**
  * ACTION TYPES
  */
@@ -26,7 +30,7 @@ export const getResults = query => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.get(`api/users/${query}`)
-			console.log('Data', data)
+			// console.log('Data', data)
 			dispatch(getUsers(data))
 		} catch (err) {
 			console.log('Load users error...', err)

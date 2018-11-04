@@ -1,19 +1,13 @@
 const router = require('express').Router()
-const { User, Maze, Play } = require('../db/models')
+const { Maze } = require('../db/models')
 const analyzeText = require('../utilities/analyzeText')
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
 module.exports = router
 
-//maze routes:
-//get featured mazes
-//get single maze
-//update a maze to solvable
-//delete maze
-//post a maze
-//get all (or highest/lowest) plays for specific maze
-
+// GET /api/mazes/featured
+// gets all mazes ever created right now..
 router.get('/featured', async (req, res, next) => {
 	try {
     const mazes = await Maze.findAll({
@@ -29,6 +23,8 @@ router.get('/featured', async (req, res, next) => {
 	}
 })
 
+// GET /api/mazes/:id
+// gets a maze where mazeId matches req.params.id
 router.get('/:id', async (req, res, next) => {
 	try {
 		const maze = await Maze.findById(req.params.id)
@@ -43,6 +39,8 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
+// PUT /api/mazes/:id
+// updates a maze to solvable if true
 router.put('/:id', async (req, res, next) => {
   try {
     const maze = await Maze.findById(req.params.id)
@@ -60,6 +58,8 @@ router.put('/:id', async (req, res, next) => {
   }
 })
 
+// POST /api/mazes/analyze
+// analyzes maze for solvability
 router.post('/analyze', async (req, res, next) => {
 	try {
 		const response = await analyzeText(req.body.image)
@@ -69,16 +69,8 @@ router.post('/analyze', async (req, res, next) => {
 	}
 })
 
-// router.get('/:id/best', async (req, res, next) => {
-// 	try {
-// 		const sorted = allPlays.sort( (a, b) => a.seconds - b.seconds )
-// 		const best = sorted.slice(0, 1)
-// 		res.json(best)
-// 	} catch (err) {
-// 		next(err)
-// 	}
-// })
-
+// DELETE /api/mazes/:id
+// deletes specified maze
 router.delete('/:id', async (req, res, next) => {
 	try {
 		const mazeToDelete = await Maze.findById(req.params.id)
@@ -89,6 +81,8 @@ router.delete('/:id', async (req, res, next) => {
 	}
 })
 
+// POST /api/mazes
+// creates a new maze with image and defaults set
 router.post('/', async (req, res, next) => {
 	try {
 		const [ maze, wasCreated ] = await Maze.findOrCreate({

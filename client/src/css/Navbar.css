@@ -57,38 +57,14 @@
 /* Custom */
 
 .menu {
-	width: 200px !important;
+	width: 240px !important;
 }
 
-#create-nav,
-#friends-nav,
-#featured-nav,
-#logout-nav,
-#help-nav,
-#profile-nav {
+.menu-option {
 	width: 100%;
-	padding: 0 0.75em;
-	color: #020717;
-	background: #e0e7fc;
-	margin-bottom: 0.5em;
-	outline: none;
 }
 
-#create-nav:hover,
-#friends-nav:hover,
-#featured-nav:hover,
-#logout-nav:hover,
-#help-nav:hover,
-#profile-nav:hover {
-	color: #1b4de9;
-}
-
-#create-nav:focus:hover,
-#friends-nav:focus:hover,
-#featured-nav:focus:hover,
-#logout-nav:focus:hover,
-#help-nav:focus:hover,
-#profile-nav:focus:hover {
+.menu-option:hover {
 	color: #1b4de9;
 }
 
