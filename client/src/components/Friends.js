@@ -11,7 +11,7 @@ class Friends extends Component {
 	render() {
 		const { friends } = this.props
 		return (
-			<div className="friends">
+			<div className="content">
 				<h3>My Friends</h3>
 				{friends && friends.map(friend => <p key={friend.id}>{friend.userName}</p>)}
 				<SearchFriends/>

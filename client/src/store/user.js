@@ -8,9 +8,7 @@ let initialState = {
   myPlays: [] // should be plays AND challenges and filter on front end
 }
 
-/**
- * ACTION TYPES
- */
+
 const GET_USER = 'GET_USER'
 const REMOVE_USER = 'REMOVE_USER'
 const GET_FRIENDS = 'GET_FRIENDS'
@@ -18,9 +16,7 @@ const GET_CHALLENGES = 'GET_CHALLENGES'
 const GET_MAZES = 'GET_MAZES'
 const ADD_FRIEND = 'ADD_FRIEND'
 
-/**
- * ACTION CREATORS
- */
+
 const getUser = user => ({
 	type: GET_USER,
 	user
@@ -49,15 +45,13 @@ const getMazes = mazes => ({
 	mazes
 })
 
-/**
- * THUNK CREATORS
- */
+
 export const me = () => async dispatch => {
 	try {
     const res = await axios.get('/auth/me')
 		dispatch(getUser(res.data || {}))
 	} catch (err) {
-		console.error(err)
+		console.error('Could not get user', err)
 	}
 }
 
@@ -65,8 +59,8 @@ export const auth = (email, password, method) => async dispatch => {
 	let res
 	try {
 		res = await axios.post(`/auth/${method}`, { email, password })
-	} catch (authError) {
-    console.error(authError)
+	} catch (err) {
+    console.error('Could not authenticate user', err)
   }
   
   try {
@@ -74,8 +68,8 @@ export const auth = (email, password, method) => async dispatch => {
 		method === 'signup'
 			? history.push('/tutorial')
 			: history.push('/create-maze')
-	} catch (dispatchOrHistoryErr) {
-		console.error(dispatchOrHistoryErr)
+	} catch (err) {
+		console.error('Could not authenticate user', err)
 	}
 }
 
@@ -85,7 +79,7 @@ export const logout = () => async dispatch => {
 		dispatch(removeUser())
 		history.push('/')
 	} catch (err) {
-		console.error(err)
+		console.error('Could not log out user', err)
 	}
 }
 
@@ -95,7 +89,7 @@ export const loadFriends = id => {
 			const { data } = await axios.get(`api/user/${id}/friends`)
 			dispatch(getFriends(data))
 		} catch (err) {
-			console.log('No friends...', err)
+			console.error('Could not get friends', err)
 		}
 	}
 }
@@ -106,7 +100,7 @@ export const updateFriends = info => {
 			await axios.put(`api/user/${info.id}/friends`, info.friend)
 			dispatch(addFriend(info.friend))
 		} catch (err) {
-			console.log('User was not added...', err)
+      console.error('Could not update friends', err)
 		}
 	}
 }
@@ -117,7 +111,7 @@ export const loadChallenges = id => {
 			const { data } = await axios.get(`api/user/${id}/challenges`)
 			dispatch(getChallenges(data))
 		} catch (err) {
-			console.log('No challenges...', err)
+			console.error('Could not get challenges', err)
 		}
 	}
 }
@@ -128,14 +122,12 @@ export const loadMazes = id => {
 			const { data } = await axios.get(`api/user/${id}/mazes`)
 			dispatch(getMazes(data))
 		} catch (err) {
-			console.log('No mazes yet!', err)
+			console.error('Could not get mazes', err)
 		}
 	}
 }
 
-/**
- * REDUCER
- */
+
 const userReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_USER:

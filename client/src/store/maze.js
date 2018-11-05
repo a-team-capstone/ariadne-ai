@@ -7,17 +7,9 @@ let initialState = {
 }
 
 
-/**
- * ACTION TYPES
- */
-
 const SAVE_MAZE = 'SAVE_MAZE'
 const GET_MAZE = 'GET_MAZE'
 
-
-/**
- * ACTION CREATORS
- */
 
 export const saveMaze = maze => ({
 	type: SAVE_MAZE,
@@ -30,10 +22,6 @@ const getMaze = maze => ({
 })
 
 
-/**
- * THUNK CREATORS
- */
-
 export const uploadMaze = maze => {
 	return async dispatch => {
 		try {
@@ -41,7 +29,7 @@ export const uploadMaze = maze => {
 			dispatch(saveMaze(data))
 			history.push('/pixi')
 		} catch (err) {
-			console.log('There was a problem. Maze was not saved...', err)
+			console.error('Could not upload new maze', err)
 		}
 	}
 }
@@ -53,15 +41,11 @@ export const loadMaze = mazeId => {
       dispatch(getMaze(data))
       history.push('/pixi')
 		} catch (err) {
-			console.log('There was a problem getting your maze...', err)
+			console.error('Could not get maze', err)
 		}
 	}
 }
 
-
-/**
- * REDUCER
- */
 
 const mazeReducer = (state = initialState, action) => {
 	switch (action.type) {

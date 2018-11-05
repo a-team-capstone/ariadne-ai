@@ -60,7 +60,7 @@ class Create extends Component {
 		const { src } = this.state
 
 		return (
-			<div className="create-maze">
+			<div className="content create-maze">
 				{src === '' ? (
           <div>
 					<h3>Get Creative</h3>

@@ -103,11 +103,6 @@ const createBoard = (
 
 	let freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, 0.15)
 
-	// let startCircle = new PIXI.Graphics()
-	// startCircle.beginFill(0x00ff00)
-	// startCircle.drawCircle(startX, startY, tileSize * 1.5)
-	// board.addChild(startCircle)
-
 	// create player
 	let player = createSprite('shield.png', startX, startY, 0.2)
 	board.addChild(player)
@@ -781,22 +776,18 @@ const createBoard = (
 	// check if bomb should be activated
 	app.ticker.add(function() {
 		if (bomb && overlapping(player, bomb, tileSize)) {
-			{
-				soundEffect = bombSound
-				player.x = startX
-				player.y = startY
-				bomb.destroy()
-				bomb = null
-			}
+      soundEffect = bombSound
+      player.x = startX
+      player.y = startY
+      bomb.destroy()
+      bomb = null
 		}
 		if (bomb && overlapping(bot, bomb, tileSize)) {
-			{
-				soundEffect = bombSound
-				bot.x = startX
-				bot.y = startY
-				bomb.destroy()
-				bomb = null
-			}
+      soundEffect = bombSound
+      bot.x = startX
+      bot.y = startY
+      bomb.destroy()
+      bomb = null
 		}
 	})
 
@@ -841,8 +832,6 @@ const createBoard = (
 		freezeSound = new Audio('freezeSound.mp3')
 		weaponSound = new Audio('weaponSound.mp3')
 		slowDownSound = new Audio('slowDownSound.mp3')
-		// quitSound = new Audio('clickSound.mp3')
-		// shareSound = new Audio('clickSound.mp3')
 		botWonSound = new Audio('robotWonSound.mp3')
 		startSound = new Audio('startSound.mp3')
 

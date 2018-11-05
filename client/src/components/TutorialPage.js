@@ -24,35 +24,42 @@ class TutorialPage extends Component {
 		this.setState({
 			pageNum: this.state.pageNum - 1
 		})
-	}
+  }
 
 	render() {
 		const { pageNum } = this.state
 		const content = tutorialContent[pageNum]
 
 		return (
-			<div className="tutorial">
+			<div className="content tutorial">
 				<h3>{content.header}</h3>
 				{content.subhead ? <h5>{content.subhead}</h5> : null}
-				{content.image ? <img src={content.image} alt={'tutorial'} width={200} /> : null}
-				<p>{content.text}</p>
-				{pageNum > 0 ? (
-					<button type="button" className="reg-btn tutorial-btn" onClick={this.handleBack}>
-						Back
-					</button>
-				) : null}
-				{pageNum < tutorialContent.length - 1 ? (
-					<button type="button" className="reg-btn tutorial-btn" onClick={this.handleNext}>
-						Next
-					</button>
-				) : null}
-				{pageNum === tutorialContent.length - 1 ? (
-          <button className="reg-btn">
+        {content.image ? <img src={content.image} alt={'tutorial'} width={200} /> : null}
+
+        <div className="tutorial-buttons">
+        <div id="tutorial-text">
+          <p>{content.text}</p>
+        </div>
+          {pageNum > 0 ? (
+            <button type="button" id="back-btn" className="reg-btn" onClick={this.handleBack}>
+              Back
+            </button>
+          ) : null}
+
+          {pageNum < tutorialContent.length - 1 ? (
+            <button type="button" id="next-btn" className="reg-btn" onClick={this.handleNext}>
+              Next
+            </button>
+          ) : null}
+
+          {pageNum === tutorialContent.length - 1 ? (
             <Link to="/create-maze">
-              Get Started
+              <button id="started-btn" className="reg-btn">
+                Go!
+              </button>
             </Link>
-          </button>
-				) : null}
+          ) : null}
+        </div>
 			</div>
 		)
 	}

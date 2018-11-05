@@ -57,9 +57,6 @@ const mapDispatch = dispatch => ({
 	loadInitialData: () => dispatch(me())
 })
 
-/**
- * PROP TYPES
- */
 Routes.propTypes = {
 	loadInitialData: PropTypes.func.isRequired,
 	isLoggedIn: PropTypes.bool.isRequired

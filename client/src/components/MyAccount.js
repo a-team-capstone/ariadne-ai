@@ -1,25 +1,24 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadChallenges, loadMazes } from '../store/user'
-import { saveMaze } from '../store/maze'
-import history from '../history'
-import axios from 'axios'
+import { loadMaze } from '../store/maze'
 
 class MyAccount extends Component {
 	constructor() {
 		super()
 		this.handlePlay = this.handlePlay.bind(this)
-	}
-	async componentDidMount() {
-		await this.props.loadChallenges(this.props.user.id)
-		await this.props.loadMazes(this.props.user.id)
+  }
+  
+	componentDidMount() {
+    let userId = this.props.user.id
+		this.props.loadChallenges(userId)
+		this.props.loadMazes(userId)
 	}
 
 	async handlePlay(evt) {
-		evt.preventDefault()
-		const maze = await axios.get(`api/mazes/${evt.target.value}`)
-		this.props.saveMaze(maze.data)
-		history.push('/pixi')
+    evt.preventDefault()
+    let mazeId = evt.target.value
+    this.props.getMaze(mazeId)
 	}
 
 	render() {
@@ -28,47 +27,59 @@ class MyAccount extends Component {
 			return <h1>Loading...</h1>
 		}
 		return (
-			<div className="my-account">
-				<h4>{user.userName}</h4>
+			<div className="content">
+				<h3>{user.userName}</h3>
 				<div>
-					<div className="profile-list">
+					<div>
 						<h5>Challenges</h5>
 						{challenges.length ? (
 							challenges.map(challenge => (
-								<div className="list-group list-group-flush" key={challenge.id}>
-									<div className="list-group-item list-group-item-action flex-column align-items-start">
-										<div className="d-flex w-100 justify-content-between">
-											<h6 className="mb-1">{challenge.maze.name}</h6>
-												<button
-													className="account-btn"
-													value={challenge.maze.id}
-													onClick={this.handlePlay}
-												>
-													Play
-												</button>
-										</div>
-									</div>
-								</div>
+                <div className="card card-featured" key={challenge.id}>
+                  <div className="card-body">
+                    <h5 className="card-title">{challenge.maze.name}</h5>
+                    {/* <h6 className="card-subtitle mb-2 text-muted">
+                      Leader: Shelby
+                    </h6> */}
+                    {/* <p className="card-text">Time: 35 seconds</p> */}
+                      <button
+                        className="reg-btn"
+                        value={challenge.maze.id}
+                        onClick={this.handlePlay}>Play</button>
+                  </div>
+                </div>
 							))
 						) : (
 							<p>No Challenges Yet!</p>
 						)}
 					</div>
-					<div className="profile-list" id="userMazes">
+					<div id="userMazes">
 						<h5>My Mazes</h5>
 						{mazes.length ? (
 							mazes.map(maze => (
-								<div className="list-group list-group-flush" key={maze.id}>
-									<div className="list-group-item list-group-item-action flex-column align-items-start">
-										<div className="d-flex w-100 justify-content-between">
-											<h6 className="mb-1">{maze.name}</h6>
-												<button
-													className="reg-btn"
-													value={maze.id}
-													onClick={this.handlePlay}>Play</button>
-										</div>
-									</div>
-								</div>
+                <div className="card card-featured" key={maze.id}>
+                  <div className="card-body">
+                    <h5 className="card-title">{maze.name}</h5>
+                    {/* <h6 className="card-subtitle mb-2 text-muted">
+                      Leader: Shelby
+                    </h6> */}
+                    {/* <p className="card-text">Time: 35 seconds</p> */}
+                      <button
+                        className="reg-btn"
+                        value={maze.id}
+                        onClick={this.handlePlay}>Play</button>
+                  </div>
+                </div>
+								// <div className="list-group list-group-flush" key={maze.id}>
+								// 	<div className="list-group-item list-group-item-action flex-column align-items-start">
+								// 		<div className="d-flex w-100 justify-content-between">
+								// 			<h6 className="mb-1">{maze.name}</h6>
+								// 				<button
+								// 					className="reg-btn"
+								// 					value={maze.id}
+								// 					onClick={this.handlePlay}>Play</button>
+								// 		</div>
+								// 	</div>
+								// </div>
 							))
 						) : (
 							<p>No Mazes Yet!</p>
@@ -89,7 +100,7 @@ const mapState = state => ({
 const mapDispatch = dispatch => ({
 		loadChallenges: id => dispatch(loadChallenges(id)),
 		loadMazes: id => dispatch(loadMazes(id)),
-		saveMaze: data => dispatch(saveMaze(data))
+		getMaze: id => dispatch(loadMaze(id))
 })
 
 export default connect(mapState, mapDispatch)(MyAccount)
