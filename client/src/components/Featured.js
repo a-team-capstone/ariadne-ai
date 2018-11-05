@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadFeatured } from '../store/featuredMazes'
-import { saveMaze } from '../store/maze'
-import history from '../history'
-import axios from 'axios'
+import { loadMaze } from '../store/maze'
 
 class FeaturedMazes extends Component {
 	constructor() {
@@ -17,15 +15,12 @@ class FeaturedMazes extends Component {
 
 	async handlePlay(evt) {
     evt.preventDefault()
-    console.log('event target value', evt.target.value)
-		// const maze = await axios.get(`api/mazes/${evt.target.value}`)
-		// this.props.saveMaze(maze.data)
-		// history.push('/pixi')
+    let mazeId = evt.target.value
+		this.props.getMaze(mazeId)
 	}
 
 	render() {
     const { featured } = this.props
-    console.log('featured mazes list: ', featured)
 		return (
 			<div className="featured">
 				<h4>Featured Mazes</h4>
@@ -57,7 +52,7 @@ const mapState = state => ({
 
 const mapDispatch = dispatch => ({
 	loadFeatured: () => dispatch(loadFeatured()),
-	saveMaze: id => dispatch(saveMaze(id))
+	getMaze: id => dispatch(loadMaze(id))
 })
 
 export default connect(mapState, mapDispatch)(FeaturedMazes)

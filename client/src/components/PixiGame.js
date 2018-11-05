@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PixiApp from '../utilities/GameLogic'
-import { loadMaze } from '../store/maze'
+// import { loadMaze } from '../store/maze'
 
 class PixiGame extends Component {
 	constructor() {
@@ -9,10 +9,7 @@ class PixiGame extends Component {
 		this.state = {
 			desiredWidth: 600,
 			desiredHeight: 800
-		}
-	}
-	async componentDidMount() {
-		await this.props.loadMaze(this.props.maze.id)
+    }
   }
 
 	componentWillUnmount() {
@@ -25,9 +22,15 @@ class PixiGame extends Component {
 	}
 
 	render() {
-		const { maze, user } = this.props
+    const { maze, user } = this.props
 		const { image } = maze
-		const tileSize = Math.floor(this.state.desiredWidth / 25)
+    const tileSize = Math.floor(this.state.desiredWidth / 25)
+    
+    console.log('render running, what is defined?')
+    console.log('maze: ', maze, 'user: ', user, 'refs: ', this.refs)
+    // console.log('MAZE IN PIXI', maze)
+    // console.log('what are the refs?', this.refs)
+
 		if (maze.data && this.refs.board) {
 			const startPoint = maze.STA
 			const endPoint = maze.END
@@ -42,31 +45,19 @@ class PixiGame extends Component {
 					user,
 					this.props.history
 				).view
-			)
-		}
-
-		return (
-			<div>
-				<div ref="board" id="pixiGameBoard" />
-			</div>
-		)
+      )
+      
+    }
+    
+    return (
+      <div ref="board" id="pixiGameBoard"></div>
+    )
 	}
 }
 
-const mapState = state => {
-	return {
-		maze: state.maze,
-		user: state.user
-	}
-}
+const mapState = state => ({
+		maze: state.maze.selectedMaze,
+		user: state.user.me
+})
 
-const mapDispatch = dispatch => {
-	return {
-		loadMaze: id => dispatch(loadMaze(id))
-	}
-}
-
-export default connect(
-	mapState,
-	mapDispatch
-)(PixiGame)
+export default connect(mapState)(PixiGame)

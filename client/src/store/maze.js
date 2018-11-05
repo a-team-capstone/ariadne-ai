@@ -6,15 +6,19 @@ let initialState = {
   selectedMaze: {}
 }
 
+
 /**
  * ACTION TYPES
  */
+
 const SAVE_MAZE = 'SAVE_MAZE'
 const GET_MAZE = 'GET_MAZE'
+
 
 /**
  * ACTION CREATORS
  */
+
 export const saveMaze = maze => ({
 	type: SAVE_MAZE,
 	maze
@@ -25,9 +29,11 @@ const getMaze = maze => ({
 	maze
 })
 
+
 /**
  * THUNK CREATORS
  */
+
 export const uploadMaze = maze => {
 	return async dispatch => {
 		try {
@@ -43,17 +49,20 @@ export const uploadMaze = maze => {
 export const loadMaze = mazeId => {
 	return async dispatch => {
 		try {
-			const { data } = await axios.get(`api/mazes/${mazeId}`)
-			dispatch(getMaze(data))
+      const { data } = await axios.get(`api/mazes/${mazeId}`)
+      dispatch(getMaze(data))
+      history.push('/pixi')
 		} catch (err) {
 			console.log('There was a problem getting your maze...', err)
 		}
 	}
 }
 
+
 /**
  * REDUCER
  */
+
 const mazeReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SAVE_MAZE:
