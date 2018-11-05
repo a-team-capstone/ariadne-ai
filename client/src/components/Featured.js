@@ -16,7 +16,7 @@ class FeaturedMazes extends Component {
 	async handlePlay(evt) {
     evt.preventDefault()
     let mazeId = evt.target.value
-		this.props.getMaze(mazeId)
+    this.props.getMaze(mazeId)
 	}
 
 	render() {

@@ -24,7 +24,7 @@ const createBoard = (
 	history
 ) => {
 
-	let maze = mazeInstance.data.data
+	let maze = mazeInstance.data
 	let { FRZ, XTM, BMB, TEL, PRT, time } = mazeInstance
 	resetSounds()
 
@@ -42,8 +42,6 @@ const createBoard = (
 	let heightOffset = 25
 	gameWidth += 2 * widthOffset
 	gameHeight += 2 * heightOffset
-
-	console.log('gameHeight, gameWidth', gameHeight, gameWidth)
 
 	let timeAllowed = time
 	let extraTimeX = XTM ? XTM[1] : -999
@@ -843,8 +841,8 @@ const createBoard = (
 		freezeSound = new Audio('freezeSound.mp3')
 		weaponSound = new Audio('weaponSound.mp3')
 		slowDownSound = new Audio('slowDownSound.mp3')
-		quitSound = new Audio('clickSound.mp3')
-		shareSound = new Audio('clickSound.mp3')
+		// quitSound = new Audio('clickSound.mp3')
+		// shareSound = new Audio('clickSound.mp3')
 		botWonSound = new Audio('robotWonSound.mp3')
 		startSound = new Audio('startSound.mp3')
 
