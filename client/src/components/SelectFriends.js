@@ -65,10 +65,10 @@ class SelectFriends extends Component {
 						<h5>Challenges Sent!</h5>
 						<img src="/mail.png" alt="mail" />
 						<Link to="/pixi">
-							<wired-button id="challenges">Replay Maze</wired-button>
+							<button id="challenges">Replay Maze</button>
 						</Link>
 						<Link to="/create-maze">
-							<wired-button id="challenges">Create New Maze</wired-button>
+							<button id="challenges">Create New Maze</button>
 						</Link>
 					</div>
 				) : (
@@ -90,7 +90,7 @@ class SelectFriends extends Component {
 							className="challenges-btn"
 							onClick={this.handleSubmit}
 						>
-							<wired-button id="challenges-btn">Send</wired-button>
+							<button id="challenges-btn">Send</button>
 						</button>
 					</div>
 				)}
@@ -109,7 +109,4 @@ const mapDispatch = dispatch => ({
 	getFriends: id => dispatch(loadFriends(id))
 })
 
-export default connect(
-	mapState,
-	mapDispatch
-)(SelectFriends)
+export default connect(mapState, mapDispatch)(SelectFriends)

@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { loadFeatured } from '../store/featuredMazes'
 import { saveMaze } from '../store/maze'
@@ -16,15 +16,16 @@ class FeaturedMazes extends Component {
 	}
 
 	async handlePlay(evt) {
-		evt.preventDefault()
-		// console.log('Evt', evt.target)
-		const maze = await axios.get(`api/mazes/${evt.target.value}`)
-		this.props.saveMaze(maze.data)
-		history.push('/pixi')
+    evt.preventDefault()
+    console.log('event target value', evt.target.value)
+		// const maze = await axios.get(`api/mazes/${evt.target.value}`)
+		// this.props.saveMaze(maze.data)
+		// history.push('/pixi')
 	}
 
 	render() {
-		const { featured } = this.props
+    const { featured } = this.props
+    console.log('featured mazes list: ', featured)
 		return (
 			<div className="featured">
 				<h4>Featured Mazes</h4>
@@ -37,15 +38,10 @@ class FeaturedMazes extends Component {
 									Leader: Shelby
 								</h6> */}
 								{/* <p className="card-text">Time: 35 seconds</p> */}
-								<wired-button id="featured">
 									<button
-										className="featured-btn"
+										className="reg-btn"
 										value={maze.id}
-										onClick={this.handlePlay}
-									>
-										Play
-									</button>
-								</wired-button>
+										onClick={this.handlePlay}>Play</button>
 							</div>
 						</div>
 					)
@@ -64,7 +60,4 @@ const mapDispatch = dispatch => ({
 	saveMaze: id => dispatch(saveMaze(id))
 })
 
-export default connect(
-	mapState,
-	mapDispatch
-)(FeaturedMazes)
+export default connect(mapState, mapDispatch)(FeaturedMazes)

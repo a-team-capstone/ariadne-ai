@@ -1,8 +1,6 @@
 import axios from 'axios'
 
-// let initialState = {
-//   filteredUsers: []
-// }
+let initialState = []
 
 /**
  * ACTION TYPES
@@ -22,15 +20,15 @@ const getUsers = users => ({
 export const clearUsers = () => ({
 	type: CLEAR_USERS
 })
+
 /**
  * THUNK CREATORS
  */
 
-export const getResults = query => {
+export const loadAllUsers = () => {
 	return async dispatch => {
 		try {
-			const { data } = await axios.get(`api/users/${query}`)
-			// console.log('Data', data)
+			const { data } = await axios.get('api/users')
 			dispatch(getUsers(data))
 		} catch (err) {
 			console.log('Load users error...', err)
@@ -41,7 +39,7 @@ export const getResults = query => {
  * REDUCER
  */
 
-const usersReducer = (state = [], action) => {
+const usersReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_USERS:
 			return action.users

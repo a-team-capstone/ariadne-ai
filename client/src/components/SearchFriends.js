@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getResults, clearUsers } from '../store/users'
+import { loadAllUsers, clearUsers } from '../store/users'
 import { updateFriends } from '../store/user'
 import Suggestions from './Suggestions'
 
@@ -10,69 +10,65 @@ class SearchFriends extends Component {
 		this.state = {
 			query: ''
 		}
-		this.search = React.createRef()
-		this.handleInputChange = this.handleInputChange.bind(this)
+		this.handleChange = this.handleChange.bind(this)
 		this.handleClick = this.handleClick.bind(this)
-	}
+  }
+  
+  componentDidMount () {
+    this.props.loadAllUsers()
+  }
 
-	handleInputChange() {
-		this.setState(
-			{
-				query: this.search.current.value
-			},
-			() => {
-				if (this.state.query && this.state.query.length >= 1) {
-					this.props.getResults(this.state.query)
-				} else if (this.state.query.length === 0) {
-					this.props.clearUsers()
-				}
-			}
-		)
+	handleChange(evt) {
+		this.setState({ query: evt.target.value })
 	}
 
 	handleClick(evt, friends) {
 		evt.preventDefault()
-		this.props.addFriend({ id: this.props.user.id, friend: friends })
+    this.props.addFriend({ id: this.props.user.id, friend: friends })
+    this.setState({ query: '' })
 	}
 
 	render() {
-    let { results, user } = this.props
-		const userFriendIds = user.friends && user.friends.map(friend => friend.id)
-		results = results.filter(result => userFriendIds.indexOf(result.id) === -1)
+    let { query } = this.state
+    let { allUsers, friends } = this.props
+		const userFriendIds = friends && friends.map(friend => friend.id)
+    let results = allUsers ?
+      allUsers.filter(user => {
+        return userFriendIds.indexOf(user.id) === -1 && user.userName.indexOf(query) > -1
+      })
+      : []
+
 		return (
 			<form>
 				<div className="form-group">
-					<h5>Add new friends</h5>
+					<h5>Find new friends</h5>
 					<input
 						type="text"
-						placeholder="Search by name..."
-						ref={this.search}
-						onChange={this.handleInputChange}
-						className="form-control"
+            placeholder="Search by username..."
+            value={this.state.query}
+						onChange={this.handleChange}
 					/>
 				</div>
-				<Suggestions results={results} handleClick={this.handleClick} />
+        {
+          query.length ?
+          <Suggestions results={results} handleClick={this.handleClick} />
+          : null
+        }
 			</form>
 		)
 	}
 }
 
-const mapState = state => {
-	return {
-		user: state.user,
-		results: state.users
-	}
-}
+const mapState = state => ({
+  user: state.user.me,
+  friends: state.user.myFriends,
+  allUsers: state.allUsers
+})
 
-const mapDispatch = dispatch => {
-	return {
-		getResults: query => dispatch(getResults(query)),
-		clearUsers: () => dispatch(clearUsers()),
-		addFriend: friend => dispatch(updateFriends(friend))
-	}
-}
+const mapDispatch = dispatch => ({
+  loadAllUsers: () => dispatch(loadAllUsers()),
+  clearUsers: () => dispatch(clearUsers()),
+  addFriend: friend => dispatch(updateFriends(friend))
+})
 
-export default connect(
-	mapState,
-	mapDispatch
-)(SearchFriends)
+export default connect(mapState, mapDispatch)(SearchFriends)

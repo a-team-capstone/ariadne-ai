@@ -30,24 +30,30 @@ class Navbar extends Component {
     return isLoggedIn ? 
 		(
 			<Menu className="menu" isOpen={this.state.open} onClick={this.handleMenuClick}>
-				<Link to="/create-maze" onClick={this.handleMenuItemClick}>
-          <button type="button" className="reg-btn menu-option" id="create-nav">Create Maze</button>
-				</Link>
-				<Link to="/featured" onClick={this.handleMenuItemClick}>
-          <button type="button" className="reg-btn menu-option" id="featured-nav">Featured</button>
-				</Link>
-				<Link to="/my-account" onClick={this.handleMenuItemClick}>
-          <button type="button" className="reg-btn menu-option" id="profile-nav">Profile</button>
-				</Link>
-				<Link to="/friends" onClick={this.handleMenuItemClick}>
-          <button type="button" className="reg-btn menu-option" id="friends-nav">Friends</button>
-				</Link>
-				<Link to="/tutorial" onClick={this.handleMenuItemClick}>
-          <button type="button" className="reg-btn menu-option" id="help-nav">Tutorial</button>
-				</Link>
-        <Link to="/" onClick={userLogout}>
-          <button type="button" className="reg-btn menu-option" id="logout-nav">Logout</button>
-        </Link>
+				
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/create-maze">Create Maze</Link>
+        </button>
+				
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/featured">Featured</Link>
+        </button>
+
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+        <Link to="/my-account">Profile</Link>
+        </button>
+				
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/friends">Friends</Link>
+        </button>
+
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/tutorial">Tutorial</Link>
+        </button>
+				
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/" onClick={userLogout}>Logout</Link>
+        </button>
 			</Menu>
     )
     : null

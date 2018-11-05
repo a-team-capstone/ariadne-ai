@@ -31,8 +31,7 @@ router.get('/:id/friends', async (req, res, next) => {
 				}
 			]
     })
-    console.log('friends here?', user.friends)
-		res.json(user)
+		res.json(user.friend)
 	} catch (err) {
 		next(err)
 	}

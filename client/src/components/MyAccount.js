@@ -39,7 +39,6 @@ class MyAccount extends Component {
 									<div className="list-group-item list-group-item-action flex-column align-items-start">
 										<div className="d-flex w-100 justify-content-between">
 											<h6 className="mb-1">{challenge.maze.name}</h6>
-											<wired-button id="account">
 												<button
 													className="account-btn"
 													value={challenge.maze.id}
@@ -47,7 +46,6 @@ class MyAccount extends Component {
 												>
 													Play
 												</button>
-											</wired-button>
 										</div>
 									</div>
 								</div>
@@ -64,15 +62,10 @@ class MyAccount extends Component {
 									<div className="list-group-item list-group-item-action flex-column align-items-start">
 										<div className="d-flex w-100 justify-content-between">
 											<h6 className="mb-1">{maze.name}</h6>
-											<wired-button id="account">
 												<button
-													className="account-btn"
+													className="reg-btn"
 													value={maze.id}
-													onClick={this.handlePlay}
-												>
-													Play
-												</button>
-											</wired-button>
+													onClick={this.handlePlay}>Play</button>
 										</div>
 									</div>
 								</div>
@@ -87,23 +80,16 @@ class MyAccount extends Component {
 	}
 }
 
-const mapState = state => {
-	return {
-		user: state.user,
-		challenges: state.user.challenges,
-		mazes: state.user.mazes
-	}
-}
+const mapState = state => ({
+		user: state.user.me,
+		challenges: state.user.myPlays,
+		mazes: state.user.myMazes
+})
 
-const mapDispatch = dispatch => {
-	return {
+const mapDispatch = dispatch => ({
 		loadChallenges: id => dispatch(loadChallenges(id)),
 		loadMazes: id => dispatch(loadMazes(id)),
 		saveMaze: data => dispatch(saveMaze(data))
-	}
-}
+})
 
-export default connect(
-	mapState,
-	mapDispatch
-)(MyAccount)
+export default connect(mapState, mapDispatch)(MyAccount)

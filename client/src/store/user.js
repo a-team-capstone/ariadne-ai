@@ -93,7 +93,7 @@ export const loadFriends = id => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.get(`api/user/${id}/friends`)
-			dispatch(getFriends(data.friend))
+			dispatch(getFriends(data))
 		} catch (err) {
 			console.log('No friends...', err)
 		}

@@ -34,22 +34,24 @@ class TutorialPage extends Component {
 			<div className="tutorial">
 				<h3>{content.header}</h3>
 				{content.subhead ? <h5>{content.subhead}</h5> : null}
-				{content.image ? <img src={content.image} width={200} /> : null}
+				{content.image ? <img src={content.image} alt={'tutorial'} width={200} /> : null}
 				<p>{content.text}</p>
 				{pageNum > 0 ? (
-					<button type="button" className="tutorial-btn" onClick={this.handleBack}>
-						<wired-button id="tutorial-btn">Back</wired-button>
+					<button type="button" className="reg-btn tutorial-btn" onClick={this.handleBack}>
+						Back
 					</button>
 				) : null}
 				{pageNum < tutorialContent.length - 1 ? (
-					<button type="button" className="tutorial-btn" onClick={this.handleNext}>
-						<wired-button id="tutorial-btn">Next</wired-button>
+					<button type="button" className="reg-btn tutorial-btn" onClick={this.handleNext}>
+						Next
 					</button>
 				) : null}
 				{pageNum === tutorialContent.length - 1 ? (
-					<Link to="/create-maze">
-						<wired-button id="started-btn">Get Started</wired-button>
-					</Link>
+          <button className="reg-btn">
+            <Link to="/create-maze">
+              Get Started
+            </Link>
+          </button>
 				) : null}
 			</div>
 		)

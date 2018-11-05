@@ -6,9 +6,9 @@ import mazeReducer from './maze'
 import usersReducer from './users'
 
 const rootReducer = combineReducers({
-	user: userReducer,
+  user: userReducer,
+  allUsers: usersReducer,
 	image: imageReducer,
-	filteredUsers: usersReducer,
   maze: mazeReducer,
   featured: featuredReducer
 })

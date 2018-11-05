@@ -27,10 +27,6 @@ const createBoard = (
 	let maze = mazeInstance.data.data
 	let { FRZ, XTM, BMB, TEL, PRT, time } = mazeInstance
 	resetSounds()
-	let soundsToPlay = ['weapon', 'weapon', 'weapon']
-	let soundsToPlayOnce =['tele', 'weapon']
-
-	//// playSound'startMaze')
 
 	let startY = startPoint[0] - (startPoint[0] % tileSize)
 	let startX = startPoint[1] - (startPoint[1] % tileSize)

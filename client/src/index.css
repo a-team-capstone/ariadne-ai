@@ -56,6 +56,10 @@ input::-moz-focus-inner {
   margin: 10px;
 }
 
+.reg-btn:hover {
+  color: #1034a6;
+}
+
 /* #login-btn,
 #signup-btn {
 	width: 100%;

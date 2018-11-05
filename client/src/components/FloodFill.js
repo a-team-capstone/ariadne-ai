@@ -6,7 +6,6 @@ import { getMazeFromImage } from '../utilities/imageAnalysis'
 import floodFill from '../utilities/floodFill'
 import { uploadMaze } from '../store/maze'
 import axios from 'axios'
-// import 'wired-elements'
 // const fs = require('fs')
 
 // const api = axios.create({
@@ -120,7 +119,7 @@ class FloodFill extends Component {
 
 					<div className="row" id="floodFillButtons">
 						<Link to="/create-maze">
-							<wired-button id="newmaze-btn">Discard maze</wired-button>
+							<button id="newmaze-btn">Discard maze</button>
 						</Link>
 						<button
 							type="button"
@@ -135,7 +134,7 @@ class FloodFill extends Component {
 								)
 							}
 						>
-							<wired-button id="play-btn">Play maze</wired-button>
+							<button id="play-btn">Play maze</button>
 						</button>
 					</div>
 				</div>
