@@ -26,8 +26,9 @@ export const uploadMaze = maze => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.post(`api/mazes/`, maze)
-			dispatch(saveMaze(data))
-			history.push('/pixi')
+      dispatch(saveMaze(data))
+      return data.id
+			// history.push('/pixi')
 		} catch (err) {
 			console.error('Could not upload new maze', err)
 		}

@@ -37,10 +37,6 @@ class MyAccount extends Component {
                 <div className="card card-featured" key={challenge.id}>
                   <div className="card-body">
                     <h5 className="card-title">{challenge.maze.name}</h5>
-                    {/* <h6 className="card-subtitle mb-2 text-muted">
-                      Leader: Shelby
-                    </h6> */}
-                    {/* <p className="card-text">Time: 35 seconds</p> */}
                       <button
                         className="reg-btn"
                         value={challenge.maze.id}
@@ -49,7 +45,7 @@ class MyAccount extends Component {
                 </div>
 							))
 						) : (
-							<p>No Challenges Yet!</p>
+							<p>You haven't been challenged yet!</p>
 						)}
 					</div>
 					<div id="userMazes">
@@ -69,20 +65,9 @@ class MyAccount extends Component {
                         onClick={this.handlePlay}>Play</button>
                   </div>
                 </div>
-								// <div className="list-group list-group-flush" key={maze.id}>
-								// 	<div className="list-group-item list-group-item-action flex-column align-items-start">
-								// 		<div className="d-flex w-100 justify-content-between">
-								// 			<h6 className="mb-1">{maze.name}</h6>
-								// 				<button
-								// 					className="reg-btn"
-								// 					value={maze.id}
-								// 					onClick={this.handlePlay}>Play</button>
-								// 		</div>
-								// 	</div>
-								// </div>
 							))
 						) : (
-							<p>No Mazes Yet!</p>
+							<p>You haven't created any mazes yet!</p>
 						)}
 					</div>
 				</div>

@@ -4,13 +4,8 @@ import { Link } from 'react-router-dom'
 import showFloodFill from '../utilities/FloodFillView'
 import { getMazeFromImage } from '../utilities/imageAnalysis'
 import floodFill from '../utilities/floodFill'
-import { uploadMaze } from '../store/maze'
+import { uploadMaze, loadMaze } from '../store/maze'
 import axios from 'axios'
-// const fs = require('fs')
-
-// const api = axios.create({
-// 	withCredentials: true
-// })
 
 class FloodFill extends Component {
 	constructor() {
@@ -29,7 +24,8 @@ class FloodFill extends Component {
 		}
 		this.mazeImage = React.createRef()
 		this.mazeImageCanvas = React.createRef()
-		this.board = React.createRef()
+    this.board = React.createRef()
+    this.handlePlay = this.handlePlay.bind(this)
 	}
 
 	async componentDidMount() {
@@ -47,13 +43,15 @@ class FloodFill extends Component {
 			imageUrl: newUrl,
 			imageHeight: image.naturalHeight,
 			imageWidth: image.naturalWidth
-		})
+    })
+    
 		const { mazeGrid, obstacleAvgs } = await getMazeFromImage(
 			this.mazeImageCanvas.current,
 			image,
 			tileSize,
 			this.props.image
-		)
+    )
+    // await console.log('obstacle avgs: ', obstacleAvgs)
 		// const mazeGoal = { row: mazeGrid.length - 1, col: mazeGrid[0].length - 1 }
 		const maze = mazeGrid.map(row => row.slice())
 		await this.setState({ maze: maze, obstacles: obstacleAvgs })
@@ -66,8 +64,8 @@ class FloodFill extends Component {
 		let endCol = Math.min(Math.round(endPoint[1] / tileSize), mazeGrid[0].length -1)
 
 		const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
-		console.log('floodedMaze', floodedMaze)
-		console.log('endRow, endCol', endRow, endCol)
+		// console.log('floodedMaze', floodedMaze)
+		// console.log('endRow, endCol', endRow, endCol)
 		const solvable = floodedMaze[endRow][endCol] === -1
 		const explainerText = solvable
 			? `Any area with blue dots is reachable. Ready?`
@@ -77,7 +75,15 @@ class FloodFill extends Component {
 		this.board.current.appendChild(
 			showFloodFill(image.src, floodedMaze, tileSize, startPoint, endPoint).view
 		)
-	}
+  }
+  
+  async handlePlay (evt) {
+    evt.preventDefault()
+    const { saveMaze, getMaze, image, user } = this.props
+    const { maze, solvable, obstacles } = this.state
+    let newMazeId = await saveMaze(maze, image, user.id, solvable, obstacles)
+    await getMaze(newMazeId)
+  }
 
 	render() {
 		const invisibleImage = { display: 'none' }
@@ -113,29 +119,17 @@ class FloodFill extends Component {
 							ref={this.mazeImageCanvas}
 							style={invisibleCanvas}
 							width={this.state.desiredWidth}
-							height={this.state.desiredHeight}
-						/>
+							height={this.state.desiredHeight}/>
 					</div>
 
-					<div className="row" id="floodFillButtons">
-						<Link to="/create-maze">
-							<button id="newmaze-btn">Discard maze</button>
-						</Link>
+					<div id="floodFillButtons">
+            <button className="reg-btn">
+              <Link to="/create-maze">Discard maze</Link>
+            </button>
 						<button
 							type="button"
-							className="play-btn"
-							onClick={() =>
-								handleClick(
-									this.state.maze,
-									image,
-									user.id,
-									this.state.solvable,
-									this.state.obstacles
-								)
-							}
-						>
-							<button id="play-btn">Play maze</button>
-						</button>
+							className="reg-btn"
+              onClick={this.handlePlay}>Play maze</button>
 					</div>
 				</div>
 			</div>
@@ -145,37 +139,32 @@ class FloodFill extends Component {
 
 const mapState = state => {
 	return {
-		user: state.user,
+		user: state.user.me,
 		image: state.image
 	}
 }
 
-const mapDispatch = dispatch => {
-	return {
-		handleClick(maze, image, userId, solvable, obstacles) {
-			dispatch(
-				uploadMaze({
-					image: image,
-					solvable: solvable,
-					data: maze,
-					userId,
-					STA: obstacles.STA || [24, 24],
-					END: obstacles.END || [744, 552],
-					BMB: obstacles.BMB || null,
-					XTM: obstacles.XTM || null,
-					FRZ: obstacles.FRZ || null,
-					TEL: obstacles.TEL || null,
-					PRT: obstacles.PRT || null,
-					SLD: obstacles.SLD || null,
-					WPN: obstacles.WPN || null,
-					time: obstacles.time || 30
-				})
-			)
-		}
-	}
-}
+const mapDispatch = dispatch => ({
+  saveMaze(maze, image, userId, solvable, obstacles) {
+    dispatch(uploadMaze({
+        image: image,
+        solvable: solvable,
+        data: maze,
+        userId,
+        STA: obstacles.STA || [24, 24],
+        END: obstacles.END || [744, 552],
+        BMB: obstacles.BMB || null,
+        XTM: obstacles.XTM || null,
+        FRZ: obstacles.FRZ || null,
+        TEL: obstacles.TEL || null,
+        PRT: obstacles.PRT || null,
+        SLD: obstacles.SLD || null,
+        WPN: obstacles.WPN || null,
+        time: obstacles.time || 30
+      })
+    )
+  },
+  getMaze: id => dispatch(loadMaze(id))
+})
 
-export default connect(
-	mapState,
-	mapDispatch
-)(FloodFill)
+export default connect(mapState, mapDispatch)(FloodFill)
