@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { loadChallenges, loadMazes } from '../store/user'
 import { loadMaze } from '../store/maze'
 
-class MyAccount extends Component {
+class Profile extends Component {
 	constructor() {
 		super()
 		this.handlePlay = this.handlePlay.bind(this)
@@ -28,10 +28,10 @@ class MyAccount extends Component {
 		}
 		return (
 			<div className="content">
-				<h3>{user.userName}</h3>
+				<h3>{`${user.userName}'s Profile`}</h3>
 				<div>
 					<div>
-						<h5>Challenges</h5>
+						<h5>My Challenges</h5>
 						{challenges.length ? (
 							challenges.map(challenge => (
                 <div className="card card-featured" key={challenge.id}>
@@ -45,7 +45,7 @@ class MyAccount extends Component {
                 </div>
 							))
 						) : (
-							<p>You haven't been challenged yet!</p>
+							<p className="default-display">You haven't been challenged yet!</p>
 						)}
 					</div>
 					<div id="userMazes">
@@ -67,7 +67,7 @@ class MyAccount extends Component {
                 </div>
 							))
 						) : (
-							<p>You haven't created any mazes yet!</p>
+							<p className="default-display">You haven't created any mazes yet!</p>
 						)}
 					</div>
 				</div>
@@ -88,4 +88,4 @@ const mapDispatch = dispatch => ({
 		getMaze: id => dispatch(loadMaze(id))
 })
 
-export default connect(mapState, mapDispatch)(MyAccount)
+export default connect(mapState, mapDispatch)(Profile)

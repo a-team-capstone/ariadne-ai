@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { me } from './store/user'
 import { Signup, Login } from './components/Form'
 import Home from './components/Home'
-import MyAccount from './components/MyAccount'
+import Profile from './components/Profile'
 import WithNavBar from './components/WithNavBar'
 import FeaturedMazes from './components/Featured'
 import Friends from './components/Friends'
@@ -32,7 +32,7 @@ class Routes extends Component {
 					{isLoggedIn && (
             <WithNavBar>
               <Switch>
-                <Route path="/my-account" component={MyAccount} />
+                <Route path="/my-account" component={Profile} />
                 <Route path="/create-maze" component={Create} />
                 <Route path="/featured" component={FeaturedMazes} />
                 <Route path="/friends" component={Friends} />

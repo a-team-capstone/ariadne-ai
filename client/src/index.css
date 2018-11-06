@@ -55,8 +55,17 @@ input::-moz-focus-inner {
   margin: 10px;
 }
 
+.reg-btn a {
+  text-decoration: none;
+  color: #FFFFFF;
+}
+
 .reg-btn:hover {
-  color: #1034a6;
+  color: #1b4de9;
+}
+
+.reg-btn a:hover {
+  color: #1b4de9;
 }
 
 .login {
@@ -155,55 +164,25 @@ input::-moz-focus-inner {
 	padding: 6em 0 0 0.75em;
 }
 
-.create-maze p {
-	font-size: 1.1em;
-}
-
-.key {
-	width: 250px;
+#key {
+	width: 300px;
 	left: 50vw;
-	margin: auto auto;
+	margin: 40px auto;
 	padding: 0px 0px 0px 35px;
 }
 
-.key p {
+#key p {
+  margin: auto;
 	text-align: left;
-	font-size: 1.25em;
-	line-height: 130%;
+  font-size: 1.5em;
+  padding-bottom: 10px;
 }
 
-.key img {
+#key img {
 	width: 30px;
-	/* height: auto; */
 	float: left;
-	margin-right: 30px;
-	margin-top: -3px;
-}
-
-#ready,
-#rotate-right,
-#rotate-left,
-#selection,
-#file {
-	/* width: 100%; */
-	padding: 0.25em 0.5em;
-	color: #020717;
-	background: #e0e7fc;
-	font-size: 20px;
-	cursor: pointer;
-	outline: none;
-}
-
-#selection {
-	background: #fff382;
-}
-
-#ready:hover,
-#rotate-right:hover,
-#rotate-left:hover,
-#selection:hover,
-#file:hover {
-	color: #1034a6;
+  margin-right: 30px;
+  padding-top: 5px;
 }
 
 .fileUpload {
@@ -224,15 +203,6 @@ input::-moz-focus-inner {
 	.create-maze {
 		text-align: center;
 		padding: 2.5em;
-	}
-	#selection {
-		margin-top: 2em;
-	}
-	#rotate-right,
-	#rotate-left {
-		margin-bottom: 1em;
-		margin-right: 0;
-		margin-left: 0;
 	}
 }
 
@@ -258,43 +228,19 @@ input::-moz-focus-inner {
 #floodFillButtons {
 	position: absolute;
 	width: 100%;
-	/* margin: 1em; */
 	margin: auto;
 	z-index: 20;
 	bottom: 0;
-	/* left: 4em; */
 }
 
-#send-btn,
-#play-btn,
-#newmaze-btn {
-	width: 100%;
-	padding: 0 0.5em;
-	color: #020717;
-	background: #e0e7fc;
-	font-size: 18px;
-	cursor: pointer;
-	outline: none;
-	margin-top: 1.5em;
-	left: 100%;
+#crop-container {
+  margin: 0 auto;
 }
 
-#play-btn {
-	background: #fe9237;
-}
-
-#send-btn:hover,
-#play-btn:hover,
-#newmaze-btn:hover {
-	color: #1034a6;
-}
-
-.play-btn {
-	border: 0;
-	padding: 0;
-	margin: 0 1.5em;
-	background: none;
-	/* outline: none; */
+#create-btn-container {
+  position: absolute;
+	width: 700px;
+  left: calc((100vw / 2) - 350px);
 }
 
 #mazeImageCanvas {
@@ -305,6 +251,7 @@ input::-moz-focus-inner {
 	margin: 0 0 0 0;
 	z-index: -5;
 }
+
 #mazeImage {
 	position: absolute;
 	top: 0px;
@@ -314,7 +261,13 @@ input::-moz-focus-inner {
 	z-index: -5;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 510px) {
+  #create-btn-container {
+    position: absolute;
+    width: 350px;
+    left: calc((100vw / 2) - 175px);
+  }
+
 	#floodFillView {
 		position: absolute;
 		max-width: 100vw;
@@ -336,20 +289,6 @@ input::-moz-focus-inner {
 		z-index: 20;
 		bottom: 0.5em;
 		left: 6%;
-	}
-
-	#send-btn,
-	#play-btn,
-	#newmaze-btn {
-		left: 7vw;
-		margin: auto auto;
-	}
-
-	.play-btn {
-		border: 0;
-		padding: 0;
-		margin: 0 0.5em;
-		background: none;
 	}
 }
 
@@ -412,6 +351,11 @@ ul {
 
 /* Tutorial page */
 
+.default-display {
+  padding-bottom: 20px;
+  color: #979797;
+}
+
 .content {
 	padding-top: 3em;
 	text-align: center;
@@ -427,6 +371,12 @@ ul {
 .tutorial h5 {
   margin-bottom: 45px;
 }
+
+.content p {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
 
 .tutorial-buttons {
   position: fixed;
@@ -454,8 +404,9 @@ ul {
   bottom: 10px;
 }
 
-#started-btn a {
+.no-underline a {
   text-decoration: none;
+  color: white;
 }
 
 #tutorial-text {
@@ -503,18 +454,6 @@ ul {
 		padding: 1em 0.25em;
 	}
 }
-
-/* End Featured */
-
-/* Friends */
-/* .friends {
-	padding: 2em;
-	padding-top: 100px;
-	text-align: center;
-	max-width: 400px;
-	min-width: 300px;
-	margin: 0 auto;
-} */
 
 .friends {
   text-align: center;
@@ -564,21 +503,28 @@ ul {
 	outline: none;
 }
 
-.list-friends {
+.friend-suggest {
+  height: 60px;
+  padding: 0 25px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.friend-suggest {
 	text-align: left;
-	margin-bottom: 0.5em;
+	margin-bottom: 15px;
 }
 
-.list-friends button {
-	/* float: right; */
-	outline: none;
+.friend-suggest h5 {
+  padding-top: 15px;
 }
-/* End Friends */
 
-/* Friend Select  */
+#friend-list {
+  margin-bottom: 50px;
+}
+
 .selection {
 	max-width: 350px;
-	padding-top: 100px;
 	margin: 0 auto;
 	text-align: center;
 }
@@ -606,60 +552,22 @@ ul {
 }
 
 .sentChallenges {
-	width: 200px;
-	padding-top: 100px;
+	width: 250px;
 	text-align: center;
 	margin: 0 auto;
 }
 
-.sentChallenges h5 {
-	margin-bottom: 30px;
-}
-
-.sentChallenges button {
-	width: 200px;
-	margin-bottom: 10px;
-}
-
 .sentChallenges img {
 	width: 200px;
-	margin-bottom: 50px;
+	margin-bottom: 100px;
 }
 
-#challenges {
-	width: 100%;
-	padding: 0.5em 1.5em;
-	color: #020717;
-	background: #e0e7fc;
-	font-size: 18px;
-	cursor: pointer;
-	outline: none;
-	margin-top: 1.5em;
-}
-
-#challenges:hover {
-	color: #1034a6;
-}
-
-#challenges-btn {
-	/* width: 50%; */
-	padding: 0.25em 1em;
-	color: #020717;
-	background: #e0e7fc;
-	font-size: 18px;
-	cursor: pointer;
-	outline: none;
-}
-
-#challenges-btn:hover {
-	color: #1034a6;
-}
-
-.challenges-btn {
-	border: 0;
-	padding: 0;
-	margin-bottom: 2em;
-	outline: none;
+#friend-search {
+  background-color: #F5F5F5;
+  padding: 25px 0;
+  border-radius: 15px;
+  width: 400px;
+  margin: 0 auto;
 }
 
 @media screen and (max-width: 480px) {
@@ -667,4 +575,3 @@ ul {
 		padding-top: 3em;
 	}
 }
-/* End of Friend Select  */

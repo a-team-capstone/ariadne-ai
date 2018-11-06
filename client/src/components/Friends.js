@@ -13,8 +13,14 @@ class Friends extends Component {
 		return (
 			<div className="content">
 				<h3>My Friends</h3>
-				{friends && friends.map(friend => <p key={friend.id}>{friend.userName}</p>)}
-				<SearchFriends/>
+        {
+          friends.length ?
+          <div id="friend-list">
+            {friends.map(friend => <p key={friend.id}>{friend.userName}</p>)}
+          </div>
+          : <p className="default-display">You haven't added any friends yet!</p>
+        }
+        <SearchFriends/>
 			</div>
 		)
 	}

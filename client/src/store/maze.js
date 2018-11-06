@@ -27,8 +27,7 @@ export const uploadMaze = maze => {
 		try {
 			const { data } = await axios.post(`api/mazes/`, maze)
       dispatch(saveMaze(data))
-      return data.id
-			// history.push('/pixi')
+      history.push('/pixi')
 		} catch (err) {
 			console.error('Could not upload new maze', err)
 		}
@@ -51,7 +50,7 @@ export const loadMaze = mazeId => {
 const mazeReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SAVE_MAZE:
-			return {...state, allMazes: [...state.allMazes, action.maze]}
+			return {...state, allMazes: [...state.allMazes, action.maze], selectedMaze: action.maze }
 		case GET_MAZE:
 			return { ...state, selectedMaze: action.maze}
 		default:

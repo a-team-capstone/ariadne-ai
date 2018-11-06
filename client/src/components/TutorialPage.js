@@ -54,7 +54,7 @@ class TutorialPage extends Component {
 
           {pageNum === tutorialContent.length - 1 ? (
             <Link to="/create-maze">
-              <button id="started-btn" className="reg-btn">
+              <button id="started-btn" className="reg-btn no-underline">
                 Go!
               </button>
             </Link>

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import showFloodFill from '../utilities/FloodFillView'
 import { getMazeFromImage } from '../utilities/imageAnalysis'
 import floodFill from '../utilities/floodFill'
-import { uploadMaze, loadMaze } from '../store/maze'
+import { uploadMaze } from '../store/maze'
 import axios from 'axios'
 
 class FloodFill extends Component {
@@ -14,7 +14,8 @@ class FloodFill extends Component {
 			imageHeight: 0,
 			imageWidth: 0,
 			desiredWidth: 600,
-			desiredHeight: 800,
+      desiredHeight: 800,
+      // maybe need to change the desired height and width?
 			solvable: 'Analyzing...',
 			explainerText:
 				'Determining if your maze is solvable based on its boundaries.',
@@ -51,8 +52,7 @@ class FloodFill extends Component {
 			tileSize,
 			this.props.image
     )
-    // await console.log('obstacle avgs: ', obstacleAvgs)
-		// const mazeGoal = { row: mazeGrid.length - 1, col: mazeGrid[0].length - 1 }
+    
 		const maze = mazeGrid.map(row => row.slice())
 		await this.setState({ maze: maze, obstacles: obstacleAvgs })
 
@@ -64,8 +64,7 @@ class FloodFill extends Component {
 		let endCol = Math.min(Math.round(endPoint[1] / tileSize), mazeGrid[0].length -1)
 
 		const floodedMaze = floodFill(startRow, startCol, mazeGrid, tileSize, 1)
-		// console.log('floodedMaze', floodedMaze)
-		// console.log('endRow, endCol', endRow, endCol)
+		
 		const solvable = floodedMaze[endRow][endCol] === -1
 		const explainerText = solvable
 			? `Any area with blue dots is reachable. Ready?`
@@ -77,18 +76,16 @@ class FloodFill extends Component {
 		)
   }
   
-  async handlePlay (evt) {
+  handlePlay (evt) {
     evt.preventDefault()
-    const { saveMaze, getMaze, image, user } = this.props
+    const { saveMaze, image, user } = this.props
     const { maze, solvable, obstacles } = this.state
-    let newMazeId = await saveMaze(maze, image, user.id, solvable, obstacles)
-    await getMaze(newMazeId)
+    saveMaze(maze, image, user.id, solvable, obstacles)
   }
 
 	render() {
 		const invisibleImage = { display: 'none' }
 		const invisibleCanvas = { opacity: 0 }
-		const { image, handleClick, user } = this.props
 		const imageUrl = this.state.imageUrl
 		const { solvable, explainerText } = this.state
 
@@ -110,8 +107,8 @@ class FloodFill extends Component {
 					alt="simpleMaze"
 					style={invisibleImage}
 					width={this.state.desiredWidth}
-					height={this.state.desiredHeight}
-				/>
+					height={this.state.desiredHeight}/>
+
 				<div>
 					<div className="row">
 						<canvas
@@ -137,12 +134,10 @@ class FloodFill extends Component {
 	}
 }
 
-const mapState = state => {
-	return {
-		user: state.user.me,
-		image: state.image
-	}
-}
+const mapState = state => ({
+  user: state.user.me,
+  image: state.image
+})
 
 const mapDispatch = dispatch => ({
   saveMaze(maze, image, userId, solvable, obstacles) {
@@ -163,8 +158,7 @@ const mapDispatch = dispatch => ({
         time: obstacles.time || 30
       })
     )
-  },
-  getMaze: id => dispatch(loadMaze(id))
+  }
 })
 
 export default connect(mapState, mapDispatch)(FloodFill)

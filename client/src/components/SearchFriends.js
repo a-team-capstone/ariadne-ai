@@ -34,27 +34,28 @@ class SearchFriends extends Component {
 		const userFriendIds = friends && friends.map(friend => friend.id)
     let results = allUsers ?
       allUsers.filter(user => {
-        return userFriendIds.indexOf(user.id) === -1 && user.userName.indexOf(query) > -1
+        return userFriendIds.indexOf(user.id) === -1
+        && user.userName.toLowerCase().indexOf(query.toLowerCase()) > -1
       })
       : []
 
 		return (
-			<form>
-				<div className="form-group">
-					<h5>Find new friends</h5>
+      <div id="friend-search">
+				<div>
+					<h5 style={{ paddingBottom: '25px' }}>Search for New Friends</h5>
 					<input
-						type="text"
+            type="text"
+            style={{ borderRadius: '2px', padding: '3px', letterSpacing: '.025em' }}
             placeholder="Search by username..."
             value={this.state.query}
-						onChange={this.handleChange}
-					/>
+						onChange={this.handleChange}/>
 				</div>
         {
           query.length ?
           <Suggestions results={results} handleClick={this.handleClick} />
           : null
-        }
-			</form>
+        } 
+      </div>
 		)
 	}
 }

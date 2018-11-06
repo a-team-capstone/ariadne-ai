@@ -61,16 +61,8 @@
 }
 
 .menu-option {
-	width: 100%;
-}
-
-.menu-option a:hover {
-	color: #1b4de9;
-}
-
-.menu-option a {
-  text-decoration: none;
-  color: #FFFFFF;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 480px) {
