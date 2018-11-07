@@ -20,7 +20,7 @@ const floodFill = function(row, col, array, numPixels, blockedVal) {
 			if (neighborStatus === 0) {
 				//is the neighbor clear
 				array[neighborRow][neighborCol] = -1
-				// array[row][col]
+				// array[row][col] is set to -1 (filled)
 
 				floodFill(neighborRow, neighborCol, array, numPixels, blockedVal)
 			}

@@ -74,7 +74,8 @@ class SelectFriends extends Component {
 				) : (
 					<div className="content selection">
 						<h3>Select Friends to Challenge</h3>
-						{friends.length &&
+						{
+              friends.length ?
 							friends.map(friend => {
 								return (
 									<FriendSelect
@@ -82,15 +83,20 @@ class SelectFriends extends Component {
 										id={friend.id}
 										handleChange={this.handleChange}
 										name={friend.userName}/>
-								)
-							})}
-						<button
-							type="submit"
-							className="reg-btn"
-							onClick={this.handleSubmit}>
-              Send
-						</button>
-					</div>
+								)})
+              : null
+              }
+              {
+                friends.length ?
+                <button
+                  type="submit"
+                  className="reg-btn"
+                  onClick={this.handleSubmit}>
+                  Send
+                </button>
+                : <p className="default-display">You haven't added any friends yet!</p>
+              }
+            </div>
 				)}
 			</Fragment>
 		)

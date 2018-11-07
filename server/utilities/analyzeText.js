@@ -28,7 +28,6 @@ const getPoly = (text, data, label, index) => {
 }
 
 async function analyzeText(imageUri) {
-    console.log('imageuri', imageUri)
     const text = {}
     const time = /[0-9]+/
     const labels = ['STA', 'END', 'XTM', 'BMB', 'FRZ', 'TEL', 'PRT', time]

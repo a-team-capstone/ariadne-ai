@@ -1,6 +1,8 @@
 import axios from 'axios'
 
-let initalState = []
+let initalState = {
+  featured: []
+}
 
 
 const GET_FEATURED = 'GET_FEATURED'
@@ -15,7 +17,7 @@ const getFeatured = mazes => ({
 export const loadFeatured = () => {
   return async dispatch => {
     try {
-      const { data } = await axios.get('api/mazes/featured')
+      const { data } = await axios.get('/api/mazes/featured')
       dispatch(getFeatured(data))
     } catch (err) {
       console.error('Could not get featured mazes', err)
@@ -27,9 +29,9 @@ export const loadFeatured = () => {
 const featuredReducer = (state = initalState, action) => {
   switch (action.type) {
     case GET_FEATURED:
-    return action.mazes
+      return { ...state, featured: action.mazes }
     default:
-    return state
+      return state
   }
 }
 

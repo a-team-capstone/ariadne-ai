@@ -96,11 +96,8 @@ const createBoard = (
 	)
 
 	let bomb = addPowerUp('bomb.png', board, bombX, bombY, tileSize, 0.3)
-
 	let tele = addPowerUp('tele.png', board, teleX, teleY, tileSize, 0.5)
-
 	let port = addPowerUp('port.png', board, portX, portY, tileSize, 0.5)
-
 	let freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, 0.15)
 
 	// create player

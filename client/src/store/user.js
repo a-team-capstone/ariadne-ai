@@ -79,7 +79,7 @@ export const logout = () => async dispatch => {
 		dispatch(removeUser())
 		history.push('/')
 	} catch (err) {
-		console.error('Could not log out user', err)
+		console.error('Could not logout user', err)
 	}
 }
 

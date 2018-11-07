@@ -34,7 +34,12 @@ class PixiGame extends Component {
     }
   }
 
+  componentWillMount () {
+    document.body.style.backgroundColor = '#000000'
+  }
+
 	componentWillUnmount() {
+    document.body.style.backgroundColor = '#FFFFFF'
 		window.downHandlers.forEach(
 			listener => window.removeEventListener("keydown", listener)
 		)

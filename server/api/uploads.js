@@ -66,6 +66,6 @@ router.post('/image-upload', (request, response) => {
       }
     })
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 })

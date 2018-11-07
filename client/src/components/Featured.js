@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadFeatured } from '../store/featuredMazes'
+import { loadFeatured } from '../store/mazes'
 import { loadMaze } from '../store/maze'
 
 class FeaturedMazes extends Component {
@@ -24,7 +24,7 @@ class FeaturedMazes extends Component {
 		return (
 			<div className="content">
 				<h3>Featured Mazes</h3>
-				{featured.map(maze => {
+        {featured.map(maze => {
 					return (
 						<div className="card card-featured" key={maze.id}>
 							<div className="card-body">
@@ -39,15 +39,15 @@ class FeaturedMazes extends Component {
 										onClick={this.handlePlay}>Play</button>
 							</div>
 						</div>
-					)
-				})}
+          )
+        })}
 			</div>
 		)
 	}
 }
 
 const mapState = state => ({
-	featured: state.featured
+	featured: state.mazes.featured
 })
 
 const mapDispatch = dispatch => ({

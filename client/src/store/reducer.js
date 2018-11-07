@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 import imageReducer from './image'
 import userReducer from './user'
-import featuredReducer from './featuredMazes'
+import mazesReducer from './mazes'
 import mazeReducer from './maze'
 import usersReducer from './users'
 
@@ -12,7 +12,7 @@ const rootReducer = combineReducers({
   // but I think it may be for cases when the image comes from AWS and not the db
 	image: imageReducer,
   maze: mazeReducer,
-  featured: featuredReducer
+  mazes: mazesReducer
 })
 
 export default rootReducer

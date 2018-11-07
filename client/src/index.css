@@ -9,12 +9,6 @@ body {
 	font-family: 'Palanquin', sans-serif;
 }
 
-button::-moz-focus-inner,
-input::-moz-focus-inner {
-	border: 0;
-	padding: 0;
-}
-
 .container-fluid {
 	padding-left: 0;
 }
@@ -563,7 +557,7 @@ ul {
 }
 
 #friend-search {
-  background-color: #F5F5F5;
+  background-color: #E9E9E9;
   padding: 25px 0;
   border-radius: 15px;
   width: 400px;

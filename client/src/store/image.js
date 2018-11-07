@@ -20,7 +20,7 @@ export const imageUpload = formData => {
       dispatch(uploadImage(data.Location))
       history.push('/flood-fill')
     } catch (err) {
-      console.log('No data...')
+      console.error('No data...', err)
     }
   }
 }

@@ -51,21 +51,19 @@ export const wallFollowerBot = (app, board, mazeGrid, moveSize, startX, startY, 
 	let botMoveCount = 0
 	app.ticker.add(()=>{
 		botMoveCount++
-		if (!bot.visible) currentBotDirection = 'up'
+		// if (!bot.visible) currentBotDirection = 'up'
 
 		if (finalDirection && (botMoveCount%(12/speed) === 0)){
 			possibleDirections[finalDirection].move(bot, mazeGrid, moveSize)
 		} else
-
-		if (botMoveCount < 5) {
-			finalDirection = null
-			possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
+      if (botMoveCount < 5) {
+        finalDirection = null
+        possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
 		} else
-		if (botMoveCount < 10) {
-			currentBotDirection = 'left'
-			possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
-		}
-		else if (botMoveCount%(12/speed) === 0) {
+      if (botMoveCount < 10) {
+        currentBotDirection = 'left'
+        possibleDirections[currentBotDirection].move(bot, mazeGrid, moveSize)
+		} else if (botMoveCount%(12/speed) === 0) {
 
 			// if unblocked straight horizontal line to finish, leave wall
 
@@ -141,5 +139,4 @@ export const greedyBot = (app, board, mazeGrid, moveSize, startX, startY) => {
 	})
 
 	return bot
-
 }

@@ -7,14 +7,11 @@ const Op = Sequelize.Op
 module.exports = router
 
 // GET /api/mazes/featured
-// gets all mazes ever created right now..
 router.get('/featured', async (req, res, next) => {
 	try {
     const mazes = await Maze.findAll({
       where: {
-        data: {
-          [Op.ne]: null
-        }
+        featured: true
       }
     })
     res.json(mazes)
