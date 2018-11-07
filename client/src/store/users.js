@@ -1,15 +1,12 @@
 import axios from 'axios'
 
-/**
- * ACTION TYPES
- */
+let initialState = []
+
 
 const GET_USERS = 'GET_USERS'
 const CLEAR_USERS = 'CLEAR_USERS'
 
-/**
- * ACTION CREATORS
- */
+
 const getUsers = users => ({
 	type: GET_USERS,
 	users
@@ -18,26 +15,21 @@ const getUsers = users => ({
 export const clearUsers = () => ({
 	type: CLEAR_USERS
 })
-/**
- * THUNK CREATORS
- */
 
-export const getResults = query => {
+
+export const loadAllUsers = () => {
 	return async dispatch => {
 		try {
-			const { data } = await axios.get(`api/users/${query}`)
-			console.log('Data', data)
+			const { data } = await axios.get('api/users')
 			dispatch(getUsers(data))
 		} catch (err) {
-			console.log('Load users error...', err)
+			console.error('Could not load all users', err)
 		}
 	}
 }
-/**
- * REDUCER
- */
 
-const usersReducer = (state = [], action) => {
+
+const usersReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_USERS:
 			return action.users

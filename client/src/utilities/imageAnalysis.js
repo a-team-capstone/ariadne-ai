@@ -1,4 +1,4 @@
-// scrapeImageData(imageFile):
+// scrapeImageData(canvas, imageFile):
 // takes an image file name and calls the getImageData ctx method on it to get the ugly array,
 // returns that array
 import axios from 'axios'

@@ -1,22 +1,18 @@
 import axios from 'axios'
 import history from '../history'
-/**
- * ACTION TYPES
- */
+
+let initialState = {}
+
 
 const UPLOAD_IMAGE = 'UPLOAD_IMAGE'
 
-/**
- * ACTION CREATORS
- */
+
 const uploadImage = image => ({
 	type: UPLOAD_IMAGE,
 	image
 })
 
-/**
- * THUNK CREATORS
- */
+
 export const imageUpload = formData => {
   return async dispatch => {
     try {
@@ -24,16 +20,13 @@ export const imageUpload = formData => {
       dispatch(uploadImage(data.Location))
       history.push('/flood-fill')
     } catch (err) {
-      console.log('No data...')
+      console.error('No data...', err)
     }
   }
 }
 
-/**
- * REDUCER
- */
 
-const imageReducer = (state = {}, action) => {
+const imageReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case UPLOAD_IMAGE:
 			return action.image

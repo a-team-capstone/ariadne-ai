@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-// import 'wired-elements'
 
 class Home extends Component {
 	render() {
@@ -8,10 +7,10 @@ class Home extends Component {
 			<div className="home">
 				<h2>ariadne.ai</h2>
 				<Link to="/login">
-					<wired-button id="login-btn">Login</wired-button>
+					<button className="reg-btn">Login</button>
 				</Link>
 				<Link to="/sign-up">
-					<wired-button id="signup-btn">Sign Up</wired-button>
+					<button className="reg-btn">Sign Up</button>
 				</Link>
 			</div>
 		)

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import { me } from './store/user'
 import { Signup, Login } from './components/Form'
 import Home from './components/Home'
-import MyAccount from './components/MyAccount'
+import Profile from './components/Profile'
 import WithNavBar from './components/WithNavBar'
 import FeaturedMazes from './components/Featured'
 import Friends from './components/Friends'
@@ -18,7 +18,8 @@ import SelectFriends from './components/SelectFriends'
 class Routes extends Component {
 	componentDidMount() {
 		this.props.loadInitialData()
-	}
+  }
+  
 	render() {
 		const { isLoggedIn } = this.props
 		return (
@@ -29,17 +30,17 @@ class Routes extends Component {
 					<Route path="/pixi" component={PixiGame} />
 					<Route exact path="/" component={Home} />
 					{isLoggedIn && (
-						<Switch>
-							<WithNavBar>
-								<Route path="/my-account" component={MyAccount} />
-								<Route path="/create-maze" component={Create} />
-								<Route path="/featured" component={FeaturedMazes} />
-								<Route path="/friends" component={Friends} />
-								<Route path="/flood-fill" component={FloodFill} />
-								<Route path="/tutorial" component={TutorialPage} />
+            <WithNavBar>
+              <Switch>
+                <Route path="/my-account" component={Profile} />
+                <Route path="/create-maze" component={Create} />
+                <Route path="/featured" component={FeaturedMazes} />
+                <Route path="/friends" component={Friends} />
+                <Route path="/flood-fill" component={FloodFill} />
+                <Route path="/tutorial" component={TutorialPage} />
                 <Route path="/select-friends" component={SelectFriends} />
-							</WithNavBar>
-						</Switch>
+              </Switch>
+            </WithNavBar>
 					)}
 				</Switch>
 			</div>
@@ -47,32 +48,19 @@ class Routes extends Component {
 	}
 }
 
-const mapState = state => {
-	return {
-		isLoggedIn: !!state.user.id,
-		isAdmin: state.user.isAdmin
-	}
-}
+const mapState = state => ({
+  isLoggedIn: !!state.user.me.id,
+  isAdmin: state.user.me.isAdmin
+})
 
-const mapDispatch = dispatch => {
-	return {
-		loadInitialData() {
-			dispatch(me())
-		}
-	}
-}
+const mapDispatch = dispatch => ({
+	loadInitialData: () => dispatch(me())
+})
 
-export default withRouter(
-	connect(
-		mapState,
-		mapDispatch
-	)(Routes)
-)
-
-/**
- * PROP TYPES
- */
 Routes.propTypes = {
 	loadInitialData: PropTypes.func.isRequired,
 	isLoggedIn: PropTypes.bool.isRequired
 }
+
+export default withRouter(connect(mapState, mapDispatch)(Routes))
+

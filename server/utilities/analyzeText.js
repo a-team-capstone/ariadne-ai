@@ -28,7 +28,6 @@ const getPoly = (text, data, label, index) => {
 }
 
 async function analyzeText(imageUri) {
-    console.log('imageuri', imageUri)
     const text = {}
     const time = /[0-9]+/
     const labels = ['STA', 'END', 'XTM', 'BMB', 'FRZ', 'TEL', 'PRT', time]
@@ -51,7 +50,6 @@ async function analyzeText(imageUri) {
         }
       }]}
       const { data } =  await axios.post(`https://vision.googleapis.com/v1/images:annotate?key=${process.env.GOOGLE_API_KEY}`, request)
-      console.log('google data', data.responses[0].textAnnotations)
       labels.forEach( (label, index) => {
         const poly = getPoly(text, data, label, index)
         if (poly !== null) {

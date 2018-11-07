@@ -1,18 +1,18 @@
 import { combineReducers } from 'redux'
 import imageReducer from './image'
 import userReducer from './user'
-import featuredReducer from './featuredMazes'
+import mazesReducer from './mazes'
 import mazeReducer from './maze'
 import usersReducer from './users'
-import friendsReducer from './friends'
 
 const rootReducer = combineReducers({
-	user: userReducer,
+  user: userReducer,
+  allUsers: usersReducer,
+  // Not sure if image reducer is needed,
+  // but I think it may be for cases when the image comes from AWS and not the db
 	image: imageReducer,
-	users: usersReducer,
   maze: mazeReducer,
-  featured: featuredReducer,
-  friends: friendsReducer
+  mazes: mazesReducer
 })
 
 export default rootReducer

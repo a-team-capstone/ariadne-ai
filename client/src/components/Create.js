@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { imageUpload } from '../store/image'
 import Cropper from 'react-cropper'
@@ -59,12 +59,12 @@ class Create extends Component {
 		const { src } = this.state
 
 		return (
-			<div className="create-maze">
+			<div>
 				{src === '' ? (
-					<Fragment>
+          <div className="content create-maze">
 					<h3>Get Creative</h3>
 						<p>Maze features are detected by their initials. Write in up to one of each!</p>
-						<div className="key">
+						<div id="key">
 							<img alt="start" src="/shield.png" />
 							<p>STA - Start</p>
 							<img alt="end" src="/star.png" />
@@ -80,62 +80,61 @@ class Create extends Component {
 							<img alt="port" src="/port.png" />
 							<p>PRT - port</p>
 						</div>
-						<wired-button id="file">
+						<button className="reg-btn">
 							<div className="fileUpload">
-								<span>Upload or Take Picture</span>
+								<span>Upload or Take Photo</span>
 								<input
 									type="file"
 									className="upload"
 									onChange={this.onChange}
 								/>
 							</div>
-						</wired-button>
-					</Fragment>
+						</button>
+            </div>
 				) : (
-					<div
-						id="crop-container"
-						style={{ width: '90%', position: 'absolute', left: '5%' }}>
-						<Cropper
-							style={{ height: 400, width: '100%' }}
-							aspectRatio={3 / 4}
-							guides={false}
-							src={this.state.src}
-							ref={cropper => {
-								this.cropper = cropper
-							}}/>
+          <div className="content" id="crop-container">
+            <Cropper
+              style={{ margin: '0 auto 30px', height: 500, maxWidth: '500px' }}
+              aspectRatio={3 / 4}
+              guides={false}
+              src={this.state.src}
+              ref={cropper => {
+                this.cropper = cropper
+              }}/>
 
-						<button
-							type="button"
-							className="create-btn"
-							onClick={this.rotateLeft}>
-							<wired-button id="rotate-left">⟲</wired-button>
-						</button>
+            <div id="create-btn-container">
+              <button
+                type="button"
+                className="reg-btn"
+                onClick={this.rotateLeft}>
+                ⟲
+              </button>
 
+              <button
+                type="button"
+                className="reg-btn"
+                onClick={this.saveToBucket}>
+                Use to create Maze!
+              </button>
 
-						<button
-							type="button"
-							className="create-btn"
-							onClick={this.saveToBucket}>
-							<wired-button id="selection">Use to create Maze!  </wired-button>
-						</button>
+              <button
+                type="button"
+                className="reg-btn"
+                onClick={this.rotateRight}>
+                ⟳
+              </button>
 
-            <button
-							type="button"
-							className="create-btn"
-							onClick={this.rotateRight}>
-							<wired-button id="rotate-right">⟳ </wired-button>
-						</button>
-
-            <wired-button id="file">
-							<div className="fileUpload">
-								<span>Choose New Image</span>
-								<input
-									type="file"
-									className="upload"
-									onChange={this.onChange}/>
-							</div>
-						</wired-button>
-					</div>
+              <button className="reg-btn">
+                <div className="fileUpload">
+                  <span>Choose New Image</span>
+                  <input
+                    type="file"
+                    className="upload"
+                    onChange={this.onChange}/>
+                </div>
+              </button>
+            </div>
+          </div>
 				)}
 			</div>
 		)
@@ -146,7 +145,4 @@ const mapDispatch = dispatch => ({
 	imageUpload: file => dispatch(imageUpload(file))
 })
 
-export default connect(
-	null,
-	mapDispatch
-)(Create)
+export default connect(null, mapDispatch)(Create)

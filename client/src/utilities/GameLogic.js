@@ -24,13 +24,9 @@ const createBoard = (
 	history
 ) => {
 
-	let maze = mazeInstance.data.data
+	let maze = mazeInstance.data
 	let { FRZ, XTM, BMB, TEL, PRT, time } = mazeInstance
 	resetSounds()
-	let soundsToPlay = ['weapon', 'weapon', 'weapon']
-	let soundsToPlayOnce =['tele', 'weapon']
-
-	//// playSound'startMaze')
 
 	let startY = startPoint[0] - (startPoint[0] % tileSize)
 	let startX = startPoint[1] - (startPoint[1] % tileSize)
@@ -46,8 +42,6 @@ const createBoard = (
 	let heightOffset = 25
 	gameWidth += 2 * widthOffset
 	gameHeight += 2 * heightOffset
-
-	console.log('gameHeight, gameWidth', gameHeight, gameWidth)
 
 	let timeAllowed = time
 	let extraTimeX = XTM ? XTM[1] : -999
@@ -102,17 +96,9 @@ const createBoard = (
 	)
 
 	let bomb = addPowerUp('bomb.png', board, bombX, bombY, tileSize, 0.3)
-
 	let tele = addPowerUp('tele.png', board, teleX, teleY, tileSize, 0.5)
-
 	let port = addPowerUp('port.png', board, portX, portY, tileSize, 0.5)
-
 	let freeze = addPowerUp('freeze.png', board, freezeX, freezeY, tileSize, 0.15)
-
-	// let startCircle = new PIXI.Graphics()
-	// startCircle.beginFill(0x00ff00)
-	// startCircle.drawCircle(startX, startY, tileSize * 1.5)
-	// board.addChild(startCircle)
 
 	// create player
 	let player = createSprite('shield.png', startX, startY, 0.2)
@@ -787,22 +773,18 @@ const createBoard = (
 	// check if bomb should be activated
 	app.ticker.add(function() {
 		if (bomb && overlapping(player, bomb, tileSize)) {
-			{
-				soundEffect = bombSound
-				player.x = startX
-				player.y = startY
-				bomb.destroy()
-				bomb = null
-			}
+      soundEffect = bombSound
+      player.x = startX
+      player.y = startY
+      bomb.destroy()
+      bomb = null
 		}
 		if (bomb && overlapping(bot, bomb, tileSize)) {
-			{
-				soundEffect = bombSound
-				bot.x = startX
-				bot.y = startY
-				bomb.destroy()
-				bomb = null
-			}
+      soundEffect = bombSound
+      bot.x = startX
+      bot.y = startY
+      bomb.destroy()
+      bomb = null
 		}
 	})
 
@@ -847,8 +829,6 @@ const createBoard = (
 		freezeSound = new Audio('freezeSound.mp3')
 		weaponSound = new Audio('weaponSound.mp3')
 		slowDownSound = new Audio('slowDownSound.mp3')
-		quitSound = new Audio('clickSound.mp3')
-		shareSound = new Audio('clickSound.mp3')
 		botWonSound = new Audio('robotWonSound.mp3')
 		startSound = new Audio('startSound.mp3')
 

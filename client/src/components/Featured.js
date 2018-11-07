@@ -1,9 +1,7 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { loadFeatured } from '../store/featuredMazes'
-import { saveMaze } from '../store/maze'
-import history from '../history'
-import axios from 'axios'
+import { loadFeatured } from '../store/mazes'
+import { loadMaze } from '../store/maze'
 
 class FeaturedMazes extends Component {
 	constructor() {
@@ -16,19 +14,17 @@ class FeaturedMazes extends Component {
 	}
 
 	async handlePlay(evt) {
-		evt.preventDefault()
-		// console.log('Evt', evt.target)
-		const maze = await axios.get(`api/mazes/${evt.target.value}`)
-		this.props.saveMaze(maze.data)
-		history.push('/pixi')
+    evt.preventDefault()
+    let mazeId = evt.target.value
+    this.props.getMaze(mazeId)
 	}
 
 	render() {
-		const { featured } = this.props
+    const { featured } = this.props
 		return (
-			<div className="featured">
-				<h4>Featured Mazes</h4>
-				{featured.map(maze => {
+			<div className="content">
+				<h3>Featured Mazes</h3>
+        {featured.map(maze => {
 					return (
 						<div className="card card-featured" key={maze.id}>
 							<div className="card-body">
@@ -37,34 +33,26 @@ class FeaturedMazes extends Component {
 									Leader: Shelby
 								</h6> */}
 								{/* <p className="card-text">Time: 35 seconds</p> */}
-								<wired-button id="featured">
 									<button
-										className="featured-btn"
+										className="reg-btn"
 										value={maze.id}
-										onClick={this.handlePlay}
-									>
-										Play
-									</button>
-								</wired-button>
+										onClick={this.handlePlay}>Play</button>
 							</div>
 						</div>
-					)
-				})}
+          )
+        })}
 			</div>
 		)
 	}
 }
 
 const mapState = state => ({
-	featured: state.featured
+	featured: state.mazes.featured
 })
 
 const mapDispatch = dispatch => ({
 	loadFeatured: () => dispatch(loadFeatured()),
-	saveMaze: id => dispatch(saveMaze(id))
+	getMaze: id => dispatch(loadMaze(id))
 })
 
-export default connect(
-	mapState,
-	mapDispatch
-)(FeaturedMazes)
+export default connect(mapState, mapDispatch)(FeaturedMazes)

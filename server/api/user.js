@@ -3,15 +3,8 @@ const { User, Maze, Play } = require('../db/models')
 
 module.exports = router
 
-//write a middleware first that checks if req.user matches req.params.userId
-//get personal account information
-//get friends
-//put (edit) personal info
-//remove friend
-//get mazes where you are high scorer
-//get your highest scores
-//get your badges
-
+// middleware checks that req.user.id (from passport deserialize user)
+// matches req.params.id
 router.use('/:id', (req, res, next) => {
 	try {
 		if (req.user.id === +req.params.id) {
@@ -26,6 +19,8 @@ router.use('/:id', (req, res, next) => {
 	}
 })
 
+// GET /api/user/:id/friends
+// returns user with friends eager loaded, should it just return friends?
 router.get('/:id/friends', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id, {
@@ -35,13 +30,15 @@ router.get('/:id/friends', async (req, res, next) => {
 					as: 'friend'
 				}
 			]
-		})
-		res.json(user)
+    })
+		res.json(user.friend)
 	} catch (err) {
 		next(err)
 	}
 })
 
+// GET /api/user/:id
+// returns user
 router.get('/:id', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id)
@@ -56,13 +53,13 @@ router.get('/:id', async (req, res, next) => {
 	}
 })
 
+// PUT /api/user/:id/friends
+// gets user, gets other user, adds other user as friend to OG user
 router.put('/:id/friends', async (req, res, next) => {
 	try {
-		// console.log('In put', req.body)
 		const friend = req.body
 		const user = await User.findById(req.params.id)
 		const newFriend = await User.findById(friend.id)
-		// console.log('User in route', dataValues)
 		await user.addFriend(newFriend)
 		res.sendStatus(200)
 	} catch (err) {
@@ -70,6 +67,9 @@ router.put('/:id/friends', async (req, res, next) => {
 	}
 })
 
+// PUT /api/user/:id
+// updates user information with req.body (should secure this by passing in
+// specific attributes only)
 router.put('/:id', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id)
@@ -80,16 +80,8 @@ router.put('/:id', async (req, res, next) => {
 	}
 })
 
-// router.get('/:id/friends', async (req, res, next) => {
-// 	try {
-// 		const user = await User.findById(req.params.id)
-// 		const friends = await user.getFriends()
-// 		res.json(friends)
-// 	} catch (err) {
-// 		next(err)
-// 	}
-// })
-
+// DELETE /api/user/:id/:friendId
+// removes a friend assosciation between two users
 router.delete('/:id/:friendId', async (req, res, next) => {
 	try {
 		const user = await User.findById(req.params.id)
@@ -101,6 +93,8 @@ router.delete('/:id/:friendId', async (req, res, next) => {
 	}
 })
 
+// GET /api/user/:id/mazes
+// gets all mazes created by a specific user
 router.get('/:id/mazes', async (req, res, next) => {
 	try {
 		const mazes = await Maze.findAll({
@@ -114,6 +108,12 @@ router.get('/:id/mazes', async (req, res, next) => {
 	}
 })
 
+// GET /api/user/:id/challenges
+// SHOULD THIS BE CHANGED TO GET ALL PLAYS, FILTER ON FRONT END?
+
+// gets all challenges for a specific user
+// where challenges = plays where attempted = false
+// eager loads information about who sent challenge + maze details
 router.get('/:id/challenges', async (req, res, next) => {
   try {
     const challenges = await Play.findAll({

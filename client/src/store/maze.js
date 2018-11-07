@@ -1,14 +1,16 @@
 import axios from 'axios'
 import history from '../history'
-/**
- * ACTION TYPES
- */
+
+let initialState = {
+  allMazes: [],
+  selectedMaze: {}
+}
+
+
 const SAVE_MAZE = 'SAVE_MAZE'
 const GET_MAZE = 'GET_MAZE'
 
-/**
- * ACTION CREATORS
- */
+
 export const saveMaze = maze => ({
 	type: SAVE_MAZE,
 	maze
@@ -19,17 +21,15 @@ const getMaze = maze => ({
 	maze
 })
 
-/**
- * THUNK CREATORS
- */
+
 export const uploadMaze = maze => {
 	return async dispatch => {
 		try {
 			const { data } = await axios.post(`api/mazes/`, maze)
-			dispatch(saveMaze(data))
-			history.push('/pixi')
+      dispatch(saveMaze(data))
+      history.push('/pixi')
 		} catch (err) {
-			console.log('There was a problem. Maze was not saved...', err)
+			console.error('Could not upload new maze', err)
 		}
 	}
 }
@@ -37,23 +37,22 @@ export const uploadMaze = maze => {
 export const loadMaze = mazeId => {
 	return async dispatch => {
 		try {
-			const { data } = await axios.get(`api/mazes/${mazeId}`)
-			dispatch(getMaze(data))
+      const { data } = await axios.get(`api/mazes/${mazeId}`)
+      dispatch(getMaze(data))
+      history.push('/pixi')
 		} catch (err) {
-			console.log('There was a problem getting your maze...', err)
+			console.error('Could not get maze', err)
 		}
 	}
 }
 
-/**
- * REDUCER
- */
-const mazeReducer = (state = {}, action) => {
+
+const mazeReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SAVE_MAZE:
-			return action.maze
+			return {...state, allMazes: [...state.allMazes, action.maze], selectedMaze: action.maze }
 		case GET_MAZE:
-			return { ...state, data: action.maze}
+			return { ...state, selectedMaze: action.maze}
 		default:
 			return state
 	}

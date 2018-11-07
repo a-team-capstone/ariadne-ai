@@ -6,78 +6,66 @@ import { logout } from '../store/user'
 import '../css/Navbar.css'
 
 class Navbar extends Component {
-	constructor(props) {
-		super(props)
+	constructor() {
+		super()
 		this.state = {
-			menuOpen: false
-		}
-		this.handler = this.handler.bind(this)
+      open: false
+    }
+    this.handleMenuClick = this.handleMenuClick.bind(this)
+    this.handleMenuItemClick = this.handleMenuItemClick.bind(this)
 	}
 
-	handleStateChange(state) {
-		this.setState({ menuOpen: state.isOpen })
-	}
+	handleMenuClick (evt) {
+    evt.preventDefault()
+    this.setState({ open: !this.state.open })
+  }
 
-	handlerCloseSideBar = () => {
-		this.setState({ menuOpen: false })
-	}
-
-	// This can be used to close the menu, e.g. when a user clicks a menu item
-	handler(e) {
-		e.preventDefault()
-		this.setState({
-			menuOpen: false
-		})
+	handleMenuItemClick (evt) {
+    evt.preventDefault()
+		this.setState({ open: false })
 	}
 
 	render() {
-		const { isLoggedIn, handleClick } = this.props
-		return (
-			<Menu
-				className="menu"
-				isOpen={this.state.menuOpen}
-				onStateChange={state => this.handleStateChange(state)}
-			>
-				<Link to="/create-maze" onClick={this.handlerCloseSideBar}>
-					<wired-button id="create-nav">Create Maze</wired-button>
-				</Link>
-				<Link to="/featured" onClick={this.handlerCloseSideBar}>
-					<wired-button id="featured-nav">Featured</wired-button>
-				</Link>
-				<Link to="/my-account" onClick={this.handlerCloseSideBar}>
-					<wired-button id="profile-nav">Profile</wired-button>
-				</Link>
-				<Link to="/friends" onClick={this.handlerCloseSideBar}>
-					<wired-button id="friends-nav">Friends</wired-button>
-				</Link>
-				<Link to="/tutorial" onClick={this.handlerCloseSideBar}>
-					<wired-button id="help-nav">Tutorial</wired-button>
-				</Link>
-				{isLoggedIn && (
-					<Link to="/" onClick={handleClick}>
-						<wired-button id="logout-nav">Logout</wired-button>
-					</Link>
-				)}
+    const { isLoggedIn, userLogout } = this.props
+    return isLoggedIn ? 
+		(
+			<Menu className="menu" isOpen={this.state.open} onClick={this.handleMenuClick}>
+				
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/create-maze">Create Maze</Link>
+        </button>
+				
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/featured">Featured</Link>
+        </button>
+
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+        <Link to="/my-account">Profile</Link>
+        </button>
+				
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/friends">Friends</Link>
+        </button>
+
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/tutorial">Tutorial</Link>
+        </button>
+				
+        <button type="button" className="reg-btn menu-option" onClick={this.handleMenuItemClick}>
+          <Link to="/" onClick={userLogout}>Logout</Link>
+        </button>
 			</Menu>
-		)
+    )
+    : null
 	}
 }
 
-const mapState = state => {
-	return {
-		isLoggedIn: !!state.user.id
-	}
-}
+const mapState = state => ({
+  isLoggedIn: !!state.user.me.id
+})
 
-const mapDispatch = dispatch => {
-	return {
-		handleClick() {
-			dispatch(logout())
-		}
-	}
-}
+const mapDispatch = dispatch => ({
+  userLogout: () => dispatch(logout())
+})
 
-export default connect(
-	mapState,
-	mapDispatch
-)(Navbar)
+export default connect(mapState, mapDispatch)(Navbar)

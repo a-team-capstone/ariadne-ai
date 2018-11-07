@@ -56,6 +56,10 @@ const Maze = db.define('maze', {
   time: {
     type: Sequelize.INTEGER,
     defaultValue: 30
+  },
+  featured: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 

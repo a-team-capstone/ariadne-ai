@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
-import { getUserFriends } from '../store/friends'
+import { loadFriends } from '../store/user'
 import { Link } from 'react-router-dom'
 import FriendSelect from './FriendSelect'
 import axios from 'axios'
@@ -61,38 +61,42 @@ class SelectFriends extends Component {
 		return (
 			<Fragment>
 				{challengeSent ? (
-					<div className="sentChallenges">
-						<h5>Challenges Sent!</h5>
+					<div className="content sentChallenges">
+						<h3>Challenges Sent!</h3>
 						<img src="/mail.png" alt="mail" />
-						<Link to="/pixi">
-							<wired-button id="challenges">Replay Maze</wired-button>
-						</Link>
-						<Link to="/create-maze">
-							<wired-button id="challenges">Create New Maze</wired-button>
-						</Link>
+            <button className="reg-btn">
+              <Link to="/pixi">Replay Maze</Link>
+            </button>
+						<button className="reg-btn">
+              <Link to="/create-maze">Create New Maze</Link>
+            </button>
 					</div>
 				) : (
-					<div className="selection">
-						<h5>Select Friends to Challenge</h5>
-						{friends.length &&
+					<div className="content selection">
+						<h3>Select Friends to Challenge</h3>
+						{
+              friends.length ?
 							friends.map(friend => {
 								return (
 									<FriendSelect
 										key={friend.id}
 										id={friend.id}
 										handleChange={this.handleChange}
-										name={friend.userName}
-									/>
-								)
-							})}
-						<button
-							type="submit"
-							className="challenges-btn"
-							onClick={this.handleSubmit}
-						>
-							<wired-button id="challenges-btn">Send</wired-button>
-						</button>
-					</div>
+										name={friend.userName}/>
+								)})
+              : null
+              }
+              {
+                friends.length ?
+                <button
+                  type="submit"
+                  className="reg-btn"
+                  onClick={this.handleSubmit}>
+                  Send
+                </button>
+                : <p className="default-display">You haven't added any friends yet!</p>
+              }
+            </div>
 				)}
 			</Fragment>
 		)
@@ -100,16 +104,13 @@ class SelectFriends extends Component {
 }
 
 const mapState = state => ({
-	user: state.user,
-	friends: state.friends,
-	maze: state.maze
+	user: state.user.me,
+	friends: state.user.myFriends,
+	maze: state.maze.selectedMaze
 })
 
 const mapDispatch = dispatch => ({
-	getFriends: id => dispatch(getUserFriends(id))
+	getFriends: id => dispatch(loadFriends(id))
 })
 
-export default connect(
-	mapState,
-	mapDispatch
-)(SelectFriends)
+export default connect(mapState, mapDispatch)(SelectFriends)

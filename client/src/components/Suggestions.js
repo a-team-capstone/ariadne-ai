@@ -1,21 +1,21 @@
 import React from 'react'
 
 const Suggestions = props => {
-	const { handleClick } = props
-	const options = props.results.map(result => (
-		<li className="list-friends" key={result.id}>
-			{result.userName}{' '}
-			<wired-button id="friends">
-				<button
-					className="friends-btn"
-					onClick={evt => handleClick(evt, result)}
-				>
-					Add
-				</button>
-			</wired-button>
+	const { handleClick, results } = props
+	const options = results.map(result => (
+		<li className="friend-suggest" key={result.id}>
+			<h5>{result.userName}</h5>
+      <button className="reg-btn" onClick={evt => handleClick(evt, result)}>
+        Add
+      </button>
 		</li>
-	))
-	return <ul>{options}</ul>
+  ))
+  
+	return (
+    options.length ?
+    <ul style={{ marginTop: '50px' }}>{options}</ul>
+    : null
+  )
 }
 
 export default Suggestions

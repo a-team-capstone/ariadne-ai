@@ -5,16 +5,15 @@ const Op = Sequelize.Op
 
 module.exports = router
 
-// GET /api/users/:query
-router.get('/:query', async (req, res, next) => {
-	try {
-		const users = await User.findAll({
-			where: {
-				userName: { [Op.iLike]: req.params.query + '%' }
-			}
-		})
-		res.json(users)
-	} catch (err) {
-		next(err)
-	}
+// need middleware to check for admin status, secure all user info
+
+// GET /api/users/
+// gets all users in the database
+router.get('/', async (req, res, next) => {
+  try {
+    const allUsers = await User.findAll()
+    res.json(allUsers)
+  } catch (err) {
+    next(err)
+  }
 })
